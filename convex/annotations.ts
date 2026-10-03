@@ -1,13 +1,16 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
-const episode = v.object({_id:v.id("episodes"),_creationTime:v.number(),name:v.string(),storageId:v.id("_storage"),duration:v.number(),fileSize:v.optional(v.number()),mimeType:v.optional(v.string()),width:v.optional(v.number()),height:v.optional(v.number()),frameRate:v.optional(v.union(v.number(),v.null())),nextSegmentNumber:v.optional(v.number()),metadata:v.optional(v.array(v.object({field:v.string(),value:v.string()}))),url:v.union(v.string(),v.null())});
+const episode = v.object({_id:v.id("episodes"),_creationTime:v.number(),name:v.string(),storageId:v.id("_storage"),duration:v.number(),fileSize:v.optional(v.number()),mimeType:v.optional(v.string()),width:v.optional(v.number()),height:v.optional(v.number()),frameRate:v.optional(v.union(v.number(),v.null())),nextSegmentNumber:v.optional(v.number()),metadata:v.optional(v.array(v.object({field:v.string(),value:v.string()}))),metadataLocks:v.optional(v.array(v.string())),url:v.union(v.string(),v.null())});
 const segment = v.object({_id:v.id("segments"),_creationTime:v.number(),episodeId:v.id("episodes"),label:v.string(),start_sec:v.number(),end_sec:v.number(),segmentNumber:v.optional(v.number()),source:v.optional(v.union(v.literal("manual"),v.literal("voice")))});
 export const episodes = query({args:{},returns:v.array(episode),handler:async ctx => Promise.all((await ctx.db.query("episodes").withIndex("by_name").take(1000)).map(async e=>({...e,url:await ctx.storage.getUrl(e.storageId)})))});
 export const uploadUrl = mutation({args:{},returns:v.string(),handler:async ctx=>ctx.storage.generateUploadUrl()});
 export const addEpisode = mutation({args:{name:v.string(),storageId:v.id("_storage"),duration:v.number(),width:v.optional(v.number()),height:v.optional(v.number())},returns:v.id("episodes"),handler:async(ctx,args)=>{
  if(!args.name.trim() || !Number.isFinite(args.duration) || args.duration<=0) throw new Error("Choose a playable MP4.");
  const file=await ctx.db.system.get(args.storageId); if(!file || !["video/mp4","video/quicktime","video/webm"].includes(file.contentType??"")) throw new Error("Upload an MP4, MOV or WebM video.");
- return ctx.db.insert("episodes",{...args,fileSize:file.size,mimeType:file.contentType??""});
+ const fields=await ctx.db.query("metadataFields").withIndex("by_key",q=>q.eq("key","shared")).unique();
+ const defaults=await ctx.db.query("metadataDefaults").withIndex("by_key",q=>q.eq("key","shared")).unique();
+ const inherited=(defaults?.values??[]).filter(row=>row.locked&&fields?.fields.includes(row.field));
+ return ctx.db.insert("episodes",{...args,fileSize:file.size,mimeType:file.contentType??"",metadata:inherited.map(({field,value})=>({field,value})),metadataLocks:inherited.map(row=>row.field)});
 }});
 export const segments = query({args:{episodeId:v.id("episodes")},returns:v.array(segment),handler:async(ctx,{episodeId})=>ctx.db.query("segments").withIndex("by_episode",q=>q.eq("episodeId",episodeId)).take(10000)});
 export const save = mutation({args:{id:v.optional(v.id("segments")),episodeId:v.id("episodes"),label:v.string(),start_sec:v.number(),end_sec:v.number(),source:v.optional(v.union(v.literal("manual"),v.literal("voice")))},returns:v.id("segments"),handler:async(ctx,{id,...args})=>{

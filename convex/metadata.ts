@@ -14,5 +14,20 @@ export const saveValues=mutation({args:{episodeId:v.id('episodes'),values:v.arra
  const settings=await ctx.db.query('metadataFields').withIndex('by_key',q=>q.eq('key','shared')).unique();
  if(values.some(row=>!settings?.fields.includes(row.field)||row.value.length>10000))throw new Error('Save your field list first; values can contain up to 10,000 characters.');
  const merged=new Map((episode.metadata??[]).map(row=>[row.field,row.value]));for(const row of values)merged.set(row.field,row.value);
+ for(const row of values)if(episode.metadataLocks?.includes(row.field)&&row.value!==(episode.metadata??[]).find(saved=>saved.field===row.field)?.value)throw new Error('Unlock this field for this video before editing its value.');
  await ctx.db.patch(episodeId,{metadata:[...merged].map(([field,value])=>({field,value}))});return null;
+}});
+const defaultValue=v.object({field:v.string(),value:v.string(),locked:v.boolean()});
+export const defaults=query({args:{},returns:v.array(defaultValue),handler:async ctx=>{
+ const saved=await ctx.db.query('metadataDefaults').withIndex('by_key',q=>q.eq('key','shared')).unique();return saved?.values??[];
+}});
+export const saveDefaults=mutation({args:{values:v.array(defaultValue)},returns:v.null(),handler:async(ctx,{values})=>{
+ const fields=await ctx.db.query('metadataFields').withIndex('by_key',q=>q.eq('key','shared')).unique();
+ if(values.some(row=>!fields?.fields.includes(row.field)||row.value.length>10000))throw new Error('Use your saved metadata fields with values up to 10,000 characters.');
+ const saved=await ctx.db.query('metadataDefaults').withIndex('by_key',q=>q.eq('key','shared')).unique();
+ const merged=new Map((saved?.values??[]).map(row=>[row.field,row]));for(const row of values)merged.set(row.field,row);
+ if(saved)await ctx.db.patch(saved._id,{values:[...merged.values()]});else await ctx.db.insert('metadataDefaults',{key:'shared',values:[...merged.values()]});return null;
+}});
+export const unlockField=mutation({args:{episodeId:v.id('episodes'),field:v.string()},returns:v.null(),handler:async(ctx,{episodeId,field})=>{
+ const episode=await ctx.db.get(episodeId);if(!episode)throw new Error('Video not found.');await ctx.db.patch(episodeId,{metadataLocks:(episode.metadataLocks??[]).filter(name=>name!==field)});return null;
 }});

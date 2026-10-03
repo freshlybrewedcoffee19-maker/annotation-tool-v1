@@ -21,3 +21,5 @@
 .metadata-export{margin-top:24px;padding:20px;border:1px solid #d4deea;border-radius:8px;background:white}.metadata-export p{font-size:14px}
 
 .metadata-fields{padding:20px;background:white;border:1px solid #d4deea;border-radius:8px;margin-bottom:24px}.metadata-fields>label{display:grid;gap:8px}.metadata-fields form{margin-top:16px;max-width:600px}.metadata-fields>button{margin-top:10px}.metadata-fields h3{font-size:16px}
+
+.metadata-defaults{padding:20px;margin-bottom:24px;border:1px solid #d4deea;border-radius:8px;background:white}.metadata-defaults form{max-width:600px}.metadata-defaults form>div>label{display:grid;gap:8px}.metadata-defaults .lock-default{display:flex;align-items:center;margin-top:8px}.lock-default input{width:18px;height:18px}

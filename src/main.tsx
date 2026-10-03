@@ -5,6 +5,7 @@ import {api} from '../convex/_generated/api';
 import type {Id} from '../convex/_generated/dataModel';
 import './style.css';
 import {VoiceLabels} from './VoiceLabels';
+import {MetadataDefaults} from './MetadataDefaults';
 import {MetadataFields} from './MetadataFields';
 import {MetadataExport} from './MetadataExport';
 import {ExportReview} from './ExportReview';
@@ -54,7 +55,7 @@ function App(){
  return <main><header><div><h1>Frame<span> / annotation studio</span></h1><p>Find the moment. Give it a label.</p></div><div className="exports"><button disabled={busy} onClick={()=>exportFile('csv')}>Export CSV</button><button disabled={busy} onClick={()=>exportFile('json')}>Export JSON</button></div></header>
  <section className="toolbar"><label className="upload">{busy?'Working…':'Upload video'}<input aria-label="Upload video" type="file" accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.webm" disabled={busy} onChange={e=>{const f=e.target.files?.[0];if(f)void upload(f);e.target.value='';}}/></label><button type="button" disabled={busy} onClick={()=>void fetch("/sample.mp4").then(response=>{if(!response.ok)throw new Error("Sample video unavailable.");return response.blob();}).then(blob=>upload(new File([blob],"sample.mp4",{type:"video/mp4"}))).catch(e=>setError(e.message))}>Load sample video</button><label className="episode">Episode<select aria-label="Episode" value={ep?._id??''} onChange={e=>{setSelected(e.target.value);localStorage.setItem('episode',e.target.value);reset();}}><option value="" disabled>Choose a video</option>{episodes?.map(e=><option key={e._id} value={e._id}>{e.name}</option>)}</select></label><span className="status">{episodes===undefined?'Connecting…':busy?'Saving…':'Saved in Convex'}</span></section>
  {nextVideo&&<p role="status">Your segments stay saved. Upload another video when ready.</p>}{error&&<p role="alert" className="error">{error}</p>}
- {ep&&<><MediaDetails episode={ep}/><MetadataFields key={`metadata-${ep._id}`} episode={ep}/><FrameReadout key={ep._id} episode={ep} currentTime={time}/></>}
+ {ep&&<><MediaDetails episode={ep}/><MetadataFields key={`metadata-${ep._id}`} episode={ep}/><MetadataDefaults/><FrameReadout key={ep._id} episode={ep} currentTime={time}/></>}
  <div className="workspace"><section className="viewer">{ep?.url?<video key={ep._id} ref={video} src={ep.url} controls preload="metadata" onTimeUpdate={()=>setTime(video.current?.currentTime??0)} onError={()=>setError('The video could not play. Try an H.264 MP4.')}/>:<div className="empty"><strong>Your footage starts here</strong><p>Upload an MP4, MOV or WebM, then mark the moments you want to keep.</p></div>}
  <p className="shortcuts">Shortcuts: Space plays / pauses; [ marks start; ] marks end.</p>
  {ep&&<VoiceLabels key={`voice-${ep._id}`} episodeId={ep._id} labels={labelList} video={video}/>}

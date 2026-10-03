@@ -152,3 +152,18 @@ episode,file_size_bytes,mime_type,duration_sec,width,height,frame_rate,metadata.
 SEGMENT PRESERVED: 1
 ORIGINAL FIELD LIST RESTORED; saved values kept
 ```
+
+## Feature 6
+
+```text
+EXISTING VIDEO AFTER DEFAULT CHANGE: Existing video value
+NEW VIDEO DEFAULT AFTER REFRESH: Session A
+NEW VIDEO FIELD LOCKED: true
+EXISTING DEFAULT AFTER CHANGING FUTURE DEFAULT: Session A
+UNLOCK FOR THIS VIDEO: editable; value kept
+METADATA CSV:
+episode,file_size_bytes,mime_type,duration_sec,width,height,frame_rate,metadata.Proof session
+"feature-6-1791054477143.mp4",1128375,"video/mp4",5.055,960,540,"","Session A"
+EARLIER VIDEO STILL: Existing video value
+ORIGINAL FIELD LIST AND DEFAULT RESTORED
+```
