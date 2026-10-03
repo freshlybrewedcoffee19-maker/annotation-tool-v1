@@ -1,6 +1,12 @@
-# Annotation tool v1
+# nP Tools
 
-Upload an MP4, MOV or WebM, mark and edit labelled segments, and export all segments as CSV or JSON. Videos, custom label lists, metadata fields, metadata values, defaults and segments are saved in Convex. This is a shared workspace with no login.
+Upload an MP4, MOV or WebM, mark and edit labelled segments, and export all segments as CSV or JSON. Videos, custom label lists, metadata fields, metadata values, defaults and segments are saved in Convex. Workspaces are private to each browser, with no login.
+
+**Try a trial run** on the first screen loads a 45-second extract of the owner's IRON_001 dataset episode, with matching labels and all 32 dataset metadata fields filled. It opens Annotate directly. Turn mic on is the main action above the video; optional manual annotation lives in the collapsed **Label by hand** section below. The interface uses red, cream and dark text.
+
+Workspace access uses a random 256-bit browser key stored locally. Every public data function checks that key and episode ownership in Convex, including reads, edits, deletion, metadata, upload ownership and exports. Queries without a workspace key cannot return the original shared data. Trial seed configuration and original-work preservation are internal functions accessible only through the authorized Convex CLI.
+
+Existing videos and segments were preserved in an owner workspace without changing their contents, labels or original exports. A private recovery link is saved locally in `outputs/np-tools-owner.html`; it is excluded from git. Recovery keys and snapshots live in `.np-tools-private/`, also excluded from git. Keep these files private. A trial never receives the owner's key. **Return to my workspace** switches back to the browser's previous workspace without clearing either workspace.
 
 The flow is Upload → Metadata → Annotate → Export. Use Back/Next or the step tabs; arrow keys, Home and End navigate focused tabs. Changing steps keeps the video and forms mounted, preserving marked times and drafts. Leaving Annotate pauses the video and turns the mic off while keeping its marked times.
 
@@ -11,7 +17,7 @@ The flow is Upload → Metadata → Annotate → Export. Use Back/Next or the st
 - Set a frame rate to show current and boundary frames. Frame numbers use `Math.round(seconds * frame rate)`, starting at zero.
 - New records have stable per-episode IDs and a manual/voice source. Older records keep their data and show a legacy ID or “Not recorded” for details that were not saved.
 - Coverage checks and timeline markings show gaps and overlaps. View segment seeks and highlights it.
-- The original CSV and JSON still export all episodes with `episode,label,start_sec,end_sec`. Episode CSV adds record details; metadata CSV exports the selected video's file details and current custom fields, prefixed with `metadata.`.
+- The original CSV and JSON still use `episode,label,start_sec,end_sec`, including only episodes in the current private workspace. Episode CSV adds record details; metadata CSV exports the selected video's file details and current custom fields, prefixed with `metadata.`.
 - Annotate next video keeps all saved work. No episode is automatically cleared, even after export.
 
 The approved rebuild's raw browser evidence is in [FEATURE_PROOFS.md](FEATURE_PROOFS.md). Deliberately deferred features are in [LATER.md](LATER.md).
@@ -35,6 +41,8 @@ Start and stop act on interim speech results once per phrase. Labels wait for fi
 
 - `npm run build` checks the code and builds the app.
 - `npm test` runs the browser tests using an installed Google Chrome. Start the local app first. Tests upload sample videos and create test segments in the connected deployment.
+- `node scripts/run-bounded.cjs npm test` stops the command after two minutes. The privacy test also uses the installed Microsoft Edge and verifies two browsers cannot read, edit, delete, alter metadata, claim uploads or export each other's work. Tests use isolated trial workspaces, never the owner's saved workspace.
+- `APP_URL` can point the tests or `scripts/prove-trial.cjs` at the live app. The proof script saves screenshots and verbatim observations in `outputs/`.
 - `npm run deploy` pushes the backend and publishes through Convex static hosting to the existing deployment selected in `.env.local`, preserving that deployment's saved data. A GitHub push does not deploy it.
 
 The browser tests inject speech results into the same code used by the mic; they do not test actual microphone recognition.

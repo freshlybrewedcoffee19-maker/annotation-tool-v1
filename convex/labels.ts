@@ -1,13 +1,16 @@
 import {query,mutation} from './_generated/server';
 import {v} from 'convex/values';
-export const list=query({args:{},returns:v.array(v.string()),handler:async ctx=>{
- const saved=await ctx.db.query('labelLists').withIndex('by_key',q=>q.eq('key','shared')).unique();
+import {workspace,ownedEpisode} from './access';
+export const list=query({args:{workspaceToken:v.string(),},returns:v.array(v.string()),handler:async(ctx,{workspaceToken})=>{
+ const space=await workspace(ctx,workspaceToken);
+ const saved=await ctx.db.query('labelLists').withIndex('by_workspace',q=>q.eq('workspaceId',space._id)).unique();
  return saved?.labels??[];
 }});
-export const save=mutation({args:{text:v.string()},returns:v.array(v.string()),handler:async(ctx,{text})=>{
+export const save=mutation({args:{workspaceToken:v.string(),text:v.string()},returns:v.array(v.string()),handler:async(ctx,{workspaceToken,text})=>{
+ const space=await workspace(ctx,workspaceToken);
  const labels=[...new Set(text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean))];
  if(!labels.length || labels.length>100 || labels.some(s=>s.length>120))throw new Error('Enter 1 to 100 labels, each up to 120 characters.');
- const saved=await ctx.db.query('labelLists').withIndex('by_key',q=>q.eq('key','shared')).unique();
- if(saved)await ctx.db.patch(saved._id,{labels});else await ctx.db.insert('labelLists',{key:'shared',labels});
+ const saved=await ctx.db.query('labelLists').withIndex('by_workspace',q=>q.eq('workspaceId',space._id)).unique();
+ if(saved)await ctx.db.patch(saved._id,{labels});else await ctx.db.insert('labelLists',{workspaceId:space._id,key:'shared',labels});
  return labels;
 }});

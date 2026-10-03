@@ -41,6 +41,7 @@ test('interim stop stamps end once and matching final result does not repeat it'
   (window as any).SpeechRecognition=FakeSpeech;
  });
  await page.goto('/');
+ await page.getByRole('button',{name:'Try a trial run',exact:true}).click();
  await expect(page.getByRole('tab',{name:'Annotate',exact:true})).toBeEnabled();await page.getByRole('tab',{name:'Annotate',exact:true}).click();
  await expect(page.getByLabel('Label list',{exact:true})).toBeEnabled();
  const savedLabels=(await page.getByLabel('Label list',{exact:true}).inputValue()).split('\n').filter(Boolean);

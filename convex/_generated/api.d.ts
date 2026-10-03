@@ -8,10 +8,14 @@
  * @module
  */
 
+import type * as access from "../access.js";
 import type * as annotations from "../annotations.js";
+import type * as http from "../http.js";
 import type * as labels from "../labels.js";
 import type * as media from "../media.js";
 import type * as metadata from "../metadata.js";
+import type * as trial from "../trial.js";
+import type * as workspaces from "../workspaces.js";
 
 import type {
   ApiFromModules,
@@ -20,10 +24,14 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  access: typeof access;
   annotations: typeof annotations;
+  http: typeof http;
   labels: typeof labels;
   media: typeof media;
   metadata: typeof metadata;
+  trial: typeof trial;
+  workspaces: typeof workspaces;
 }>;
 
 /**

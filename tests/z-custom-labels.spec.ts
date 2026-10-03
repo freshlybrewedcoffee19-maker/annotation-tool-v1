@@ -2,13 +2,16 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 test('custom labels survive refresh and CSV preserves old segments plus three new labels',async({page})=>{
  await page.goto('/');
+ await page.getByRole('button',{name:'Try a trial run',exact:true}).click();
  await expect(page.getByRole('tab',{name:'Annotate',exact:true})).toBeEnabled();await page.getByRole('tab',{name:'Annotate',exact:true}).click();
  await expect(page.getByLabel('Label list',{exact:true})).toBeEnabled();
  const originalLabels=await page.getByLabel('Label list',{exact:true}).inputValue();
  try{
  await expect(page.getByRole('button',{name:'Export CSV',exact:true})).toBeEnabled();
  async function csv(){const pending=page.waitForEvent('download');await page.getByRole('button',{name:'Export CSV',exact:true}).click();const file=await pending;const stream=await file.createReadStream();const chunks=[];for await(const chunk of stream!)chunks.push(chunk);return Buffer.concat(chunks).toString('utf8');}
+ await page.getByText('Label by hand',{exact:true}).click();await page.getByLabel('Start (seconds)',{exact:true}).fill('0');await page.getByLabel('End (seconds)',{exact:true}).fill('0.5');await page.getByRole('button',{name:'Add segment',exact:true}).click();await expect(page.locator('tbody tr')).toHaveCount(1);
  const before=await csv();
+ if(!await page.locator('details.label-settings').evaluate(d=>d.open))await page.getByText('Your labels',{exact:true}).first().click();
  await page.getByLabel('Label list',{exact:true}).fill('Opening\nDemonstration\nClosing');
  await page.getByRole('button',{name:'Save labels',exact:true}).click();
  await expect(page.getByLabel('Label',{exact:true}).locator('option:not([disabled])')).toHaveText(['Opening','Demonstration','Closing']);
@@ -16,9 +19,7 @@ test('custom labels survive refresh and CSV preserves old segments plus three ne
  await expect(page.getByLabel('Label list',{exact:true})).toHaveValue('Opening\nDemonstration\nClosing');
  await expect(page.getByLabel('Label',{exact:true}).locator('option:not([disabled])')).toHaveText(['Opening','Demonstration','Closing']);
  // Editing times without choosing another label keeps a label absent from the new list.
- const oldEpisodeId=await page.getByLabel('Episode',{exact:true}).locator('option').evaluateAll(options=>(options.find(o=>o.textContent==='short.mp4') as HTMLOptionElement).value);
- await page.getByRole('tab',{name:'Upload',exact:true}).click();await page.getByLabel('Episode',{exact:true}).selectOption(oldEpisodeId);
- await expect(page.locator('tbody tr')).toHaveCount(2);
+ await expect(page.locator('tbody tr')).toHaveCount(1);
  const oldRow=page.locator('tbody tr').first();
  const oldLabel=await oldRow.locator('td').first().innerText();
  await oldRow.getByRole('button',{name:'Edit',exact:true}).click();
@@ -33,6 +34,7 @@ test('custom labels survive refresh and CSV preserves old segments plus three ne
  await expect(page.locator('tbody tr')).toHaveCount(0);
  await expect(page.locator('.status')).toHaveText('Saved in Convex');await page.getByRole('tab',{name:'Annotate',exact:true}).click();
  for(const [i,label] of ['Opening','Demonstration','Closing'].entries()){
+ if(!await page.locator('details.manual-labeling').evaluate(d=>d.open))await page.getByText('Label by hand',{exact:true}).click();
  await page.getByLabel('Start (seconds)',{exact:true}).fill(String(i));
  await page.getByLabel('End (seconds)',{exact:true}).fill(String(i+0.75));
  await page.getByLabel('Label',{exact:true}).selectOption(label);
@@ -50,6 +52,7 @@ test('custom labels survive refresh and CSV preserves old segments plus three ne
  await page.screenshot({path:'test-results/custom-labels.png',fullPage:true});
  console.log('EXPORTED_CSV_VERBATIM\n'+after);
  }finally{
+ if(!await page.locator('details.label-settings').evaluate(d=>d.open))await page.getByText('Your labels',{exact:true}).first().click();
  await page.getByLabel('Label list',{exact:true}).fill(originalLabels);
  await page.getByRole('button',{name:'Save labels',exact:true}).click();
  await expect(page.getByRole('button',{name:'Save labels',exact:true})).toBeEnabled();

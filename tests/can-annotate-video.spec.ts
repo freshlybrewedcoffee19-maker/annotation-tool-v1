@@ -2,10 +2,12 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 test('upload, annotate, edit, delete, export, and retain two segments after refresh',async({page})=>{
  await page.goto('/');
+ await page.getByRole('button',{name:'Try a trial run',exact:true}).click();
  await expect(page.getByRole('tab',{name:'Annotate',exact:true})).toBeEnabled();await page.getByRole('tab',{name:'Annotate',exact:true}).click();
  await expect(page.getByLabel('Label list',{exact:true})).toBeEnabled();
  const originalLabels=await page.getByLabel('Label list',{exact:true}).inputValue();
  try{
+ if(!await page.locator('details.label-settings').evaluate(d=>d.open))await page.getByText('Your labels',{exact:true}).first().click();
  await page.getByLabel('Label list',{exact:true}).fill('Action\nDialogue\nHighlight');
  await page.getByRole('button',{name:'Save labels',exact:true}).click();
  await expect(page.getByLabel('Label',{exact:true}).locator('option')).toHaveCount(4);
@@ -25,6 +27,7 @@ test('upload, annotate, edit, delete, export, and retain two segments after refr
  await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.currentTime)).toBeGreaterThan(0);
  await page.locator('video').evaluate((v:HTMLVideoElement)=>{v.pause();v.currentTime=0.5;});
  await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.currentTime)).toBe(0.5);
+ await page.getByText('Label by hand',{exact:true}).click();
  await page.getByRole('button',{name:'Mark start',exact:true}).click();
  await expect(page.getByLabel('Start (seconds)',{exact:true})).toHaveValue('0.500');
  await page.locator('video').evaluate((v:HTMLVideoElement)=>{v.currentTime=1.5;});
@@ -33,17 +36,20 @@ test('upload, annotate, edit, delete, export, and retain two segments after refr
  await page.getByLabel('Label',{exact:true}).selectOption('Action');
  await page.getByRole('button',{name:'Add segment',exact:true,includeHidden:true}).click();
  await expect(page.locator('tbody tr')).toHaveCount(1);
+ if(!await page.locator('details.manual-labeling').evaluate(d=>d.open))await page.getByText('Label by hand',{exact:true}).click();
  await page.getByLabel('Start (seconds)',{exact:true}).fill('2');
  await page.getByLabel('End (seconds)',{exact:true}).fill('3');
  await page.getByLabel('Label',{exact:true}).selectOption('Dialogue');
  await page.getByRole('button',{name:'Add segment',exact:true,includeHidden:true}).click();
  await expect(page.locator('tbody tr')).toHaveCount(2);
  await page.locator('tbody tr').nth(1).getByRole('button',{name:'Edit',exact:true}).click();
+ if(!await page.locator('details.manual-labeling').evaluate(d=>d.open))await page.getByText('Label by hand',{exact:true}).click();
  await page.getByLabel('Start (seconds)',{exact:true}).fill('2.25');
  await page.getByLabel('End (seconds)',{exact:true}).fill('3.5');
  await page.getByLabel('Label',{exact:true}).selectOption('Highlight');
  await page.getByRole('button',{name:'Save changes',exact:true}).click();
  await expect(page.locator('tbody tr').nth(1)).toContainText('Highlight');
+ if(!await page.locator('details.manual-labeling').evaluate(d=>d.open))await page.getByText('Label by hand',{exact:true}).click();
  await page.getByLabel('Start (seconds)',{exact:true}).fill('4');
  await page.getByLabel('End (seconds)',{exact:true}).fill('4.5');
  await page.getByRole('button',{name:'Add segment',exact:true,includeHidden:true}).click();
@@ -58,6 +64,7 @@ test('upload, annotate, edit, delete, export, and retain two segments after refr
  await page.screenshot({path:'test-results/annotation-studio.png',fullPage:true});
  console.log('AFTER_PAGE_REFRESH\n'+JSON.stringify(output,null,2));
  }finally{
+ if(!await page.locator('details.label-settings').evaluate(d=>d.open))await page.getByText('Your labels',{exact:true}).first().click();
  await page.getByLabel('Label list',{exact:true}).fill(originalLabels);
  await page.getByRole('button',{name:'Save labels',exact:true}).click();
  await expect(page.getByRole('button',{name:'Save labels',exact:true})).toBeEnabled();
