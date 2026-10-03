@@ -42,6 +42,9 @@ try{
   await segment(0,1.25);await page.getByRole('button',{name:'Start at previous end',exact:true}).click();await expect(page.getByLabel('Start (seconds)',{exact:true})).toHaveValue('1.250');await expect.poll(()=>page.locator('video').evaluate(v=>v.currentTime)).toBe(1.25);log('PREVIOUS END: field='+await page.getByLabel('Start (seconds)',{exact:true}).inputValue()+'; video='+await page.locator('video').evaluate(v=>v.currentTime));
   await page.getByLabel('End (seconds)',{exact:true}).fill('2.5');await page.getByRole('button',{name:'Add segment',exact:true}).click();await expect(page.locator('tbody tr')).toHaveCount(2);await page.reload();await expect(page.locator('tbody tr')).toHaveCount(2);log('AFTER REFRESH:\n'+(await page.locator('tbody').innerText()).replaceAll('\t',' | '));
  }
+ else if(feature==='10'){
+  await page.getByLabel('Start (seconds)',{exact:true}).fill('1.25');await page.getByLabel('End (seconds)',{exact:true}).fill('3.75');await expect(page.getByLabel('Segment preview',{exact:true})).toContainText('2.500 sec');log('SEGMENT PREVIEW:\n'+await page.getByLabel('Segment preview',{exact:true}).innerText());await segment(1.25,3.75);await page.reload();await expect(page.locator('tbody tr')).toHaveCount(1);log('AFTER REFRESH: '+(await page.locator('tbody tr').innerText()).replaceAll('\t',' | '));
+ }
  else throw new Error('No proof defined for feature '+feature);
  await page.screenshot({path:`test-results/feature-${feature}.png`,fullPage:true});
  await fs.appendFile('FEATURE_PROOFS.md',`\n## Feature ${feature}\n\n\`\`\`text\n${output.join('\n')}\n\`\`\`\n`);

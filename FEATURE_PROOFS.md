@@ -33,3 +33,16 @@ AFTER REFRESH:
 Opening | 0 | 1.25 | EditDelete
 Opening | 1.25 | 2.5 | EditDelete
 ```
+
+## Feature 10
+
+```text
+SEGMENT PREVIEW:
+Start
+1.250 sec
+End
+3.750 sec
+Duration
+2.500 sec
+AFTER REFRESH: Opening | 1.25 | 3.75 | EditDelete
+```

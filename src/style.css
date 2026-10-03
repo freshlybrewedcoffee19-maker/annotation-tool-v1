@@ -5,3 +5,5 @@
 .voice-labels{margin-top:14px;padding:14px 16px;background:white;border:1px solid #d4deea;border-radius:6px}.voice-controls{display:flex;align-items:center;gap:12px}.voice-controls button{white-space:nowrap}.voice-controls button[aria-pressed="true"]{background:#245da9;color:white}.voice-controls span,.voice-labels p,.voice-labels small{font-size:13px;line-height:1.5}.voice-labels p{margin:8px 0}.voice-labels small{color:#61738a}
 
 .mic-toggle{flex-shrink:0}.mic-state{display:flex;align-items:center;gap:7px;font-weight:600}.listening-dot{width:10px;height:10px;border-radius:50%;background:#d62828;display:inline-block;flex-shrink:0}
+
+.segment-preview{margin:0;padding:12px;background:#edf2f8;font-size:13px}.segment-preview div{display:flex;justify-content:space-between;gap:12px;margin:5px 0}.segment-preview dd{margin:0;font-variant-numeric:tabular-nums}
