@@ -37,6 +37,11 @@ try{
   const before=await page.getByLabel('Label list',{exact:true}).inputValue();await page.getByLabel('Label list',{exact:true}).focus();await page.keyboard.press('End');await page.keyboard.type('[');await expect(page.getByLabel('Label list',{exact:true})).toHaveValue(before+'[');log('TYPING [ IN LABEL LIST: inserted text; start remained '+await page.getByLabel('Start (seconds)',{exact:true}).inputValue());
   await page.getByLabel('Label list',{exact:true}).fill(before);await segment(1,2);await page.reload();await expect(page.locator('tbody tr')).toHaveCount(1);log('SAVED SEGMENT: '+(await page.locator('tbody tr').innerText()).replaceAll('\t',' | '));
  }
+ else if(feature==='9'){
+  await seek(3);await page.getByRole('button',{name:'Start at 0 seconds',exact:true}).click();await expect(page.getByLabel('Start (seconds)',{exact:true})).toHaveValue('0');await expect.poll(()=>page.locator('video').evaluate(v=>v.currentTime)).toBe(0);log('START AT ZERO: field='+await page.getByLabel('Start (seconds)',{exact:true}).inputValue()+'; video='+await page.locator('video').evaluate(v=>v.currentTime));
+  await segment(0,1.25);await page.getByRole('button',{name:'Start at previous end',exact:true}).click();await expect(page.getByLabel('Start (seconds)',{exact:true})).toHaveValue('1.250');await expect.poll(()=>page.locator('video').evaluate(v=>v.currentTime)).toBe(1.25);log('PREVIOUS END: field='+await page.getByLabel('Start (seconds)',{exact:true}).inputValue()+'; video='+await page.locator('video').evaluate(v=>v.currentTime));
+  await page.getByLabel('End (seconds)',{exact:true}).fill('2.5');await page.getByRole('button',{name:'Add segment',exact:true}).click();await expect(page.locator('tbody tr')).toHaveCount(2);await page.reload();await expect(page.locator('tbody tr')).toHaveCount(2);log('AFTER REFRESH:\n'+(await page.locator('tbody').innerText()).replaceAll('\t',' | '));
+ }
  else throw new Error('No proof defined for feature '+feature);
  await page.screenshot({path:`test-results/feature-${feature}.png`,fullPage:true});
  await fs.appendFile('FEATURE_PROOFS.md',`\n## Feature ${feature}\n\n\`\`\`text\n${output.join('\n')}\n\`\`\`\n`);

@@ -23,3 +23,13 @@ KEYBOARD MARKS: start=1.000; end=2.000
 TYPING [ IN LABEL LIST: inserted text; start remained 1.000
 SAVED SEGMENT: Opening | 1 | 2 | EditDelete
 ```
+
+## Feature 9
+
+```text
+START AT ZERO: field=0; video=0
+PREVIOUS END: field=1.250; video=1.25
+AFTER REFRESH:
+Opening | 0 | 1.25 | EditDelete
+Opening | 1.25 | 2.5 | EditDelete
+```
