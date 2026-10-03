@@ -3,3 +3,5 @@
 .label-settings{border-bottom:1px solid #d4deea;padding-bottom:20px;margin-bottom:24px}.label-settings label{display:grid;gap:8px;font-size:14px;font-weight:600}.label-settings button{margin-top:10px}textarea{font:inherit;width:100%;padding:10px;border:1px solid #bdcada;border-radius:5px;resize:vertical;color:#19304b}textarea:focus-visible{outline:3px solid #568cea;outline-offset:2px}.legacy-label{font-weight:400;color:#61738a}
 
 .voice-labels{margin-top:14px;padding:14px 16px;background:white;border:1px solid #d4deea;border-radius:6px}.voice-controls{display:flex;align-items:center;gap:12px}.voice-controls button{white-space:nowrap}.voice-controls button[aria-pressed="true"]{background:#245da9;color:white}.voice-controls span,.voice-labels p,.voice-labels small{font-size:13px;line-height:1.5}.voice-labels p{margin:8px 0}.voice-labels small{color:#61738a}
+
+.mic-toggle{flex-shrink:0}.mic-state{display:flex;align-items:center;gap:7px;font-weight:600}.listening-dot{width:10px;height:10px;border-radius:50%;background:#d62828;display:inline-block;flex-shrink:0}
