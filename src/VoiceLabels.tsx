@@ -14,7 +14,7 @@ export function VoiceLabels({episodeId,labels,video}:{episodeId:Id<'episodes'>;l
  const recognition=useRef<Recognition|null>(null),wanted=useRef(false),latestLabels=useRef(labels);
  latestLabels.current=labels;
  const persist=useRef<(segment:VoiceSegment)=>void>(()=>{});
- persist.current=segment=>{setPending(n=>n+1);void save({episodeId,...segment}).catch(()=>{setFailed(rows=>[...rows,segment]);setMessage('A voice segment could not save. Retry saving below.');}).finally(()=>setPending(n=>n-1));};
+ persist.current=segment=>{setPending(n=>n+1);void save({episodeId,...segment,source:"voice"}).catch(()=>{setFailed(rows=>[...rows,segment]);setMessage('A voice segment could not save. Retry saving below.');}).finally(()=>setPending(n=>n-1));};
  const engine=useRef<ReturnType<typeof createVoiceSegments>|null>(null);
  if(!engine.current)engine.current=createVoiceSegments(segment=>persist.current(segment),setState,command=>{
   const player=video.current;if(!player)return;

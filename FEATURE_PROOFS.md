@@ -73,3 +73,10 @@ Current frame: 50
 Start frame: 25; End frame: 88
 FPS AFTER REFRESH: 25
 ```
+
+## Feature 14
+
+```text
+RECORD: Opening | 1 | 3 | ANN_001 | 2.000 | 25 | 75 | manual | EditDelete
+EDIT + REFRESH: Opening | 1 | 3.5 | ANN_001 | 2.500 | 25 | 88 | manual | EditDelete
+```
