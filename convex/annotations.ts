@@ -1,13 +1,13 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
-const episode = v.object({_id:v.id("episodes"),_creationTime:v.number(),name:v.string(),storageId:v.id("_storage"),duration:v.number(),url:v.union(v.string(),v.null())});
+const episode = v.object({_id:v.id("episodes"),_creationTime:v.number(),name:v.string(),storageId:v.id("_storage"),duration:v.number(),fileSize:v.optional(v.number()),mimeType:v.optional(v.string()),width:v.optional(v.number()),height:v.optional(v.number()),url:v.union(v.string(),v.null())});
 const segment = v.object({_id:v.id("segments"),_creationTime:v.number(),episodeId:v.id("episodes"),label:v.string(),start_sec:v.number(),end_sec:v.number()});
 export const episodes = query({args:{},returns:v.array(episode),handler:async ctx => Promise.all((await ctx.db.query("episodes").withIndex("by_name").take(1000)).map(async e=>({...e,url:await ctx.storage.getUrl(e.storageId)})))});
 export const uploadUrl = mutation({args:{},returns:v.string(),handler:async ctx=>ctx.storage.generateUploadUrl()});
-export const addEpisode = mutation({args:{name:v.string(),storageId:v.id("_storage"),duration:v.number()},returns:v.id("episodes"),handler:async(ctx,args)=>{
+export const addEpisode = mutation({args:{name:v.string(),storageId:v.id("_storage"),duration:v.number(),width:v.optional(v.number()),height:v.optional(v.number())},returns:v.id("episodes"),handler:async(ctx,args)=>{
  if(!args.name.trim() || !Number.isFinite(args.duration) || args.duration<=0) throw new Error("Choose a playable MP4.");
  const file=await ctx.db.system.get(args.storageId); if(!file || !["video/mp4","video/quicktime","video/webm"].includes(file.contentType??"")) throw new Error("Upload an MP4, MOV or WebM video.");
- return ctx.db.insert("episodes",args);
+ return ctx.db.insert("episodes",{...args,fileSize:file.size,mimeType:file.contentType??""});
 }});
 export const segments = query({args:{episodeId:v.id("episodes")},returns:v.array(segment),handler:async(ctx,{episodeId})=>ctx.db.query("segments").withIndex("by_episode",q=>q.eq("episodeId",episodeId)).take(10000)});
 export const save = mutation({args:{id:v.optional(v.id("segments")),episodeId:v.id("episodes"),label:v.string(),start_sec:v.number(),end_sec:v.number()},returns:v.id("segments"),handler:async(ctx,{id,...args})=>{

@@ -7,3 +7,5 @@
 .mic-toggle{flex-shrink:0}.mic-state{display:flex;align-items:center;gap:7px;font-weight:600}.listening-dot{width:10px;height:10px;border-radius:50%;background:#d62828;display:inline-block;flex-shrink:0}
 
 .segment-preview{margin:0;padding:12px;background:#edf2f8;font-size:13px}.segment-preview div{display:flex;justify-content:space-between;gap:12px;margin:5px 0}.segment-preview dd{margin:0;font-variant-numeric:tabular-nums}
+
+.media-details{padding:18px;margin-bottom:24px;background:white;border:1px solid #d4deea;border-radius:8px}.media-details dl{display:flex;flex-wrap:wrap;gap:18px 32px;margin-bottom:0}.media-details dt{font-size:12px;color:#61738a}.media-details dd{margin:6px 0 0;font-size:14px;overflow-wrap:anywhere}

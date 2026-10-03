@@ -46,3 +46,20 @@ Duration
 2.500 sec
 AFTER REFRESH: Opening | 1.25 | 3.75 | EditDelete
 ```
+
+## Feature 3
+
+```text
+Video details
+Filename
+feature-3-1791053112546.mp4
+File size
+1,128,375 bytes
+Format
+video/mp4
+Resolution
+960 x 540
+Duration
+5.055 sec
+VIDEO DETAILS AFTER REFRESH: unchanged
+```

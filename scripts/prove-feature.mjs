@@ -45,6 +45,9 @@ try{
  else if(feature==='10'){
   await page.getByLabel('Start (seconds)',{exact:true}).fill('1.25');await page.getByLabel('End (seconds)',{exact:true}).fill('3.75');await expect(page.getByLabel('Segment preview',{exact:true})).toContainText('2.500 sec');log('SEGMENT PREVIEW:\n'+await page.getByLabel('Segment preview',{exact:true}).innerText());await segment(1.25,3.75);await page.reload();await expect(page.locator('tbody tr')).toHaveCount(1);log('AFTER REFRESH: '+(await page.locator('tbody tr').innerText()).replaceAll('\t',' | '));
  }
+ else if(feature==='3'){
+  const details=await page.getByLabel('Video details',{exact:true}).innerText();await expect(page.getByLabel('Video details',{exact:true})).toContainText('video/mp4');const dimensions=await page.locator('video').evaluate(v=>`${v.videoWidth} x ${v.videoHeight}`);await expect(page.getByLabel('Video details',{exact:true})).toContainText(dimensions);log(details);await page.reload();await expect(page.getByLabel('Video details',{exact:true})).toHaveText(details,{useInnerText:true});log('VIDEO DETAILS AFTER REFRESH: unchanged');
+ }
  else throw new Error('No proof defined for feature '+feature);
  await page.screenshot({path:`test-results/feature-${feature}.png`,fullPage:true});
  await fs.appendFile('FEATURE_PROOFS.md',`\n## Feature ${feature}\n\n\`\`\`text\n${output.join('\n')}\n\`\`\`\n`);
