@@ -11,6 +11,7 @@
 import type * as annotations from "../annotations.js";
 import type * as labels from "../labels.js";
 import type * as media from "../media.js";
+import type * as metadata from "../metadata.js";
 
 import type {
   ApiFromModules,
@@ -22,6 +23,7 @@ declare const fullApi: ApiFromModules<{
   annotations: typeof annotations;
   labels: typeof labels;
   media: typeof media;
+  metadata: typeof metadata;
 }>;
 
 /**

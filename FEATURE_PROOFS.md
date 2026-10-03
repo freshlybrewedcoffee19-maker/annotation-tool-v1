@@ -141,3 +141,14 @@ episode,file_size_bytes,mime_type,duration_sec,width,height,frame_rate
 "feature-16-1791054095402.mp4",1128375,"video/mp4",5.055,960,540,25
 METADATA CSV AFTER REFRESH: identical
 ```
+
+## Feature 4
+
+```text
+CUSTOM VALUES AFTER REFRESH: Location=Studio A; Session=Practice 1
+METADATA CSV:
+episode,file_size_bytes,mime_type,duration_sec,width,height,frame_rate,metadata.Location,metadata.Session
+"feature-4-1791054250391.mp4",1128375,"video/mp4",5.055,960,540,"","Studio A","Practice 1"
+SEGMENT PRESERVED: 1
+ORIGINAL FIELD LIST RESTORED; saved values kept
+```
