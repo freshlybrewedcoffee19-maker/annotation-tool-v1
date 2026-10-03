@@ -45,8 +45,9 @@ test('interim stop stamps end once and matching final result does not repeat it'
  await expect(page.getByRole('tab',{name:'Annotate',exact:true})).toBeEnabled();await page.getByRole('tab',{name:'Annotate',exact:true}).click();
  await expect(page.getByLabel('Label list',{exact:true})).toBeEnabled();
  const savedLabels=(await page.getByLabel('Label list',{exact:true}).inputValue()).split('\n').filter(Boolean);
- const savedLabel=savedLabels.find(label=>label.toLowerCase()==='iron stroke')??savedLabels[0];
+ const savedLabel=savedLabels.find(label=>label==='iron_hold')??savedLabels[0];
  expect(savedLabel).toBeTruthy();
+ const spokenLabel=savedLabel.replaceAll('_',' ');
   await page.getByRole('tab',{name:'Upload',exact:true}).click();
  await page.getByLabel('Upload video',{exact:true}).setInputFiles({name:'voice-interim-demo.mp4',mimeType:'video/mp4',buffer:await fs.readFile('tests/fixtures/short.mp4')});
   await expect(page.getByRole('button',{name:'Add segment',exact:true,includeHidden:true})).toBeEnabled();
@@ -77,12 +78,12 @@ test('interim stop stamps end once and matching final result does not repeat it'
   await page.locator('video').evaluate((v:HTMLVideoElement)=>Object.defineProperty(v,'currentTime',{configurable:true,get:()=>4.75}));
   await page.evaluate(()=>(window as any).feedWords('please STOP.',true));
   await expect(page.getByText('Start: 2.000 sec / End: 4.000 sec',{exact:true})).toBeVisible();
-  await page.evaluate(label=>(window as any).feedWords(label,false),savedLabel);
+  await page.evaluate(label=>(window as any).feedWords(label,false),spokenLabel);
   await expect(page.locator('tbody tr')).toHaveCount(0);
-  await page.evaluate(label=>(window as any).feedWords(`please ${label.toUpperCase()}.`),savedLabel);
+  await page.evaluate(label=>(window as any).feedWords(`please ${label.toUpperCase()}.`),spokenLabel);
   await expect(page.locator('tbody tr')).toHaveCount(1);
   await expect(page.getByRole('status').filter({hasText:'Waiting for:'})).toContainText('Waiting for: start');
-  await expect(page.getByText('Heard:',{exact:false})).toContainText(savedLabel.toUpperCase());
+  await expect(page.getByText('Heard:',{exact:false})).toContainText(spokenLabel.toUpperCase());
   await page.screenshot({path:'test-results/mic-listening.png',fullPage:true});
   await page.getByRole('button',{name:'Turn mic off',exact:true}).click();
   await expect(page.getByText('Mic is off',{exact:true})).toBeVisible();
@@ -93,7 +94,7 @@ test('interim stop stamps end once and matching final result does not repeat it'
   const result=JSON.parse(Buffer.concat(chunks).toString()).filter((row:any)=>row.episode==='voice-interim-demo.mp4');
   const expected={episode:'voice-interim-demo.mp4',label:savedLabel,start_sec:2,end_sec:4};
   expect(result).toContainEqual(expected);
-  console.log('SHARED MIC HANDLER: start @ 2 -> stop @ 4 -> saved label: PASS\nVIDEO PLAYED: '+played+'\nVIDEO PAUSED: '+paused+'\nCONVEX SAVE + PAGE REFRESH: PASS\nSAVED_SEGMENT\n'+JSON.stringify(result.find((row:any)=>row.label===savedLabel&&row.start_sec===2&&row.end_sec===4),null,2));
+  console.log('SPOKEN LABEL: '+spokenLabel+'\nSAVED LABEL: '+savedLabel+'\nSHARED MIC HANDLER: start @ 2 -> stop @ 4 -> saved label: PASS\nVIDEO PLAYED: '+played+'\nVIDEO PAUSED: '+paused+'\nCONVEX SAVE + PAGE REFRESH: PASS\nSAVED_SEGMENT\n'+JSON.stringify(result.find((row:any)=>row.label===savedLabel&&row.start_sec===2&&row.end_sec===4),null,2));
   await page.screenshot({path:'test-results/voice-labels.png',fullPage:true});
  // Unsupported-browser message.
  await page.addInitScript(()=>{delete (window as any).SpeechRecognition;delete (window as any).webkitSpeechRecognition;});
