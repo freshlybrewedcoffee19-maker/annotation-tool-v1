@@ -8,6 +8,7 @@ test('upload, annotate, edit, delete, export, and retain two segments after refr
  await page.getByLabel('Upload MP4',{exact:true}).setInputFiles('tests/fixtures/short.mp4');
  await expect(page.getByRole('button',{name:'Add segment',exact:true})).toBeEnabled();
  await expect(page.locator('tbody tr')).toHaveCount(0);
+ await expect(page.locator('video')).toHaveCount(1);
  await expect(page.locator('video')).toBeVisible();
  await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);
  await page.locator('video').evaluate(async(v:HTMLVideoElement)=>{await v.play();});
