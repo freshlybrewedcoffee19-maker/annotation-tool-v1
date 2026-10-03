@@ -95,3 +95,18 @@ Gaps: 2.000–5.055 sec
 Overlaps: 0.500–1.000 sec
 AFTER REFRESH: same gaps and overlaps
 ```
+
+## Feature 13
+
+```text
+GAP MARK: Gap: 2.000 to 5.055 sec
+OVERLAP MARK: Overlap: 0.500 to 1.000 sec
+TICKS: 0.00 sec
+1.26 sec
+2.53 sec
+3.79 sec
+5.05 sec
+Selected: ANN_002 - Opening
+VIEW SEGMENT VIDEO TIME: 0.5
+TABLE + TIMELINE HIGHLIGHT: true
+```

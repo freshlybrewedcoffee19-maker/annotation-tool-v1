@@ -57,6 +57,9 @@ try{
  else if(feature==='12'){
   await segment(0,1);await segment(0.5,2);await expect(page.getByLabel('Coverage checks',{exact:true})).toContainText(/0[.]500.1[.]000 sec/);log(await page.getByLabel('Coverage checks',{exact:true}).innerText());await page.reload();await expect(page.getByLabel('Coverage checks',{exact:true})).toContainText(/0[.]500.1[.]000 sec/);log('AFTER REFRESH: same gaps and overlaps');
  }
+ else if(feature==='13'){
+  await segment(0,1);await segment(0.5,2);await expect(page.locator('.timeline-gap')).toHaveCount(1);await expect(page.locator('.timeline-overlap')).toHaveCount(1);await page.locator('tbody tr').nth(1).getByRole('button',{name:'View segment',exact:true}).click();await expect.poll(()=>page.locator('video').evaluate(v=>v.currentTime)).toBe(0.5);await expect(page.locator('tbody tr').nth(1)).toHaveAttribute('aria-selected','true');await expect(page.getByLabel('Segment timeline',{exact:true}).getByRole('button').nth(1)).toHaveAttribute('aria-pressed','true');log('GAP MARK: '+await page.locator('.timeline-gap').getAttribute('title'));log('OVERLAP MARK: '+await page.locator('.timeline-overlap').getAttribute('title'));log('TICKS: '+await page.getByLabel('Timeline ticks',{exact:true}).innerText());log(await page.getByLabel('Selected segment',{exact:true}).innerText());log('VIEW SEGMENT VIDEO TIME: '+await page.locator('video').evaluate(v=>v.currentTime));log('TABLE + TIMELINE HIGHLIGHT: true');
+ }
  else throw new Error('No proof defined for feature '+feature);
  await page.screenshot({path:`test-results/feature-${feature}.png`,fullPage:true});
  await fs.appendFile('FEATURE_PROOFS.md',`\n## Feature ${feature}\n\n\`\`\`text\n${output.join('\n')}\n\`\`\`\n`);
