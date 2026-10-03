@@ -28,6 +28,15 @@ try{
   for(const ext of ['mov','webm']){await upload(ext);await page.locator('video').evaluate(v=>v.play());await expect.poll(()=>page.locator('video').evaluate(v=>v.paused)).toBe(false);log(`${ext.toUpperCase()} PLAYED: ${await page.locator('video').evaluate(v=>!v.paused)}`);await page.locator('video').evaluate(v=>v.pause());}
   await page.getByRole('button',{name:'Load sample video',exact:true}).click();await expect.poll(episode).toBe('sample.mp4');await expect.poll(()=>page.locator('video').evaluate(v=>v.readyState)).toBeGreaterThanOrEqual(2);log('SAMPLE EPISODE: '+await episode());await segment(0,1);await page.reload();await expect(page.locator('tbody tr')).toHaveCount(1);log('SAMPLE SEGMENT AFTER REFRESH: '+(await page.locator('tbody tr').innerText()).replaceAll('\t',' | '));
  }
+ else if(feature==='8'){
+  await seek(1);await page.locator('video').focus();await page.keyboard.press('[');await expect(page.getByLabel('Start (seconds)',{exact:true})).toHaveValue('1.000');
+  await seek(2);await page.locator('video').focus();await page.keyboard.press(']');await expect(page.getByLabel('End (seconds)',{exact:true})).toHaveValue('2.000');
+  await page.keyboard.press('Space');await expect.poll(()=>page.locator('video').evaluate(v=>v.paused)).toBe(false);log('SPACE PLAYED: '+await page.locator('video').evaluate(v=>!v.paused));
+  await page.keyboard.press('Space');await expect.poll(()=>page.locator('video').evaluate(v=>v.paused)).toBe(true);log('SPACE PAUSED: '+await page.locator('video').evaluate(v=>v.paused));
+  log('KEYBOARD MARKS: start='+await page.getByLabel('Start (seconds)',{exact:true}).inputValue()+'; end='+await page.getByLabel('End (seconds)',{exact:true}).inputValue());
+  const before=await page.getByLabel('Label list',{exact:true}).inputValue();await page.getByLabel('Label list',{exact:true}).focus();await page.keyboard.press('End');await page.keyboard.type('[');await expect(page.getByLabel('Label list',{exact:true})).toHaveValue(before+'[');log('TYPING [ IN LABEL LIST: inserted text; start remained '+await page.getByLabel('Start (seconds)',{exact:true}).inputValue());
+  await page.getByLabel('Label list',{exact:true}).fill(before);await segment(1,2);await page.reload();await expect(page.locator('tbody tr')).toHaveCount(1);log('SAVED SEGMENT: '+(await page.locator('tbody tr').innerText()).replaceAll('\t',' | '));
+ }
  else throw new Error('No proof defined for feature '+feature);
  await page.screenshot({path:`test-results/feature-${feature}.png`,fullPage:true});
  await fs.appendFile('FEATURE_PROOFS.md',`\n## Feature ${feature}\n\n\`\`\`text\n${output.join('\n')}\n\`\`\`\n`);

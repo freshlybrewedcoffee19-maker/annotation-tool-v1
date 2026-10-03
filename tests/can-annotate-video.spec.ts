@@ -14,7 +14,11 @@ test('upload, annotate, edit, delete, export, and retain two segments after refr
  await expect(page.locator('video')).toHaveCount(1);
  await expect(page.locator('video')).toBeVisible();
  await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);
- await page.locator('video').evaluate(async(v:HTMLVideoElement)=>{await v.play();});
+ await page.locator('video').focus();await page.keyboard.press('Space');
+ await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.paused)).toBe(false);
+ await page.keyboard.press('Space');
+ await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.paused)).toBe(true);
+ await page.keyboard.press('Space');
  await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.currentTime)).toBeGreaterThan(0);
  await page.locator('video').evaluate((v:HTMLVideoElement)=>{v.pause();v.currentTime=0.5;});
  await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.currentTime)).toBe(0.5);

@@ -13,3 +13,13 @@ WEBM PLAYED: true
 SAMPLE EPISODE: sample.mp4
 SAMPLE SEGMENT AFTER REFRESH: Opening | 0 | 1 | EditDelete
 ```
+
+## Feature 8
+
+```text
+SPACE PLAYED: true
+SPACE PAUSED: true
+KEYBOARD MARKS: start=1.000; end=2.000
+TYPING [ IN LABEL LIST: inserted text; start remained 1.000
+SAVED SEGMENT: Opening | 1 | 2 | EditDelete
+```

@@ -1,4 +1,4 @@
-import React, {useRef,useState} from 'react';
+import React, {useEffect,useRef,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {ConvexProvider,ConvexReactClient,useQuery,useMutation,useConvex} from 'convex/react';
 import {api} from '../convex/_generated/api';
@@ -15,6 +15,18 @@ function App(){
  const segments=useQuery(api.annotations.segments,ep?{episodeId:ep._id}:'skip');
  const uploadUrl=useMutation(api.annotations.uploadUrl),addEpisode=useMutation(api.annotations.addEpisode),save=useMutation(api.annotations.save),remove=useMutation(api.annotations.remove);
  const video=useRef<HTMLVideoElement>(null); const [start,setStart]=useState('0');const [end,setEnd]=useState(''); const [label,setLabel]=useState('');const [edit,setEdit]=useState<Id<'segments'>|undefined>();const [busy,setBusy]=useState(false); const [error,setError]=useState('');const [time,setTime]=useState(0);
+ useEffect(()=>{
+  function keys(event:KeyboardEvent){
+   if(!ep||event.repeat||event.ctrlKey||event.metaKey||event.altKey)return;
+   const target=event.target;
+   if(target instanceof HTMLElement&&target.closest('input,textarea,select,button,a,[contenteditable="true"]'))return;
+   const player=video.current;if(!player)return;
+   if(event.code==='Space'){event.preventDefault();if(player.paused)void player.play().catch(()=>setError('The video could not play.'));else player.pause();}
+   if(event.key==='['){event.preventDefault();setStart(player.currentTime.toFixed(3));}
+   if(event.key===']'){event.preventDefault();setEnd(player.currentTime.toFixed(3));}
+  }
+  window.addEventListener('keydown',keys,true);return()=>window.removeEventListener('keydown',keys,true);
+ },[ep?._id]);
  const selectedLabel=edit?label:(labelList.includes(label)?label:labelList[0]??'');
  const rows=[...(segments??[])].sort((a,b)=>a.start_sec-b.start_sec);
  function reset(){setEdit(undefined);setStart('0');setEnd('');setLabel(labelList[0]??'');}
@@ -31,6 +43,7 @@ function App(){
  <section className="toolbar"><label className="upload">{busy?'Working…':'Upload video'}<input aria-label="Upload video" type="file" accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.webm" disabled={busy} onChange={e=>{const f=e.target.files?.[0];if(f)void upload(f);e.target.value='';}}/></label><button type="button" disabled={busy} onClick={()=>void fetch("/sample.mp4").then(response=>{if(!response.ok)throw new Error("Sample video unavailable.");return response.blob();}).then(blob=>upload(new File([blob],"sample.mp4",{type:"video/mp4"}))).catch(e=>setError(e.message))}>Load sample video</button><label className="episode">Episode<select aria-label="Episode" value={ep?._id??''} onChange={e=>{setSelected(e.target.value);localStorage.setItem('episode',e.target.value);reset();}}><option value="" disabled>Choose a video</option>{episodes?.map(e=><option key={e._id} value={e._id}>{e.name}</option>)}</select></label><span className="status">{episodes===undefined?'Connecting…':busy?'Saving…':'Saved in Convex'}</span></section>
  {error&&<p role="alert" className="error">{error}</p>}
  <div className="workspace"><section className="viewer">{ep?.url?<video key={ep._id} ref={video} src={ep.url} controls preload="metadata" onTimeUpdate={()=>setTime(video.current?.currentTime??0)} onError={()=>setError('The video could not play. Try an H.264 MP4.')}/>:<div className="empty"><strong>Your footage starts here</strong><p>Upload an MP4, MOV or WebM, then mark the moments you want to keep.</p></div>}
+ <p className="shortcuts">Shortcuts: Space plays / pauses; [ marks start; ] marks end.</p>
  {ep&&<VoiceLabels key={`voice-${ep._id}`} episodeId={ep._id} labels={labelList} video={video}/>}
  <div className="timeline-heading"><h2>Timeline</h2><span>{time.toFixed(2)} / {(ep?.duration??0).toFixed(2)} sec</span></div><div className="timeline" aria-label="Segment timeline">{rows.map((r,i)=><button key={r._id} title={`${r.label}: ${r.start_sec}–${r.end_sec}`} style={{left:`${r.start_sec/(ep?.duration||1)*100}%`,width:`${(r.end_sec-r.start_sec)/(ep?.duration||1)*100}%`,top:8+i*32}} onClick={()=>{if(video.current)video.current.currentTime=r.start_sec;}}>{r.label}</button>)}<div className="playhead" style={{left:`${time/(ep?.duration||1)*100}%`}}/></div><style>{`.timeline{height:${Math.max(80,rows.length*32+16)}px}`}</style><div className="scale"><span>0 sec</span><span>{(ep?.duration??0).toFixed(2)} sec</span></div></section>
  <aside><section className="label-settings"><h2>Your labels</h2><p>One label per line. Save before annotating.</p><label>Label list<textarea aria-label="Label list" rows={4} value={labelDraft??labelList.join("\n")} onChange={e=>setLabelDraft(e.target.value)} disabled={busy||labels===undefined}/></label><button type="button" disabled={busy||labels===undefined} onClick={()=>void act(async()=>{await saveLabels({text:labelDraft??labelList.join("\n")});setLabelDraft(null);})}>Save labels</button></section><h2>{edit?'Edit segment':'Mark a segment'}</h2><p>Pause at the boundaries, or enter precise times.</p><form onSubmit={e=>{e.preventDefault();if(ep)void act(async()=>{await save({id:edit,episodeId:ep._id,label:selectedLabel,start_sec:Number(start),end_sec:Number(end)});reset();});}}><label>Start (seconds)<div className="input-row"><input aria-label="Start (seconds)" type="number" step="0.001" min="0" max={ep?.duration} required value={start} onChange={e=>setStart(e.target.value)}/><button type="button" disabled={!ep||busy} onClick={()=>setStart((video.current?.currentTime??0).toFixed(3))}>Mark start</button></div></label><label>End (seconds)<div className="input-row"><input aria-label="End (seconds)" type="number" step="0.001" min="0" max={ep?.duration} required value={end} onChange={e=>setEnd(e.target.value)}/><button type="button" disabled={!ep||busy} onClick={()=>setEnd((video.current?.currentTime??0).toFixed(3))}>Mark end</button></div></label><label>Label{edit&&!labelList.includes(label)&&<span className="legacy-label">Current label: {label}</span>}<select aria-label="Label" required={!edit} value={labelList.includes(selectedLabel)?selectedLabel:""} onChange={e=>setLabel(e.target.value)}><option value="" disabled>{edit?"Keep current label":"Save your labels first"}</option>{labelList.map(item=><option key={item} value={item}>{item}</option>)}</select></label><button className="primary" disabled={!ep||busy||(!edit&&!selectedLabel)}>{edit?'Save changes':'Add segment'}</button>{edit&&<button type="button" onClick={reset}>Cancel edit</button>}</form></aside></div>
