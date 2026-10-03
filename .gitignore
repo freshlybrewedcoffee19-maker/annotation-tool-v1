@@ -1,5 +1,9 @@
 
 .env.local
+.env
+.env.*
+!.env.example
+.agents/
 node_modules/
 dist/
 test-results/
