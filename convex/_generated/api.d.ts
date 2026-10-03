@@ -9,6 +9,7 @@
  */
 
 import type * as annotations from "../annotations.js";
+import type * as labels from "../labels.js";
 
 import type {
   ApiFromModules,
@@ -18,6 +19,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   annotations: typeof annotations;
+  labels: typeof labels;
 }>;
 
 /**
