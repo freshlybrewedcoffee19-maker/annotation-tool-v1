@@ -2,6 +2,9 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 test('upload, annotate, edit, delete, export, and retain two segments after refresh',async({page})=>{
  await page.goto('/');
+ await expect(page.getByLabel('Label list',{exact:true})).toBeEnabled();
+ const originalLabels=await page.getByLabel('Label list',{exact:true}).inputValue();
+ try{
  await page.getByLabel('Label list',{exact:true}).fill('Action\nDialogue\nHighlight');
  await page.getByRole('button',{name:'Save labels',exact:true}).click();
  await expect(page.getByLabel('Label',{exact:true}).locator('option')).toHaveCount(4);
@@ -47,4 +50,9 @@ test('upload, annotate, edit, delete, export, and retain two segments after refr
  for(const format of ['CSV','JSON']){const downloadPromise=page.waitForEvent('download');await page.getByRole('button',{name:`Export ${format}`,exact:true}).click();const download=await downloadPromise;await download.saveAs(`test-results/segments.${format.toLowerCase()}`);const text=await fs.readFile(`test-results/segments.${format.toLowerCase()}`,'utf8');if(format==='JSON'){const all=JSON.parse(text);for(const row of output)expect(all).toContainEqual(row);}else expect(text).toContain('episode,label,start_sec,end_sec');}
  await page.screenshot({path:'test-results/annotation-studio.png',fullPage:true});
  console.log('AFTER_PAGE_REFRESH\n'+JSON.stringify(output,null,2));
+ }finally{
+ await page.getByLabel('Label list',{exact:true}).fill(originalLabels);
+ await page.getByRole('button',{name:'Save labels',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Save labels',exact:true})).toBeEnabled();
+ }
 });

@@ -2,6 +2,9 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 test('custom labels survive refresh and CSV preserves old segments plus three new labels',async({page})=>{
  await page.goto('/');
+ await expect(page.getByLabel('Label list',{exact:true})).toBeEnabled();
+ const originalLabels=await page.getByLabel('Label list',{exact:true}).inputValue();
+ try{
  await expect(page.getByRole('button',{name:'Export CSV',exact:true})).toBeEnabled();
  async function csv(){const pending=page.waitForEvent('download');await page.getByRole('button',{name:'Export CSV',exact:true}).click();const file=await pending;const stream=await file.createReadStream();const chunks=[];for await(const chunk of stream!)chunks.push(chunk);return Buffer.concat(chunks).toString('utf8');}
  const before=await csv();
@@ -42,4 +45,9 @@ test('custom labels survive refresh and CSV preserves old segments plus three ne
  await fs.mkdir('test-results',{recursive:true});await fs.writeFile('test-results/custom-labels.csv',after);
  await page.screenshot({path:'test-results/custom-labels.png',fullPage:true});
  console.log('EXPORTED_CSV_VERBATIM\n'+after);
+ }finally{
+ await page.getByLabel('Label list',{exact:true}).fill(originalLabels);
+ await page.getByRole('button',{name:'Save labels',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Save labels',exact:true})).toBeEnabled();
+ }
 });
