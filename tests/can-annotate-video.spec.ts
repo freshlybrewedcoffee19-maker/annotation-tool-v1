@@ -8,7 +8,7 @@ test('upload, annotate, edit, delete, export, and retain two segments after refr
  await page.getByLabel('Label list',{exact:true}).fill('Action\nDialogue\nHighlight');
  await page.getByRole('button',{name:'Save labels',exact:true}).click();
  await expect(page.getByLabel('Label',{exact:true}).locator('option')).toHaveCount(4);
- await page.getByLabel('Upload MP4',{exact:true}).setInputFiles('tests/fixtures/short.mp4');
+ await page.getByLabel('Upload video',{exact:true}).setInputFiles('tests/fixtures/short.mp4');
  await expect(page.getByRole('button',{name:'Add segment',exact:true})).toBeEnabled();
  await expect(page.locator('tbody tr')).toHaveCount(0);
  await expect(page.locator('video')).toHaveCount(1);

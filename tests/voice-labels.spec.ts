@@ -45,7 +45,7 @@ test('interim stop stamps end once and matching final result does not repeat it'
  const savedLabels=(await page.getByLabel('Label list',{exact:true}).inputValue()).split('\n').filter(Boolean);
  const savedLabel=savedLabels.find(label=>label.toLowerCase()==='iron stroke')??savedLabels[0];
  expect(savedLabel).toBeTruthy();
-  await page.getByLabel('Upload MP4',{exact:true}).setInputFiles({name:'voice-interim-demo.mp4',mimeType:'video/mp4',buffer:await fs.readFile('tests/fixtures/short.mp4')});
+  await page.getByLabel('Upload video',{exact:true}).setInputFiles({name:'voice-interim-demo.mp4',mimeType:'video/mp4',buffer:await fs.readFile('tests/fixtures/short.mp4')});
   await expect(page.getByRole('button',{name:'Add segment',exact:true})).toBeEnabled();
   await expect(page.locator('tbody tr')).toHaveCount(0);
   await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);

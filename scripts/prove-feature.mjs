@@ -1,0 +1,35 @@
+import {chromium,expect} from '@playwright/test';
+import fs from 'node:fs/promises';
+const feature=process.argv[2];const smoke=process.argv.includes('--smoke');
+const browser=await chromium.launch({channel:'chrome'});const page=await browser.newPage();
+await page.goto(process.env.APP_URL??'http://127.0.0.1:5173');
+await expect(page.getByLabel('Upload video',{exact:true})).toBeEnabled();
+await expect(page.getByLabel('Label list',{exact:true})).toBeEnabled();
+const output=[];const log=text=>{output.push(text);console.log(text);};
+const label=(await page.getByLabel('Label list',{exact:true}).inputValue()).split('\n').filter(Boolean)[0];
+const episode=()=>page.getByLabel('Episode',{exact:true}).evaluate(e=>e.selectedOptions[0].text);
+async function upload(ext='mp4'){
+ const name=`feature-${feature}-${Date.now()}.${ext}`;
+ await page.getByLabel('Upload video',{exact:true}).setInputFiles({name,mimeType:ext==='mov'?'video/quicktime':ext==='webm'?'video/webm':'video/mp4',buffer:await fs.readFile(`tests/fixtures/short.${ext}`)});
+ await expect(page.getByRole('button',{name:'Add segment',exact:true})).toBeEnabled();
+ await expect.poll(episode).toBe(name);
+ await expect.poll(()=>page.locator('video').evaluate(v=>v.readyState)).toBeGreaterThanOrEqual(2);
+ await expect(page.locator('tbody tr')).toHaveCount(0);return name;
+}
+async function segment(start,end){const count=await page.locator('tbody tr').count();await page.getByLabel('Start (seconds)',{exact:true}).fill(String(start));await page.getByLabel('End (seconds)',{exact:true}).fill(String(end));await page.getByLabel('Label',{exact:true}).selectOption(label);await page.getByRole('button',{name:'Add segment',exact:true}).click();await expect(page.locator('tbody tr')).toHaveCount(count+1);}
+async function seek(time){await page.locator('video').evaluate((v,time)=>{v.pause();v.currentTime=time;},time);await expect.poll(()=>page.locator('video').evaluate(v=>v.currentTime)).toBe(time);}
+async function download(name){const pending=page.waitForEvent('download');await page.getByRole('button',{name,exact:true}).click();const file=await pending;const stream=await file.createReadStream();const chunks=[];for await(const chunk of stream)chunks.push(chunk);return {name:file.suggestedFilename(),text:Buffer.concat(chunks).toString('utf8')};}
+try{
+ if(smoke){await expect(page.getByRole('button',{name:'Load sample video',exact:true})).toBeVisible();log(`HOSTED FEATURE ${feature}: page loaded; Convex connected`);}
+ else{
+ await upload();
+ if(feature==='2'){
+  log('UPLOAD ACCEPTS: '+await page.getByLabel('Upload video',{exact:true}).getAttribute('accept'));
+  for(const ext of ['mov','webm']){await upload(ext);await page.locator('video').evaluate(v=>v.play());await expect.poll(()=>page.locator('video').evaluate(v=>v.paused)).toBe(false);log(`${ext.toUpperCase()} PLAYED: ${await page.locator('video').evaluate(v=>!v.paused)}`);await page.locator('video').evaluate(v=>v.pause());}
+  await page.getByRole('button',{name:'Load sample video',exact:true}).click();await expect.poll(episode).toBe('sample.mp4');await expect.poll(()=>page.locator('video').evaluate(v=>v.readyState)).toBeGreaterThanOrEqual(2);log('SAMPLE EPISODE: '+await episode());await segment(0,1);await page.reload();await expect(page.locator('tbody tr')).toHaveCount(1);log('SAMPLE SEGMENT AFTER REFRESH: '+(await page.locator('tbody tr').innerText()).replaceAll('\t',' | '));
+ }
+ else throw new Error('No proof defined for feature '+feature);
+ await page.screenshot({path:`test-results/feature-${feature}.png`,fullPage:true});
+ await fs.appendFile('FEATURE_PROOFS.md',`\n## Feature ${feature}\n\n\`\`\`text\n${output.join('\n')}\n\`\`\`\n`);
+ }
+}finally{await browser.close();}

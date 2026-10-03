@@ -24,7 +24,7 @@ test('custom labels survive refresh and CSV preserves old segments plus three ne
  await expect(page.getByText(`Current label: ${oldLabel}`,{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Save changes',exact:true}).click();
  await expect(oldRow.locator('td').first()).toHaveText(oldLabel);
- await page.getByLabel('Upload MP4',{exact:true}).setInputFiles({name:'custom-label-demo.mp4',mimeType:'video/mp4',buffer:await fs.readFile('tests/fixtures/short.mp4')});
+ await page.getByLabel('Upload video',{exact:true}).setInputFiles({name:'custom-label-demo.mp4',mimeType:'video/mp4',buffer:await fs.readFile('tests/fixtures/short.mp4')});
  await expect(page.locator('video')).toBeVisible();
  await expect(page.getByLabel('Episode',{exact:true})).toContainText('custom-label-demo.mp4');
  await expect(page.locator('tbody tr')).toHaveCount(0);

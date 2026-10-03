@@ -6,7 +6,7 @@ export const episodes = query({args:{},returns:v.array(episode),handler:async ct
 export const uploadUrl = mutation({args:{},returns:v.string(),handler:async ctx=>ctx.storage.generateUploadUrl()});
 export const addEpisode = mutation({args:{name:v.string(),storageId:v.id("_storage"),duration:v.number()},returns:v.id("episodes"),handler:async(ctx,args)=>{
  if(!args.name.trim() || !Number.isFinite(args.duration) || args.duration<=0) throw new Error("Choose a playable MP4.");
- const file=await ctx.db.system.get(args.storageId); if(!file || file.contentType!=="video/mp4") throw new Error("Upload an MP4 file.");
+ const file=await ctx.db.system.get(args.storageId); if(!file || !["video/mp4","video/quicktime","video/webm"].includes(file.contentType??"")) throw new Error("Upload an MP4, MOV or WebM video.");
  return ctx.db.insert("episodes",args);
 }});
 export const segments = query({args:{episodeId:v.id("episodes")},returns:v.array(segment),handler:async(ctx,{episodeId})=>ctx.db.query("segments").withIndex("by_episode",q=>q.eq("episodeId",episodeId)).take(10000)});
