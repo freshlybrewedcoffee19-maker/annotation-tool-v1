@@ -80,3 +80,18 @@ FPS AFTER REFRESH: 25
 RECORD: Opening | 1 | 3 | ANN_001 | 2.000 | 25 | 75 | manual | EditDelete
 EDIT + REFRESH: Opening | 1 | 3.5 | ANN_001 | 2.500 | 25 | 88 | manual | EditDelete
 ```
+
+## Feature 12
+
+```text
+Coverage checks
+
+Annotated: 2.000 sec (39.6%) · Unannotated: 3.055 sec
+
+Coverage warning: review gaps or overlaps.
+
+Gaps: 2.000–5.055 sec
+
+Overlaps: 0.500–1.000 sec
+AFTER REFRESH: same gaps and overlaps
+```

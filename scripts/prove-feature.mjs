@@ -54,6 +54,9 @@ try{
  else if(feature==='14'){
   await page.getByLabel('Frame rate (FPS)',{exact:true}).fill('25');await page.getByRole('button',{name:'Save frame rate',exact:true}).click();await expect(page.getByText('Frame rate saved.',{exact:true})).toBeVisible();await segment(1,3);await expect(page.locator('tbody tr')).toContainText('ANN_001');log('RECORD: '+(await page.locator('tbody tr').innerText()).replaceAll('\t',' | '));await page.locator('tbody tr').getByRole('button',{name:'Edit',exact:true}).click();await page.getByLabel('End (seconds)',{exact:true}).fill('3.5');await page.getByRole('button',{name:'Save changes',exact:true}).click();await expect(page.locator('tbody tr')).toContainText('2.500');await page.reload();await expect(page.locator('tbody tr')).toContainText('ANN_001');log('EDIT + REFRESH: '+(await page.locator('tbody tr').innerText()).replaceAll('\t',' | '));
  }
+ else if(feature==='12'){
+  await segment(0,1);await segment(0.5,2);await expect(page.getByLabel('Coverage checks',{exact:true})).toContainText(/0[.]500.1[.]000 sec/);log(await page.getByLabel('Coverage checks',{exact:true}).innerText());await page.reload();await expect(page.getByLabel('Coverage checks',{exact:true})).toContainText(/0[.]500.1[.]000 sec/);log('AFTER REFRESH: same gaps and overlaps');
+ }
  else throw new Error('No proof defined for feature '+feature);
  await page.screenshot({path:`test-results/feature-${feature}.png`,fullPage:true});
  await fs.appendFile('FEATURE_PROOFS.md',`\n## Feature ${feature}\n\n\`\`\`text\n${output.join('\n')}\n\`\`\`\n`);
