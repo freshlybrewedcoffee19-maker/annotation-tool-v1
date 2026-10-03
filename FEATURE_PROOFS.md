@@ -110,3 +110,25 @@ Selected: ANN_002 - Opening
 VIEW SEGMENT VIDEO TIME: 0.5
 TABLE + TIMELINE HIGHLIGHT: true
 ```
+
+## Feature 15
+
+```text
+PARTIAL REVIEW:
+Export review
+
+1 saved segment(s) · Coverage: 19.8%
+
+Coverage warning: 1 gap(s), 0 overlap(s). You can still export.
+
+The header CSV and JSON keep their original four columns. Episode CSV adds IDs, duration, frames and source.
+
+Export episode CSVAnnotate next video
+COMPLETE REVIEW: Coverage pass: ready to export.
+EPISODE CSV:
+episode,annotation_id,label,start_sec,end_sec,duration_sec,start_frame,end_frame,source
+"feature-15-1791053986419.mp4","ANN_001","Opening",0,1,1,"Not recorded","Not recorded","manual"
+"feature-15-1791053986419.mp4","ANN_002","Opening",1,5.055,4.055,"Not recorded","Not recorded","manual"
+Your segments stay saved. Upload another video when ready.
+SAVED SEGMENTS AFTER NEXT VIDEO + REFRESH: 2
+```
