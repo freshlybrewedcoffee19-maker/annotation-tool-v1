@@ -63,3 +63,13 @@ Duration
 5.055 sec
 VIDEO DETAILS AFTER REFRESH: unchanged
 ```
+
+## Feature 7
+
+```text
+FPS: 25
+VIDEO TIME: 2
+Current frame: 50
+Start frame: 25; End frame: 88
+FPS AFTER REFRESH: 25
+```

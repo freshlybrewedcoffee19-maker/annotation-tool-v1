@@ -48,6 +48,9 @@ try{
  else if(feature==='3'){
   const details=await page.getByLabel('Video details',{exact:true}).innerText();await expect(page.getByLabel('Video details',{exact:true})).toContainText('video/mp4');const dimensions=await page.locator('video').evaluate(v=>`${v.videoWidth} x ${v.videoHeight}`);await expect(page.getByLabel('Video details',{exact:true})).toContainText(dimensions);log(details);await page.reload();await expect(page.getByLabel('Video details',{exact:true})).toHaveText(details,{useInnerText:true});log('VIDEO DETAILS AFTER REFRESH: unchanged');
  }
+ else if(feature==='7'){
+  await page.getByLabel('Frame rate (FPS)',{exact:true}).fill('25');await page.getByRole('button',{name:'Save frame rate',exact:true}).click();await expect(page.getByText('Frame rate saved.',{exact:true})).toBeVisible();await seek(2);await expect(page.getByLabel('Frame readout',{exact:true})).toContainText('Current frame: 50');await page.getByLabel('Start (seconds)',{exact:true}).fill('1');await page.getByLabel('End (seconds)',{exact:true}).fill('3.5');await expect(page.getByLabel('Boundary frames',{exact:true})).toHaveText('Start frame: 25; End frame: 88');log('FPS: '+await page.getByLabel('Frame rate (FPS)',{exact:true}).inputValue());log('VIDEO TIME: '+await page.locator('video').evaluate(v=>v.currentTime));log(await page.getByLabel('Frame readout',{exact:true}).locator('p').innerText());log(await page.getByLabel('Boundary frames',{exact:true}).innerText());await page.reload();await expect(page.getByLabel('Frame rate (FPS)',{exact:true})).toHaveValue('25');log('FPS AFTER REFRESH: '+await page.getByLabel('Frame rate (FPS)',{exact:true}).inputValue());
+ }
  else throw new Error('No proof defined for feature '+feature);
  await page.screenshot({path:`test-results/feature-${feature}.png`,fullPage:true});
  await fs.appendFile('FEATURE_PROOFS.md',`\n## Feature ${feature}\n\n\`\`\`text\n${output.join('\n')}\n\`\`\`\n`);
