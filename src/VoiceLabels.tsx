@@ -7,7 +7,7 @@ type SpeechResult={isFinal:boolean;0:{transcript:string}};
 type SpeechEvent={resultIndex:number;results:ArrayLike<SpeechResult>};
 type Recognition={continuous:boolean;interimResults:boolean;lang:string;start:()=>void;stop:()=>void;abort:()=>void;onstart:(()=>void)|null;onend:(()=>void)|null;onerror:((event:{error:string})=>void)|null;onresult:((event:SpeechEvent)=>void)|null};
 type SpeechWindow=Window&{SpeechRecognition?:new()=>Recognition;webkitSpeechRecognition?:new()=>Recognition};
-export function VoiceLabels({episodeId,labels,video}:{episodeId:Id<'episodes'>;labels:string[];video:RefObject<HTMLVideoElement|null>}){
+export function VoiceLabels({episodeId,labels,video,active=true}:{episodeId:Id<'episodes'>;labels:string[];video:RefObject<HTMLVideoElement|null>;active?:boolean}){
  const save=useMutation(api.annotations.save);
  const [listening,setListening]=useState(false),[heard,setHeard]=useState(''),[message,setMessage]=useState(''),[state,setState]=useState<VoiceState>({waiting:'start',start_sec:null,end_sec:null,error:null}),[failed,setFailed]=useState<VoiceSegment[]>([]);
  const [pending,setPending]=useState(0);
@@ -25,6 +25,7 @@ export function VoiceLabels({episodeId,labels,video}:{episodeId:Id<'episodes'>;l
  useEffect(()=>{
   return ()=>{wanted.current=false;const r=recognition.current;if(r){r.onend=null;r.onresult=null;r.onerror=null;r.abort();}};
  },[video]);
+ useEffect(()=>{if(!active){wanted.current=false;recognition.current?.stop();setListening(false);}},[active]);
  function toggle(){
   if(wanted.current){wanted.current=false;recognition.current?.stop();setListening(false);setMessage('Mic off. Your marked times are kept.');return;}
   if(!Speech)return;

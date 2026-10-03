@@ -2,6 +2,7 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 test('custom labels survive refresh and CSV preserves old segments plus three new labels',async({page})=>{
  await page.goto('/');
+ await expect(page.getByRole('tab',{name:'Annotate',exact:true})).toBeEnabled();await page.getByRole('tab',{name:'Annotate',exact:true}).click();
  await expect(page.getByLabel('Label list',{exact:true})).toBeEnabled();
  const originalLabels=await page.getByLabel('Label list',{exact:true}).inputValue();
  try{
@@ -16,7 +17,7 @@ test('custom labels survive refresh and CSV preserves old segments plus three ne
  await expect(page.getByLabel('Label',{exact:true}).locator('option:not([disabled])')).toHaveText(['Opening','Demonstration','Closing']);
  // Editing times without choosing another label keeps a label absent from the new list.
  const oldEpisodeId=await page.getByLabel('Episode',{exact:true}).locator('option').evaluateAll(options=>(options.find(o=>o.textContent==='short.mp4') as HTMLOptionElement).value);
- await page.getByLabel('Episode',{exact:true}).selectOption(oldEpisodeId);
+ await page.getByRole('tab',{name:'Upload',exact:true}).click();await page.getByLabel('Episode',{exact:true}).selectOption(oldEpisodeId);
  await expect(page.locator('tbody tr')).toHaveCount(2);
  const oldRow=page.locator('tbody tr').first();
  const oldLabel=await oldRow.locator('td').first().innerText();
@@ -24,15 +25,18 @@ test('custom labels survive refresh and CSV preserves old segments plus three ne
  await expect(page.getByText(`Current label: ${oldLabel}`,{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Save changes',exact:true}).click();
  await expect(oldRow.locator('td').first()).toHaveText(oldLabel);
+ await page.getByRole('tab',{name:'Upload',exact:true}).click();
  await page.getByLabel('Upload video',{exact:true}).setInputFiles({name:'custom-label-demo.mp4',mimeType:'video/mp4',buffer:await fs.readFile('tests/fixtures/short.mp4')});
+ await expect(page.getByRole('button',{name:'Add segment',exact:true,includeHidden:true})).toBeEnabled();await page.getByRole('tab',{name:'Annotate',exact:true}).click();
  await expect(page.locator('video')).toBeVisible();
  await expect(page.getByLabel('Episode',{exact:true})).toContainText('custom-label-demo.mp4');
  await expect(page.locator('tbody tr')).toHaveCount(0);
+ await expect(page.locator('.status')).toHaveText('Saved in Convex');await page.getByRole('tab',{name:'Annotate',exact:true}).click();
  for(const [i,label] of ['Opening','Demonstration','Closing'].entries()){
  await page.getByLabel('Start (seconds)',{exact:true}).fill(String(i));
  await page.getByLabel('End (seconds)',{exact:true}).fill(String(i+0.75));
  await page.getByLabel('Label',{exact:true}).selectOption(label);
- await page.getByRole('button',{name:'Add segment',exact:true}).click();
+ await page.getByRole('button',{name:'Add segment',exact:true,includeHidden:true}).click();
  await expect(page.locator('tbody tr')).toHaveCount(i+1);
  }
  await page.reload();

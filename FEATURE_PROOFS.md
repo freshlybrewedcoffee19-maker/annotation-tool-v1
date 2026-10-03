@@ -167,3 +167,17 @@ episode,file_size_bytes,mime_type,duration_sec,width,height,frame_rate,metadata.
 EARLIER VIDEO STILL: Existing video value
 ORIGINAL FIELD LIST AND DEFAULT RESTORED
 ```
+
+## Feature 1
+
+```text
+AFTER UPLOAD: Current step: Metadata
+NEXT: Current step: Annotate
+BACK + NEXT KEPT DRAFT: start=1; end=2; video=2
+ARROW RIGHT: Current step: Export
+ORIGINAL CSV HEADER: episode,label,start_sec,end_sec
+REFRESH: Export step; 1 saved segment
+NEXT VIDEO: Current step: Upload
+RETURN TO ANNOTATE: Opening | 1 | 2 | ANN_001 | 1.000 | Not recorded | Not recorded | manual | View segmentEditDelete
+DESKTOP + MOBILE PAGE OVERFLOW: none
+```

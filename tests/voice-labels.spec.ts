@@ -41,13 +41,16 @@ test('interim stop stamps end once and matching final result does not repeat it'
   (window as any).SpeechRecognition=FakeSpeech;
  });
  await page.goto('/');
+ await expect(page.getByRole('tab',{name:'Annotate',exact:true})).toBeEnabled();await page.getByRole('tab',{name:'Annotate',exact:true}).click();
  await expect(page.getByLabel('Label list',{exact:true})).toBeEnabled();
  const savedLabels=(await page.getByLabel('Label list',{exact:true}).inputValue()).split('\n').filter(Boolean);
  const savedLabel=savedLabels.find(label=>label.toLowerCase()==='iron stroke')??savedLabels[0];
  expect(savedLabel).toBeTruthy();
-  await page.getByLabel('Upload video',{exact:true}).setInputFiles({name:'voice-interim-demo.mp4',mimeType:'video/mp4',buffer:await fs.readFile('tests/fixtures/short.mp4')});
-  await expect(page.getByRole('button',{name:'Add segment',exact:true})).toBeEnabled();
+  await page.getByRole('tab',{name:'Upload',exact:true}).click();
+ await page.getByLabel('Upload video',{exact:true}).setInputFiles({name:'voice-interim-demo.mp4',mimeType:'video/mp4',buffer:await fs.readFile('tests/fixtures/short.mp4')});
+  await expect(page.getByRole('button',{name:'Add segment',exact:true,includeHidden:true})).toBeEnabled();
   await expect(page.locator('tbody tr')).toHaveCount(0);
+ await expect(page.locator('.status')).toHaveText('Saved in Convex');await page.getByRole('tab',{name:'Annotate',exact:true}).click();
   await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);
   await page.locator('video').evaluate(async(v:HTMLVideoElement)=>{v.pause();v.currentTime=2;Object.defineProperty(v,'currentTime',{configurable:true,get:()=>2});});
   await page.getByRole('button',{name:'Turn mic on',exact:true}).click();
