@@ -132,3 +132,12 @@ episode,annotation_id,label,start_sec,end_sec,duration_sec,start_frame,end_frame
 Your segments stay saved. Upload another video when ready.
 SAVED SEGMENTS AFTER NEXT VIDEO + REFRESH: 2
 ```
+
+## Feature 16
+
+```text
+METADATA CSV:
+episode,file_size_bytes,mime_type,duration_sec,width,height,frame_rate
+"feature-16-1791054095402.mp4",1128375,"video/mp4",5.055,960,540,25
+METADATA CSV AFTER REFRESH: identical
+```

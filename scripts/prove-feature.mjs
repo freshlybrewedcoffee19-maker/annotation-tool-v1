@@ -63,6 +63,9 @@ try{
  else if(feature==='15'){
   await segment(0,1);await expect(page.getByLabel('Export review',{exact:true})).toContainText('Coverage warning:');log('PARTIAL REVIEW:\n'+await page.getByLabel('Export review',{exact:true}).innerText());const duration=await page.locator('video').evaluate(v=>v.duration);await segment(1,duration);await expect(page.getByLabel('Export review',{exact:true})).toContainText('Coverage pass: ready to export.');log('COMPLETE REVIEW: '+await page.getByLabel('Export review',{exact:true}).locator('p').nth(1).innerText());const file=await download('Export episode CSV');log('EPISODE CSV:\n'+file.text);await page.getByRole('button',{name:'Annotate next video',exact:true}).click();log(await page.getByText('Your segments stay saved. Upload another video when ready.',{exact:true}).innerText());await page.reload();await expect(page.locator('tbody tr')).toHaveCount(2);log('SAVED SEGMENTS AFTER NEXT VIDEO + REFRESH: 2');
  }
+ else if(feature==='16'){
+  await page.getByLabel('Frame rate (FPS)',{exact:true}).fill('25');await page.getByRole('button',{name:'Save frame rate',exact:true}).click();await expect(page.getByText('Frame rate saved.',{exact:true})).toBeVisible();const file=await download('Export metadata CSV');expect(file.text).toContain('1128375');expect(file.text).toContain('video/mp4');log('METADATA CSV:\n'+file.text);await page.reload();const again=await download('Export metadata CSV');expect(again.text).toBe(file.text);log('METADATA CSV AFTER REFRESH: identical');
+ }
  else throw new Error('No proof defined for feature '+feature);
  await page.screenshot({path:`test-results/feature-${feature}.png`,fullPage:true});
  await fs.appendFile('FEATURE_PROOFS.md',`\n## Feature ${feature}\n\n\`\`\`text\n${output.join('\n')}\n\`\`\`\n`);

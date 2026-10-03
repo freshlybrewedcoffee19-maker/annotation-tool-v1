@@ -17,3 +17,5 @@
 .timeline-gap,.timeline-overlap{position:absolute;top:0;bottom:0;pointer-events:none}.timeline-gap{background:repeating-linear-gradient(135deg,#d8dee7 0px,#d8dee7 5px,#eef1f6 5px,#eef1f6 10px)}.timeline-overlap{background:#edb0ad;border:2px solid #b83b35}.timeline button[aria-pressed="true"]{outline:3px solid #132e52;outline-offset:-3px;background:#1d4d89}tr[aria-selected="true"]{background:#e8f1ff}.timeline-legend{font-size:12px}
 
 .export-review{margin-top:24px;padding:20px;background:white;border:1px solid #d4deea;border-radius:8px}.export-review p{font-size:14px}.export-review button{margin-right:10px}
+
+.metadata-export{margin-top:24px;padding:20px;border:1px solid #d4deea;border-radius:8px;background:white}.metadata-export p{font-size:14px}
