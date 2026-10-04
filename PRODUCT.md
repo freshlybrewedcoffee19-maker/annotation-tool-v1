@@ -14,3 +14,6 @@ Preserve existing private browser workspaces, original footage and annotations. 
 
 ## Open decisions
 Specific user roles and pricing are unspecified. No claims about speed, accuracy or customers are approved.
+
+## Approved expansion constraints
+Expand video annotation first; defer 3D point clouds and supplying human labellers. Vision processing must run locally in laptop browsers with no rented inference machine or required desktop installation. Labels follow persistent object identities. Detected tracking uncertainty must stop accepted tracking and mark Needs checking; the user can reconnect a reappearing object and correct its box before continuing. Model choice and performance remain untested. The phased plan and candidate-model research are in BUILD_PLAN.md.
