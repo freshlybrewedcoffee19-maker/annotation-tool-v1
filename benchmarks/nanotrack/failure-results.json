@@ -1,0 +1,46 @@
+{
+  "cancel": {
+    "cancelled": true,
+    "cancelMs": 0,
+    "wallMs": 1447.8999999985099,
+    "ticks": 90,
+    "maxTickGap": 23.80000000447035,
+    "truths": {
+      "trial": [
+        {
+          "index": 0,
+          "state": "unreviewed",
+          "box": null
+        },
+        {
+          "index": 1,
+          "state": "unreviewed",
+          "box": null
+        },
+        {
+          "index": 2,
+          "state": "unreviewed",
+          "box": null
+        },
+        {
+          "index": 3,
+          "state": "unreviewed",
+          "box": null
+        },
+        {
+          "index": 4,
+          "state": "unreviewed",
+          "box": null
+        }
+      ]
+    }
+  },
+  "missing": {
+    "error": "Error: Missing template.onnx",
+    "stack": "Error: Missing template.onnx\n    at self.onmessage (http://127.0.0.1:5185/track-worker.mjs:8:183)",
+    "wallMs": 1105.2000000029802,
+    "ticks": 68,
+    "maxTickGap": 23.899999998509884,
+    "truths": {}
+  }
+}

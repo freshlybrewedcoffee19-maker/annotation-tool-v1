@@ -1,0 +1,13 @@
+{
+  "object": "brown shirt",
+  "coordinateSpace": [640, 360],
+  "method": "Developer hand-selected enclosing box after inspecting reference-contact.png; coarse reference, not user approval. Only these six frames checked.",
+  "frames": [
+    {"time": 2, "box": [70, 7, 231, 308], "state": "visible"},
+    {"time": 4, "box": [70, 7, 231, 308], "state": "visible"},
+    {"time": 6, "box": [70, 7, 231, 308], "state": "visible"},
+    {"time": 8, "box": [70, 7, 231, 308], "state": "visible"},
+    {"time": 10, "box": [70, 7, 231, 308], "state": "visible"},
+    {"time": 12, "box": [70, 7, 231, 308], "state": "visible"}
+  ]
+}

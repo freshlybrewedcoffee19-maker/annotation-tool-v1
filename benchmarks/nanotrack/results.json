@@ -1,0 +1,1474 @@
+[
+  {
+    "channel": "chrome",
+    "run": 0,
+    "hardware": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "cores": 14,
+      "deviceMemory": 16,
+      "webgpu": true,
+      "adapter": {}
+    },
+    "provider": "wasm",
+    "downloads": [
+      {
+        "name": "backbone.onnx",
+        "cached": false,
+        "bytes": 1431635,
+        "ms": 28.600000001490116
+      },
+      {
+        "name": "head.onnx",
+        "cached": false,
+        "bytes": 1183740,
+        "ms": 31.5
+      },
+      {
+        "name": "template.onnx",
+        "cached": false,
+        "bytes": 1431633,
+        "ms": 30.5
+      }
+    ],
+    "loadMs": 2437.3000000044703,
+    "info": {
+      "backboneInputs": [
+        {
+          "name": "input",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            3,
+            255,
+            255
+          ]
+        }
+      ],
+      "backboneOutputs": [
+        {
+          "name": "output",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headInputs": [
+        {
+          "name": "input1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "input2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headOutputs": [
+        {
+          "name": "output1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            2,
+            15,
+            15
+          ]
+        },
+        {
+          "name": "output2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            4,
+            15,
+            15
+          ]
+        }
+      ]
+    },
+    "stockTemplateError": "Error: failed to call OrtRun(). ERROR_CODE: 2, ERROR_MESSAGE: Got invalid dimensions for input: input for the following indices\n index: 2 Got: 127 Expected: 255\n index: 3 Got: 127 Expected: 255\n Please fix either the inputs/outputs or the model.",
+    "templateShape": [
+      1,
+      96,
+      8,
+      8
+    ],
+    "outputShapes": [
+      [
+        1,
+        2,
+        15,
+        15
+      ],
+      [
+        1,
+        4,
+        15,
+        15
+      ]
+    ],
+    "inferenceOnlyBlankFramesMs": [
+      29.700000002980232,
+      23,
+      29.200000002980232,
+      24,
+      24.899999998509884,
+      22.799999997019768,
+      20.100000001490116,
+      18.899999998509884,
+      19.399999998509884,
+      19.400000005960464,
+      28.099999994039536,
+      30.200000002980232,
+      22.100000001490116,
+      19.600000001490116,
+      27.399999998509884,
+      29.19999999552965,
+      27.5,
+      24.30000000447035,
+      23,
+      21.5,
+      20.299999997019768,
+      21.5,
+      25.600000001490116,
+      25,
+      25,
+      25.700000002980232,
+      20.5,
+      20.799999997019768,
+      21.299999997019768,
+      21.200000002980232,
+      24.899999998509884,
+      23.80000000447035,
+      20.299999997019768,
+      16.399999998509884,
+      19.100000001490116,
+      22.200000002980232,
+      20.399999998509884,
+      20.19999999552965,
+      23.100000001490116,
+      24.100000001490116,
+      23.399999998509884,
+      22.80000000447035,
+      20.19999999552965,
+      21.399999998509884,
+      21.700000002980232,
+      19.799999997019768,
+      20.100000001490116,
+      21.200000002980232,
+      19.19999999552965,
+      19.30000000447035
+    ],
+    "wallMs": 2476.8000000044703,
+    "mainThreadTicks": 154
+  },
+  {
+    "channel": "chrome",
+    "run": 1,
+    "hardware": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "cores": 14,
+      "deviceMemory": 16,
+      "webgpu": true,
+      "adapter": {}
+    },
+    "provider": "wasm",
+    "downloads": [
+      {
+        "name": "backbone.onnx",
+        "cached": true,
+        "bytes": 1431635,
+        "ms": 5.100000001490116
+      },
+      {
+        "name": "head.onnx",
+        "cached": true,
+        "bytes": 1183740,
+        "ms": 6.5
+      },
+      {
+        "name": "template.onnx",
+        "cached": true,
+        "bytes": 1431633,
+        "ms": 7.800000004470348
+      }
+    ],
+    "loadMs": 2403.2000000029802,
+    "info": {
+      "backboneInputs": [
+        {
+          "name": "input",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            3,
+            255,
+            255
+          ]
+        }
+      ],
+      "backboneOutputs": [
+        {
+          "name": "output",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headInputs": [
+        {
+          "name": "input1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "input2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headOutputs": [
+        {
+          "name": "output1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            2,
+            15,
+            15
+          ]
+        },
+        {
+          "name": "output2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            4,
+            15,
+            15
+          ]
+        }
+      ]
+    },
+    "stockTemplateError": "Error: failed to call OrtRun(). ERROR_CODE: 2, ERROR_MESSAGE: Got invalid dimensions for input: input for the following indices\n index: 2 Got: 127 Expected: 255\n index: 3 Got: 127 Expected: 255\n Please fix either the inputs/outputs or the model.",
+    "templateShape": [
+      1,
+      96,
+      8,
+      8
+    ],
+    "outputShapes": [
+      [
+        1,
+        2,
+        15,
+        15
+      ],
+      [
+        1,
+        4,
+        15,
+        15
+      ]
+    ],
+    "inferenceOnlyBlankFramesMs": [
+      33.600000001490116,
+      23.899999998509884,
+      27.399999998509884,
+      20.80000000447035,
+      27,
+      24.600000001490116,
+      20.599999994039536,
+      19.80000000447035,
+      20.19999999552965,
+      22.80000000447035,
+      22.299999997019768,
+      23.30000000447035,
+      23,
+      19.099999994039536,
+      19,
+      19.700000002980232,
+      20.399999998509884,
+      19.200000002980232,
+      18.100000001490116,
+      24.899999998509884,
+      31.299999997019768,
+      20.600000001490116,
+      20,
+      21.700000002980232,
+      27.799999997019768,
+      24.100000001490116,
+      23.5,
+      20.799999997019768,
+      23,
+      32.399999998509884,
+      23.100000001490116,
+      31.700000002980232,
+      21.600000001490116,
+      30.19999999552965,
+      25.700000002980232,
+      19.600000001490116,
+      19.69999999552965,
+      22.600000001490116,
+      24.700000002980232,
+      29.69999999552965,
+      19.899999998509884,
+      28.200000002980232,
+      24.100000001490116,
+      20.100000001490116,
+      24.799999997019768,
+      25.399999998509884,
+      29.5,
+      24.100000001490116,
+      27.299999997019768,
+      27.900000005960464
+    ],
+    "wallMs": 2446.7000000029802,
+    "mainThreadTicks": 152
+  },
+  {
+    "channel": "chrome",
+    "run": 0,
+    "hardware": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "cores": 14,
+      "deviceMemory": 16,
+      "webgpu": true,
+      "adapter": {}
+    },
+    "provider": "webgpu",
+    "downloads": [
+      {
+        "name": "backbone.onnx",
+        "cached": true,
+        "bytes": 1431635,
+        "ms": 5.600000001490116
+      },
+      {
+        "name": "head.onnx",
+        "cached": true,
+        "bytes": 1183740,
+        "ms": 6.200000002980232
+      },
+      {
+        "name": "template.onnx",
+        "cached": true,
+        "bytes": 1431633,
+        "ms": 6.600000001490116
+      }
+    ],
+    "loadMs": 6410,
+    "info": {
+      "backboneInputs": [
+        {
+          "name": "input",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            3,
+            255,
+            255
+          ]
+        }
+      ],
+      "backboneOutputs": [
+        {
+          "name": "output",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headInputs": [
+        {
+          "name": "input1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "input2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headOutputs": [
+        {
+          "name": "output1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            2,
+            15,
+            15
+          ]
+        },
+        {
+          "name": "output2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            4,
+            15,
+            15
+          ]
+        }
+      ]
+    },
+    "stockTemplateError": "Error: failed to call OrtRun(). ERROR_CODE: 2, ERROR_MESSAGE: Got invalid dimensions for input: input for the following indices\n index: 2 Got: 127 Expected: 255\n index: 3 Got: 127 Expected: 255\n Please fix either the inputs/outputs or the model.",
+    "templateShape": [
+      1,
+      96,
+      8,
+      8
+    ],
+    "outputShapes": [
+      [
+        1,
+        2,
+        15,
+        15
+      ],
+      [
+        1,
+        4,
+        15,
+        15
+      ]
+    ],
+    "inferenceOnlyBlankFramesMs": [
+      1353,
+      43.19999999552965,
+      41.30000000447035,
+      41.79999999701977,
+      49.600000001490116,
+      41.599999994039536,
+      50.400000005960464,
+      49.29999999701977,
+      42.20000000298023,
+      53.79999999701977,
+      45.899999998509884,
+      40.600000001490116,
+      41.399999998509884,
+      41,
+      41.600000001490116,
+      42.20000000298023,
+      42.29999999701977,
+      41.29999999701977,
+      48.30000000447035,
+      49.100000001490116,
+      42.29999999701977,
+      49.20000000298023,
+      40.899999998509884,
+      41.5,
+      48.79999999701977,
+      49.29999999701977,
+      49.5,
+      40.70000000298023,
+      49.600000001490116,
+      49.5,
+      41.599999994039536,
+      43.100000001490116,
+      55.899999998509884,
+      41.600000001490116,
+      40.899999998509884,
+      41.600000001490116,
+      42.100000001490116,
+      48.600000001490116,
+      40.79999999701977,
+      41.80000000447035,
+      40.899999998509884,
+      41.100000001490116,
+      41.5,
+      40.5,
+      41.79999999701977,
+      42.29999999701977,
+      41.30000000447035,
+      40.5,
+      50.79999999701977,
+      55.80000000447035
+    ],
+    "wallMs": 6453.19999999553,
+    "mainThreadTicks": 403
+  },
+  {
+    "channel": "chrome",
+    "run": 1,
+    "hardware": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "cores": 14,
+      "deviceMemory": 16,
+      "webgpu": true,
+      "adapter": {}
+    },
+    "provider": "webgpu",
+    "downloads": [
+      {
+        "name": "backbone.onnx",
+        "cached": true,
+        "bytes": 1431635,
+        "ms": 7.600000001490116
+      },
+      {
+        "name": "head.onnx",
+        "cached": true,
+        "bytes": 1183740,
+        "ms": 5.899999998509884
+      },
+      {
+        "name": "template.onnx",
+        "cached": true,
+        "bytes": 1431633,
+        "ms": 6.699999995529652
+      }
+    ],
+    "loadMs": 4676,
+    "info": {
+      "backboneInputs": [
+        {
+          "name": "input",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            3,
+            255,
+            255
+          ]
+        }
+      ],
+      "backboneOutputs": [
+        {
+          "name": "output",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headInputs": [
+        {
+          "name": "input1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "input2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headOutputs": [
+        {
+          "name": "output1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            2,
+            15,
+            15
+          ]
+        },
+        {
+          "name": "output2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            4,
+            15,
+            15
+          ]
+        }
+      ]
+    },
+    "stockTemplateError": "Error: failed to call OrtRun(). ERROR_CODE: 2, ERROR_MESSAGE: Got invalid dimensions for input: input for the following indices\n index: 2 Got: 127 Expected: 255\n index: 3 Got: 127 Expected: 255\n Please fix either the inputs/outputs or the model.",
+    "templateShape": [
+      1,
+      96,
+      8,
+      8
+    ],
+    "outputShapes": [
+      [
+        1,
+        2,
+        15,
+        15
+      ],
+      [
+        1,
+        4,
+        15,
+        15
+      ]
+    ],
+    "inferenceOnlyBlankFramesMs": [
+      540.2000000029802,
+      46.79999999701977,
+      45.70000000298023,
+      39.899999998509884,
+      40.399999998509884,
+      49.900000005960464,
+      41.399999998509884,
+      40.899999998509884,
+      42,
+      47.5,
+      50.20000000298023,
+      40.70000000298023,
+      40.79999999701977,
+      40.600000001490116,
+      40.100000001490116,
+      41.100000001490116,
+      41.100000001490116,
+      40.69999999552965,
+      40.899999998509884,
+      48.30000000447035,
+      41,
+      40.69999999552965,
+      43.900000005960464,
+      49.79999999701977,
+      41.19999999552965,
+      40.900000005960464,
+      41.5,
+      42,
+      41.69999999552965,
+      49.70000000298023,
+      42.19999999552965,
+      40.100000001490116,
+      50.100000001490116,
+      49.70000000298023,
+      42,
+      41.19999999552965,
+      57.100000001490116,
+      40.5,
+      41.20000000298023,
+      41.5,
+      47.5,
+      40.29999999701977,
+      41.29999999701977,
+      51.30000000447035,
+      39.19999999552965,
+      40.5,
+      49.100000001490116,
+      41,
+      41.30000000447035,
+      56.79999999701977
+    ],
+    "wallMs": 4724.29999999702,
+    "mainThreadTicks": 295
+  },
+  {
+    "channel": "msedge",
+    "run": 0,
+    "hardware": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36 Edg/154.0.0.0",
+      "cores": 14,
+      "deviceMemory": 16,
+      "webgpu": true,
+      "adapter": {}
+    },
+    "provider": "wasm",
+    "downloads": [
+      {
+        "name": "backbone.onnx",
+        "cached": false,
+        "bytes": 1431635,
+        "ms": 25.100000001490116
+      },
+      {
+        "name": "head.onnx",
+        "cached": false,
+        "bytes": 1183740,
+        "ms": 25.100000001490116
+      },
+      {
+        "name": "template.onnx",
+        "cached": false,
+        "bytes": 1431633,
+        "ms": 31.799999997019768
+      }
+    ],
+    "loadMs": 2415.8000000044703,
+    "info": {
+      "backboneInputs": [
+        {
+          "name": "input",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            3,
+            255,
+            255
+          ]
+        }
+      ],
+      "backboneOutputs": [
+        {
+          "name": "output",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headInputs": [
+        {
+          "name": "input1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "input2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headOutputs": [
+        {
+          "name": "output1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            2,
+            15,
+            15
+          ]
+        },
+        {
+          "name": "output2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            4,
+            15,
+            15
+          ]
+        }
+      ]
+    },
+    "stockTemplateError": "Error: failed to call OrtRun(). ERROR_CODE: 2, ERROR_MESSAGE: Got invalid dimensions for input: input for the following indices\n index: 2 Got: 127 Expected: 255\n index: 3 Got: 127 Expected: 255\n Please fix either the inputs/outputs or the model.",
+    "templateShape": [
+      1,
+      96,
+      8,
+      8
+    ],
+    "outputShapes": [
+      [
+        1,
+        2,
+        15,
+        15
+      ],
+      [
+        1,
+        4,
+        15,
+        15
+      ]
+    ],
+    "inferenceOnlyBlankFramesMs": [
+      34.399999998509884,
+      28.5,
+      34,
+      21.400000005960464,
+      24.099999994039536,
+      31.30000000447035,
+      21.799999997019768,
+      18.100000001490116,
+      16.899999998509884,
+      28,
+      35.5,
+      21.80000000447035,
+      20.599999994039536,
+      26.80000000447035,
+      23.799999997019768,
+      24.100000001490116,
+      20.700000002980232,
+      18.599999994039536,
+      18.600000001490116,
+      21.30000000447035,
+      31.099999994039536,
+      24.900000005960464,
+      22.599999994039536,
+      19.100000001490116,
+      23.200000002980232,
+      26.19999999552965,
+      20.100000001490116,
+      23.899999998509884,
+      20.700000002980232,
+      22.200000002980232,
+      29.19999999552965,
+      24.100000001490116,
+      23.600000001490116,
+      20.399999998509884,
+      23.5,
+      19.600000001490116,
+      20.399999998509884,
+      21.899999998509884,
+      25.200000002980232,
+      19.799999997019768,
+      22,
+      21.200000002980232,
+      24,
+      21,
+      22.099999994039536,
+      20.700000002980232,
+      23.899999998509884,
+      23.399999998509884,
+      23.30000000447035,
+      23.899999998509884
+    ],
+    "wallMs": 2449,
+    "mainThreadTicks": 152
+  },
+  {
+    "channel": "msedge",
+    "run": 1,
+    "hardware": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36 Edg/154.0.0.0",
+      "cores": 14,
+      "deviceMemory": 16,
+      "webgpu": true,
+      "adapter": {}
+    },
+    "provider": "wasm",
+    "downloads": [
+      {
+        "name": "backbone.onnx",
+        "cached": true,
+        "bytes": 1431635,
+        "ms": 5
+      },
+      {
+        "name": "head.onnx",
+        "cached": true,
+        "bytes": 1183740,
+        "ms": 7.299999997019768
+      },
+      {
+        "name": "template.onnx",
+        "cached": true,
+        "bytes": 1431633,
+        "ms": 7.5
+      }
+    ],
+    "loadMs": 2457.6999999955297,
+    "info": {
+      "backboneInputs": [
+        {
+          "name": "input",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            3,
+            255,
+            255
+          ]
+        }
+      ],
+      "backboneOutputs": [
+        {
+          "name": "output",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headInputs": [
+        {
+          "name": "input1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "input2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headOutputs": [
+        {
+          "name": "output1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            2,
+            15,
+            15
+          ]
+        },
+        {
+          "name": "output2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            4,
+            15,
+            15
+          ]
+        }
+      ]
+    },
+    "stockTemplateError": "Error: failed to call OrtRun(). ERROR_CODE: 2, ERROR_MESSAGE: Got invalid dimensions for input: input for the following indices\n index: 2 Got: 127 Expected: 255\n index: 3 Got: 127 Expected: 255\n Please fix either the inputs/outputs or the model.",
+    "templateShape": [
+      1,
+      96,
+      8,
+      8
+    ],
+    "outputShapes": [
+      [
+        1,
+        2,
+        15,
+        15
+      ],
+      [
+        1,
+        4,
+        15,
+        15
+      ]
+    ],
+    "inferenceOnlyBlankFramesMs": [
+      34.5,
+      33.600000001490116,
+      39,
+      25.600000001490116,
+      27.899999998509884,
+      26.799999997019768,
+      27.900000005960464,
+      25,
+      32.599999994039536,
+      31.80000000447035,
+      27.600000001490116,
+      22.399999998509884,
+      28,
+      26.69999999552965,
+      27.5,
+      28.900000005960464,
+      24.099999994039536,
+      20.400000005960464,
+      30.099999994039536,
+      23.30000000447035,
+      29.899999998509884,
+      21.899999998509884,
+      21.100000001490116,
+      22.899999998509884,
+      24.700000002980232,
+      22.69999999552965,
+      20.30000000447035,
+      20.100000001490116,
+      19.599999994039536,
+      22.200000002980232,
+      20.799999997019768,
+      25.900000005960464,
+      23.5,
+      23.69999999552965,
+      21.30000000447035,
+      21.099999994039536,
+      19,
+      22.600000001490116,
+      22.30000000447035,
+      23,
+      22.599999994039536,
+      24.100000001490116,
+      21.600000001490116,
+      25.100000001490116,
+      24.799999997019768,
+      24.399999998509884,
+      31.100000001490116,
+      25.30000000447035,
+      24,
+      22.599999994039536
+    ],
+    "wallMs": 2503.0999999940395,
+    "mainThreadTicks": 156
+  },
+  {
+    "channel": "msedge",
+    "run": 0,
+    "hardware": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36 Edg/154.0.0.0",
+      "cores": 14,
+      "deviceMemory": 16,
+      "webgpu": true,
+      "adapter": {}
+    },
+    "provider": "webgpu",
+    "downloads": [
+      {
+        "name": "backbone.onnx",
+        "cached": true,
+        "bytes": 1431635,
+        "ms": 6.5
+      },
+      {
+        "name": "head.onnx",
+        "cached": true,
+        "bytes": 1183740,
+        "ms": 4.5999999940395355
+      },
+      {
+        "name": "template.onnx",
+        "cached": true,
+        "bytes": 1431633,
+        "ms": 15.100000001490116
+      }
+    ],
+    "loadMs": 6594.39999999851,
+    "info": {
+      "backboneInputs": [
+        {
+          "name": "input",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            3,
+            255,
+            255
+          ]
+        }
+      ],
+      "backboneOutputs": [
+        {
+          "name": "output",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headInputs": [
+        {
+          "name": "input1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "input2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headOutputs": [
+        {
+          "name": "output1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            2,
+            15,
+            15
+          ]
+        },
+        {
+          "name": "output2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            4,
+            15,
+            15
+          ]
+        }
+      ]
+    },
+    "stockTemplateError": "Error: failed to call OrtRun(). ERROR_CODE: 2, ERROR_MESSAGE: Got invalid dimensions for input: input for the following indices\n index: 2 Got: 127 Expected: 255\n index: 3 Got: 127 Expected: 255\n Please fix either the inputs/outputs or the model.",
+    "templateShape": [
+      1,
+      96,
+      8,
+      8
+    ],
+    "outputShapes": [
+      [
+        1,
+        2,
+        15,
+        15
+      ],
+      [
+        1,
+        4,
+        15,
+        15
+      ]
+    ],
+    "inferenceOnlyBlankFramesMs": [
+      1286.5,
+      58.400000005960464,
+      58.19999999552965,
+      77.39999999850988,
+      56.80000000447035,
+      64.79999999701977,
+      72.89999999850988,
+      72.70000000298023,
+      49.399999998509884,
+      56.29999999701977,
+      40,
+      48.600000001490116,
+      47.399999998509884,
+      57.70000000298023,
+      47.399999998509884,
+      48.100000001490116,
+      49.20000000298023,
+      49.79999999701977,
+      40.899999998509884,
+      42.100000001490116,
+      41.5,
+      40.69999999552965,
+      41.899999998509884,
+      32.100000001490116,
+      40.399999998509884,
+      41.5,
+      56.600000001490116,
+      40.899999998509884,
+      33.20000000298023,
+      48.399999998509884,
+      41.600000001490116,
+      41.69999999552965,
+      50.20000000298023,
+      41.899999998509884,
+      40.70000000298023,
+      40.5,
+      48.899999998509884,
+      41.79999999701977,
+      50.100000001490116,
+      49,
+      41.20000000298023,
+      42,
+      41.600000001490116,
+      49.79999999701977,
+      42.70000000298023,
+      41.19999999552965,
+      42.20000000298023,
+      41.399999998509884,
+      50.20000000298023,
+      58.599999994039536
+    ],
+    "wallMs": 6636.20000000298,
+    "mainThreadTicks": 414
+  },
+  {
+    "channel": "msedge",
+    "run": 1,
+    "hardware": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36 Edg/154.0.0.0",
+      "cores": 14,
+      "deviceMemory": 16,
+      "webgpu": true,
+      "adapter": {}
+    },
+    "provider": "webgpu",
+    "downloads": [
+      {
+        "name": "backbone.onnx",
+        "cached": true,
+        "bytes": 1431635,
+        "ms": 6.299999997019768
+      },
+      {
+        "name": "head.onnx",
+        "cached": true,
+        "bytes": 1183740,
+        "ms": 5.899999998509884
+      },
+      {
+        "name": "template.onnx",
+        "cached": true,
+        "bytes": 1431633,
+        "ms": 9.399999998509884
+      }
+    ],
+    "loadMs": 5027.70000000298,
+    "info": {
+      "backboneInputs": [
+        {
+          "name": "input",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            3,
+            255,
+            255
+          ]
+        }
+      ],
+      "backboneOutputs": [
+        {
+          "name": "output",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headInputs": [
+        {
+          "name": "input1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "input2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            96,
+            16,
+            16
+          ]
+        }
+      ],
+      "headOutputs": [
+        {
+          "name": "output1",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            2,
+            15,
+            15
+          ]
+        },
+        {
+          "name": "output2",
+          "isTensor": true,
+          "type": "float32",
+          "shape": [
+            1,
+            4,
+            15,
+            15
+          ]
+        }
+      ]
+    },
+    "stockTemplateError": "Error: failed to call OrtRun(). ERROR_CODE: 2, ERROR_MESSAGE: Got invalid dimensions for input: input for the following indices\n index: 2 Got: 127 Expected: 255\n index: 3 Got: 127 Expected: 255\n Please fix either the inputs/outputs or the model.",
+    "templateShape": [
+      1,
+      96,
+      8,
+      8
+    ],
+    "outputShapes": [
+      [
+        1,
+        2,
+        15,
+        15
+      ],
+      [
+        1,
+        4,
+        15,
+        15
+      ]
+    ],
+    "inferenceOnlyBlankFramesMs": [
+      602.9000000059605,
+      40.29999999701977,
+      40.69999999552965,
+      63.5,
+      39.899999998509884,
+      40.900000005960464,
+      40.69999999552965,
+      42.399999998509884,
+      40.600000001490116,
+      40.100000001490116,
+      41.20000000298023,
+      42.5,
+      41.099999994039536,
+      39.30000000447035,
+      40.29999999701977,
+      40.100000001490116,
+      42.5,
+      33.600000001490116,
+      55.79999999701977,
+      35.30000000447035,
+      44.899999998509884,
+      41.29999999701977,
+      42.30000000447035,
+      40.399999998509884,
+      41.600000001490116,
+      40.099999994039536,
+      40.600000001490116,
+      49.80000000447035,
+      41,
+      48.099999994039536,
+      40.30000000447035,
+      41.69999999552965,
+      40.600000001490116,
+      42.100000001490116,
+      42.600000001490116,
+      50.29999999701977,
+      49.70000000298023,
+      41.5,
+      50,
+      49.79999999701977,
+      40.899999998509884,
+      42.400000005960464,
+      41.099999994039536,
+      49.5,
+      39.70000000298023,
+      42.600000001490116,
+      49,
+      33.5,
+      49.100000001490116,
+      49.80000000447035
+    ],
+    "wallMs": 5066.89999999851,
+    "mainThreadTicks": 316
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "upstreamCommit": "248663fde6bf7c40190cf10ee396d5662919ecd3",
+  "runtime": "onnxruntime-web 1.24.3",
+  "adapter": "phase0-v1",
+  "license": "Apache-2.0; see LICENSE",
+  "files": [
+    {
+      "name": "backbone.onnx",
+      "url": "https://raw.githubusercontent.com/HonglinChu/SiamTrackers/248663fde6bf7c40190cf10ee396d5662919ecd3/NanoTrack/models/nanotrackv3/nanotrack_backbone.onnx",
+      "bytes": 1431635,
+      "sha256": "50be1320abf9384fd3479ea829f95e244cf3f3838190c5ab60c750fb8c1ce828"
+    },
+    {
+      "name": "head.onnx",
+      "url": "https://raw.githubusercontent.com/HonglinChu/SiamTrackers/248663fde6bf7c40190cf10ee396d5662919ecd3/NanoTrack/models/nanotrackv3/nanotrack_head.onnx",
+      "bytes": 1183740,
+      "sha256": "75357903be3f4817c965af16cb5a11fd32b1467f597a408405a98635ac63f61d"
+    },
+    {
+      "name": "template.onnx",
+      "derivedFrom": "backbone.onnx",
+      "change": "Input spatial dimensions 255 to 127; output 16 to 8. No weights or operators changed.",
+      "bytes": 1431633,
+      "sha256": "d81e444720be56f23b9df71df2a902307bef8d41ef7a9663b4cd97040c134da4"
+    }
+  ]
+}

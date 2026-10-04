@@ -1,0 +1,434 @@
+[
+  {
+    "channel": "chrome",
+    "provider": "wasm",
+    "adapter": {
+      "vendor": "intel",
+      "architecture": "xe-lpg",
+      "description": "",
+      "isFallbackAdapter": false
+    },
+    "loadMs": 1099.8999999985099,
+    "maxTickGap": 24.900000005960464,
+    "remoteRequests": [],
+    "cases": [
+      {
+        "name": "trial",
+        "processingMs": 1442.3999999985099,
+        "meanInferenceMs": 27.596000000536442,
+        "meanVisibleIoU": null,
+        "handCheckedTrialIoU": [
+          {
+            "time": 4,
+            "iou": 0.9422020076188824
+          },
+          {
+            "time": 6,
+            "iou": 0.9450312230197935
+          },
+          {
+            "time": 8,
+            "iou": 0.9411701574131964
+          },
+          {
+            "time": 10,
+            "iou": 0.9461363600713337
+          },
+          {
+            "time": 12,
+            "iou": 0.9483707152399564
+          }
+        ],
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "motion",
+        "processingMs": 1402.7000000029802,
+        "meanInferenceMs": 27.225999999642372,
+        "meanVisibleIoU": 0.9423087286869984,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "disappearance",
+        "processingMs": 1478.8999999985099,
+        "meanInferenceMs": 28.782000000178815,
+        "meanVisibleIoU": 0.9174824836466815,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 15,
+        "absentHighScoreProposals": 12,
+        "firstHeuristicStop": 20,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "partial-occlusion",
+        "processingMs": 1494,
+        "meanInferenceMs": 28.763999999314546,
+        "meanVisibleIoU": 0.913356878502309,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "lookalike",
+        "processingMs": 1488.1999999955297,
+        "meanInferenceMs": 28.774000000059605,
+        "meanVisibleIoU": 0.8642480224345145,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": 6
+      },
+      {
+        "name": "scene-cut",
+        "processingMs": 1512.5,
+        "meanInferenceMs": 29.44599999964237,
+        "meanVisibleIoU": 0.9453592973787209,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 31,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": 20,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      }
+    ]
+  },
+  {
+    "channel": "chrome",
+    "provider": "webgpu",
+    "adapter": {
+      "vendor": "intel",
+      "architecture": "xe-lpg",
+      "description": "",
+      "isFallbackAdapter": false
+    },
+    "loadMs": 1384,
+    "maxTickGap": 25,
+    "remoteRequests": [],
+    "cases": [
+      {
+        "name": "trial",
+        "processingMs": 3048,
+        "meanInferenceMs": 59.788000000417235,
+        "meanVisibleIoU": null,
+        "handCheckedTrialIoU": [
+          {
+            "time": 4,
+            "iou": 0.942204460832471
+          },
+          {
+            "time": 6,
+            "iou": 0.9450345884538577
+          },
+          {
+            "time": 8,
+            "iou": 0.9411718728207216
+          },
+          {
+            "time": 10,
+            "iou": 0.9461412912405233
+          },
+          {
+            "time": 12,
+            "iou": 0.9483764982624597
+          }
+        ],
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "motion",
+        "processingMs": 2575.0999999940395,
+        "meanInferenceMs": 50.78800000011921,
+        "meanVisibleIoU": 0.9423098728147266,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "disappearance",
+        "processingMs": 2564.2000000029802,
+        "meanInferenceMs": 50.59,
+        "meanVisibleIoU": 0.9174845194925053,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 15,
+        "absentHighScoreProposals": 12,
+        "firstHeuristicStop": 20,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "partial-occlusion",
+        "processingMs": 2630.2000000029802,
+        "meanInferenceMs": 51.81800000011921,
+        "meanVisibleIoU": 0.9133560190948007,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "lookalike",
+        "processingMs": 2576.60000000149,
+        "meanInferenceMs": 50.74400000005961,
+        "meanVisibleIoU": 0.8642481541577084,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": 6
+      },
+      {
+        "name": "scene-cut",
+        "processingMs": 2610.5,
+        "meanInferenceMs": 51.29199999958277,
+        "meanVisibleIoU": 0.9453593936210521,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 31,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": 20,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      }
+    ]
+  },
+  {
+    "channel": "msedge",
+    "provider": "wasm",
+    "adapter": {
+      "vendor": "intel",
+      "architecture": "xe-lpg",
+      "description": "",
+      "isFallbackAdapter": false
+    },
+    "loadMs": 1178.7000000029802,
+    "maxTickGap": 25.399999998509884,
+    "remoteRequests": [],
+    "cases": [
+      {
+        "name": "trial",
+        "processingMs": 1420.8000000044703,
+        "meanInferenceMs": 26.710000000149012,
+        "meanVisibleIoU": null,
+        "handCheckedTrialIoU": [
+          {
+            "time": 4,
+            "iou": 0.9422020076188824
+          },
+          {
+            "time": 6,
+            "iou": 0.9450312230197935
+          },
+          {
+            "time": 8,
+            "iou": 0.9411701574131964
+          },
+          {
+            "time": 10,
+            "iou": 0.9461363600713337
+          },
+          {
+            "time": 12,
+            "iou": 0.9483707152399564
+          }
+        ],
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "motion",
+        "processingMs": 1323.6999999955297,
+        "meanInferenceMs": 25.76399999991059,
+        "meanVisibleIoU": 0.9423087286869984,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "disappearance",
+        "processingMs": 1359.7000000029802,
+        "meanInferenceMs": 26.38399999976158,
+        "meanVisibleIoU": 0.9174824836466815,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 15,
+        "absentHighScoreProposals": 12,
+        "firstHeuristicStop": 20,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "partial-occlusion",
+        "processingMs": 1488.6000000014901,
+        "meanInferenceMs": 28.996000000238418,
+        "meanVisibleIoU": 0.913356878502309,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "lookalike",
+        "processingMs": 1450.0999999940395,
+        "meanInferenceMs": 28.081999999433755,
+        "meanVisibleIoU": 0.8642480224345145,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": 6
+      },
+      {
+        "name": "scene-cut",
+        "processingMs": 1452.6000000014901,
+        "meanInferenceMs": 28.03799999922514,
+        "meanVisibleIoU": 0.9453592973787209,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 31,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": 20,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      }
+    ]
+  },
+  {
+    "channel": "msedge",
+    "provider": "webgpu",
+    "adapter": {
+      "vendor": "intel",
+      "architecture": "xe-lpg",
+      "description": "",
+      "isFallbackAdapter": false
+    },
+    "loadMs": 1495.1000000014901,
+    "maxTickGap": 27,
+    "remoteRequests": [],
+    "cases": [
+      {
+        "name": "trial",
+        "processingMs": 3073.4000000059605,
+        "meanInferenceMs": 60.51600000038743,
+        "meanVisibleIoU": null,
+        "handCheckedTrialIoU": [
+          {
+            "time": 4,
+            "iou": 0.942204460832471
+          },
+          {
+            "time": 6,
+            "iou": 0.9450345884538577
+          },
+          {
+            "time": 8,
+            "iou": 0.9411718728207216
+          },
+          {
+            "time": 10,
+            "iou": 0.9461412912405233
+          },
+          {
+            "time": 12,
+            "iou": 0.9483764982624597
+          }
+        ],
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "motion",
+        "processingMs": 2477.2999999970198,
+        "meanInferenceMs": 48.93399999946356,
+        "meanVisibleIoU": 0.9423098728147266,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "disappearance",
+        "processingMs": 2580.7000000029802,
+        "meanInferenceMs": 50.99400000050664,
+        "meanVisibleIoU": 0.9174845194925053,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 15,
+        "absentHighScoreProposals": 12,
+        "firstHeuristicStop": 20,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "partial-occlusion",
+        "processingMs": 2416,
+        "meanInferenceMs": 47.71199999988079,
+        "meanVisibleIoU": 0.9133560190948007,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      },
+      {
+        "name": "lookalike",
+        "processingMs": 2369.89999999851,
+        "meanInferenceMs": 46.76800000011921,
+        "meanVisibleIoU": 0.8642481541577084,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 0,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": null,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": 6
+      },
+      {
+        "name": "scene-cut",
+        "processingMs": 2398.60000000149,
+        "meanInferenceMs": 47.464000000059606,
+        "meanVisibleIoU": 0.9453593936210521,
+        "handCheckedTrialIoU": null,
+        "absentFrames": 31,
+        "absentHighScoreProposals": 0,
+        "firstHeuristicStop": 20,
+        "acceptedBoxes": 0,
+        "lookalikeSwitches": null
+      }
+    ]
+  }
+]

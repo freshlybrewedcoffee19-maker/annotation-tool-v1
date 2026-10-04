@@ -1,0 +1,45 @@
+<!doctype html><meta charset="utf-8"><title>NanoTrack local feasibility — developer only</title>
+<h1>Local NanoTrack experiment</h1><p>Raw proposals only. Needs checking results have no accepted box. Reappearance requires a user-confirmed box.</p>
+<pre id="status">Ready</pre><canvas id="frame" width="640" height="360"></canvas>
+<script type="module">
+window.run=async(provider)=>{
+ const worker=new Worker('./worker.mjs',{type:'module'});
+ let ticks=0; const timer=setInterval(()=>ticks++,16), start=performance.now();
+ return await new Promise(resolve=>{
+  worker.onmessage=e=>{if(e.data.progress){status.textContent=JSON.stringify(e.data);return;} clearInterval(timer);worker.terminate();resolve({...e.data,wallMs:performance.now()-start,mainThreadTicks:ticks});};
+  worker.onerror=e=>{clearInterval(timer);worker.terminate();resolve({error:e.message});};
+  worker.postMessage({provider});
+ });
+};
+</script>
+<script type="module">
+window.track=async(provider)=>{
+ const video=document.createElement('video');video.src='./trial.mp4';video.muted=true;await new Promise((resolve,reject)=>{video.onloadeddata=resolve;video.onerror=reject;});
+ const c=document.getElementById('frame'),ctx=c.getContext('2d');
+ const seek=async time=>{if(Math.abs(video.currentTime-time)>.001)await new Promise(resolve=>{video.onseeked=resolve;video.currentTime=time;});ctx.drawImage(video,0,0,640,360);};
+ await seek(2);const target=document.createElement('canvas');target.width=231;target.height=308;target.getContext('2d').drawImage(c,70,7,231,308,0,0,231,308);
+ const worker=new Worker('./track-worker.mjs',{type:'module'});let ticks=0,maxTickGap=0,last=performance.now();const timer=setInterval(()=>{const now=performance.now();maxTickGap=Math.max(maxTickGap,now-last);last=now;ticks++;},16),start=performance.now();const truths={};
+ const result=await new Promise(resolve=>{
+  window.cancelTracking=()=>{const t=performance.now();worker.terminate();resolve({cancelled:true,cancelMs:performance.now()-t});};
+  worker.onmessage=async({data})=>{
+   if(data.frame){const {name,index}=data.frame;let truth;
+    if(window.cancelAfter===index){window.cancelTracking();return;}
+    if(name==='trial'){await seek(2+index*.2);truth={state:'unreviewed',box:null};}
+    else{
+     ctx.fillStyle=name==='scene-cut'&&index>=20?'#102030':'#aaa';ctx.fillRect(0,0,640,360);
+     for(let i=0;i<640;i+=20){ctx.fillStyle=i%40?'#a0a0a0':'#b0b0b0';ctx.fillRect(i,0,2,360);}
+     const x=100+index*2,y=100;const absent=(name==='disappearance'&&index>=20&&index<35)||(name==='scene-cut'&&index>=20);
+     if(!absent)ctx.drawImage(target,x,y,92,124);
+     if(name==='lookalike')ctx.drawImage(target,350-index*2,100,92,124);
+     if(name==='partial-occlusion'&&index>=20&&index<35){ctx.fillStyle='#777';ctx.fillRect(x+35,y,57,124);}
+     truth={state:absent?'absent':name==='partial-occlusion'&&index>=20&&index<35?'uncertain':'visible',box:absent?null:[x,y,92,124]};
+    }
+    (truths[name]??=[]).push({index,...truth});const image=await createImageBitmap(c);worker.postMessage({image},[image]);return;
+   }
+   if(data.progress){document.getElementById('status').textContent=data.progress;return;}
+   resolve(data);
+  };worker.onerror=e=>resolve({error:e.message});worker.postMessage({provider});
+ });
+ clearInterval(timer);worker.terminate();video.src='';return {...result,wallMs:performance.now()-start,ticks,maxTickGap,truths};
+};
+</script>
