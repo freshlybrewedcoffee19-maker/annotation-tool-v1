@@ -10,6 +10,7 @@
 
 import type * as access from "../access.js";
 import type * as annotations from "../annotations.js";
+import type * as boxes from "../boxes.js";
 import type * as http from "../http.js";
 import type * as labels from "../labels.js";
 import type * as media from "../media.js";
@@ -26,6 +27,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   access: typeof access;
   annotations: typeof annotations;
+  boxes: typeof boxes;
   http: typeof http;
   labels: typeof labels;
   media: typeof media;

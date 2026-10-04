@@ -26,7 +26,7 @@ test('save reusable setup, change one video, review clips and recover disqualifi
  await expect(page.locator('tbody tr')).toHaveCount(1);await page.getByRole('tab',{name:'Export',exact:true}).click();
  const deck=page.getByLabel('Segment review');await expect(deck.getByRole('heading',{name:'Lift',exact:true})).toBeVisible();
  await deck.getByRole('button',{name:'Disqualify',exact:true}).click();await expect(deck.locator('.review-status')).toHaveText('Disqualified');
- const env=await fs.readFile('.env.local','utf8'),client=new ConvexHttpClient(env.match(/^VITE_CONVEX_URL=(.+)$/m)![1].trim());
+ const env=await fs.readFile('.env.local','utf8'),client=new ConvexHttpClient(process.env.CONVEX_TEST_URL??env.match(/^VITE_CONVEX_URL=(.+)$/m)![1].trim());
  const token=await page.evaluate(()=>localStorage.getItem('np-workspace-token')!);
  expect(await client.query(api.annotations.exportAll,{workspaceToken:token})).toEqual([]);
  const download=page.waitForEvent('download');await page.getByRole('button',{name:'Export episode CSV',exact:true}).click();const file=await download;await file.saveAs('test-results/disqualified.csv');expect(await fs.readFile('test-results/disqualified.csv','utf8')).not.toContain('Lift');

@@ -1,6 +1,9 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
+import {boxValue} from './boxes';
 export default defineSchema({
+ objects:defineTable({episodeId:v.id('episodes'),objectId:v.string(),name:v.string()}).index('by_episode',['episodeId']).index('by_episode_object',['episodeId','objectId']),
+ objectBoxes:defineTable({episodeId:v.id('episodes'),boxes:v.array(boxValue)}).index('by_episode',['episodeId']),
  workspaces:defineTable({token:v.string(),kind:v.union(v.literal("owner"),v.literal("trial"),v.literal("personal"))}).index("by_token",["token"]).index("by_kind",["kind"]),
  fileOwners:defineTable({workspaceId:v.id("workspaces"),storageId:v.id("_storage")}).index("by_storage",["storageId"]).index("by_storage_workspace",["storageId","workspaceId"]),
  trialDatasets:defineTable({key:v.literal("active"),storageId:v.id("_storage"),name:v.string(),duration:v.number(),width:v.number(),height:v.number(),frameRate:v.number(),labels:v.array(v.string()),metadata:v.array(v.object({field:v.string(),value:v.string()}))}).index("by_key",["key"]),

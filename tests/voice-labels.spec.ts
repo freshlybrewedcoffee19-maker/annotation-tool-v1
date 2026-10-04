@@ -54,7 +54,7 @@ test('interim stop stamps end once and matching final result does not repeat it'
   await expect(page.locator('tbody tr')).toHaveCount(0);
  await expect(page.locator('.status')).toHaveText('Saved in Convex');await page.getByRole('tab',{name:'Annotate',exact:true}).click();
   await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);
-  await page.locator('video').evaluate(async(v:HTMLVideoElement)=>{v.pause();v.currentTime=2;Object.defineProperty(v,'currentTime',{configurable:true,get:()=>2});});
+  await page.locator('video').evaluate(async(v:HTMLVideoElement)=>{v.pause();v.currentTime=2;await new Promise<void>(resolve=>v.addEventListener('seeked',()=>resolve(),{once:true}));Object.defineProperty(v,'currentTime',{configurable:true,get:()=>2});});
   await page.getByRole('button',{name:'Turn mic on',exact:true}).click();
   await expect(page.getByRole('button',{name:'Turn mic off',exact:true})).toHaveAttribute('aria-pressed','true');
   await expect(page.getByText('Listening. Say start, then stop, then a label.',{exact:true})).toBeVisible();
