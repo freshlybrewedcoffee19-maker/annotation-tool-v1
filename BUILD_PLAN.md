@@ -204,7 +204,7 @@ Future microsteps: establish actual available labellers and reviewer responsibil
 Phase 0 started 4 October 2026. See [measured browser report](benchmarks/nanotrack/REPORT.md): NanoTrack V3 runs locally in Chrome/Edge on CPU and graphics after a pinned shape repair; CPU is faster here. Fifty trial frames finished in 1.42–3.07 seconds. Controlled disappearance produced high-scoring false proposals on 12/15 absent frames. All experiment rows remain Needs checking with no accepted box. Tracking is not integrated or deployed. Real disappearance footage, memory, internet cold download and weaker-laptop validation remain open; Phase 0 is not complete.
 
 - [ ] Phase 0: browser benchmark and model decision.
-- [x] Phase 1a: editable boxes and object identities, checked locally; not deployed. See PHASE_1A_PROOF.md for timing limits and browser checks.
+- [x] Phase 1a: editable boxes and object identities deployed 4 October 2026. Live drawing, move, resize, undo, privacy and refresh checks passed; the opening-page check passed too. See PHASE_1A_PROOF.md for timing limits.
 - [ ] Phase 1b: polygons and spatial export.
 - [ ] Phase 3a: manual object review, brought forward before automated suggestions.
 - [ ] Phase 2: assisted box tracking with uncertainty and manual reappearance.
