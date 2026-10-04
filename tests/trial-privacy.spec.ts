@@ -2,7 +2,7 @@ import {test,expect,chromium} from '@playwright/test';
 import {ConvexHttpClient} from 'convex/browser';
 import {api} from '../convex/_generated/api';
 import fs from 'node:fs/promises';
-test('Chrome and Edge trials cannot read edit delete upload or export each otherâ€™s saved work',async()=>{
+test('Chrome and Edge trials cannot read edit delete upload or export each other’s saved work',async()=>{
  const browsers=await Promise.all([chromium.launch({channel:'chrome'}),chromium.launch({channel:'msedge'})]);
  try{
  const pages=await Promise.all(browsers.map(browser=>browser.newPage()));
