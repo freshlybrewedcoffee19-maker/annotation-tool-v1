@@ -2,17 +2,18 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 test('upload, annotate, edit, delete, export, and retain two segments after refresh',async({page})=>{
  await page.goto('/');
- await page.getByRole('button',{name:'Try a trial run',exact:true}).click();
+ await page.getByRole('button',{name:'Trial video annotation',exact:true}).click();
  await expect(page.getByRole('tab',{name:'Annotate',exact:true})).toBeEnabled();await page.getByRole('tab',{name:'Annotate',exact:true}).click();
  await expect(page.getByLabel('Label list',{exact:true})).toBeEnabled();
  const originalLabels=await page.getByLabel('Label list',{exact:true}).inputValue();
  try{
  if(!await page.locator('details.label-settings').evaluate(d=>d.open))await page.getByText('Your labels',{exact:true}).first().click();
  await page.getByLabel('Label list',{exact:true}).fill('Action\nDialogue\nHighlight');
- await page.getByRole('button',{name:'Save labels',exact:true}).click();
+ await page.getByLabel('Use these labels for future uploads too').check();await page.getByRole('button',{name:'Save labels',exact:true}).click();
  await expect(page.getByLabel('Label',{exact:true}).locator('option')).toHaveCount(4);
  await page.getByRole('tab',{name:'Upload',exact:true}).click();
  await page.getByLabel('Upload video',{exact:true}).setInputFiles('tests/fixtures/short.mp4');
+ await expect.poll(()=>page.getByLabel('Episode',{exact:true}).evaluate((s:HTMLSelectElement)=>s.selectedOptions[0]?.text)).toBe('short.mp4');
  await expect(page.getByRole('button',{name:'Add segment',exact:true,includeHidden:true})).toBeEnabled();
  await expect(page.locator('tbody tr')).toHaveCount(0);
  await expect(page.locator('.status')).toHaveText('Saved in Convex');await page.getByRole('tab',{name:'Annotate',exact:true}).click();
@@ -66,7 +67,7 @@ test('upload, annotate, edit, delete, export, and retain two segments after refr
  }finally{
  if(!await page.locator('details.label-settings').evaluate(d=>d.open))await page.getByText('Your labels',{exact:true}).first().click();
  await page.getByLabel('Label list',{exact:true}).fill(originalLabels);
- await page.getByRole('button',{name:'Save labels',exact:true}).click();
+ await page.getByLabel('Use these labels for future uploads too').check();await page.getByRole('button',{name:'Save labels',exact:true}).click();
  await expect(page.getByRole('button',{name:'Save labels',exact:true})).toBeEnabled();
  }
 });

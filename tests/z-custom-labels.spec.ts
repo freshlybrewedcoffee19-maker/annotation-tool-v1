@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 test('custom labels survive refresh and CSV preserves old segments plus three new labels',async({page})=>{
  await page.goto('/');
- await page.getByRole('button',{name:'Try a trial run',exact:true}).click();
+ await page.getByRole('button',{name:'Trial video annotation',exact:true}).click();
  await expect(page.getByRole('tab',{name:'Annotate',exact:true})).toBeEnabled();await page.getByRole('tab',{name:'Annotate',exact:true}).click();
  await expect(page.getByLabel('Label list',{exact:true})).toBeEnabled();
  const originalLabels=await page.getByLabel('Label list',{exact:true}).inputValue();
@@ -13,7 +13,7 @@ test('custom labels survive refresh and CSV preserves old segments plus three ne
  const before=await csv();
  if(!await page.locator('details.label-settings').evaluate(d=>d.open))await page.getByText('Your labels',{exact:true}).first().click();
  await page.getByLabel('Label list',{exact:true}).fill('Opening\nDemonstration\nClosing');
- await page.getByRole('button',{name:'Save labels',exact:true}).click();
+ await page.getByLabel('Use these labels for future uploads too').check();await page.getByRole('button',{name:'Save labels',exact:true}).click();
  await expect(page.getByLabel('Label',{exact:true}).locator('option:not([disabled])')).toHaveText(['Opening','Demonstration','Closing']);
  await page.reload();
  await expect(page.getByLabel('Label list',{exact:true})).toHaveValue('Opening\nDemonstration\nClosing');
@@ -54,7 +54,7 @@ test('custom labels survive refresh and CSV preserves old segments plus three ne
  }finally{
  if(!await page.locator('details.label-settings').evaluate(d=>d.open))await page.getByText('Your labels',{exact:true}).first().click();
  await page.getByLabel('Label list',{exact:true}).fill(originalLabels);
- await page.getByRole('button',{name:'Save labels',exact:true}).click();
+ await page.getByLabel('Use these labels for future uploads too').check();await page.getByRole('button',{name:'Save labels',exact:true}).click();
  await expect(page.getByRole('button',{name:'Save labels',exact:true})).toBeEnabled();
  }
 });

@@ -1,0 +1,353 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-04T11:05:40.908Z",
+  "title": "Design System: nAIve Physics",
+  "extensions": {
+    "colorMeta": {
+      "red": {
+        "role": "primary",
+        "displayName": "Brand Red",
+        "tonalRamp": [
+          "oklch(15% 0.14 25)",
+          "oklch(26% 0.14 25)",
+          "oklch(38% 0.14 25)",
+          "oklch(49% 0.14 25)",
+          "oklch(61% 0.14 25)",
+          "oklch(72% 0.14 25)",
+          "oklch(84% 0.14 25)",
+          "oklch(95% 0.14 25)"
+        ]
+      },
+      "red-deep": {
+        "role": "primary",
+        "displayName": "Deep Red",
+        "tonalRamp": [
+          "oklch(15% 0.13 25)",
+          "oklch(26% 0.13 25)",
+          "oklch(38% 0.13 25)",
+          "oklch(49% 0.13 25)",
+          "oklch(61% 0.13 25)",
+          "oklch(72% 0.13 25)",
+          "oklch(84% 0.13 25)",
+          "oklch(95% 0.13 25)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0.035 35)",
+          "oklch(26% 0.035 35)",
+          "oklch(38% 0.035 35)",
+          "oklch(49% 0.035 35)",
+          "oklch(61% 0.035 35)",
+          "oklch(72% 0.035 35)",
+          "oklch(84% 0.035 35)",
+          "oklch(95% 0.035 35)"
+        ]
+      },
+      "cream": {
+        "role": "neutral",
+        "displayName": "Cream",
+        "tonalRamp": [
+          "oklch(15% 0.025 75)",
+          "oklch(26% 0.025 75)",
+          "oklch(38% 0.025 75)",
+          "oklch(49% 0.025 75)",
+          "oklch(61% 0.025 75)",
+          "oklch(72% 0.025 75)",
+          "oklch(84% 0.025 75)",
+          "oklch(95% 0.025 75)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Brown",
+        "tonalRamp": [
+          "oklch(15% 0.045 45)",
+          "oklch(26% 0.045 45)",
+          "oklch(38% 0.045 45)",
+          "oklch(49% 0.045 45)",
+          "oklch(61% 0.045 45)",
+          "oklch(72% 0.045 45)",
+          "oklch(84% 0.045 45)",
+          "oklch(95% 0.045 45)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Warm Line",
+        "tonalRamp": [
+          "oklch(15% 0.035 60)",
+          "oklch(26% 0.035 60)",
+          "oklch(38% 0.035 60)",
+          "oklch(49% 0.035 60)",
+          "oklch(61% 0.035 60)",
+          "oklch(72% 0.035 60)",
+          "oklch(84% 0.035 60)",
+          "oklch(95% 0.035 60)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "tonalRamp": [
+          "oklch(15% 0.018 75)",
+          "oklch(26% 0.018 75)",
+          "oklch(38% 0.018 75)",
+          "oklch(49% 0.018 75)",
+          "oklch(61% 0.018 75)",
+          "oklch(72% 0.018 75)",
+          "oklch(84% 0.018 75)",
+          "oklch(95% 0.018 75)"
+        ]
+      },
+      "warm-hover": {
+        "role": "neutral",
+        "displayName": "Warm Hover",
+        "tonalRamp": [
+          "oklch(15% 0.035 65)",
+          "oklch(26% 0.035 65)",
+          "oklch(38% 0.035 65)",
+          "oklch(49% 0.035 65)",
+          "oklch(61% 0.035 65)",
+          "oklch(72% 0.035 65)",
+          "oklch(84% 0.035 65)",
+          "oklch(95% 0.035 65)"
+        ]
+      },
+      "pending": {
+        "role": "neutral",
+        "displayName": "Pending",
+        "tonalRamp": [
+          "oklch(15% 0.04 65)",
+          "oklch(26% 0.04 65)",
+          "oklch(38% 0.04 65)",
+          "oklch(49% 0.04 65)",
+          "oklch(61% 0.04 65)",
+          "oklch(72% 0.04 65)",
+          "oklch(84% 0.04 65)",
+          "oklch(95% 0.04 65)"
+        ]
+      },
+      "verified": {
+        "role": "secondary",
+        "displayName": "Verified Green",
+        "tonalRamp": [
+          "oklch(15% 0.055 145)",
+          "oklch(26% 0.055 145)",
+          "oklch(38% 0.055 145)",
+          "oklch(49% 0.055 145)",
+          "oklch(61% 0.055 145)",
+          "oklch(72% 0.055 145)",
+          "oklch(84% 0.055 145)",
+          "oklch(95% 0.055 145)"
+        ]
+      },
+      "verified-surface": {
+        "role": "secondary",
+        "displayName": "Verified Surface",
+        "tonalRamp": [
+          "oklch(15% 0.025 145)",
+          "oklch(26% 0.025 145)",
+          "oklch(38% 0.025 145)",
+          "oklch(49% 0.025 145)",
+          "oklch(61% 0.025 145)",
+          "oklch(72% 0.025 145)",
+          "oklch(84% 0.025 145)",
+          "oklch(95% 0.025 145)"
+        ]
+      },
+      "disqualified": {
+        "role": "secondary",
+        "displayName": "Disqualified Red",
+        "tonalRamp": [
+          "oklch(15% 0.12 25)",
+          "oklch(26% 0.12 25)",
+          "oklch(38% 0.12 25)",
+          "oklch(49% 0.12 25)",
+          "oklch(61% 0.12 25)",
+          "oklch(72% 0.12 25)",
+          "oklch(84% 0.12 25)",
+          "oklch(95% 0.12 25)"
+        ]
+      },
+      "disqualified-surface": {
+        "role": "secondary",
+        "displayName": "Disqualified Surface",
+        "tonalRamp": [
+          "oklch(15% 0.025 25)",
+          "oklch(26% 0.025 25)",
+          "oklch(38% 0.025 25)",
+          "oklch(49% 0.025 25)",
+          "oklch(61% 0.025 25)",
+          "oklch(72% 0.025 25)",
+          "oklch(84% 0.025 25)",
+          "oklch(95% 0.025 25)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Opening title",
+        "purpose": "Opening title only; incumbent Segoe UI preserved."
+      },
+      "headline": {
+        "displayName": "Setup question",
+        "purpose": "Current guided setup question."
+      }
+    },
+    "shadows": [
+      {
+        "name": "film-depth",
+        "value": "0 14px 26px rgba(44,26,23,.16)",
+        "purpose": "Receding trial frames."
+      },
+      {
+        "name": "review-depth",
+        "value": "0 16px 32px rgba(44,26,23,.12)",
+        "purpose": "Focused segment card."
+      },
+      {
+        "name": "action-depth",
+        "value": "0 5px 12px rgba(44,26,23,.1)",
+        "purpose": "Sprint actions."
+      }
+    ],
+    "motion": [
+      {
+        "name": "button-state",
+        "value": "background .15s ease, border-color .15s ease",
+        "purpose": "Button state feedback; disabled under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-workspace",
+        "value": "850px"
+      },
+      {
+        "name": "legacy-trial-stack",
+        "value": "760px"
+      },
+      {
+        "name": "phone",
+        "value": "700px"
+      },
+      {
+        "name": "step-footer-wrap",
+        "value": "600px"
+      },
+      {
+        "name": "wide-opening",
+        "value": "1500px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Red for the next working action.",
+      "html": "<button class=\"ds-button ds-primary\">Save labels</button>",
+      "css": ".ds-button{font:600 16px 'Segoe UI',sans-serif;cursor:pointer;border:1px solid var(--line,#d9c4b4);border-radius:24px;padding:10px 14px;transition:background .15s ease,border-color .15s ease}.ds-button:disabled{opacity:.5;cursor:default}.ds-button:focus-visible,.ds-input:focus-visible,.ds-nav button:focus-visible{outline:3px solid var(--red,#b52b32);outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-primary{background:var(--red,#b52b32);color:var(--paper,#fffaf3);border-color:var(--red,#b52b32)}.ds-primary:hover{background:#922127}"
+    },
+    {
+      "name": "Neutral button",
+      "kind": "button",
+      "refersTo": "button-neutral",
+      "description": "Paper for supporting actions.",
+      "html": "<button class=\"ds-button ds-neutral\">Export CSV</button>",
+      "css": ".ds-button{font:600 16px 'Segoe UI',sans-serif;cursor:pointer;border:1px solid var(--line,#d9c4b4);border-radius:24px;padding:10px 14px;transition:background .15s ease,border-color .15s ease}.ds-button:disabled{opacity:.5;cursor:default}.ds-button:focus-visible,.ds-input:focus-visible,.ds-nav button:focus-visible{outline:3px solid var(--red,#b52b32);outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-neutral{background:var(--paper,#fffaf3);color:var(--ink,#2c1a17)}.ds-neutral:hover{background:#f4e4d3}"
+    },
+    {
+      "name": "Sprint action",
+      "kind": "button",
+      "refersTo": "button-sprint",
+      "description": "Prominent opening and setup action.",
+      "html": "<button class=\"ds-button ds-sprint\">Annotate your own videos</button>",
+      "css": ".ds-button{font:600 16px 'Segoe UI',sans-serif;cursor:pointer;border:1px solid var(--line,#d9c4b4);border-radius:24px;padding:10px 14px;transition:background .15s ease,border-color .15s ease}.ds-button:disabled{opacity:.5;cursor:default}.ds-button:focus-visible,.ds-input:focus-visible,.ds-nav button:focus-visible{outline:3px solid var(--red,#b52b32);outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-sprint{font-size:17px;min-height:58px;padding:15px 30px;border-radius:32px;border-color:#922127;background:linear-gradient(155deg,#cc4249,var(--red,#b52b32) 65%);color:var(--paper,#fffaf3);box-shadow:0 5px 12px rgba(44,26,23,.1)}.ds-sprint:hover{background:#922127}"
+    },
+    {
+      "name": "Dark sprint action",
+      "kind": "button",
+      "refersTo": "button-sprint-secondary",
+      "description": "The second opening choice.",
+      "html": "<button class=\"ds-button ds-dark\">Trial video annotation</button>",
+      "css": ".ds-button{font:600 16px 'Segoe UI',sans-serif;cursor:pointer;border:1px solid var(--line,#d9c4b4);border-radius:24px;padding:10px 14px;transition:background .15s ease,border-color .15s ease}.ds-button:disabled{opacity:.5;cursor:default}.ds-button:focus-visible,.ds-input:focus-visible,.ds-nav button:focus-visible{outline:3px solid var(--red,#b52b32);outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-dark{font-size:17px;min-height:58px;padding:15px 30px;border-radius:32px;border-color:var(--ink,#2c1a17);background:linear-gradient(155deg,#55403a,var(--ink,#2c1a17) 65%);color:var(--paper,#fffaf3);box-shadow:0 5px 12px rgba(44,26,23,.1)}.ds-dark:hover{background:#45302b}"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "A labelled paper input.",
+      "html": "<label class=\"ds-field\">Task<input class=\"ds-input\" placeholder=\"Describe this video\"></label>",
+      "css": ".ds-field{display:grid;gap:8px;font:600 14px 'Segoe UI',sans-serif;color:var(--ink,#2c1a17)}.ds-input{font:400 16px 'Segoe UI',sans-serif;background:var(--paper,#fffaf3);color:var(--ink,#2c1a17);border:1px solid var(--line,#d9c4b4);padding:10px;border-radius:12px;width:100%}.ds-button:focus-visible,.ds-input:focus-visible,.ds-nav button:focus-visible{outline:3px solid var(--red,#b52b32);outline-offset:4px}"
+    },
+    {
+      "name": "Workspace navigation",
+      "kind": "nav",
+      "description": "Selected stage uses red; numbers remain secondary.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Annotation steps\"><button>1 Upload</button><button aria-current=\"step\">3 Annotate</button><button>4 Review &amp; export</button></nav>",
+      "css": ".ds-nav{display:flex;flex-wrap:wrap;gap:10px;border-bottom:1px solid var(--line,#d9c4b4);padding-bottom:16px}.ds-nav button{font:400 16px 'Segoe UI',sans-serif;border:1px solid var(--line,#d9c4b4);padding:11px 18px;border-radius:24px;background:var(--paper,#fffaf3);color:var(--ink,#2c1a17);cursor:pointer;transition:background .15s ease}.ds-nav button:hover{background:#f4e4d3}.ds-nav button[aria-current]{background:var(--red,#b52b32);color:var(--paper,#fffaf3);border-color:var(--red,#b52b32)}.ds-button:focus-visible,.ds-input:focus-visible,.ds-nav button:focus-visible{outline:3px solid var(--red,#b52b32);outline-offset:4px}"
+    },
+    {
+      "name": "Review status",
+      "kind": "chip",
+      "refersTo": "status-chip",
+      "description": "Written decision status with semantic colour.",
+      "html": "<span class=\"ds-chip\">To review</span> <span class=\"ds-chip ds-verified\">Verified</span> <span class=\"ds-chip ds-rejected\">Disqualified</span>",
+      "css": ".ds-chip{display:inline-block;font:400 13px 'Segoe UI',sans-serif;border-radius:20px;padding:6px 12px;background:#efdecb;color:var(--ink,#2c1a17)}.ds-verified{background:#e0ebdf;color:#284b2e}.ds-rejected{background:#f5dddd;color:#841c22}"
+    },
+    {
+      "name": "Review card",
+      "kind": "card",
+      "refersTo": "review-card",
+      "description": "Focused segment container; a neutral media area stands in for the source video.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-top\">Segment 1 of 3</div><div class=\"ds-media\" aria-label=\"Video area\"></div><div class=\"ds-caption\"><h3>Pick up</h3><p>1.00–2.00 sec · 1.00 sec clip</p></div></article>",
+      "css": ".ds-card{max-width:650px;background:var(--paper,#fffaf3);color:var(--ink,#2c1a17);font-family:'Segoe UI',sans-serif;border-radius:16px;overflow:hidden;box-shadow:0 16px 32px rgba(44,26,23,.12)}.ds-card-top{padding:16px 20px;font-size:13px;color:var(--muted,#73594f)}.ds-media{aspect-ratio:16/9;background:#261b18}.ds-caption{padding:20px 24px 24px}.ds-caption h3{margin:0;font-size:27px;font-weight:550}.ds-caption p{font-size:14px;color:var(--muted,#73594f)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Footage, labels and a human check",
+    "overview": "The existing nAIve Physics identity is the authority: warm cream, paper surfaces, dark brown text, restrained red and the typed brand. Real footage provides the imagery. The opening page uses the approved Relay composition; large rounded actions carry the approved Build Sprint button treatment.\n\nThe workspace gives video the largest working area, keeps microphone and labels nearby, and uses quieter bordered surfaces for precise data. Review gives one segment a focused card. The landing composition is a surface choice, not a required layout for every screen.",
+    "keyCharacteristics": [
+      "Warm cream canvas and paper surfaces.",
+      "Red actions and dark ink text.",
+      "Rounded controls with clear selected states.",
+      "Real footage at the centre of the work.",
+      "Quiet borders for dense data, soft depth for media."
+    ],
+    "rules": [
+      {
+        "name": "The Brand Continuity Rule",
+        "body": "Extend the cream, paper, ink and red identity on new surfaces; keep review colours tied to their stated meaning.",
+        "section": "colors"
+      },
+      {
+        "name": "The Task Hierarchy Rule",
+        "body": "Give the current question or footage decision the strongest title; keep storage details and secondary navigation quieter.",
+        "section": "typography"
+      },
+      {
+        "name": "The Media Depth Rule",
+        "body": "Reserve diffuse lift for footage and prominent sprint actions; organise dense working data with borders and tonal surfaces.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve the cream, paper, ink and red identity.",
+      "Do keep video and voice controls adjacent on laptops and stacked on phones.",
+      "Do pair review colours with written status labels.",
+      "Do retain visible keyboard focus and reduced-motion support.",
+      "Do keep dense segment data readable in a horizontally scrollable table."
+    ],
+    "donts": [
+      "Don't replace the established Segoe UI family without an explicit identity decision.",
+      "Don't turn the landing footage fan into a rule for every screen.",
+      "Don't use review green as a second general brand accent.",
+      "Don't introduce hard offset shadows into this soft media treatment."
+    ]
+  }
+}

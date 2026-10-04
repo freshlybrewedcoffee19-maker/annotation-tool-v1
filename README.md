@@ -1,14 +1,20 @@
-# nP Tools
+# nAIve Physics
+
+The opening page offers **Annotate your own videos** and **Trial video annotation**. Own videos opens three short setup questions for reusable labels, metadata fields and default values. Each question can be skipped, or **Skip to annotation** opens the dashboard immediately. New uploads open Annotate directly. Defaults carry into future videos; unlock a field to change only the current video's metadata. Labels can be changed per video; **Use these labels for future uploads too** also changes the reusable list.
+
+**Review & export** presents one segment video card at a time. Verify, Disqualify or Edit annotation; swipe the card right/left or use its arrow keys to decide. Previous/Next clip and Undo last decision keep review reversible. Review decisions persist in Convex. Disqualified records stay saved and are excluded from header CSV/JSON and episode CSV. Editing an annotation resets its review to pending. Pending and verified annotations remain exportable.
+
+The opening-page images are five still frames captured from the existing trial clip. This update preserves the original workspaces, footage and annotations. `tests/can-setup-and-review.spec.ts` covers setup skipping, inheritance, per-video overrides, review persistence, export exclusions and review ownership.
 
 Upload an MP4, MOV or WebM, mark and edit labelled segments, and export all segments as CSV or JSON. Videos, custom label lists, metadata fields, metadata values, defaults and segments are saved in Convex. Workspaces are private to each browser, with no login.
 
-**Try a trial run** on the first screen loads a 45-second extract of the owner's IRON_001 dataset episode, with matching labels and all 32 dataset metadata fields filled. It opens Annotate directly. Turn mic on is the main action above the video; optional manual annotation lives in the collapsed **Label by hand** section below. The interface uses red, cream and dark text.
+**Trial video annotation** on the first screen loads a 45-second extract of the owner's IRON_001 dataset episode, with matching labels and all 32 dataset metadata fields filled. It opens Annotate directly. Turn mic on is next to the video on laptops and below it on phones; optional manual annotation lives in the collapsed **Label by hand** section below. The interface uses red, cream and dark text.
 
 Workspace access uses a random 256-bit browser key stored locally. Every public data function checks that key and episode ownership in Convex, including reads, edits, deletion, metadata, upload ownership and exports. Queries without a workspace key cannot return the original shared data. Trial seed configuration and original-work preservation are internal functions accessible only through the authorized Convex CLI.
 
 Existing videos and segments were preserved in an owner workspace without changing their contents, labels or original exports. A private recovery link is saved locally in `outputs/np-tools-owner.html`; it is excluded from git. Recovery keys and snapshots live in `.np-tools-private/`, also excluded from git. Keep these files private. A trial never receives the owner's key. **Return to my workspace** switches back to the browser's previous workspace without clearing either workspace.
 
-The flow is Upload → Metadata → Annotate → Export. Use Back/Next or the step tabs; arrow keys, Home and End navigate focused tabs. Changing steps keeps the video and forms mounted, preserving marked times and drafts. Leaving Annotate pauses the video and turns the mic off while keeping its marked times.
+After setup, the dashboard offers Upload, Metadata, Annotate and Review & export. Metadata is optional. Use Back/Next or the step tabs; arrow keys, Home and End navigate focused tabs. Changing steps keeps the annotation player and forms mounted, preserving marked times and drafts. Leaving Annotate pauses the video and turns the mic off while keeping its marked times.
 
 - Metadata fields are your own list, one per line. There are no preset domain fields or labels.
 - Locked defaults apply only to new uploads. Existing values stay unchanged; a field can be unlocked for one video.

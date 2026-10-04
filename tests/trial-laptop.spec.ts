@@ -6,8 +6,8 @@ test('trial setup, laptop layout and spoken iron hold preserve export names',asy
   class Speech{continuous=false;interimResults=false;lang='';onstart:any;onend:any;onresult:any;onerror:any;start(){let index=0;const results:any[]=[];(window as any).say=(words:string)=>{results[index]={isFinal:true,0:{transcript:words}};this.onresult({resultIndex:index,results});index++;};this.onstart();}stop(){this.onend?.();}abort(){}}
   (window as any).SpeechRecognition=Speech;
  });
- await page.goto('/');const button=page.getByRole('button',{name:'Try a trial run',exact:true});await expect(button).toBeEnabled();
- await page.evaluate(()=>{(window as any).setupSeen=false;const observer=new MutationObserver(()=>{if([...document.querySelectorAll('button')].some(b=>b.disabled&&b.textContent==='Setting up your clipâ€¦'))(window as any).setupSeen=true;});observer.observe(document.body,{subtree:true,childList:true,attributes:true,characterData:true});});
+ await page.goto('/');const button=page.getByRole('button',{name:'Trial video annotation',exact:true});await expect(button).toBeEnabled();
+ await page.evaluate(()=>{(window as any).setupSeen=false;const observer=new MutationObserver(()=>{if([...document.querySelectorAll('button')].some(b=>b.disabled&&b.textContent==='Setting up your clip…'))(window as any).setupSeen=true;});observer.observe(document.body,{subtree:true,childList:true,attributes:true,characterData:true});});
  await button.click();await expect(page.locator('#panel-annotate')).toBeVisible();await expect(page.getByRole('button',{name:'Turn mic on',exact:true})).toBeEnabled();
  expect(await page.evaluate(()=>(window as any).setupSeen)).toBe(true);
  await expect(page.getByLabel('Saved labels')).toHaveText('initial stateapproachpositionrepositionslipiron hold');
