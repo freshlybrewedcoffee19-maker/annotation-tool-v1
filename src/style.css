@@ -40,3 +40,8 @@
 .trial-layout .voice-label-options span{padding:5px 9px}
 .trial-layout .voice-labels>p{margin:10px 0;line-height:1.45}
 @media(max-width:760px){.trial-layout{grid-template-columns:1fr}}
+.voice-mode{display:flex;gap:6px;margin:12px 0 16px;padding:4px;border:1px solid var(--line);border-radius:24px;background:var(--paper)}
+.voice-mode button{flex:1;min-height:40px;padding:8px 10px;font-size:13px;font-weight:600;border:0;background:transparent;color:var(--ink);white-space:normal}
+.voice-mode button[aria-pressed=true]{background:var(--red);color:var(--paper)}
+.voice-mode button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.voice-mode-note{display:block;margin-top:12px}
