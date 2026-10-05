@@ -8,4 +8,4 @@ Private enquiries are stored in Convex datasetRequests. Server validates fields 
 
 Production build passed. Two local browser checks passed: services navigation/direct reload, real enquiry save, invalid-email rejection, no external form submission, trial playback, and returning to the opening page. Laptop and 390px phone screenshots inspected; no horizontal overflow. Existing annotation data was not modified.
 
-Live publication and checks: pending.
+Live publication: https://cheddarvox.com/services, code debd8f9, Cloudflare deployment 29733478. Both browser checks passed on the published custom domain (20.3s), including real enquiry saving, trial playback and returning-workspace navigation.

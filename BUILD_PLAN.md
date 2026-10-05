@@ -216,3 +216,5 @@ Phase 0 started 4 October 2026. See [measured browser report](benchmarks/nanotra
 - [ ] Layer 7 and Layer 8: deferred, not silently included in this release.
 
 No deadlines or real-time performance guarantees are committed yet. Start with the browser benchmark; a failed model test changes the model choice, not the requirement to run locally.
+
+Dataset services added 6 October 2026: raw collection and annotation enquiry page at /services. Code debd8f9, Cloudflare deployment 29733478. Two local and two live checks passed; laptop/phone layouts inspected. See SERVICES_PROOF.md. Requests save privately in Convex; email notifications are not connected.
