@@ -1,0 +1,35 @@
+.story{margin:0 0 32px;padding:14px 0 20px;border-top:1px solid #DBEAFE;border-bottom:1px solid #DBEAFE;color:#2563EB}
+.caption{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:30px}
+.captionText{font-size:12px;font-weight:600;color:#172033}
+.captionText span{font-weight:400;color:#626b78;margin-left:5px}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));list-style:none;margin:0;padding:0}
+.step{position:relative;text-align:center;min-width:0}
+.step:not(:last-child)::after{content:"→";position:absolute;top:62px;right:-7px;font-size:19px;color:#a2b4cf}
+.step svg{display:block;width:100%;max-width:205px;height:140px;margin:auto;overflow:visible}
+.label{font-size:13px;font-weight:600;color:#172033;margin-top:0}.step p{font-size:11px;color:#626b78;line-height:1.5;margin:3px 0 0}
+.steps:is([data-state="playing"],[data-state="paused"]) .hand{animation:hand 8s ease-in-out infinite both;transform-origin:110px 55px}
+.steps:is([data-state="playing"],[data-state="paused"]) .fabric{animation:fabric 8s ease-in-out infinite both}
+.steps:is([data-state="playing"],[data-state="paused"]) .motionTrail{animation:trail 8s ease infinite both}
+.steps:is([data-state="playing"],[data-state="paused"]) .frame{animation:frame 8s ease infinite both;transform-origin:center}
+.steps:is([data-state="playing"],[data-state="paused"]) .recording{animation:record 8s ease infinite both}
+.steps:is([data-state="playing"],[data-state="paused"]) .scan{animation:scan 8s ease infinite both}
+.steps:is([data-state="playing"],[data-state="paused"]) .annotation{animation:annotation 8s ease infinite both}
+.steps:is([data-state="playing"],[data-state="paused"]) .segments{animation:segments 8s ease infinite both;transform-origin:25px 110px}
+.steps:is([data-state="playing"],[data-state="paused"]) .playhead{animation:playhead 8s ease infinite both}
+.steps:is([data-state="playing"],[data-state="paused"]) .cards{animation:cards 8s ease infinite both}
+.steps:is([data-state="playing"],[data-state="paused"]) .ready{animation:ready 8s ease infinite both;transform-origin:152px 107px}
+.steps[data-state="paused"],.steps[data-state="paused"] *{animation-play-state:paused!important}
+.scan,.motionTrail{opacity:0}
+@keyframes hand{0%,5%{transform:translate(9px,-5px)}20%{transform:translate(-7px,5px) rotate(-4deg)}30%,100%{transform:translate(0,0)}}
+@keyframes fabric{0%,5%{transform:translate(0,0)}20%{transform:translate(-7px,2px) skewX(-3deg)}30%,100%{transform:translate(0,0)}}
+@keyframes trail{0%{opacity:0}12%,20%{opacity:1}30%,100%{opacity:0}}
+@keyframes frame{0%,18%{opacity:.15;transform:scale(1.08)}30%,100%{opacity:1;transform:scale(1)}}
+@keyframes record{0%,23%{opacity:0}28%{opacity:1}33%{opacity:.2}38%,100%{opacity:1}}
+@keyframes scan{0%,25%{opacity:0;transform:translateY(-22px)}28%{opacity:.4}43%{opacity:.4;transform:translateY(42px)}46%,100%{opacity:0;transform:translateY(42px)}}
+@keyframes annotation{0%,43%{opacity:0;transform:translateY(4px)}54%,100%{opacity:1;transform:translateY(0)}}
+@keyframes segments{0%,48%{transform:scaleX(0);opacity:0}62%,100%{transform:scaleX(1);opacity:1}}
+@keyframes playhead{0%,50%{opacity:0;transform:translateX(-60px)}55%{opacity:1}67%,100%{opacity:1;transform:translateX(0)}}
+@keyframes cards{0%,62%{opacity:.18;transform:translateY(7px)}79%,100%{opacity:1;transform:translateY(0)}}
+@keyframes ready{0%,76%{opacity:0;transform:scale(.7)}88%,100%{opacity:1;transform:scale(1)}}
+@media(max-width:600px){.story{padding-top:10px;margin-bottom:24px}.captionText{font-size:11px}.captionText span{display:none}.steps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:14px}.step svg{height:105px;max-width:150px}.step:not(:last-child)::after{top:45px}.step:nth-child(2)::after{display:none}.label{font-size:12px}.step p{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.story .steps,.story .steps *{animation:none!important}.playback{display:none}}

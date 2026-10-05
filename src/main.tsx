@@ -25,6 +25,7 @@ import {ActionObjects} from './ActionObjects';
 import {FrameReadout} from './FrameReadout';
 import {segmentId,boundaryFrame} from './segment-record';
 import './brand.css';
+import {Services} from './Services';
 const client=new ConvexReactClient(import.meta.env.VITE_CONVEX_URL);
 function App(){
  const {workspaceToken,kind,switchWorkspace,trialSetup,setTrialSetup}=useWorkspace();const trial=useMutation(api.trial.start);
@@ -39,9 +40,9 @@ function App(){
  const [selected,setSelected]=useState<string|null>(()=>localStorage.getItem(episodeKey)??(kind==='owner'?localStorage.getItem('episode'):null));
  const ep=episodes?.find(e=>e._id===selected)??episodes?.[0];
  const labels=useQuery(api.labels.list,ep?{workspaceToken,episodeId:ep._id}:{workspaceToken});const labelList=labels??workspaceLabels??[];const [reuseLabels,setReuseLabels]=useState(false);
- const routeEntry=()=>location.pathname==='/workspace'?'dashboard':location.pathname==='/setup'?'setup':'home';
- const [entry,setEntry]=useState<'home'|'setup'|'dashboard'>(routeEntry);
- function enter(next:'home'|'setup'|'dashboard'){video.current?.pause();history.pushState(null,'',next==='home'?'/':next==='setup'?'/setup':'/workspace');setEntry(next);}
+ const routeEntry=()=>location.pathname==='/services'?'services':location.pathname==='/workspace'?'dashboard':location.pathname==='/setup'?'setup':'home';
+ const [entry,setEntry]=useState<'home'|'setup'|'dashboard'|'services'>(routeEntry);
+ function enter(next:'home'|'setup'|'dashboard'|'services'){video.current?.pause();history.pushState(null,'',next==='home'?'/':next==='setup'?'/setup':next==='services'?'/services':'/workspace');setEntry(next);}
  useEffect(()=>{const back=()=>{video.current?.pause();setEntry(routeEntry());};window.addEventListener('popstate',back);return()=>window.removeEventListener('popstate',back);},[]);
  function own(){if(kind==='trial'){const token=localStorage.getItem('np-return-workspace')??newWorkspaceToken();history.pushState(null,'','/setup');switchWorkspace(token);}else enter('setup');}
  async function startTrial(){setTrialSetup(true);await act(async()=>{try{const token=localStorage.getItem('np-trial-token')??newWorkspaceToken();const id=await trial({workspaceToken:token});localStorage.setItem('np-trial-token',token);if(kind!=='trial')localStorage.setItem('np-return-workspace',workspaceToken);localStorage.setItem('np-episode-'+token,id);localStorage.setItem('np-step-'+token,'annotate');if(token!==workspaceToken)history.pushState(null,'','/workspace');if(token===workspaceToken){enter('dashboard');setSelected(id);changeStep('annotate');}else switchWorkspace(token);}catch(e){setTrialSetup(false);throw e;}});}
@@ -78,7 +79,8 @@ function App(){
  const url=await uploadUrl({workspaceToken});const response=await fetch(url,{method:'POST',headers:{'Content-Type':contentType,'X-Workspace-Token':workspaceToken},body:file});if(!response.ok)throw new Error('Upload failed. Try again.');const {storageId}=await response.json();const id=await addEpisode({workspaceToken,name:file.name,duration:media.duration,width:media.width,height:media.height,storageId});setNextVideo(false);setSelected(id);localStorage.setItem(episodeKey,id);reset();setStep('annotate');localStorage.setItem(stepKey,'annotate');
  });}
  async function exportFile(format:'csv'|'json'){await act(async()=>{const data=await convex.query(api.annotations.exportAll,{workspaceToken});const quote=(s:string)=>'"'+s.replaceAll('"','""')+'"';const text=format==='json'?JSON.stringify(data,null,2):'episode,label,start_sec,end_sec\r\n'+data.map(r=>[quote(r.episode),quote(r.label),r.start_sec,r.end_sec].join(',')).join('\r\n');const url=URL.createObjectURL(new Blob([text],{type:format==='json'?'application/json':'text/csv'}));const a=document.createElement('a');a.href=url;a.download='segments.'+format;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});}
- if(entry==='home')return <Landing own={own} trial={()=>void startTrial()} busy={busy||trialSetup} error={error} resume={ep?()=>enter('dashboard'):undefined}/>;
+ if(entry==='services')return <Services home={()=>enter('home')} trial={()=>void startTrial()}/>;
+ if(entry==='home')return <Landing services={()=>enter('services')} own={own} trial={()=>void startTrial()} busy={busy||trialSetup} error={error} resume={ep?()=>enter('dashboard'):undefined}/>;
  if(entry==='setup')return <SetupFlow back={()=>enter('home')} done={()=>{enter('dashboard');changeStep(ep?'annotate':'upload');}}/>;
  return <main className="dashboard" aria-busy={trialSetup}>{trialSetup&&currentStep!=="upload"&&<p role="status">Setting up your clip…</p>}<header><div><button className="brand" onClick={()=>enter("home")}>Cheddar Vox</button><p>Voice led video annotation tool</p></div><div className="exports">{kind==="trial"&&localStorage.getItem("np-return-workspace")&&<button type="button" onClick={()=>switchWorkspace(localStorage.getItem("np-return-workspace")!)}>Return to my workspace</button>}<button disabled={busy} onClick={()=>exportFile('csv')}>Export CSV</button><button disabled={busy} onClick={()=>exportFile('json')}>Export JSON</button></div></header>
  <StepNavigation step={currentStep} hasVideo={!!ep} change={changeStep}/><p className="step-status sr-only" aria-live="polite">Current step: {currentStep[0].toUpperCase()+currentStep.slice(1)}</p>
