@@ -6,4 +6,4 @@ Coordinates stay relative to the video dimensions. Polygon points and bounds sav
 
 Shapes still apply only to their saved frame. No model, tracking, interpolation or exact frame-index claim is introduced. Frame stepping retains the existing estimated timing limitation. Complex self-intersecting outlines are not a supported segmentation format; use a simple outline around the object.
 
-Release validation will be recorded in BUILD_PLAN.md after browser checks complete.
+Released 5 October 2026, checkpoint `2efdb7f`. Build passed. Ten regression checks passed in the suite; the box check interrupted by a development reload passed separately on the settled build. Three live checks then passed: full box flow, full polygon flow, and opening-page/returning-workspace behavior. Laptop and phone screenshots were inspected; the phone overflow check passed. No actual spoken microphone check was performed.

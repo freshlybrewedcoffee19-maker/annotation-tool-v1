@@ -205,7 +205,7 @@ Phase 0 started 4 October 2026. See [measured browser report](benchmarks/nanotra
 
 - [ ] Phase 0: browser benchmark and model decision.
 - [x] Phase 1a: editable boxes and object identities deployed 4 October 2026. Live drawing, move, resize, undo, privacy and refresh checks passed; the opening-page check passed too. See PHASE_1A_PROOF.md for timing limits.
-- [ ] Phase 1b: box spatial JSON export deployed 5 October 2026; polygons and polygon export remain next.
+- [x] Phase 1b: editable polygons and spatial JSON export deployed 5 October 2026 (`2efdb7f`). Corner edits, undo, saved-work restore, disqualification/recovery and shape-aware export passed on the live website; laptop and phone layouts inspected. See POLYGON_PROOF.md.
 - [ ] Phase 3a: recoverable manual box review deployed 5 October 2026 (`867f4b2`); geometry edits reset review. Polygon review and richer revision history remain. See OBJECT_REVIEW_PROOF.md.
 - [ ] Phase 2: assisted box tracking with uncertainty and manual reappearance.
 - [ ] Phase 3b: track review; multi-person review only with sign-in and roles.
