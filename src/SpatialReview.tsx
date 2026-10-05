@@ -13,7 +13,7 @@ export function SpatialReview({episodeId,video}:{episodeId:Id<'episodes'>;video:
   setBusy(true);setError('');try{await review({workspaceToken,episodeId,boxId,status});}catch(e){setError(e instanceof Error?e.message:'Review could not save. Try again.');}finally{setBusy(false);}
  }
  function download(){
-  const data={format:'naive-physics-spatial',version:1,episodeId,coordinateSpace:'normalized-video',annotations:(boxes??[]).filter(b=>b.reviewStatus!=='disqualified').map(b=>({...b,shape:'box',reviewStatus:b.reviewStatus??'pending',source:'manual'}))};
+  const data={format:'naive-physics-spatial',version:1,episodeId,coordinateSpace:'normalized-video',annotations:(boxes??[]).filter(b=>b.reviewStatus!=='disqualified').map(b=>({...b,shape:b.points?'polygon':'box',reviewStatus:b.reviewStatus??'pending',source:'manual'}))};
   const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='object-annotations.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
  }
  return <details className="spatial-review"><summary>Review object boxes &amp; export</summary><p>Check each box on its saved frame. Disqualified boxes stay recoverable and are excluded from this export. Editing geometry requires a fresh review.</p>
