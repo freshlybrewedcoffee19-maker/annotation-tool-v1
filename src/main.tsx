@@ -28,7 +28,9 @@ const client=new ConvexReactClient(import.meta.env.VITE_CONVEX_URL);
 function App(){
  const {workspaceToken,kind,switchWorkspace,trialSetup,setTrialSetup}=useWorkspace();const trial=useMutation(api.trial.start);
  const episodeKey=`np-episode-${workspaceToken}`,stepKey=`np-step-${workspaceToken}`;
- const episodes=useQuery(api.annotations.episodes,{workspaceToken}); const convex=useConvex();
+ const savedEpisodes=useQuery(api.annotations.episodes,{workspaceToken}); const convex=useConvex();
+ // Cloudflare serves the public trial; personal uploads keep their private Convex URLs.
+ const episodes=savedEpisodes?.map(e=>kind==='trial'&&e.name==='IRON_001_trial_45s.mp4'&&import.meta.env.VITE_TRIAL_VIDEO_PATH?{...e,url:import.meta.env.VITE_TRIAL_VIDEO_PATH}:e);
  const workspaceLabels=useQuery(api.labels.list,{workspaceToken}); const saveLabels=useMutation(api.labels.save); const [labelDraft,setLabelDraft]=useState<string|null>(null);
 
  const [step,setStep]=useState<Step>(()=>{const saved=localStorage.getItem(stepKey);return steps.includes(saved as Step)?saved as Step:'upload';});
