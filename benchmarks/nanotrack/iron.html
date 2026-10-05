@@ -1,5 +1,9 @@
 <!doctype html><meta charset="utf-8"><title>Moving iron — diagnostic only</title>
+<style>body{font:16px 'Segoe UI',sans-serif;background:#fff6e9;color:#2c1a17;max-width:1100px;margin:32px auto;padding:0 20px}button{background:#b52b32;color:white;border:0;border-radius:24px;padding:14px 24px;font:inherit;cursor:pointer}button:disabled{opacity:.5}canvas{display:block;max-width:100%;height:auto;margin:16px 0}#shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}figure{margin:0}figure canvas{width:100%}</style>
+<h1>Moving-iron tracking preview</h1><p>Local browser experiment: 11–21 seconds of the trial. Outlines are raw suggestions marked <strong>Needs checking</strong>. Nothing is saved to your annotations.</p>
+<button id="run">Run moving-iron preview</button><p id="status" role="status">Ready. Press Run to process the clip on this laptop.</p>
 <canvas id="frame" width="640" height="360"></canvas>
+<div id="shots"></div>
 <script type="module">
 window.trackIron=async(initialBox)=>{
  const video=document.createElement('video');video.src=URL.createObjectURL(await (await fetch('./iron-trial.mp4')).blob());await new Promise((resolve,reject)=>{video.onloadeddata=resolve;video.onerror=reject;});
@@ -13,4 +17,8 @@ window.trackIron=async(initialBox)=>{
   };worker.postMessage({provider:'wasm',cases:['moving-iron'],initialBox});
  });}finally{clearInterval(timer);worker.terminate();video.src='';}
 };
+</script>
+<script type="module">
+const run=document.getElementById('run'),status=document.getElementById('status'),shots=document.getElementById('shots');
+run.onclick=async()=>{run.disabled=true;status.textContent='Processing on this laptop…';shots.replaceChildren();try{const box=[142,85,130,90],r=await window.trackIron(box);if(r.error)throw Error(r.error);for(const s of r.snapshots){const image=new Image();image.src=s.png;await image.decode();const figure=document.createElement('figure'),canvas=document.createElement('canvas'),caption=document.createElement('figcaption');canvas.width=640;canvas.height=360;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0);const b=s.index===0?box:r.cases[0].rows.find(row=>row.index===s.index).raw.box;ctx.strokeStyle='#b52b32';ctx.lineWidth=3;ctx.strokeRect(...b);caption.textContent=`${11+s.index*.2} sec · ${s.index===0?'Initial outline':'Needs checking'}`;figure.append(canvas,caption);shots.append(figure);}status.textContent=`50 frames processed in ${(r.cases[0].processingMs/1000).toFixed(1)} seconds. Suggestions need your review; no annotations saved.`;}catch(e){status.textContent=`Preview failed: ${e.message}`;}finally{run.disabled=false;}};
 </script>
