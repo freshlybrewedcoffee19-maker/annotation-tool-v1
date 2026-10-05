@@ -2,7 +2,7 @@ import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 import {workspace,ownedEpisode} from "./access";
 const episode = v.object({labels:v.optional(v.array(v.string())),_id:v.id("episodes"),_creationTime:v.number(),workspaceId:v.optional(v.id("workspaces")),name:v.string(),storageId:v.id("_storage"),duration:v.number(),fileSize:v.optional(v.number()),mimeType:v.optional(v.string()),width:v.optional(v.number()),height:v.optional(v.number()),frameRate:v.optional(v.union(v.number(),v.null())),nextSegmentNumber:v.optional(v.number()),metadata:v.optional(v.array(v.object({field:v.string(),value:v.string()}))),metadataLocks:v.optional(v.array(v.string())),url:v.union(v.string(),v.null())});
-const segment = v.object({reviewStatus:v.optional(v.union(v.literal("pending"),v.literal("verified"),v.literal("disqualified"))),_id:v.id("segments"),_creationTime:v.number(),episodeId:v.id("episodes"),label:v.string(),start_sec:v.number(),end_sec:v.number(),segmentNumber:v.optional(v.number()),source:v.optional(v.union(v.literal("manual"),v.literal("voice")))});
+const segment = v.object({objectIds:v.optional(v.array(v.string())),reviewStatus:v.optional(v.union(v.literal("pending"),v.literal("verified"),v.literal("disqualified"))),_id:v.id("segments"),_creationTime:v.number(),episodeId:v.id("episodes"),label:v.string(),start_sec:v.number(),end_sec:v.number(),segmentNumber:v.optional(v.number()),source:v.optional(v.union(v.literal("manual"),v.literal("voice")))});
 export const episodes = query({args:{workspaceToken:v.string()},returns:v.array(episode),handler:async(ctx,{workspaceToken})=>{const space=await workspace(ctx,workspaceToken);return Promise.all((await ctx.db.query("episodes").withIndex("by_workspace",q=>q.eq("workspaceId",space._id)).take(1000)).sort((a,b)=>a.name.localeCompare(b.name)).map(async e=>({...e,url:await ctx.storage.getUrl(e.storageId)})));}});
 export const uploadUrl = mutation({args:{workspaceToken:v.string()},returns:v.string(),handler:async(ctx,{workspaceToken})=>{await workspace(ctx,workspaceToken);return process.env.CONVEX_SITE_URL+"/api/upload";}});
 export const addEpisode = mutation({args:{workspaceToken:v.string(),name:v.string(),storageId:v.id("_storage"),duration:v.number(),width:v.optional(v.number()),height:v.optional(v.number())},returns:v.id("episodes"),handler:async(ctx,{workspaceToken,...args})=>{
@@ -34,6 +34,13 @@ export const exportAll = query({args:{workspaceToken:v.string()},returns:v.array
  return result.sort((a,b)=>a.episode.localeCompare(b.episode)||a.start_sec-b.start_sec);
 }});
 
+export const linkObjects=mutation({args:{workspaceToken:v.string(),id:v.id('segments'),objectIds:v.array(v.string())},returns:v.null(),handler:async(ctx,{workspaceToken,id,objectIds})=>{
+ const row=await ctx.db.get(id);if(!row)throw new Error('Segment not found.');await ownedEpisode(ctx,workspaceToken,row.episodeId);
+ if(objectIds.length>100||new Set(objectIds).size!==objectIds.length)throw new Error('Choose up to 100 distinct objects.');
+ for(const objectId of objectIds){const object=await ctx.db.query('objects').withIndex('by_episode_object',q=>q.eq('episodeId',row.episodeId).eq('objectId',objectId)).unique();if(!object)throw new Error('Choose an object saved in this video.');}
+ if(JSON.stringify([...(row.objectIds??[])].sort())===JSON.stringify([...objectIds].sort()))return null;
+ await ctx.db.patch(id,{objectIds,reviewStatus:'pending'});return null;
+}});
 export const review=mutation({args:{workspaceToken:v.string(),id:v.id("segments"),status:v.union(v.literal("pending"),v.literal("verified"),v.literal("disqualified"))},returns:v.null(),handler:async(ctx,{workspaceToken,id,status})=>{
  const row=await ctx.db.get(id);if(!row)throw new Error("Segment not found.");await ownedEpisode(ctx,workspaceToken,row.episodeId);await ctx.db.patch(id,{reviewStatus:status});return null;
 }});
