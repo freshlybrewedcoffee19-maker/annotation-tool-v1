@@ -16,6 +16,7 @@ import type * as labels from "../labels.js";
 import type * as media from "../media.js";
 import type * as metadata from "../metadata.js";
 import type * as trial from "../trial.js";
+import type * as visibility from "../visibility.js";
 import type * as workspaces from "../workspaces.js";
 
 import type {
@@ -33,6 +34,7 @@ declare const fullApi: ApiFromModules<{
   media: typeof media;
   metadata: typeof metadata;
   trial: typeof trial;
+  visibility: typeof visibility;
   workspaces: typeof workspaces;
 }>;
 

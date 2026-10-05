@@ -1,7 +1,9 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 import {boxValue} from './boxes';
+import {visibilityValue} from './visibility';
 export default defineSchema({
+ objectVisibility:defineTable({episodeId:v.id('episodes'),spans:v.array(visibilityValue)}).index('by_episode',['episodeId']),
  objects:defineTable({episodeId:v.id('episodes'),objectId:v.string(),name:v.string()}).index('by_episode',['episodeId']).index('by_episode_object',['episodeId','objectId']),
  objectBoxes:defineTable({episodeId:v.id('episodes'),boxes:v.array(boxValue)}).index('by_episode',['episodeId']),
  workspaces:defineTable({token:v.string(),kind:v.union(v.literal("owner"),v.literal("trial"),v.literal("personal"))}).index("by_token",["token"]).index("by_kind",["kind"]),
