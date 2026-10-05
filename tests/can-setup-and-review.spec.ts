@@ -46,7 +46,7 @@ test('skip individual questions or all setup and trial starts directly with a pl
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'test-results/naive-opening-mobile.png',fullPage:true});
  await page.getByRole('button',{name:'Annotate your own videos',exact:true}).click();await page.getByRole('button',{name:'Skip this question',exact:true}).click();await expect(page.getByLabel('Setup metadata fields')).toBeVisible();await page.screenshot({path:'test-results/naive-setup-mobile.png',fullPage:true});
  await page.getByRole('button',{name:'Skip to annotation',exact:true}).click();await expect(page.getByLabel('Upload video',{exact:true})).toBeVisible();
- await page.getByRole('button',{name:'nAIve Physics',exact:true}).click();await page.getByRole('button',{name:'Trial video annotation',exact:true}).click();
+ await page.getByRole('button',{name:'Cheddar Vox',exact:true}).click();await page.getByRole('button',{name:'Trial video annotation',exact:true}).click();
  await expect(page.getByRole('tab',{name:'Annotate',exact:true})).toHaveAttribute('aria-selected','true');await expect(page.getByRole('button',{name:'Turn mic on',exact:true})).toBeEnabled();await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);
  expect(await page.locator('video').evaluate((v:HTMLVideoElement)=>v.duration)).toBe(45);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await expect.poll(()=>page.locator('video:visible').evaluate((v:HTMLVideoElement)=>v.readyState>=3&&!v.seeking)).toBe(true);await paintVideo(page);await page.screenshot({path:'test-results/naive-annotation-mobile.png',fullPage:true});
 });

@@ -1,16 +1,16 @@
 ---
-name: nAIve Physics
+name: Cheddar Vox
 description: Cream, red and dark ink around footage, labels and human review.
 colors:
-  red: "#b52b32"
-  red-deep: "#922127"
-  ink: "#2c1a17"
-  cream: "#fff6e9"
-  muted: "#73594f"
-  line: "#d9c4b4"
-  paper: "#fffaf3"
-  warm-hover: "#f4e4d3"
-  pending: "#efdecb"
+  red: "#2563EB"
+  red-deep: "#172033"
+  ink: "#172033"
+  cream: "#FFFDF8"
+  muted: "#475569"
+  line: "#DBEAFE"
+  paper: "#FFFFFF"
+  warm-hover: "#DBEAFE"
+  pending: "#FFB82E"
   verified: "#284b2e"
   verified-surface: "#e0ebdf"
   disqualified: "#841c22"
@@ -81,13 +81,13 @@ components:
     rounded: "{rounded.button}"
     padding: "10px 14px"
   button-sprint:
-    backgroundColor: "linear-gradient(155deg, #cc4249, #b52b32 65%)"
+    backgroundColor: "linear-gradient(155deg, #cc4249, #2563EB 65%)"
     textColor: "{colors.paper}"
     rounded: "{rounded.sprint-button}"
     padding: "15px 30px"
     height: "58px"
   button-sprint-secondary:
-    backgroundColor: "linear-gradient(155deg, #55403a, #2c1a17 65%)"
+    backgroundColor: "linear-gradient(155deg, #55403a, #172033 65%)"
     textColor: "{colors.paper}"
     rounded: "{rounded.sprint-button}"
     padding: "15px 30px"
@@ -109,13 +109,13 @@ components:
     padding: "6px 12px"
 ---
 
-# Design System: nAIve Physics
+# Design System: Cheddar Vox
 
 ## Overview
 
 **Creative North Star: "Footage, labels and a human check"**
 
-The existing nAIve Physics identity is the authority: warm cream, paper surfaces, dark brown text, restrained red and the typed brand. Real footage provides the imagery. The opening page uses the approved Relay composition; large rounded actions carry the approved Build Sprint button treatment.
+The existing Cheddar Vox identity is the authority: warm cream, paper surfaces, dark brown text, restrained red and the typed brand. Real footage provides the imagery. The opening page uses the approved Relay composition; large rounded actions carry the approved Build Sprint button treatment.
 
 The workspace gives video the largest working area, keeps microphone and labels nearby, and uses quieter bordered surfaces for precise data. Review gives one segment a focused card. The landing composition is a surface choice, not a required layout for every screen.
 
@@ -233,3 +233,7 @@ Real trial frames form a shallow fan with the centre frame largest and upright, 
 - **Don't** turn the landing footage fan into a rule for every screen.
 - **Don't** use review green as a second general brand accent.
 - **Don't** introduce hard offset shadows into this soft media treatment.
+
+## Approved Cheddar Vox brand — 6 October 2026
+Company: Cheddar Vox. Tagline: Voice led video annotation tool.
+Cheddar Yellow #FFB82E for primary actions/brand accents; Cheddar Orange #F59E0B for depth/hover; Vox Blue #2563EB for voice/interaction; Deep Navy #172033 for text; Soft Blue #DBEAFE for secondary UI; Warm White #FFFDF8 for backgrounds; White #FFFFFF for cards. Existing geometry and workflows retained. Semantic warning/error colors remain distinct with text labels. This approved palette supersedes the historical cream/red description above.

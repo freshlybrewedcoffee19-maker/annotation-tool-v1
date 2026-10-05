@@ -1,0 +1,14 @@
+:root{--cheddar-yellow:#FFB82E;--cheddar-orange:#F59E0B;--vox-blue:#2563EB;--deep-navy:#172033;--soft-blue:#DBEAFE;--warm-white:#FFFDF8;--white:#FFFFFF}
+.brand{color:var(--deep-navy);border-bottom:4px solid var(--cheddar-yellow);border-radius:0;padding-bottom:4px}
+.brand:hover{color:var(--vox-blue)}
+.landing{background:var(--warm-white)}
+.sprint-button{background:var(--cheddar-yellow);border-color:var(--cheddar-orange);color:var(--deep-navy)}
+.sprint-button:hover{background:var(--cheddar-orange);color:var(--deep-navy)}
+.sprint-button.secondary{background:var(--soft-blue);border-color:var(--vox-blue);color:var(--deep-navy)}
+.sprint-button.secondary:hover{background:var(--vox-blue);color:var(--white)}
+.setup-page{background:var(--warm-white)}
+.review-status.pending{background:var(--cheddar-yellow);color:var(--deep-navy)}
+.review-status.verified{background:var(--soft-blue);color:var(--deep-navy)}
+.review-actions .verify{background:var(--vox-blue);border-color:var(--vox-blue);color:var(--white)}
+.review-actions .verify:hover{background:var(--deep-navy)}
+.film-card span{color:var(--white)}
