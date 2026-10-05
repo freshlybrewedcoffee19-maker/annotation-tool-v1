@@ -11,4 +11,5 @@ Validation: production build passed. The real-browser review flow passed against
 Two bugs caught and fixed: native text selection interrupted a left swipe; HTML numeric step validation prevented saving precise model coordinates. Restricted-network browser runs stalled opening a workspace; the same review flow passed with approved network access. No failed run is counted as proof.
 
 Release scope: frontend remains a local preview. The additive Convex schema/functions are available on the existing backend; no existing records were migrated or removed. Automatic tracking remains disabled pending the disappearance/identity, memory, cold-download and weaker-laptop gates in BUILD_PLAN.md. Convex reported usage above free-plan limits during backend preparation; no plan purchase or change was made.
-`nFinal checks: all five relevant browser checks passed (tracking review, manual box editing, two setup/review flows and voice visibility). Explicitly flagged uncertain frames were refused by the backend. No frontend deployment was performed.
+
+Final checks: all five relevant browser checks passed (tracking review, manual box editing, two setup/review flows and voice visibility). Explicitly flagged uncertain frames were refused by the backend. No frontend deployment was performed.
