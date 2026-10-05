@@ -1,0 +1,16 @@
+<!doctype html><meta charset="utf-8"><title>Moving iron — diagnostic only</title>
+<canvas id="frame" width="640" height="360"></canvas>
+<script type="module">
+window.trackIron=async(initialBox)=>{
+ const video=document.createElement('video');video.src=URL.createObjectURL(await (await fetch('./iron-trial.mp4')).blob());await new Promise((resolve,reject)=>{video.onloadeddata=resolve;video.onerror=reject;});
+ const canvas=document.getElementById('frame'),ctx=canvas.getContext('2d'),decoded=[];
+ async function seek(time){const mediaTime=await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Frame presentation timeout')),10000);const presented=(_,m)=>{if(Math.abs(m.mediaTime-time)<.1){clearTimeout(timer);resolve(m.mediaTime);}else video.requestVideoFrameCallback(presented);};video.requestVideoFrameCallback(presented);video.currentTime=time;});ctx.drawImage(video,0,0,640,360);decoded.push({requestedTime:time,mediaTime});}
+ const worker=new Worker('./track-worker.mjs',{type:'module'}),snapshots=[];let ticks=0;const timer=setInterval(()=>ticks++,16);const start=performance.now();
+ try{return await new Promise(resolve=>{
+  worker.onerror=e=>resolve({error:e.message});worker.onmessage=async({data})=>{
+   if(data.frame){try{const i=data.frame.index;await seek(11+i*.2);if(i%10===0)snapshots.push({index:i,png:canvas.toDataURL()});const image=await createImageBitmap(canvas);worker.postMessage({image},[image]);}catch(e){resolve({error:String(e)});}return;}
+   if(data.progress)return;resolve({...data,decoded,snapshots,wallMs:performance.now()-start,mainThreadTicks:ticks});
+  };worker.postMessage({provider:'wasm',cases:['moving-iron'],initialBox});
+ });}finally{clearInterval(timer);worker.terminate();video.src='';}
+};
+</script>

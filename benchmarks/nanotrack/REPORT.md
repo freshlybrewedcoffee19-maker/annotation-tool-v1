@@ -68,6 +68,18 @@ Retain NanoTrack V3 CPU as an experiment, with graphics as a measured but slower
 
 ## Repeat locally
 
+## Corrected moving-iron check — 6 October 2026
+
+`run-iron.mjs` fetches the current consented trial into a local ignored file, then runs the existing pinned NanoTrack V3 CPU worker on presented frames from 11–21 seconds. It validates all three model byte counts and SHA-256 hashes against manifest.json. Production code and saved annotations are unchanged; no deployment is performed.
+
+The inspected 640 × 360 initial frame gives a developer-selected iron box `[142,85,130,90]`; the hand partly covers the iron. This is an initialization, not independent accuracy ground truth. Fifty later frames are sampled every 0.2 seconds. All 51 requested presentations were validated against callback media time; maximum discrepancy was 0.033333 seconds. Six saved snapshots have distinct hashes. Inspection of `outputs/iron-tracking-contact.png` at 11, 13, 15, 17, 19 and 21 seconds shows proposals following the moving iron, with the hand still overlapping it. No overlap score or accuracy percentage is claimed; the other 45 frames lack independent human reference boxes.
+
+Final reproducible run: Chrome 154.0.8037.93, 14 reported logical processors, WebAssembly single-thread CPU. Session loading took 792 ms; 50 frames including seek/crop/worker exchange took 3.83 seconds; mean measured inference/postprocessing time was 41.79 ms. An earlier inspected run took 2.77 seconds, demonstrating run-to-run variation. The weights/runtime are served locally, so these are not internet cold-download timings. No remote request occurred during inference. Total peak memory and weaker-laptop compatibility remain unmeasured.
+
+All 50 proposals remain Needs checking with acceptedBox null. Minimum raw score was 0.972; no score-only stop fired. These numbers are not calibrated certainty, and this visible-motion sequence does not test complete disappearance or correct reappearance. Existing controlled disappearance/lookalike failures still prevent production integration.
+
+Reproduce: start `node benchmarks/nanotrack/server.mjs`, run `node benchmarks/nanotrack/run-iron.mjs`, then `node benchmarks/nanotrack/inspect-iron-results.mjs`. The runner asserts model integrity, 51 decoded frames, 50 proposals, bounded presentation error, changing snapshots, no inference network requests and zero accepted annotations. `iron-results.json` retains the final evidence. The model files must already have been prepared as described below. The first attempt to seek a server-served MP4 timed out; fetching that local file into a browser Blob resolved the decoding path. A failed run now exits with an assertion failure rather than appearing successful.
+
 From the project root, install isolated benchmark packages with `npm ci --prefix benchmarks/nanotrack`; install the developer preparation dependency with `py -3 -m pip install -r benchmarks/nanotrack/requirements.txt`; run `py -3 benchmarks/nanotrack/prepare.py`. This verifies upstream model hashes before using them.
 
 Run the existing app locally, then `node benchmarks/nanotrack/inspect-trial.mjs` to check the authorised trial pixel path and stage a local ignored trial copy. Start `node benchmarks/nanotrack/server.mjs` on localhost:5185. Run `node benchmarks/nanotrack/run.mjs` for loading/shape checks, `node benchmarks/nanotrack/run-tracking.mjs` for tracking, and `node benchmarks/nanotrack/summarize.mjs` for the computed summary. Run `node benchmarks/nanotrack/check-failures.mjs` separately. Chrome and Edge must already be installed. Stop the server when finished. Nothing here calls deployment or writes tracking results to Convex.

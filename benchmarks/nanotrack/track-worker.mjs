@@ -8,8 +8,8 @@ let waiting;self.onmessage=async({data})=>{
   for(const name of ['backbone.onnx','template.onnx','head.onnx']){const url=new URL(name,import.meta.url).href;let r=await cache.match(url);if(!r){r=await fetch(url);if(!r.ok)throw Error('Missing '+name);await cache.put(url,r.clone());}sessions.push(await ort.InferenceSession.create(await r.arrayBuffer(),{executionProviders:[data.provider]}));}
   const loadMs=performance.now()-start,cases=[];
   const frame=(name,index)=>new Promise(resolve=>{waiting=resolve;self.postMessage({frame:{name,index}});});
-  for(const name of ['trial','motion','disappearance','partial-occlusion','lookalike','scene-cut']){
-   const tracker=new Tracker(ort,sessions[0],sessions[1],sessions[2]);let image=await frame(name,0);await tracker.init(image,name==='trial'?[70,7,231,308]:[100,100,92,124]);image.close();
+  for(const name of data.cases??['trial','motion','disappearance','partial-occlusion','lookalike','scene-cut']){
+   const tracker=new Tracker(ort,sessions[0],sessions[1],sessions[2]);let image=await frame(name,0);await tracker.init(image,data.initialBox??(name==='trial'?[70,7,231,308]:[100,100,92,124]));image.close();
    const rows=[],started=performance.now();let stopped=false;
    for(let i=1;i<=50;i++){
     image=await frame(name,i);const t=performance.now(),raw=await tracker.track(image);image.close();
