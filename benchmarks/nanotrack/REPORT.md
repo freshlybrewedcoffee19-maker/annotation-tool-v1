@@ -60,6 +60,8 @@ Every experimental row is stored as **Needs checking**, with `acceptedBox: null`
 
 ## Remaining Phase 0 work and decision
 
+6 October 2026 footage audit: `inspect-disappearance.mjs` decoded 23 frames across the existing 45-second trial at 0.1 seconds and two-second increments through 44.1 seconds. Visual inspection of `outputs/trial-disappearance-contact.png` shows the same shirt scene at every sampled time, with no demonstrated disappearance/reappearance sequence. This is a sampling observation, not proof about every intervening frame. The trial is insufficient for the requested real disappearance test; no new tracking accuracy result was produced. A short consented clip with a target leaving the frame or becoming fully hidden and then returning is needed. Existing synthetic disappearance results remain explicitly synthetic, not real-footage validation.
+
 Retain NanoTrack V3 CPU as an experiment, with graphics as a measured but slower option here. Keep assisted tracking disabled. Obtain consented real footage with disappearance, occlusion, reappearance, lookalikes and scene cuts; hand-label it before scoring. Measure total peak memory and real cold network download, test an ordinary weaker laptop, and validate corrections/reappearance with the user before integration. Do not silently adopt cloud inference.
 
 ## Repeat locally
