@@ -21,10 +21,10 @@ test('account, video upload, metadata locks and saved work follow the approved o
 
 test('guided trial supports voice navigation, real rewards, review decisions and undo',async({page})=>{
  await page.addInitScript(()=>{class Speech{continuous=true;interimResults=true;lang='';onstart:any;onend:any;onresult:any;onerror:any;start(){let i=0;const results:any[]=[];(window as any).say=(text:string)=>{results[i]={isFinal:true,0:{transcript:text}};this.onresult({resultIndex:i,results});i++;};this.onstart?.();}stop(){this.onend?.();}abort(){}};(window as any).SpeechRecognition=Speech;});
- await page.goto('/');await page.getByRole('button',{name:'Try a sample video',exact:true}).click();await expect(page.getByLabel('Guided tasks')).toContainText('Turn on your mic');
- await expect(page.getByLabel('Guided tasks')).not.toContainText('First action saved');await page.getByRole('button',{name:'Turn mic on',exact:true}).click();await expect(page.getByLabel('Guided tasks')).toContainText('Say “start”');
+ await page.goto('/');await page.getByRole('button',{name:'Try a sample video',exact:true}).click();await expect(page.locator('.trial-guide-line')).toContainText('Turn on your mic');
+ await expect(page.locator('.trial-guide-line')).not.toContainText('Saved. Do the next one');await page.getByRole('button',{name:'Turn mic on',exact:true}).click();await expect(page.locator('.trial-guide-line')).toContainText('Say start');
  for(const[words,time]of[['start',2],['stop',4],['iron hold',4]]as const){await page.locator('video').evaluate((v:HTMLVideoElement,time)=>Object.defineProperty(v,'currentTime',{configurable:true,get:()=>time}),time);await page.evaluate(words=>(window as any).say(words),words);}
- await expect(page.getByLabel('Guided tasks')).toContainText('First action saved');await expect(page.locator('tbody tr')).toHaveCount(1);
+ await expect(page.locator('.trial-guide-line')).toContainText('Saved. Do the next one');await expect(page.locator('tbody tr')).toHaveCount(1);
  await page.evaluate(()=>(window as any).say('open objects'));await expect(page.getByRole('button',{name:'Objects & outlines',exact:false})).toHaveAttribute('aria-pressed','true');await expect(page.getByLabel('Object name')).toBeVisible();
  await page.locator('.future-tools summary').click();
  await page.getByRole('button',{name:'Object detection Pending',exact:true}).click();await expect(page.getByLabel('Feature status')).toContainText('laptop checks');

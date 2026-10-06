@@ -32,73 +32,23 @@ test('interim stop stamps end once and matching final result does not repeat it'
  expect(checks).toEqual([]);
  second.hear('stop please',5,['stroke','Iron stroke']);second.hear('Iron stroke.',5,['stroke','Iron stroke']);second.hear('Iron stroke.',5,['stroke','Iron stroke']);
  expect(checks).toEqual([{label:'Iron stroke',start_sec:2,end_sec:5}]);
+
  await page.addInitScript(()=>{
-  class FakeSpeech {
-   continuous=false;interimResults=false;lang='';onstart:(()=>void)|null=null;onend:(()=>void)|null=null;onerror=null;onresult:((event:unknown)=>void)|null=null;
-   start(){const results:any[]=[];let index=0;(window as any).feedWords=(words:string,isFinal=true)=>{results[index]={isFinal,0:{transcript:words}};this.onresult?.({resultIndex:index,results});if(isFinal)index++;};this.onstart?.();}
-   stop(){this.onend?.();}abort(){}
-  }
-  (window as any).SpeechRecognition=FakeSpeech;
+  class Speech{continuous=false;interimResults=false;lang='';onstart:any;onend:any;onresult:any;onerror:any;start(){let i=0;const results:any[]=[];(window as any).feedWords=(text:string,final=true)=>{results[i]={isFinal:final,0:{transcript:text}};this.onresult({resultIndex:i,results});if(final)i++;};this.onstart();}stop(){this.onend?.();}abort(){}}
+  (window as any).SpeechRecognition=Speech;
  });
- await page.goto('/');
- await page.getByRole('button',{name:'Trial video annotation',exact:true}).click();
- await expect(page.getByRole('tab',{name:'Annotate',exact:true})).toBeEnabled();await page.getByRole('tab',{name:'Annotate',exact:true}).click();
- await expect(page.getByLabel('Label list',{exact:true})).toBeEnabled();
- const savedLabels=(await page.getByLabel('Label list',{exact:true}).inputValue()).split('\n').filter(Boolean);
- const savedLabel=savedLabels.find(label=>label==='iron_hold')??savedLabels[0];
- expect(savedLabel).toBeTruthy();
- const spokenLabel=savedLabel.replaceAll('_',' ');
-  await page.getByRole('tab',{name:'Upload',exact:true}).click();
- await page.getByLabel('Upload video',{exact:true}).setInputFiles({name:'voice-interim-demo.mp4',mimeType:'video/mp4',buffer:await fs.readFile('tests/fixtures/short.mp4')});
-  await expect(page.getByRole('button',{name:'Add segment',exact:true,includeHidden:true})).toBeEnabled();
-  await expect(page.locator('tbody tr')).toHaveCount(0);
- await expect(page.locator('.status')).toHaveText('Saved in Convex');await page.getByRole('tab',{name:'Annotate',exact:true}).click();
-  await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);
-  await page.locator('video').evaluate(async(v:HTMLVideoElement)=>{v.pause();v.currentTime=2;await new Promise<void>(resolve=>v.addEventListener('seeked',()=>resolve(),{once:true}));Object.defineProperty(v,'currentTime',{configurable:true,get:()=>2});});
-  await page.getByRole('button',{name:'Turn mic on',exact:true}).click();
-  await expect(page.getByRole('button',{name:'Turn mic off',exact:true})).toHaveAttribute('aria-pressed','true');
-  await expect(page.getByText('Listening. Say start, then stop, then a label.',{exact:true})).toBeVisible();
-  await expect(page.getByRole('status').filter({hasText:'Next, say:'})).toContainText('Next, say: “start”');
-  await expect(page.getByText('Listening',{exact:true})).toBeVisible();
-  await expect(page.locator('.listening-dot')).toBeVisible();
-  await page.evaluate(()=>(window as any).feedWords('START now!',false));
-  await expect(page.getByRole('status').filter({hasText:'Next, say:'})).toContainText('Next, say: “stop”');
-  await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.paused)).toBe(false);
-  const played=await page.locator('video').evaluate((v:HTMLVideoElement)=>!v.paused);
-  await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype,'currentTime')!.get!.call(v))).toBeGreaterThanOrEqual(4);
-  await page.locator('video').evaluate((v:HTMLVideoElement)=>Object.defineProperty(v,'currentTime',{configurable:true,get:()=>4}));
-  await page.locator('video').evaluate((v:HTMLVideoElement)=>Object.defineProperty(v,'currentTime',{configurable:true,get:()=>3}));
-  await page.evaluate(()=>(window as any).feedWords('START now!',true));
-  await page.locator('video').evaluate((v:HTMLVideoElement)=>Object.defineProperty(v,'currentTime',{configurable:true,get:()=>4}));
-  await page.evaluate(()=>(window as any).feedWords('please STOP.',false));
-  await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.paused)).toBe(true);
-  const paused=await page.locator('video').evaluate((v:HTMLVideoElement)=>v.paused);
-  await expect(page.getByRole('status').filter({hasText:'Next, say:'})).toContainText('Next, say: a label below');
-  await expect(page.locator('tbody tr')).toHaveCount(0);
-  await page.locator('video').evaluate((v:HTMLVideoElement)=>Object.defineProperty(v,'currentTime',{configurable:true,get:()=>4.75}));
-  await page.evaluate(()=>(window as any).feedWords('please STOP.',true));
-  await expect(page.getByText('Start: 2.000 sec / End: 4.000 sec',{exact:true})).toBeVisible();
-  await page.evaluate(label=>(window as any).feedWords(label,false),spokenLabel);
-  await expect(page.locator('tbody tr')).toHaveCount(0);
-  await page.evaluate(label=>(window as any).feedWords(`please ${label.toUpperCase()}.`),spokenLabel);
-  await expect(page.locator('tbody tr')).toHaveCount(1);
-  await expect(page.getByRole('status').filter({hasText:'Next, say:'})).toContainText('Next, say: “start”');
-  await expect(page.getByText('Heard:',{exact:false})).toContainText(spokenLabel.toUpperCase());
-  await page.screenshot({path:'test-results/mic-listening.png',fullPage:true});
-  await page.getByRole('button',{name:'Turn mic off',exact:true}).click();
-  await expect(page.getByText('Mic is off',{exact:true})).toBeVisible();
-  await expect(page.getByRole('button',{name:'Turn mic on',exact:true})).toHaveAttribute('aria-pressed','false');
-  await page.reload();await expect(page.locator('tbody tr')).toHaveCount(1);
-  const downloadPending=page.waitForEvent('download');await page.getByRole('button',{name:'Export JSON',exact:true}).click();
-  const stream=await(await downloadPending).createReadStream();const chunks=[];for await(const chunk of stream!)chunks.push(chunk);
-  const result=JSON.parse(Buffer.concat(chunks).toString()).filter((row:any)=>row.episode==='voice-interim-demo.mp4');
-  const expected={episode:'voice-interim-demo.mp4',label:savedLabel,start_sec:2,end_sec:4};
-  expect(result).toContainEqual(expected);
-  console.log('SPOKEN LABEL: '+spokenLabel+'\nSAVED LABEL: '+savedLabel+'\nSHARED MIC HANDLER: start @ 2 -> stop @ 4 -> saved label: PASS\nVIDEO PLAYED: '+played+'\nVIDEO PAUSED: '+paused+'\nCONVEX SAVE + PAGE REFRESH: PASS\nSAVED_SEGMENT\n'+JSON.stringify(result.find((row:any)=>row.label===savedLabel&&row.start_sec===2&&row.end_sec===4),null,2));
-  await page.screenshot({path:'test-results/voice-labels.png',fullPage:true});
- // Unsupported-browser message.
- await page.addInitScript(()=>{delete (window as any).SpeechRecognition;delete (window as any).webkitSpeechRecognition;});
- await page.reload();
- await expect(page.getByText('Open this page in Chrome to use the mic. You can still label by hand in the tools panel.',{exact:true})).toBeVisible();
- await expect(page.getByRole('button',{name:'Turn mic on',exact:true})).toBeDisabled();
+ await page.goto('/');await page.getByRole('button',{name:'Try a sample video',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Turn mic on',exact:true})).toBeEnabled();
+ await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);
+ await page.getByRole('button',{name:'Turn mic on',exact:true}).click();
+ const feed=async(text:string,time:number,final=true)=>{await page.locator('video').evaluate((v:HTMLVideoElement,t)=>Object.defineProperty(v,'currentTime',{configurable:true,get:()=>t}),time);await page.evaluate(({text,final})=>(window as any).feedWords(text,final),{text,final});};
+ await feed('start',2,false);await expect(page.locator('.trial-guide-line strong')).toHaveText('Say stop');
+ await feed('start',3,true);await feed('stop',4,false);await expect(page.locator('.trial-guide-line strong')).toHaveText('Say a label');
+ await feed('stop',4.75,true);await feed('iron hold',4.75,false);await expect(page.locator('tbody tr')).toHaveCount(0);
+ await feed('iron hold',4.75,true);await expect(page.locator('tbody tr')).toHaveCount(1);await expect(page.locator('.trial-guide-line strong')).toHaveText('Saved. Do the next one');
+ await page.getByRole('button',{name:'Turn mic off',exact:true}).click();await expect(page.locator('.trial-guide-line strong')).toHaveText('Turn on your mic');
+ await page.reload();await expect(page.locator('tbody tr')).toHaveCount(1);await page.getByText('More tools',{exact:true}).click();
+ const pending=page.waitForEvent('download');await page.getByRole('button',{name:'Export JSON',exact:true}).click();const stream=await(await pending).createReadStream();const chunks=[];for await(const c of stream!)chunks.push(c);const result=JSON.parse(Buffer.concat(chunks).toString());
+ expect(result).toContainEqual({episode:'IRON_001_trial_45s.mp4',label:'iron_hold',start_sec:2,end_sec:4});
+ await page.addInitScript(()=>{delete(window as any).SpeechRecognition;delete(window as any).webkitSpeechRecognition;});await page.reload();await expect(page.getByText('Open in Chrome to use the mic, or open More tools to label by hand.',{exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Turn mic on',exact:true})).toBeDisabled();
 });

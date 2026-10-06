@@ -11,7 +11,7 @@ type SpeechResult={isFinal:boolean;0:{transcript:string}};
 type SpeechEvent={resultIndex:number;results:ArrayLike<SpeechResult>};
 type Recognition={continuous:boolean;interimResults:boolean;lang:string;start:()=>void;stop:()=>void;abort:()=>void;onstart:(()=>void)|null;onend:(()=>void)|null;onerror:((event:{error:string})=>void)|null;onresult:((event:SpeechEvent)=>void)|null};
 type SpeechWindow=Window&{SpeechRecognition?:new()=>Recognition;webkitSpeechRecognition?:new()=>Recognition};
-export function VoiceLabels({episodeId,labels,video,active=true,navigate,reviewMode=false}:{episodeId:Id<'episodes'>;labels:string[];video:RefObject<HTMLVideoElement|null>;active?:boolean;navigate?:(activity:Activity)=>void;reviewMode?:boolean}){
+export function VoiceLabels({episodeId,labels,video,active=true,navigate,reviewMode=false,compact=false}:{compact?:boolean;episodeId:Id<'episodes'>;labels:string[];video:RefObject<HTMLVideoElement|null>;active?:boolean;navigate?:(activity:Activity)=>void;reviewMode?:boolean}){
  const {workspaceToken,kind}=useWorkspace();
  const save=useMutation(api.annotations.save);const objects=useQuery(api.boxes.objects,{workspaceToken,episodeId});
  const [listening,setListening]=useState(false),[heard,setHeard]=useState(''),[message,setMessage]=useState(''),[state,setState]=useState<VoiceState>({waiting:'start',start_sec:null,end_sec:null,error:null}),[failed,setFailed]=useState<VoiceSegment[]>([]);
@@ -21,6 +21,11 @@ export function VoiceLabels({episodeId,labels,video,active=true,navigate,reviewM
  latestLabels.current=labels;
  useEffect(()=>{window.dispatchEvent(new CustomEvent('cv-mic-state',{detail:{listening,episodeId}}));},[listening,episodeId]);
  useEffect(()=>{window.dispatchEvent(new CustomEvent('cv-voice-progress',{detail:{episodeId,state}}));},[state,episodeId]);
+ useEffect(()=>{window.dispatchEvent(new CustomEvent('cv-voice-saving',{detail:{episodeId,pending,failed:failed.length}}));},[episodeId,pending,failed.length]);
+ useEffect(()=>{
+  const report=(event:Event)=>{if((event as CustomEvent).detail.episodeId!==episodeId)return;window.dispatchEvent(new CustomEvent('cv-mic-state',{detail:{episodeId,listening}}));window.dispatchEvent(new CustomEvent('cv-voice-progress',{detail:{episodeId,state}}));window.dispatchEvent(new CustomEvent('cv-voice-saving',{detail:{episodeId,pending,failed:failed.length}}));};
+  window.addEventListener('cv-voice-status-request',report);return ()=>window.removeEventListener('cv-voice-status-request',report);
+ },[episodeId,listening,state,pending,failed.length]);
  const persist=useRef<(segment:VoiceSegment)=>void>(()=>{});
  persist.current=segment=>{setPending(n=>n+1);void save({workspaceToken,episodeId,...segment,source:"voice"}).catch(()=>{setFailed(rows=>[...rows,segment]);setMessage('A voice segment could not save. Retry saving below.');}).finally(()=>setPending(n=>n-1));};
  const engine=useRef<ReturnType<typeof createVoiceSegments>|null>(null);
@@ -69,6 +74,16 @@ export function VoiceLabels({episodeId,labels,video,active=true,navigate,reviewM
   r.onend=()=>{if(wanted.current){try{r.start();}catch{wanted.current=false;setListening(false);setMessage('Listening ended. Turn the mic on to try again.');}}else setListening(false);};
   try{r.start();}catch{wanted.current=false;setMessage('The microphone could not start. Try again.');}
  }
+ if(compact&&!reviewMode&&mode==='labels')return <section className="voice-labels compact-voice" aria-label="Voice labelling">
+  <button type="button" aria-pressed={listening} disabled={!Speech||!labels.length} onClick={toggle}><svg className="mic-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="8" y="2" width="8" height="13" rx="4"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg>{listening?'Turn mic off':'Turn mic on'}</button>
+  <h3>Your labels</h3><div className="voice-label-options" aria-label="Saved labels">{labels.map(label=><span key={label}>{displayLabel(label,true)}</span>)}</div>
+  {!Speech&&<p role="alert">Open in Chrome to use the mic, or open More tools to label by hand.</p>}
+  {!labels.length&&<p role="alert">Open More tools → Your labels and save a label to enable the mic.</p>}
+  {state.error&&<p role="alert">{state.error}</p>}
+  {message&&!['Mic off. Your marked times are kept.','Allow microphone access when Chrome asks.','Listening. Say start, then stop, then a label.','Retrying save...'].includes(message)&&<p role="alert">{message}</p>}
+  {pending>0&&<p role="status">Saving…</p>}
+  {failed.length>0&&<button type="button" onClick={()=>{const rows=failed;setFailed([]);setMessage('Retrying save...');rows.forEach(segment=>persist.current(segment));}}>Retry saving {failed.length} voice segment(s)</button>}
+ </section>;
  return <section className="voice-labels" aria-label="Voice labelling">
   <div className="voice-controls"><div className="mic-panel"><div className="mic-toggle">
    <p className="mic-state" aria-live="polite">{listening?<><span className="listening-dot" aria-hidden="true"/>Listening</>:"Mic is off"}</p>

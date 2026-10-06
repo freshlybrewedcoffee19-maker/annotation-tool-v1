@@ -36,3 +36,6 @@ STORY: Home promise → account → own video upload → metadata → workbench 
 FIRST VIEWPORT: Central un-cropped footage and timeline; compact coloured activity navigation left; microphone right. One task strip above footage, with skip/restart and progress. Returning users can work independently.
 FORM: User-pinned hybrid direction; preserve existing geometry, parser, undo, uncertainty and exports. Pending features have honest destinations and no simulated functionality.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
+
+## Trial guide refinement — 6 October 2026
+Preserve the incumbent Operate workbench, media proportions, palette and signed-in flows. For guest Action labels, replace the task strip with one stateful line, actual saved/marked segment counts and a closed How it works link above playback. Keep one primary mic button and saved label chips on the right. All routine prose is disclosed; actionable errors remain visible. Other activities retain existing guides and controls. No preset segment target exists, so count only actual saved/current marked segments. Screens checked at 1280×800 and 390×844; source parser, mutations and export formats are unchanged.
