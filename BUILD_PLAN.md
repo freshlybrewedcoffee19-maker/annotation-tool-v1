@@ -218,3 +218,5 @@ Phase 0 started 4 October 2026. See [measured browser report](benchmarks/nanotra
 No deadlines or real-time performance guarantees are committed yet. Start with the browser benchmark; a failed model test changes the model choice, not the requirement to run locally.
 
 Dataset services added 6 October 2026: raw collection and annotation enquiry page at /services. Code debd8f9, Cloudflare deployment 29733478. Two local and two live checks passed; laptop/phone layouts inspected. See SERVICES_PROOF.md. Requests save privately in Convex; email notifications are not connected.
+
+Services correction deployed 6 October 2026: original portrait sample, human annotation animation, original copy and verified pilot link restored; removed public-page wait on private workspace initialization. Code 18085c5, Cloudflare 2b706ed0. Five local and five live checks passed. See SERVICES_PROOF.md.
