@@ -1,7 +1,7 @@
 /videos/*
   Cache-Control: public, max-age=31536000, immutable
 /assets/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: no-cache
 /tracking/*
   Cache-Control: public, max-age=3600
 /services/*

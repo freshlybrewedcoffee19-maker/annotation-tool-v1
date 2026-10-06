@@ -17,7 +17,7 @@ export function TrialActionGuide({episodeId,count}:{episodeId:Id<'episodes'>;cou
   queueMicrotask(()=>window.dispatchEvent(new CustomEvent('cv-voice-status-request',{detail:{episodeId}})));
   return ()=>{window.removeEventListener('cv-mic-state',mic);window.removeEventListener('cv-voice-progress',progress);window.removeEventListener('cv-voice-saving',pending);};
  },[episodeId]);
- const line=!listening?'Turn on your mic':state.waiting==='stop'?'Say stop':state.waiting==='label'||saving?'Say a label':saved?'Saved. Do the next one':'Say start';
+ const line=!listening?'Turn on your mic':state.waiting==='stop'?'Say stop':state.waiting==='label'?'Say a label':saving?'Saving…':saved?'Saved. Do the next one':'Say start';
  const total=count+(state.start_sec!==null||saving?1:0);
  return <div className="trial-action-guide">
   <div className="trial-guide-line"><strong role="status" aria-live="polite">{line}</strong><span aria-label="Labelling progress">{count} of {total} segments labelled</span></div>
