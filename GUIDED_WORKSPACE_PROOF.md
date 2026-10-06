@@ -30,3 +30,6 @@
 - Speech command checks inject recognition results in a real browser. Actual microphone hardware, accent and recognition quality require a spoken user check.
 - No new vision models, model accuracy claims or general tracking capability are included.
 - Frontend release and public-site verification are recorded below when completed.
+
+## Live release
+Code checkpoint e961a76 pushed to GitHub. Cloudflare Pages release 810a769a published to https://cheddarvox.com. All six relevant live browser checks passed (1.2 minutes): polygons, sampled tracking review, account/upload/metadata locks plus fresh-browser guide restoration, guided voice/swipe review, voice visibility/reappearance safeguards and action voice save/refresh. Live desktop and 390px phone captures inspected without horizontal overflow. Browser checks used test-only public Cloudflare routing with normal certificate verification because of the existing local Wi-Fi DNS issue; no device or router settings changed. Google remains disabled pending owner credentials.

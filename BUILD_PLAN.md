@@ -235,3 +235,5 @@ Workspace follow-up deployed: fb36eda, Cloudflare df68fe97. User requested the f
 
 ### 6 October 2026 — account journey and guided feature navigation
 Real email accounts, protected saved work, upload before metadata/locked values, coloured feature destinations, source-proportion central video and right-side mic, contextual microtasks with actual-save rewards, account guide preferences, exact voice navigation/review commands and recoverable swipe review implemented. Local core/regression checks passed; independent design review approved. Google credentials, email verification/reset and a real spoken microphone check remain pending. No additional model layers released. See GUIDED_WORKSPACE_PROOF.md for evidence and release details.
+
+Guided workspace released as code e961a76 / Cloudflare Pages 810a769a. All six relevant live browser checks passed; live desktop/phone inspected. Sign-in and saved work tested across fresh browsers. Google remains pending owner credentials; other limitations remain as recorded in GUIDED_WORKSPACE_PROOF.md.
