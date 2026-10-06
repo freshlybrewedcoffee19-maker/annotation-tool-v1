@@ -12,3 +12,5 @@
 .review-actions .verify{background:var(--vox-blue);border-color:var(--vox-blue);color:var(--white)}
 .review-actions .verify:hover{background:var(--deep-navy)}
 .film-card span{color:var(--white)}
+
+.landing-footer nav{display:flex;gap:20px;flex-wrap:wrap}.landing-footer a{color:var(--vox-blue);text-underline-offset:4px}.landing-footer{flex-wrap:wrap}
