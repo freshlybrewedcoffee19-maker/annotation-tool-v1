@@ -1,0 +1,15 @@
+.scene{width:100%;max-width:320px;margin:0;align-self:center;color:#2563EB}
+.scene svg{display:block;width:100%;height:auto;overflow:visible}
+.scene figcaption{font-family:inherit;text-align:center;font-size:10px;line-height:1.5;color:#626b78;margin-top:12px}
+.fold{transform-origin:53px 86px;animation:fold 7s ease-in-out infinite}
+.block{animation:slide 7s ease-in-out infinite}
+.slideTrail{animation:trail 7s ease-in-out infinite}
+.ball,.shadow{animation:roll 7s ease-in-out infinite}
+.ballMark{transform-origin:248px 88px;animation:spin 7s ease-in-out infinite}
+.scene[data-playing="false"] *{animation-play-state:paused}
+@keyframes fold{0%,8%,42%,100%{transform:scaleY(1)}23%,32%{transform:scaleY(-.7)}}
+@keyframes slide{0%,30%,75%,100%{transform:translateX(0)}48%,62%{transform:translateX(19px)}}
+@keyframes trail{0%,32%,72%,100%{opacity:0}44%,62%{opacity:.35}}
+@keyframes roll{0%,52%,100%{transform:translateX(0)}76%,86%{transform:translateX(21px)}}
+@keyframes spin{0%,52%{transform:rotate(0)}76%,86%{transform:rotate(95deg)}100%{transform:rotate(0)}}
+@media(prefers-reduced-motion:reduce){.scene *{animation:none!important}.slideTrail{opacity:0}}
