@@ -1,0 +1,17 @@
+# Annotation workbench — 6 October 2026
+
+User requested a CVAT-like annotation dashboard after the existing guided setup, with unfinished features marked Pending. Cheddar Vox branding and existing saved work are preserved.
+
+Implemented: compact workflow navigation and video title; left object box/polygon tools; large central video with playback, estimated frame stepping and seek bar; central timeline and expandable coverage checks; right microphone with Label actions / Annotate objects, reusable labels, manual segments, visibility/reappearance and manual object review. Review cards remain in Review & export. At phone widths the panes stack without sideways overflow.
+
+Pending labels are informational disclosures, not enabled model buttons: general assisted tracking, supported-category detection, single-frame masks, video masks and team review. Existing moving-iron trial review remains available; no general tracking or mask inference was released. 3D and supplying labellers remain deferred.
+
+Playback correction: the public static trial's host returned 200 to a byte-range request, and Chrome could not reliably seek its direct URL. The small 1,829,761-byte trial is fetched into browser memory before playback, creating a seekable local Blob URL. It still downloads from Cloudflare; personal videos keep private URLs. The Blob URL is revoked and unfinished fetches cancelled on unmount. No video or annotation migration occurred.
+
+Checks: production build passed. Seven important local browser checks passed: full manual action save/edit/delete/export/refresh; polygon edits/review/export; returning workspace; track review/swipe/correction/export; simulated voice visibility/reappearance; Cloudflare trial playback/refresh/seek with zero Convex video-download requests; 1280×800 video/mic visibility and simulated voice action export. Additional box identity/geometry, guided setup and action-object links passed in the broader preceding run.
+
+Independent layout review inspected the user's reference and final desktop1440×1000 / phone390×844 captures. It found one real keyboard regression: textarea arrow/undo keys could modify selected geometry. A saved regression reproduced that failure; after excluding inspector, playback and editable targets, both the polygon regression and complete box edit/undo/restore checks passed (2 passed). Final reviewer disposition: ship, scoped finding resolved. Detector ran once; its remaining findings were advisory compact type/radius differences from historical design metadata.
+
+Manual playback walkthrough passed play/pause, estimated frame step, seeking after stepping, Pending descriptions and both layout sizes. Real microphone hardware recognition has not been tested in this change; simulated speech results exercise existing save behavior.
+
+Release/live verification: pending at this checkpoint.
