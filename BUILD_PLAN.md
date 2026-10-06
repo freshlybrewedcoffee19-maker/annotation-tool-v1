@@ -231,3 +231,4 @@ Workspace follow-up deployed: fb36eda, Cloudflare df68fe97. User requested the f
 - Explained voice object visibility separately from drawing outlines; reappearance still requires a verified same-object outline and explicit confirmation.
 - Clarified manual labelling, object review, empty clips and timeline guidance. Kept parser commands, storage, privacy and pending features unchanged.
 - Desktop and phone browser inspection showed no horizontal overflow. Local object-voice and laptop trial checks passed; spoken action save/refresh and unavailable-mic guidance checked with the updated copy.
+- Published as Cloudflare Pages release bef4b341. Both live voice checks passed (27.3 seconds); inspected live desktop and phone layouts. Live checks used public Cloudflare routing in the test browser because of the previously reported local Wi-Fi lookup issue; no laptop or router settings changed.
