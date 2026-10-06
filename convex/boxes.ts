@@ -1,5 +1,6 @@
 import {v} from 'convex/values';
 import {query,mutation} from './_generated/server';
+import {recordTrialEdit} from './trialHistoryHelpers';
 import {ownedEpisode} from './access';
 const reviewStatus=v.union(v.literal('pending'),v.literal('verified'),v.literal('disqualified'));
 export const boxValue=v.object({points:v.optional(v.array(v.object({x:v.number(),y:v.number()}))),reviewStatus:v.optional(reviewStatus),id:v.string(),objectId:v.string(),name:v.string(),time:v.number(),frameIndex:v.union(v.number(),v.null()),timing:v.union(v.literal('decoded'),v.literal('time')),x:v.number(),y:v.number(),width:v.number(),height:v.number()});
@@ -15,8 +16,11 @@ export const save=mutation({args:{workspaceToken:v.string(),episodeId:v.id('epis
  const old=await ctx.db.query('objectBoxes').withIndex('by_episode',q=>q.eq('episodeId',args.episodeId)).unique();
  const checked=args.boxes.map(b=>{const previous=old?.boxes.find(p=>p.id===b.id);const unchanged=previous&&JSON.stringify(previous.points??null)===JSON.stringify(b.points??null)&&(['objectId','name','time','x','y','width','height','frameIndex','timing'] as const).every(k=>previous[k]===b[k]);return {...b,reviewStatus:unchanged?(previous.reviewStatus??'pending'):'pending' as const};});
  const visibility=await ctx.db.query('objectVisibility').withIndex('by_episode',q=>q.eq('episodeId',args.episodeId)).unique();
+ const before={boxes:old?.boxes??[],spans:visibility?.spans??null};
  if(visibility)await ctx.db.patch(visibility._id,{spans:visibility.spans.map(s=>{if(!s.reappearanceBoxId)return s;const b=checked.find(b=>b.id===s.reappearanceBoxId);if(b?.reviewStatus==='verified')return s;const {reappearanceBoxId,...rest}=s;return rest;})});
- if(old)await ctx.db.patch(old._id,{boxes:checked});else await ctx.db.insert('objectBoxes',{episodeId:args.episodeId,boxes:checked});return null;
+ if(old)await ctx.db.patch(old._id,{boxes:checked});else await ctx.db.insert('objectBoxes',{episodeId:args.episodeId,boxes:checked});
+ const afterVisibility=await ctx.db.query('objectVisibility').withIndex('by_episode',q=>q.eq('episodeId',args.episodeId)).unique();
+ await recordTrialEdit(ctx,args.episodeId,'outlines','Edit outlines',before,{boxes:checked,spans:afterVisibility?.spans??null});return null;
 }});
 export const review=mutation({args:{workspaceToken:v.string(),episodeId:v.id('episodes'),boxId:v.string(),status:reviewStatus},returns:v.null(),handler:async(ctx,args)=>{
  await ownedEpisode(ctx,args.workspaceToken,args.episodeId);

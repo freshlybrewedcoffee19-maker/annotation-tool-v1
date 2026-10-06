@@ -8,7 +8,7 @@ export function TrialActionGuide({episodeId,count}:{episodeId:Id<'episodes'>;cou
  const [state,setState]=useState<VoiceState>({waiting:'start',start_sec:null,end_sec:null,error:null});
  const [saved,setSaved]=useState(false),[saving,setSaving]=useState(false);
  const previous=useRef(count);
- useEffect(()=>{if(count>previous.current)setSaved(true);previous.current=count;},[count]);
+ useEffect(()=>{if(count>previous.current)setSaved(true);else if(count<previous.current)setSaved(false);previous.current=count;},[count]);
  useEffect(()=>{
   const mic=(event:Event)=>{const d=(event as CustomEvent).detail;if(d.episodeId===episodeId)setListening(d.listening);};
   const progress=(event:Event)=>{const d=(event as CustomEvent).detail;if(d.episodeId===episodeId){setState(d.state);if(d.state.waiting!=='start')setSaved(false);}};

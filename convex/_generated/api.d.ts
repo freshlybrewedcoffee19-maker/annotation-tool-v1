@@ -20,6 +20,8 @@ import type * as metadata from "../metadata.js";
 import type * as services from "../services.js";
 import type * as tracks from "../tracks.js";
 import type * as trial from "../trial.js";
+import type * as trialHistory from "../trialHistory.js";
+import type * as trialHistoryHelpers from "../trialHistoryHelpers.js";
 import type * as visibility from "../visibility.js";
 import type * as workspaces from "../workspaces.js";
 
@@ -42,6 +44,8 @@ declare const fullApi: ApiFromModules<{
   services: typeof services;
   tracks: typeof tracks;
   trial: typeof trial;
+  trialHistory: typeof trialHistory;
+  trialHistoryHelpers: typeof trialHistoryHelpers;
   visibility: typeof visibility;
   workspaces: typeof workspaces;
 }>;
