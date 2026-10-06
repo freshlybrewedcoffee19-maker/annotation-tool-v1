@@ -7,7 +7,7 @@
     "test": "playwright test",
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
-    "deploy": "npx convex dev --once && npx @convex-dev/static-hosting upload --build"
+    "deploy": "node scripts/deploy.mjs"
   },
   "keywords": [],
   "author": "",

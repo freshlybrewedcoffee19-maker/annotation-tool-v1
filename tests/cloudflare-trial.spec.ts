@@ -4,7 +4,7 @@ test('Cloudflare build plays bundled trial without a Convex video download',asyn
  const storageDownloads:string[]=[];
  page.on('request',r=>{if(r.method()==='GET'&&/\.convex\.(cloud|site)\/api\/storage\//.test(r.url()))storageDownloads.push(r.url());});
  await page.goto('/');
- await page.getByRole('button',{name:'Trial video annotation',exact:true}).click();
+ await page.getByRole('button',{name:'Try a sample video',exact:true}).click();
  const video=page.locator('video');
  await expect(video).toHaveAttribute('src',/^blob:/);
  await expect.poll(()=>video.evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);

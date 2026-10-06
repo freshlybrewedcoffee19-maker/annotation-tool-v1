@@ -1,7 +1,6 @@
 import {httpRouter} from 'convex/server';
 import {httpAction} from './_generated/server';
-import {internal,components} from './_generated/api';
-import {registerStaticRoutes} from '@convex-dev/static-hosting';
+import {internal} from './_generated/api';
 import {auth} from './auth';
 const http=httpRouter();
 auth.addHttpRoutes(http);
@@ -13,5 +12,12 @@ http.route({path:'/api/upload',method:'POST',handler:httpAction(async(ctx,reques
  const storageId=await ctx.storage.store(blob);await ctx.runMutation(internal.workspaces.recordFile,{workspaceId,storageId});return Response.json({storageId},{headers});
  }catch{return new Response('Upload unavailable for this workspace.',{status:403,headers});}
 })});
-registerStaticRoutes(http,components.staticHosting);
+// Auth routes take precedence over this fallback. Backend paths must stay here.
+http.route({pathPrefix:'/',method:'GET',handler:httpAction(async(_ctx,request)=>{
+ const url=new URL(request.url);
+ if(url.pathname==='/api'||url.pathname.startsWith('/api/')||url.pathname==='/.well-known'||url.pathname.startsWith('/.well-known/')||url.pathname==='/.files'||url.pathname.startsWith('/.files/')){
+  return new Response('Not found',{status:404,headers:{'Cache-Control':'no-store'}});
+ }
+ return new Response(null,{status:308,headers:{Location:`https://cheddarvox.com${url.pathname}${url.search}`,'Cache-Control':'no-store'}});
+})});
 export default http;
