@@ -14,4 +14,6 @@ Independent layout review inspected the user's reference and final desktop1440×
 
 Manual playback walkthrough passed play/pause, estimated frame step, seeking after stepping, Pending descriptions and both layout sizes. Real microphone hardware recognition has not been tested in this change; simulated speech results exercise existing save behavior.
 
-Release/live verification: pending at this checkpoint.
+Released: code bd328a4, Cloudflare Pages deployment f37807ba at https://f37807ba.naive-physics.pages.dev; production https://cheddarvox.com. All seven listed browser checks passed on the custom domain (7 passed, 1.4 minutes), including the new label-text/geometry shortcut regression and seeking after play/pause/frame stepping. Separate live playback/layout walkthrough passed: five Pending badges, expandable tracking description, play/pause, seeking, and no horizontal overflow at 1440px or390px. Published laptop/phone captures were inspected.
+
+Because this laptop's Wi-Fi still resolves the custom domain to its former parking host, only the test Chrome processes mapped cheddarvox.com to its previously verified public Cloudflare address. HTTPS certificate validation remained enabled. Laptop/router DNS settings were not changed. This verifies the published site on current public routing; it does not claim to fix the user's Wi-Fi cache.
