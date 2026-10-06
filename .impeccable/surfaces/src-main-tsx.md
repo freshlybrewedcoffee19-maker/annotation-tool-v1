@@ -17,3 +17,11 @@ FORM: User-pinned three-column editor; no concept seed needed for this specified
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
 
 Quality bar: screenshot's dominant footage, compact toolbar, adjacent tools and inspector; retain Cheddar Vox palette and voice interaction. No raster assets created. Pending: general assisted tracking, supported-category detection, masks and team review; existing trial track review and manual geometry remain available. 3D and staffing remain deferred.
+
+## Guided workspace direction — approved 6 October
+THESIS: One video workbench, distinct activity destinations, one contextual microtask instead of a checklist to memorise.
+OWN-WORLD: Existing Cheddar Vox cream/white/navy, yellow and blue. Activity colours identify tools through both name and colour. CVAT precision, Canva discoverability and Candy Crush progress are interaction influences, not copied skins.
+STORY: Home promise → account → own video upload → metadata → workbench → guided annotation → swipe review → export. Trial remains immediate and guest-friendly.
+FIRST VIEWPORT: Central un-cropped footage and timeline; compact coloured activity navigation left; microphone right. One task strip above footage, with skip/restart and progress. Returning users can work independently.
+FORM: User-pinned hybrid direction; preserve existing geometry, parser, undo, uncertainty and exports. Pending features have honest destinations and no simulated functionality.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.

@@ -3,13 +3,16 @@ import { v } from "convex/values";
 import {boxValue} from './boxes';
 import {visibilityValue} from './visibility';
 import {trackFields} from './tracks';
+import {authTables} from '@convex-dev/auth/server';
 export default defineSchema({
+ ...authTables,
+ users:defineTable({name:v.optional(v.string()),image:v.optional(v.string()),email:v.optional(v.string()),emailVerificationTime:v.optional(v.number()),phone:v.optional(v.string()),phoneVerificationTime:v.optional(v.number()),isAnonymous:v.optional(v.boolean()),guidePreference:v.optional(v.union(v.literal('on'),v.literal('off')))}).index('email',['email']).index('phone',['phone']),
  datasetRequests:defineTable({workspaceId:v.id('workspaces'),name:v.string(),email:v.string(),organization:v.string(),task:v.string(),dataSource:v.union(v.literal('collect'),v.literal('existing'),v.literal('both')),volume:v.string(),status:v.literal('new')}).index('by_workspace',['workspaceId']),
  trackSuggestions:defineTable(trackFields).index('by_episode',['episodeId']).index('by_episode_key',['episodeId','key']),
  objectVisibility:defineTable({episodeId:v.id('episodes'),spans:v.array(visibilityValue)}).index('by_episode',['episodeId']),
  objects:defineTable({episodeId:v.id('episodes'),objectId:v.string(),name:v.string()}).index('by_episode',['episodeId']).index('by_episode_object',['episodeId','objectId']),
  objectBoxes:defineTable({episodeId:v.id('episodes'),boxes:v.array(boxValue)}).index('by_episode',['episodeId']),
- workspaces:defineTable({token:v.string(),kind:v.union(v.literal("owner"),v.literal("trial"),v.literal("personal"))}).index("by_token",["token"]).index("by_kind",["kind"]),
+ workspaces:defineTable({userId:v.optional(v.id('users')),token:v.string(),kind:v.union(v.literal("owner"),v.literal("trial"),v.literal("personal"))}).index("by_token",["token"]).index("by_kind",["kind"]).index('by_user',['userId']),
  fileOwners:defineTable({workspaceId:v.id("workspaces"),storageId:v.id("_storage")}).index("by_storage",["storageId"]).index("by_storage_workspace",["storageId","workspaceId"]),
  trialDatasets:defineTable({key:v.literal("active"),storageId:v.id("_storage"),name:v.string(),duration:v.number(),width:v.number(),height:v.number(),frameRate:v.number(),labels:v.array(v.string()),metadata:v.array(v.object({field:v.string(),value:v.string()}))}).index("by_key",["key"]),
  metadataDefaults:defineTable({workspaceId:v.optional(v.id("workspaces")),key:v.literal("shared"),values:v.array(v.object({field:v.string(),value:v.string(),locked:v.boolean()}))}).index("by_key",["key"]).index("by_workspace",["workspaceId"]),

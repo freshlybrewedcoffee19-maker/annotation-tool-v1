@@ -37,3 +37,11 @@ export const saveDefaults=mutation({args:{workspaceToken:v.string(),values:v.arr
 export const unlockField=mutation({args:{workspaceToken:v.string(),episodeId:v.id('episodes'),field:v.string()},returns:v.null(),handler:async(ctx,{workspaceToken,episodeId,field})=>{
  const episode=await ownedEpisode(ctx,workspaceToken,episodeId);if(!episode)throw new Error('Video not found.');await ctx.db.patch(episodeId,{metadataLocks:(episode.metadataLocks??[]).filter(name=>name!==field)});return null;
 }});
+export const lockValues=mutation({args:{workspaceToken:v.string(),episodeId:v.id('episodes'),values:v.array(v.object({field:v.string(),value:v.string(),locked:v.boolean()}))},returns:v.null(),handler:async(ctx,{workspaceToken,episodeId,values})=>{
+ const space=await workspace(ctx,workspaceToken),episode=await ownedEpisode(ctx,workspaceToken,episodeId);
+ const settings=await ctx.db.query('metadataFields').withIndex('by_workspace',q=>q.eq('workspaceId',space._id)).unique();
+ if(values.length>100||values.some(row=>!settings?.fields.includes(row.field)||row.value.length>10000))throw new Error('Use your saved fields and values up to 10,000 characters.');
+ const merged=new Map((episode.metadata??[]).map(row=>[row.field,row.value])),locks=new Set(episode.metadataLocks??[]);
+ for(const row of values){if(locks.has(row.field)&&row.value!==merged.get(row.field))throw new Error('Unlock this field before changing its value.');merged.set(row.field,row.value);if(row.locked)locks.add(row.field);}
+ await ctx.db.patch(episodeId,{metadata:[...merged].map(([field,value])=>({field,value})),metadataLocks:[...locks]});return null;
+}});

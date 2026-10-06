@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-04T11:05:40.908Z",
-  "title": "Design System: nAIve Physics",
+  "generatedAt": "2026-10-06T10:01:39.3567322Z",
+  "title": "Design System: Cheddar Vox",
   "extensions": {
     "colorMeta": {
       "red": {
@@ -185,6 +185,82 @@
           "oklch(84% 0.025 25)",
           "oklch(95% 0.025 25)"
         ]
+      },
+      "activity-purple": {
+        "role": "secondary",
+        "displayName": "Pending masks"
+      },
+      "activity-teal": {
+        "role": "secondary",
+        "displayName": "Visibility and tracking"
+      },
+      "warm-white": {
+        "role": "neutral",
+        "displayName": "Warm White"
+      },
+      "activity-green": {
+        "role": "secondary",
+        "displayName": "Review destination"
+      },
+      "activity-navy-surface": {
+        "role": "secondary",
+        "displayName": "Export and team surface"
+      },
+      "activity-orange-surface": {
+        "role": "secondary",
+        "displayName": "Object destination surface"
+      },
+      "cheddar-yellow": {
+        "role": "primary",
+        "displayName": "Cheddar Yellow"
+      },
+      "cheddar-orange": {
+        "role": "primary",
+        "displayName": "Cheddar Orange"
+      },
+      "task-reward": {
+        "role": "secondary",
+        "displayName": "Saved-work reward"
+      },
+      "activity-purple-surface": {
+        "role": "secondary",
+        "displayName": "Pending masks surface"
+      },
+      "activity-yellow": {
+        "role": "secondary",
+        "displayName": "Actions and objects"
+      },
+      "activity-yellow-surface": {
+        "role": "secondary",
+        "displayName": "Relationship destination surface"
+      },
+      "activity-green-surface": {
+        "role": "secondary",
+        "displayName": "Review destination surface"
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White"
+      },
+      "activity-orange": {
+        "role": "secondary",
+        "displayName": "Objects and detection"
+      },
+      "soft-blue": {
+        "role": "neutral",
+        "displayName": "Soft Blue"
+      },
+      "vox-blue": {
+        "role": "primary",
+        "displayName": "Vox Blue"
+      },
+      "activity-teal-surface": {
+        "role": "secondary",
+        "displayName": "Visibility destination surface"
+      },
+      "deep-navy": {
+        "role": "neutral",
+        "displayName": "Deep Navy"
       }
     },
     "typographyMeta": {
@@ -219,6 +295,11 @@
         "name": "button-state",
         "value": "background .15s ease, border-color .15s ease",
         "purpose": "Button state feedback; disabled under reduced motion."
+      },
+      {
+        "name": "task-reward-arrive",
+        "purpose": "Written completion reward; disabled under prefers-reduced-motion. Status clears after 4500ms.",
+        "value": "reward-arrive .35s cubic-bezier(.16,1,.3,1) both"
       }
     ],
     "breakpoints": [
@@ -241,6 +322,14 @@
       {
         "name": "wide-opening",
         "value": "1500px"
+      },
+      {
+        "name": "guided-export-compact",
+        "value": "1100px"
+      },
+      {
+        "name": "guided-workspace-stack",
+        "value": "800px"
       }
     ]
   },
@@ -307,6 +396,13 @@
       "description": "Focused segment container; a neutral media area stands in for the source video.",
       "html": "<article class=\"ds-card\"><div class=\"ds-card-top\">Segment 1 of 3</div><div class=\"ds-media\" aria-label=\"Video area\"></div><div class=\"ds-caption\"><h3>Pick up</h3><p>1.00–2.00 sec · 1.00 sec clip</p></div></article>",
       "css": ".ds-card{max-width:650px;background:var(--paper,#fffaf3);color:var(--ink,#2c1a17);font-family:'Segoe UI',sans-serif;border-radius:16px;overflow:hidden;box-shadow:0 16px 32px rgba(44,26,23,.12)}.ds-card-top{padding:16px 20px;font-size:13px;color:var(--muted,#73594f)}.ds-media{aspect-ratio:16/9;background:#261b18}.ds-caption{padding:20px 24px 24px}.ds-caption h3{margin:0;font-size:27px;font-weight:550}.ds-caption p{font-size:14px;color:var(--muted,#73594f)}"
+    },
+    {
+      "kind": "nav",
+      "html": "<button class=\"ds-activity\" aria-pressed=\"true\"><span>2</span> Objects &amp; outlines</button>",
+      "name": "Guided activity destination",
+      "css": ".ds-activity{display:flex;align-items:center;gap:9px;width:100%;min-height:42px;padding:9px 10px;text-align:left;font:700 12px \"Segoe UI\",sans-serif;border:1px solid #B45309;border-radius:8px;background:#FFF0D4;color:var(--deep-navy,#172033);box-shadow:inset 0 0 0 1px #B45309;cursor:pointer}.ds-activity span{display:grid;place-items:center;width:22px;height:22px;background:var(--white,#FFFFFF);border-radius:5px;font-size:11px}.ds-activity:hover{background:var(--soft-blue,#DBEAFE)}.ds-activity:focus-visible{outline:3px solid var(--vox-blue,#2563EB);outline-offset:2px}",
+      "description": "Named coloured destination, with border and pressed state for selection."
     }
   ],
   "narrative": {
@@ -348,6 +444,15 @@
       "Don't turn the landing footage fan into a rule for every screen.",
       "Don't use review green as a second general brand accent.",
       "Don't introduce hard offset shadows into this soft media treatment."
-    ]
+    ],
+    "guidedWorkspace": {
+      "progress": "Actual saved records and microphone/boundary/export events drive progress; skipped tasks do not count complete. Saved work and review transitions provide written rewards.",
+      "preference": "Browser workspace guide preference; no account-wide synchronization.",
+      "layout": "Named coloured destinations left, source-proportion contained footage and timeline central, microphone right; one contextual task strip.",
+      "reducedMotion": "Reward entrance animation disabled; Show me where still explicitly requests smooth scrolling.",
+      "pending": "General tracking, detection, masks and team review remain explicitly Pending with manual alternatives.",
+      "scope": "Approved 6 October 2026 extension; earlier unrelated surface guidance remains preserved.",
+      "direction": "CVAT precision, Canva feature discovery and Candy Crush microtasks within the Cheddar Vox brand."
+    }
   }
 }

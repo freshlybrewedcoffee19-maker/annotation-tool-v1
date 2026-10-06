@@ -15,6 +15,25 @@ colors:
   verified-surface: "#e0ebdf"
   disqualified: "#841c22"
   disqualified-surface: "#f5dddd"
+  cheddar-yellow: "#FFB82E"
+  cheddar-orange: "#F59E0B"
+  vox-blue: "#2563EB"
+  deep-navy: "#172033"
+  soft-blue: "#DBEAFE"
+  warm-white: "#FFFDF8"
+  white: "#FFFFFF"
+  activity-orange: "#B45309"
+  activity-orange-surface: "#FFF0D4"
+  activity-teal: "#087F8C"
+  activity-teal-surface: "#DDF4F2"
+  activity-yellow: "#946000"
+  activity-yellow-surface: "#FFF4BF"
+  activity-green: "#2E6B45"
+  activity-green-surface: "#E4F2E8"
+  activity-navy-surface: "#E9EDF4"
+  activity-purple: "#7040AD"
+  activity-purple-surface: "#F0E8FA"
+  task-reward: "#235537"
 typography:
   display:
     fontFamily: "'Segoe UI', sans-serif"
@@ -253,3 +272,27 @@ Compact editor type is local to this surface: 24px brand, 16px file, secondary-t
 The editor grid has 12px corners, reduced to 8px on phones. Playback, tool and mode buttons and compact fieldsets use 6px corners; microphone and mode-group containers use 8px, and Pending badges use 4px. Playback buttons are 32px square on desktop and 28px wide by 32px high on phones. White panes, warm-white tools, soft-blue dividers and navy footage backing organise the work without new shadows. The review action uses Cheddar Yellow with an orange border; microphone and focus use Vox Blue. Selected tool controls use Soft Blue with a blue border. Editor keyboard focus is a 3px blue outline with a 2px offset.
 
 Assisted tracking, object detection, single-frame masks, video masks and team review each have a written Pending badge and an expandable explanation; these are descriptions of unfinished work, not active capabilities. Existing manual boxes, polygons, visibility, voice annotation and trial tracking review remain available. Playback frame steps are explicitly estimated from a supplied frame rate, with a 0.1-second fallback. Native video controls remain available. No raster assets or model capabilities are introduced by this layout.
+
+## Guided workspace extension — 6 October 2026
+
+This user-approved extension supersedes the earlier annotation tool arrangement for the guided workspace and review/export destination. Preserve the services sample and unrelated incumbent surfaces. CVAT precision, Canva feature discovery and Candy Crush microtasks guide the interaction; their visual skins are not copied. The approved Cheddar Yellow, Cheddar Orange, Vox Blue, Deep Navy, Soft Blue, Warm White and White primitives above remain the brand palette. Activity tones distinguish destinations rather than replacing that identity.
+
+### Layout and shapes
+
+The existing three-pane editor keeps named, coloured activity destinations on the left, footage and timeline central, and microphone controls on the right. Only the selected activity's relevant manual tools appear. A contextual task strip sits above footage. Video uses contain fitting, centred in its host, and a minimum height of zero in this extension: original footage proportions remain visible without cropping; drawing geometry follows the displayed image bounds. The existing editor breakpoints remain; at 800px and below navigation becomes two columns and task actions wrap below the prompt.
+
+Review/export uses a 260px / flexible content / 260px grid with an 18px gap: navigation left, task and review content central, microphone right. At 1100px and below the grid becomes 220px / flexible content and microphone moves into the content column; at 800px and below it becomes a vertical flow. Activity buttons have 8px corners, 9px 10px padding, 12px labels and a 42px minimum height (44px on phones). Selected destinations use their coloured border plus an inset 1px outline and 700 weight. Numbered symbols use white 22px squares with 5px corners. Export task and microphone containers use 12px corners. No new drop shadows are added.
+
+### Activity navigation
+
+Action labels use Vox Blue / Soft Blue; Objects & outlines and pending Object detection use activity orange / orange surface; Visibility & reappearance and pending Assisted tracking use teal / teal surface; Actions & objects use yellow / yellow surface; Review uses green / green surface; Export and pending Team review use Deep Navy / navy surface; pending Pixel masks use purple / purple surface. These exact primitives are recorded above. Every destination has a written name, and the active button exposes its pressed state. Detection, general tracking, masks and team review stay inside Coming next with explicit Pending badges; their destinations explain the unfinished capability and offer an available manual tool.
+
+### Contextual tasks and progress
+
+One microtask appears at a time, with completed-count text, Show me where, Skip task and Work independently. The target receives a 2px Vox Blue outline offset by 4px. Task-strip padding is 16px 18px, desktop minimum height 112px, heading 17px, help 12px with 1.6 line height and a 65ch maximum; phone heading is 16px and padding 14px. Guide preference is remembered in browser storage for the workspace; account-wide preference sync is not implemented. Restart clears skipped steps, not saved annotations.
+
+Progress reads actual labels, saved segments, saved object outlines, visibility records, links and review decisions, plus microphone/start/stop and export events. Turning on the mic and marking boundaries are preparatory steps; the action-save reward requires a saved segment. Skipping does not mark a task complete. Saved work and review transitions can show a brief written reward with a check icon and status announcement; existing records contribute to counts without replaying an initial reward. The reward uses task-reward green, a 350ms entrance with cubic-bezier(.16,1,.3,1), and clears after 4.5 seconds. Reduced-motion mode removes this entrance animation. Do not imply that this mode also removes the guide's explicitly smooth Show me where scroll.
+
+### Scoped guardrails
+
+Do retain written tool names, explicit pending states, precise source-proportion footage, recoverable annotations and existing edit/undo behavior. Do keep rewards connected to actual completion state or saved work. Don't use skipped tasks, hypothetical AI output or elapsed time as evidence that an annotation was saved. Don't present pending general tracking, detection, masks or team permissions as working tools. Review keeps swipe right to verify, swipe left to disqualify, and the existing Edit and Undo actions.

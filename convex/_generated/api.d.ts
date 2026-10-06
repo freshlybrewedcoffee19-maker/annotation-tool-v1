@@ -9,7 +9,9 @@
  */
 
 import type * as access from "../access.js";
+import type * as accounts from "../accounts.js";
 import type * as annotations from "../annotations.js";
+import type * as auth from "../auth.js";
 import type * as boxes from "../boxes.js";
 import type * as http from "../http.js";
 import type * as labels from "../labels.js";
@@ -29,7 +31,9 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   access: typeof access;
+  accounts: typeof accounts;
   annotations: typeof annotations;
+  auth: typeof auth;
   boxes: typeof boxes;
   http: typeof http;
   labels: typeof labels;
