@@ -58,11 +58,11 @@ test('interim stop stamps end once and matching final result does not repeat it'
   await page.getByRole('button',{name:'Turn mic on',exact:true}).click();
   await expect(page.getByRole('button',{name:'Turn mic off',exact:true})).toHaveAttribute('aria-pressed','true');
   await expect(page.getByText('Listening. Say start, then stop, then a label.',{exact:true})).toBeVisible();
-  await expect(page.getByRole('status').filter({hasText:'Waiting for:'})).toContainText('Waiting for: start');
+  await expect(page.getByRole('status').filter({hasText:'Next, say:'})).toContainText('Next, say: “start”');
   await expect(page.getByText('Listening',{exact:true})).toBeVisible();
   await expect(page.locator('.listening-dot')).toBeVisible();
   await page.evaluate(()=>(window as any).feedWords('START now!',false));
-  await expect(page.getByRole('status').filter({hasText:'Waiting for:'})).toContainText('Waiting for: stop');
+  await expect(page.getByRole('status').filter({hasText:'Next, say:'})).toContainText('Next, say: “stop”');
   await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.paused)).toBe(false);
   const played=await page.locator('video').evaluate((v:HTMLVideoElement)=>!v.paused);
   await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype,'currentTime')!.get!.call(v))).toBeGreaterThanOrEqual(4);
@@ -73,7 +73,7 @@ test('interim stop stamps end once and matching final result does not repeat it'
   await page.evaluate(()=>(window as any).feedWords('please STOP.',false));
   await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.paused)).toBe(true);
   const paused=await page.locator('video').evaluate((v:HTMLVideoElement)=>v.paused);
-  await expect(page.getByRole('status').filter({hasText:'Waiting for:'})).toContainText('Waiting for: a label');
+  await expect(page.getByRole('status').filter({hasText:'Next, say:'})).toContainText('Next, say: a label below');
   await expect(page.locator('tbody tr')).toHaveCount(0);
   await page.locator('video').evaluate((v:HTMLVideoElement)=>Object.defineProperty(v,'currentTime',{configurable:true,get:()=>4.75}));
   await page.evaluate(()=>(window as any).feedWords('please STOP.',true));
@@ -82,7 +82,7 @@ test('interim stop stamps end once and matching final result does not repeat it'
   await expect(page.locator('tbody tr')).toHaveCount(0);
   await page.evaluate(label=>(window as any).feedWords(`please ${label.toUpperCase()}.`),spokenLabel);
   await expect(page.locator('tbody tr')).toHaveCount(1);
-  await expect(page.getByRole('status').filter({hasText:'Waiting for:'})).toContainText('Waiting for: start');
+  await expect(page.getByRole('status').filter({hasText:'Next, say:'})).toContainText('Next, say: “start”');
   await expect(page.getByText('Heard:',{exact:false})).toContainText(spokenLabel.toUpperCase());
   await page.screenshot({path:'test-results/mic-listening.png',fullPage:true});
   await page.getByRole('button',{name:'Turn mic off',exact:true}).click();
@@ -99,6 +99,6 @@ test('interim stop stamps end once and matching final result does not repeat it'
  // Unsupported-browser message.
  await page.addInitScript(()=>{delete (window as any).SpeechRecognition;delete (window as any).webkitSpeechRecognition;});
  await page.reload();
- await expect(page.getByText('Speech recognition is not supported in this browser. Open this page in Chrome to use voice labelling.',{exact:true})).toBeVisible();
+ await expect(page.getByText('Open this page in Chrome to use the mic. You can still label by hand in the tools panel.',{exact:true})).toBeVisible();
  await expect(page.getByRole('button',{name:'Turn mic on',exact:true})).toBeDisabled();
 });

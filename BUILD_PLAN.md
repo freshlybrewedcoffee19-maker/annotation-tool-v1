@@ -224,3 +224,10 @@ Services correction deployed 6 October 2026: original portrait sample, human ann
 Annotation workspace layout deployed — 6 October 2026: code bd328a4, Cloudflare f37807ba. The user's CVAT-like three-pane workbench has central footage/playback/timeline, left object tools and right voice/label/visibility controls. Pending badges disclose general assisted tracking, detection, masks and team review; they do not change the model gates above. Small public trial playback uses a browser-memory copy for reliable seeking from static hosting. Local core checks, textarea/geometry shortcut regression and all seven live browser checks passed; independent review approved the fixed layout. Laptop/phone layout and live playback inspected. Real microphone hardware remains a spoken user check. See EDITOR_LAYOUT_PROOF.md.
 
 Workspace follow-up deployed: fb36eda, Cloudflare df68fe97. User requested the four label/manual/visibility/object-review disclosures on the left and only voice controls on the right. Three relevant local and three public-route live checks passed; live DOM/layout inspection confirmed the requested placement. Scoped independent review approved. The laptop's normal browser route remains unreliable; see EDITOR_LAYOUT_PROOF.md. No saved data or backend changes.
+
+### 6 October 2026 — clearer annotation instructions
+- Added a three-step guide: set labels, annotate, review and download.
+- Replaced repeated mic prose with numbered spoken commands and a changing next-command prompt.
+- Explained voice object visibility separately from drawing outlines; reappearance still requires a verified same-object outline and explicit confirmation.
+- Clarified manual labelling, object review, empty clips and timeline guidance. Kept parser commands, storage, privacy and pending features unchanged.
+- Desktop and phone browser inspection showed no horizontal overflow. Local object-voice and laptop trial checks passed; spoken action save/refresh and unavailable-mic guidance checked with the updated copy.

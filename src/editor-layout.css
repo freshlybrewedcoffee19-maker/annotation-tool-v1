@@ -105,3 +105,11 @@
 .editor-secondary-tools summary{font-size:13px;padding:12px 0}
 .editor-secondary-tools .input-row input{width:80px}
 .editor-secondary-tools .reuse-labels input{width:auto}
+.editor-getting-started{display:flex;gap:28px;padding:0 0 14px 22px;margin:0;color:var(--deep-navy);font-size:12px}
+.editor-getting-started li{padding-left:2px;flex:1}.editor-getting-started span{display:block;margin-top:3px;line-height:1.5}
+.editor-inspector .voice-labels h3{font-size:14px;margin:16px 0 8px}
+.editor-inspector .voice-steps{padding-left:20px;margin:8px 0 14px;font-size:12px;line-height:1.6}
+.editor-inspector .voice-steps li+li{margin-top:8px}
+.editor-inspector .voice-reappearance{margin:12px 0;font-size:12px}.editor-inspector .voice-reappearance summary{cursor:pointer;line-height:1.5}
+.editor-inspector .voice-label-heading{margin-bottom:6px;font-weight:600}
+@media(max-width:800px){.editor-getting-started{display:block;padding-bottom:12px}.editor-getting-started li+li{margin-top:8px}}
