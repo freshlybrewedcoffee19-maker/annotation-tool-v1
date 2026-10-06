@@ -28,24 +28,24 @@ import './brand.css';
 import {Services} from './Services';
 const client=new ConvexReactClient(import.meta.env.VITE_CONVEX_URL);
 function App(){
- const {workspaceToken,kind,switchWorkspace,trialSetup,setTrialSetup}=useWorkspace();const trial=useMutation(api.trial.start);
+ const {workspaceToken,kind,ready:workspaceReady,connectionError,prepare,switchWorkspace,trialSetup,setTrialSetup}=useWorkspace();const trial=useMutation(api.trial.start);
  const episodeKey=`np-episode-${workspaceToken}`,stepKey=`np-step-${workspaceToken}`;
- const savedEpisodes=useQuery(api.annotations.episodes,{workspaceToken}); const convex=useConvex();
+ const savedEpisodes=useQuery(api.annotations.episodes,workspaceReady?{workspaceToken}:'skip'); const convex=useConvex();
  // Cloudflare serves the public trial; personal uploads keep their private Convex URLs.
  const episodes=savedEpisodes?.map(e=>kind==='trial'&&e.name==='IRON_001_trial_45s.mp4'&&import.meta.env.VITE_TRIAL_VIDEO_PATH?{...e,url:import.meta.env.VITE_TRIAL_VIDEO_PATH}:e);
- const workspaceLabels=useQuery(api.labels.list,{workspaceToken}); const saveLabels=useMutation(api.labels.save); const [labelDraft,setLabelDraft]=useState<string|null>(null);
+ const workspaceLabels=useQuery(api.labels.list,workspaceReady?{workspaceToken}:'skip'); const saveLabels=useMutation(api.labels.save); const [labelDraft,setLabelDraft]=useState<string|null>(null);
 
  const [step,setStep]=useState<Step>(()=>{const saved=localStorage.getItem(stepKey);return steps.includes(saved as Step)?saved as Step:'upload';});
  const [nextVideo,setNextVideo]=useState(false);
  const [selected,setSelected]=useState<string|null>(()=>localStorage.getItem(episodeKey)??(kind==='owner'?localStorage.getItem('episode'):null));
  const ep=episodes?.find(e=>e._id===selected)??episodes?.[0];
- const labels=useQuery(api.labels.list,ep?{workspaceToken,episodeId:ep._id}:{workspaceToken});const labelList=labels??workspaceLabels??[];const [reuseLabels,setReuseLabels]=useState(false);
+ const labels=useQuery(api.labels.list,workspaceReady?(ep?{workspaceToken,episodeId:ep._id}:{workspaceToken}):'skip');const labelList=labels??workspaceLabels??[];const [reuseLabels,setReuseLabels]=useState(false);
  const routeEntry=()=>location.pathname==='/services'?'services':location.pathname==='/workspace'?'dashboard':location.pathname==='/setup'?'setup':'home';
  const [entry,setEntry]=useState<'home'|'setup'|'dashboard'|'services'>(routeEntry);
  function enter(next:'home'|'setup'|'dashboard'|'services'){video.current?.pause();history.pushState(null,'',next==='home'?'/':next==='setup'?'/setup':next==='services'?'/services':'/workspace');setEntry(next);}
  useEffect(()=>{const back=()=>{video.current?.pause();setEntry(routeEntry());};window.addEventListener('popstate',back);return()=>window.removeEventListener('popstate',back);},[]);
- function own(){if(kind==='trial'){const token=localStorage.getItem('np-return-workspace')??newWorkspaceToken();history.pushState(null,'','/setup');switchWorkspace(token);}else enter('setup');}
- async function startTrial(){setTrialSetup(true);await act(async()=>{try{const token=localStorage.getItem('np-trial-token')??newWorkspaceToken();const id=await trial({workspaceToken:token});localStorage.setItem('np-trial-token',token);if(kind!=='trial')localStorage.setItem('np-return-workspace',workspaceToken);localStorage.setItem('np-episode-'+token,id);localStorage.setItem('np-step-'+token,'annotate');if(token!==workspaceToken)history.pushState(null,'','/workspace');if(token===workspaceToken){enter('dashboard');setSelected(id);changeStep('annotate');}else switchWorkspace(token);}catch(e){setTrialSetup(false);throw e;}});}
+ function own(){void act(async()=>{const info=await prepare();if(info.kind==='trial'){const token=localStorage.getItem('np-return-workspace')??newWorkspaceToken();history.pushState(null,'','/setup');switchWorkspace(token);}else enter('setup');});}
+ async function startTrial(){setTrialSetup(true);await act(async()=>{try{const info=await prepare();const token=localStorage.getItem('np-trial-token')??newWorkspaceToken();const id=await trial({workspaceToken:token});localStorage.setItem('np-trial-token',token);if(info.kind!=='trial')localStorage.setItem('np-return-workspace',workspaceToken);localStorage.setItem('np-episode-'+token,id);localStorage.setItem('np-step-'+token,'annotate');if(token!==workspaceToken)history.pushState(null,'','/workspace');if(token===workspaceToken){enter('dashboard');setSelected(id);changeStep('annotate');}else switchWorkspace(token);}catch(e){setTrialSetup(false);throw e;}});}
  const currentStep=ep?step:"upload";
  useEffect(()=>{if(trialSetup&&kind==="trial"&&currentStep==="annotate"&&ep?.url&&labels!==undefined)setTrialSetup(false);},[trialSetup,kind,currentStep,ep?.url,labels,setTrialSetup]);
  function changeStep(next:Step){if(next!=="upload"&&!ep)return;if(next!=="annotate")video.current?.pause();setStep(next);localStorage.setItem(stepKey,next);}
@@ -81,6 +81,7 @@ function App(){
  async function exportFile(format:'csv'|'json'){await act(async()=>{const data=await convex.query(api.annotations.exportAll,{workspaceToken});const quote=(s:string)=>'"'+s.replaceAll('"','""')+'"';const text=format==='json'?JSON.stringify(data,null,2):'episode,label,start_sec,end_sec\r\n'+data.map(r=>[quote(r.episode),quote(r.label),r.start_sec,r.end_sec].join(',')).join('\r\n');const url=URL.createObjectURL(new Blob([text],{type:format==='json'?'application/json':'text/csv'}));const a=document.createElement('a');a.href=url;a.download='segments.'+format;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});}
  if(entry==='services')return <Services home={()=>enter('home')} trial={()=>void startTrial()}/>;
  if(entry==='home')return <Landing services={()=>enter('services')} own={own} trial={()=>void startTrial()} busy={busy||trialSetup} error={error} resume={ep?()=>enter('dashboard'):undefined}/>;
+ if(!workspaceReady)return <main><h1>Cheddar Vox</h1><p role="status">{connectionError||(trialSetup?'Setting up your clip…':'Opening your private workspace…')}</p></main>;
  if(entry==='setup')return <SetupFlow back={()=>enter('home')} done={()=>{enter('dashboard');changeStep(ep?'annotate':'upload');}}/>;
  return <main className="dashboard" aria-busy={trialSetup}>{trialSetup&&currentStep!=="upload"&&<p role="status">Setting up your clip…</p>}<header><div><button className="brand" onClick={()=>enter("home")}>Cheddar Vox</button><p>Voice led video annotation tool</p></div><div className="exports">{kind==="trial"&&localStorage.getItem("np-return-workspace")&&<button type="button" onClick={()=>switchWorkspace(localStorage.getItem("np-return-workspace")!)}>Return to my workspace</button>}<button disabled={busy} onClick={()=>exportFile('csv')}>Export CSV</button><button disabled={busy} onClick={()=>exportFile('json')}>Export JSON</button></div></header>
  <StepNavigation step={currentStep} hasVideo={!!ep} change={changeStep}/><p className="step-status sr-only" aria-live="polite">Current step: {currentStep[0].toUpperCase()+currentStep.slice(1)}</p>

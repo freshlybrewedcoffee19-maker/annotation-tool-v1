@@ -237,3 +237,5 @@ Real trial frames form a shallow fan with the centre frame largest and upright, 
 ## Approved Cheddar Vox brand — 6 October 2026
 Company: Cheddar Vox. Tagline: Voice led video annotation tool.
 Cheddar Yellow #FFB82E for primary actions/brand accents; Cheddar Orange #F59E0B for depth/hover; Vox Blue #2563EB for voice/interaction; Deep Navy #172033 for text; Soft Blue #DBEAFE for secondary UI; Warm White #FFFDF8 for backgrounds; White #FFFFFF for cards. Existing geometry and workflows retained. Semantic warning/error colors remain distinct with text labels. This approved palette supersedes the historical cream/red description above.
+
+Services sample refinement — 6 October 2026: reuse original owner's dataset section: left copy and pilot link, right compact portrait 400:540 video with timed human-annotation overlay and segmented playhead. Preserve original copy/statistics verified against the pilot card. Phone stacks copy over portrait media. Blue/white annotation overlay and orange playhead follow the Cheddar Vox palette. Preserve remainder of services page.
