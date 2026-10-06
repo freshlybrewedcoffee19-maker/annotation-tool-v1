@@ -195,6 +195,8 @@ Annotation uses a two-column video and voice area with a 1.85:1 proportion, a 28
 
 Opening actions sit beside each other and become a centred vertical group capped at 380px on phones. The film sequence shows five frames on wide screens and three on phones. Keep horizontal overflow inside the segment table rather than shrinking precise data. Setup progress wraps, with the question count inside its navigation above the named stages.
 
+Sign-in uses a centred content column capped at 510px on a full-height Warm White canvas. Desktop outer padding is 100px 24px 48px. The slim brand and journey header sits at the top with 32px side insets. At 600px and below, the content aligns toward the top with 120px 24px 32px padding; header side insets become 24px, and the brand and journey stay in a horizontal row. This sign-in composition is local to account entry.
+
 ## Elevation & Depth
 
 Most working surfaces use paper colour and fine warm borders. Soft, diffuse shadows lift media cards and the prominent opening actions. There are no hard offset shadows. The opening canvas has a gentle warm radial glow; setup has a restrained peach glow at its upper right.
@@ -233,6 +235,14 @@ Paper fields with ink text, warm-line borders and rounded field corners. Regular
 ### Navigation
 
 Workspace stages are rounded outlined buttons above a warm-line divider; the selected stage is solid red. On phones the small number is hidden while the stage name remains. Setup progress is a separate centred stage row. Back, Next and the save guidance share a footer row that wraps on narrow screens. The redundant current-step announcement is visually hidden but remains available to assistive technology.
+
+### Progressive sign-in
+
+The Relay-inspired progression retains Cheddar Vox, incumbent Segoe UI and the approved brand palette. Start with Google or email; unavailable Google remains visibly disabled. Email signup asks email, name and password on separate screens. Returning users answer email and password. Optional phone stays collapsed under the name question. Keep entered answers when going back, clear the password when switching account flow, and move focus to the first input whenever the question or flow changes.
+
+The question is the visual anchor: centred type at clamp(32px, 4vw, 46px), 1.13 line height and -0.03em tracking, with a 34px phone override. Supporting copy stays concise; fields and their labels align left. Fields have a 54px minimum height, 14px padding and 17px type. The form's primary action uses Vox Blue with White text; Google uses White with a Soft Blue border and Deep Navy text, while the email alternative retains the incumbent secondary button. Progress combines written step counts with short Soft Blue bars, filled Vox Blue for reached steps.
+
+Keep Back and the sign-in/create-account switch visible below the action. Errors use a written alert; busy states disable actions and fields. Privacy and terms links remain beneath the account controls. This is an account-entry pattern, not a replacement palette or a rule for every form.
 
 ### Footage sequence
 

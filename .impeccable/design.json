@@ -445,6 +445,16 @@
       "Don't use review green as a second general brand accent.",
       "Don't introduce hard offset shadows into this soft media treatment."
     ],
+    "progressiveSignIn": {
+      "scope": "Approved 6 October 2026 account-entry refinement; unrelated incumbent guidance remains preserved.",
+      "direction": "Relay-inspired one-question progression within the Cheddar Vox brand and incumbent Segoe UI.",
+      "layout": "Centred content column capped at 510px on a full-height Warm White canvas; desktop padding 100px 24px 48px and header side insets 32px. At 600px and below, content aligns toward the top with 120px 24px 32px padding and 24px header insets; brand and journey stay in a horizontal row.",
+      "sequence": "Start with Google or email; unavailable Google stays disabled. Email signup asks email, name and password separately; returning users answer email and password. Optional phone stays collapsed beneath name.",
+      "navigation": "Back and the account-flow switch remain visible. Preserve answers on Back; clear password on account-flow switch. Focus the first input whenever the question or flow changes.",
+      "controls": "Vox Blue form primary with White text; White Google choice with Soft Blue border and Deep Navy text; incumbent secondary email alternative. Left-aligned labelled fields use a 54px minimum height, 14px padding and 17px type.",
+      "hierarchy": "Centred question uses clamp(32px, 4vw, 46px), 1.13 line height and -0.03em tracking; phones use 34px. Written step counts accompany Soft Blue bars filled Vox Blue for reached steps.",
+      "feedback": "Written error alerts, disabled controls while busy, and privacy and terms links below account controls."
+    },
     "guidedWorkspace": {
       "progress": "Actual saved records and microphone/boundary/export events drive progress; skipped tasks do not count complete. Saved work and review transitions provide written rewards.",
       "preference": "Browser workspace guide preference; no account-wide synchronization.",
