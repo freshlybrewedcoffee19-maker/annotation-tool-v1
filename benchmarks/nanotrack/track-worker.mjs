@@ -14,14 +14,16 @@ let waiting;self.onmessage=async({data})=>{
   const loadMs=performance.now()-start,cases=[];
   const frame=(name,index)=>new Promise(resolve=>{waiting=resolve;self.postMessage({frame:{name,index}});});
   for(const name of data.cases??['trial','motion','disappearance','partial-occlusion','lookalike','scene-cut']){
-   const tracker=new Tracker(ort,sessions[0],sessions[1],sessions[2]),gate=new SafetyGate();let image=await frame(name,startIndex);const initialBox=data.initialBox??(name==='trial'?[70,7,231,308]:[100,100,92,124]);await tracker.init(image,initialBox);gate.confirm(image,initialBox,{confirmed:true});image.close();
+   const tracker=new Tracker(ort,sessions[0],sessions[1],sessions[2],{sizeLearningRate:data.sizeLearningRate,displaySizeLearningRate:data.displaySizeLearningRate}),gate=new SafetyGate(),displayGate=data.displaySizeLearningRate===undefined?null:new SafetyGate();let image=await frame(name,startIndex);const initialBox=data.initialBox??(name==='trial'?[70,7,231,308]:[100,100,92,124]);await tracker.init(image,initialBox);gate.confirm(image,initialBox,{confirmed:true});displayGate?.confirm(image,initialBox,{confirmed:true});image.close();
    const rows=[],started=performance.now();let stopped=false;
    for(let i=startIndex+1;i<=frameCount;i++){
-    image=await frame(name,i);const t=performance.now(),raw=await tracker.track(image),safety=gate.evaluate(image,raw);image.close();
+    image=await frame(name,i);const t=performance.now(),raw=await tracker.track(image),trackingSafety=gate.evaluate(image,raw);let safety=trackingSafety,displaySafety=null;
+    if(displayGate){displaySafety=displayGate.evaluate(image,{...raw,box:raw.displayBox});safety=trackingSafety.requiresConfirmation?{...trackingSafety,proposal:null}:displaySafety;}
+    image.close();
     const valid=raw.box?.every(Number.isFinite)&&raw.score>=.8;
     if(!valid)stopped=true;
     // A score is never evidence of confirmed presence. ALL experimental proposals require checking.
-    rows.push({index:i,inferenceMs:performance.now()-t,raw,heuristicStopped:stopped,safety,state:'Needs checking',acceptedBox:null});
+    rows.push({index:i,inferenceMs:performance.now()-t,raw,heuristicStopped:stopped,trackingSafety,displaySafety,safety,state:'Needs checking',acceptedBox:null});
     // Raw continuation is allowed ONLY for a requested diagnostic comparison.
     if(safety.requiresConfirmation&&!data.diagnostics)break;
    }

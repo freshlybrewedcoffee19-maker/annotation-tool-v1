@@ -39,7 +39,7 @@ window.track=async(provider)=>{
    }
    if(data.progress){document.getElementById('status').textContent=data.progress;return;}
    resolve(data);
-  };worker.onerror=e=>resolve({error:e.message});worker.postMessage({provider,diagnostics:window.diagnostics??true,cases:window.trackingCases,startIndex:window.resumeIndex,initialBox:window.resumeBox,confirmedResume:window.confirmedResume});
+  };worker.onerror=e=>resolve({error:e.message});worker.postMessage({provider,diagnostics:window.diagnostics??true,cases:window.trackingCases,startIndex:window.resumeIndex,initialBox:window.resumeBox,confirmedResume:window.confirmedResume,sizeLearningRate:window.sizeLearningRate,displaySizeLearningRate:window.displaySizeLearningRate});
  });
  clearInterval(timer);worker.terminate();video.src='';URL.revokeObjectURL(videoUrl);return {...result,wallMs:performance.now()-start,ticks,maxTickGap,truths};
 };

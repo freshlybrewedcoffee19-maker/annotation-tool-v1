@@ -1,6 +1,6 @@
 // Experimental browser port of pinned NanoTracker/configv3; raw proposals only.
 export class Tracker{
- constructor(ort,backbone,template,head){Object.assign(this,{ort,backbone,template,head});this.canvas=new OffscreenCanvas(255,255);}
+ constructor(ort,backbone,template,head,{sizeLearningRate=.348,displaySizeLearningRate=sizeLearningRate}={}){for(const rate of [sizeLearningRate,displaySizeLearningRate])if(!Number.isFinite(rate)||rate<.1||rate>1)throw Error('Choose a box-size adjustment rate between 0.1 and 1.');Object.assign(this,{ort,backbone,template,head,sizeLearningRate,displaySizeLearningRate});this.canvas=new OffscreenCanvas(255,255);}
  crop(image,n,side){
   const c=this.canvas;c.width=n;c.height=n;const ctx=c.getContext('2d',{willReadFrequently:true});
   ctx.fillStyle=this.average;ctx.fillRect(0,0,n,n);
@@ -11,7 +11,7 @@ export class Tracker{
   return new this.ort.Tensor('float32',data,[1,3,n,n]);
  }
  async init(image,box){
-  const [x,y,w,h]=box;Object.assign(this,{cx:x+(w-1)/2,cy:y+(h-1)/2,w,h});
+  const [x,y,w,h]=box;Object.assign(this,{cx:x+(w-1)/2,cy:y+(h-1)/2,w,h,displayW:w,displayH:h});
   const c=new OffscreenCanvas(image.width,image.height),ctx=c.getContext('2d');ctx.drawImage(image,0,0);const pixels=ctx.getImageData(0,0,c.width,c.height).data,s=[0,0,0];
   for(let i=0;i<pixels.length;i+=4)for(let j=0;j<3;j++)s[j]+=pixels[i+j];this.average=`rgb(${s.map(v=>v/(pixels.length/4)).join(',')})`;
   const side=Math.round(Math.sqrt((w+.5*(w+h))*(h+.5*(w+h))));this.z=(await this.template.run({input:this.crop(image,127,side)})).output;
@@ -28,12 +28,15 @@ export class Tracker{
    if(score>=.9&&penalty>.8)candidates.push({cx:(px+(r-l)/2)/scale,cy:(py+(b-t)/2)/scale,w:w/scale,h:h/scale,score});
    if(rank>best){best=rank;pick={cx:(px+(r-l)/2)/scale,cy:(py+(b-t)/2)/scale,w:w/scale,h:h/scale,score,penalty};}
   }
-  if(!pick) return {box:null,score:0};const lr=pick.penalty*pick.score*.348;
+  if(!pick) return {box:null,score:0};const lr=pick.penalty*pick.score*this.sizeLearningRate;
   const overlap=(a,b)=>{const intersection=Math.max(0,Math.min(a.cx+a.w/2,b.cx+b.w/2)-Math.max(a.cx-a.w/2,b.cx-b.w/2))*Math.max(0,Math.min(a.cy+a.h/2,b.cy+b.h/2)-Math.max(a.cy-a.h/2,b.cy-b.h/2));return intersection/(a.w*a.h+b.w*b.h-intersection);};
   const ambiguousCandidates=candidates.filter(c=>c.score>=pick.score*.95&&overlap(c,pick)<.5&&c.w>0&&c.h>0&&c.w*c.h>pick.w*pick.h*.5&&c.w*c.h<pick.w*pick.h*2).map(c=>({box:[this.cx+c.cx-c.w/2,this.cy+c.cy-c.h/2,c.w,c.h],score:c.score,overlap:overlap(c,pick)}));
   const ambiguous=ambiguousCandidates.length>0;
   this.cx=Math.max(0,Math.min(image.width,this.cx+pick.cx));this.cy=Math.max(0,Math.min(image.height,this.cy+pick.cy));
   this.w=Math.max(10,Math.min(image.width,this.w*(1-lr)+pick.w*lr));this.h=Math.max(10,Math.min(image.height,this.h*(1-lr)+pick.h*lr));
-  return {box:[this.cx-this.w/2,this.cy-this.h/2,this.w,this.h],score:pick.score,ambiguous,ambiguousCandidates};
+  // Display adaptation must not change the search crop or competing-candidate checks.
+  const displayLr=pick.penalty*pick.score*this.displaySizeLearningRate;
+  this.displayW=Math.max(10,Math.min(image.width,this.displayW*(1-displayLr)+pick.w*displayLr));this.displayH=Math.max(10,Math.min(image.height,this.displayH*(1-displayLr)+pick.h*displayLr));
+  return {box:[this.cx-this.w/2,this.cy-this.h/2,this.w,this.h],displayBox:[this.cx-this.displayW/2,this.cy-this.displayH/2,this.displayW,this.displayH],score:pick.score,ambiguous,ambiguousCandidates};
  }
 }
