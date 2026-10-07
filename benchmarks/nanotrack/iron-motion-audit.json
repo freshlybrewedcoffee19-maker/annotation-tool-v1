@@ -5094,5 +5094,8 @@
     "Boxes were visually checked at stopped frames and periodic snapshots, not a full per-frame accuracy score.",
     "Reference boxes selected by the developer are test inputs, not accepted user annotations.",
     "No verified disappearance/reappearance sequence, independent footage, total memory or weaker-laptop evidence."
-  ]
+  ],
+  "validityStatus": "superseded",
+  "supersededBy": "iron-corrected-audit.json",
+  "supersededReason": "The 31.6-second correction box was misplaced. Later frame decoding also changed exact capture. The historical eight-correction count is not the current result; corrected rerun requires five."
 }

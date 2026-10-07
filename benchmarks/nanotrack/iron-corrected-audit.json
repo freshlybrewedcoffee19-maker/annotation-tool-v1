@@ -1,0 +1,6099 @@
+{
+  "measuredAt": "2026-10-07T13:27:42.379Z",
+  "clipSha256": "e05a44b0be391b7dc6a60f72591f598d20d6ca1b4a572bba730f46d51901da1e",
+  "browser": "154.0.8037.93",
+  "rangeSeconds": [
+    11,
+    44.8
+  ],
+  "corrections": [
+    {
+      "time": 28.6,
+      "index": 88,
+      "box": [
+        224,
+        132,
+        62,
+        128
+      ]
+    },
+    {
+      "time": 31.6,
+      "index": 103,
+      "box": [
+        80,
+        48,
+        125,
+        114
+      ]
+    },
+    {
+      "time": 43.2,
+      "index": 161,
+      "box": [
+        187,
+        23,
+        130,
+        75
+      ]
+    },
+    {
+      "time": 43.4,
+      "index": 162,
+      "box": [
+        179,
+        0,
+        92,
+        98
+      ]
+    },
+    {
+      "time": 43.6,
+      "index": 163,
+      "box": [
+        78,
+        8,
+        120,
+        112
+      ]
+    }
+  ],
+  "inferenceSamples": 169,
+  "proposals": 164,
+  "acceptedAnnotations": 0,
+  "remoteRequests": [],
+  "measurements": [
+    {
+      "time": 21,
+      "mediaTime": 21,
+      "box": [
+        200,
+        82,
+        73,
+        134
+      ],
+      "note": "Hand covers handle.",
+      "index": 50,
+      "proposal": [
+        179.28315403727427,
+        76.21062742193025,
+        102.8734845018479,
+        143.73556514964073
+      ],
+      "raw": [
+        179.28315403727427,
+        76.21062742193025,
+        102.8734845018479,
+        143.73556514964073
+      ],
+      "requiresConfirmation": false,
+      "proposalIoU": 0.6615458771482298,
+      "rawIoU": 0.6615458771482298
+    },
+    {
+      "time": 28.6,
+      "mediaTime": 28.583333,
+      "box": [
+        222,
+        132,
+        62,
+        126
+      ],
+      "note": "Hand covers handle.",
+      "index": 88,
+      "proposal": null,
+      "raw": [
+        200.0600465537083,
+        131.83200561023025,
+        95.53714502485047,
+        127.32463609643145
+      ],
+      "requiresConfirmation": true,
+      "proposalIoU": null,
+      "rawIoU": 0.6422106924758549
+    },
+    {
+      "time": 29.8,
+      "mediaTime": 29.791667,
+      "box": [
+        158,
+        138,
+        60,
+        126
+      ],
+      "note": "Hand covers left edge.",
+      "index": 94,
+      "proposal": [
+        156.6363967104908,
+        138.09529126237277,
+        63.94557435690376,
+        130.0530933355645
+      ],
+      "raw": [
+        156.6363967104908,
+        138.09529126237277,
+        63.94557435690376,
+        130.0530933355645
+      ],
+      "requiresConfirmation": false,
+      "proposalIoU": 0.9077443802675036,
+      "rawIoU": 0.9077443802675036
+    },
+    {
+      "time": 31.6,
+      "mediaTime": 31.583333,
+      "box": [
+        80,
+        48,
+        125,
+        114
+      ],
+      "note": "Fast movement and blur; approximate visible bounds.",
+      "index": 103,
+      "proposal": null,
+      "raw": [
+        99.78096447755678,
+        45.72674560918885,
+        88.84475336363,
+        118.0881478942591
+      ],
+      "requiresConfirmation": true,
+      "proposalIoU": null,
+      "rawIoU": 0.693092177754411
+    },
+    {
+      "time": 31.8,
+      "mediaTime": 31.791667,
+      "box": [
+        34,
+        43,
+        93,
+        140
+      ],
+      "note": "Fast sideways move; hand covers handle.",
+      "index": 104,
+      "proposal": [
+        40.60546200036808,
+        54.59548083285793,
+        113.5931679176569,
+        124.80239689794743
+      ],
+      "raw": [
+        40.60546200036808,
+        54.59548083285793,
+        113.5931679176569,
+        124.80239689794743
+      ],
+      "requiresConfirmation": false,
+      "proposalIoU": 0.6568750496273906,
+      "rawIoU": 0.6568750496273906
+    },
+    {
+      "time": 36.8,
+      "mediaTime": 36.791667,
+      "box": [
+        72,
+        68,
+        156,
+        66
+      ],
+      "note": "Horizontal orientation, hand covers rear edge.",
+      "index": 129,
+      "proposal": [
+        80.92957057822665,
+        44.01087703458983,
+        129.29460938977684,
+        113.38272791348375
+      ],
+      "raw": [
+        80.92957057822665,
+        44.01087703458983,
+        129.29460938977684,
+        113.38272791348375
+      ],
+      "requiresConfirmation": false,
+      "proposalIoU": 0.5196244105170621,
+      "rawIoU": 0.5196244105170621
+    },
+    {
+      "time": 39,
+      "mediaTime": 39,
+      "box": [
+        114,
+        120,
+        91,
+        115
+      ],
+      "note": "Turning; hand covers handle.",
+      "index": 140,
+      "proposal": [
+        89.22575908129109,
+        122.13697715864744,
+        121.82769313702775,
+        115.47433990398295
+      ],
+      "raw": [
+        89.22575908129109,
+        122.13697715864744,
+        121.82769313702775,
+        115.47433990398295
+      ],
+      "requiresConfirmation": false,
+      "proposalIoU": 0.720110792652821,
+      "rawIoU": 0.720110792652821
+    },
+    {
+      "time": 43,
+      "mediaTime": 43,
+      "box": [
+        181,
+        43,
+        134,
+        73
+      ],
+      "note": "Lifting toward top edge; hand covers rear.",
+      "index": 160,
+      "proposal": [
+        189.7646463155141,
+        14.176347704333487,
+        114.07624492602686,
+        117.95949080411869
+      ],
+      "raw": [
+        189.7646463155141,
+        14.176347704333487,
+        114.07624492602686,
+        117.95949080411869
+      ],
+      "requiresConfirmation": false,
+      "proposalIoU": 0.5584918555050229,
+      "rawIoU": 0.5584918555050229
+    },
+    {
+      "time": 43.4,
+      "mediaTime": 43.416667,
+      "box": [
+        179,
+        0,
+        92,
+        98
+      ],
+      "note": "Top-cropped, blurred; visible extent only.",
+      "index": 162,
+      "proposal": null,
+      "raw": [
+        171.80742055287715,
+        8.979427966179756,
+        124.1945215808453,
+        82.61535406635286
+      ],
+      "requiresConfirmation": true,
+      "proposalIoU": null,
+      "rawIoU": 0.6509735899627643
+    },
+    {
+      "time": 43.6,
+      "mediaTime": 43.583333,
+      "box": [
+        78,
+        8,
+        120,
+        112
+      ],
+      "note": "Fast return, blurred; approximate visible bounds.",
+      "index": 163,
+      "proposal": null,
+      "raw": [
+        112.3488655019743,
+        10.518600108060646,
+        91.83308562273642,
+        103.8688418089267
+      ],
+      "requiresConfirmation": true,
+      "proposalIoU": null,
+      "rawIoU": 0.6317577984452584
+    },
+    {
+      "time": 44.8,
+      "mediaTime": 44.791667,
+      "box": [
+        58,
+        35,
+        89,
+        116
+      ],
+      "note": "Hand covers handle and rear.",
+      "index": 169,
+      "proposal": [
+        32.12567743859488,
+        20.896010225808837,
+        116.34101274236812,
+        132.3069383688503
+      ],
+      "raw": [
+        32.12567743859488,
+        20.896010225808837,
+        116.34101274236812,
+        132.3069383688503
+      ],
+      "requiresConfirmation": false,
+      "proposalIoU": 0.6707065321753104,
+      "rawIoU": 0.6707065321753104
+    }
+  ],
+  "selectedProposalMeanIoU": 0.6707284139847627,
+  "selectedProposalMinimumIoU": 0.5196244105170621,
+  "ranges": [
+    {
+      "checkpoint": {
+        "index": 0,
+        "box": [
+          142,
+          85,
+          130,
+          90
+        ]
+      },
+      "rows": [
+        {
+          "index": 1,
+          "inferenceMs": 31.100000023841858,
+          "raw": {
+            "box": [
+              139.78116291932415,
+              84.13905610276704,
+              126.2361818241867,
+              91.72773606642264
+            ],
+            "score": 0.9999961623842357,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              139.78116291932415,
+              84.13905610276704,
+              126.2361818241867,
+              91.72773606642264
+            ],
+            "reason": null,
+            "appearance": 0.997475274926085,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 2,
+          "inferenceMs": 20.5,
+          "raw": {
+            "box": [
+              140.82269582595285,
+              81.93712953930095,
+              124.65118733494737,
+              92.27757990993908
+            ],
+            "score": 0.999994318689152,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              140.82269582595285,
+              81.93712953930095,
+              124.65118733494737,
+              92.27757990993908
+            ],
+            "reason": null,
+            "appearance": 0.9945778186157255,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 3,
+          "inferenceMs": 28.19999998807907,
+          "raw": {
+            "box": [
+              141.13726239404696,
+              80.59898500226042,
+              123.24282146430565,
+              92.83449421781663
+            ],
+            "score": 0.9999942118712714,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              141.13726239404696,
+              80.59898500226042,
+              123.24282146430565,
+              92.83449421781663
+            ],
+            "reason": null,
+            "appearance": 0.9952332086192889,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 4,
+          "inferenceMs": 25.599999964237213,
+          "raw": {
+            "box": [
+              147.48998848403755,
+              72.68832295052584,
+              117.58283690932168,
+              98.39508588225908
+            ],
+            "score": 0.9999948169325306,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              147.48998848403755,
+              72.68832295052584,
+              117.58283690932168,
+              98.39508588225908
+            ],
+            "reason": null,
+            "appearance": 0.994006431732779,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 5,
+          "inferenceMs": 37.5,
+          "raw": {
+            "box": [
+              166.60461072996077,
+              57.194144367953754,
+              108.86215881203074,
+              106.24690009982226
+            ],
+            "score": 0.9999526477349086,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              166.60461072996077,
+              57.194144367953754,
+              108.86215881203074,
+              106.24690009982226
+            ],
+            "reason": null,
+            "appearance": 0.9827512294050533,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 6,
+          "inferenceMs": 29.399999976158142,
+          "raw": {
+            "box": [
+              175.8200759201594,
+              57.28701782712125,
+              101.61563335330752,
+              110.84353645792288
+            ],
+            "score": 0.9999789874070397,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              175.8200759201594,
+              57.28701782712125,
+              101.61563335330752,
+              110.84353645792288
+            ],
+            "reason": null,
+            "appearance": 0.9828357600505643,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 7,
+          "inferenceMs": 22.700000047683716,
+          "raw": {
+            "box": [
+              183.16675695066078,
+              60.49137530600626,
+              96.00098309382628,
+              114.56762617261822
+            ],
+            "score": 0.9999675271106571,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              183.16675695066078,
+              60.49137530600626,
+              96.00098309382628,
+              114.56762617261822
+            ],
+            "reason": null,
+            "appearance": 0.9834766825621428,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 8,
+          "inferenceMs": 41.5,
+          "raw": {
+            "box": [
+              186.49123761058092,
+              53.18148362805802,
+              91.37141723936719,
+              119.37164896144532
+            ],
+            "score": 0.9999800176660452,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              186.49123761058092,
+              53.18148362805802,
+              91.37141723936719,
+              119.37164896144532
+            ],
+            "reason": null,
+            "appearance": 0.9772138736459277,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 9,
+          "inferenceMs": 37.59999996423721,
+          "raw": {
+            "box": [
+              186.4491114371669,
+              50.1861588980308,
+              88.91947944558252,
+              122.25727056256059
+            ],
+            "score": 0.9999746796688993,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              186.4491114371669,
+              50.1861588980308,
+              88.91947944558252,
+              122.25727056256059
+            ],
+            "reason": null,
+            "appearance": 0.9726888429023561,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 10,
+          "inferenceMs": 14.100000023841858,
+          "raw": {
+            "box": [
+              194.1482290984147,
+              53.95603050888591,
+              86.40517070696545,
+              124.19196930853302
+            ],
+            "score": 0.9998988497604931,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              194.1482290984147,
+              53.95603050888591,
+              86.40517070696545,
+              124.19196930853302
+            ],
+            "reason": null,
+            "appearance": 0.9788213560750579,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 11,
+          "inferenceMs": 51.299999952316284,
+          "raw": {
+            "box": [
+              196.9567035750727,
+              60.36312234232841,
+              82.71069813879822,
+              126.59318051410119
+            ],
+            "score": 0.999893072017933,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              196.9567035750727,
+              60.36312234232841,
+              82.71069813879822,
+              126.59318051410119
+            ],
+            "reason": null,
+            "appearance": 0.9832355008488924,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 12,
+          "inferenceMs": 53.40000003576279,
+          "raw": {
+            "box": [
+              201.30162399567348,
+              53.43504461427037,
+              80.07160109433455,
+              128.88457006604963
+            ],
+            "score": 0.999898419916108,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              201.30162399567348,
+              53.43504461427037,
+              80.07160109433455,
+              128.88457006604963
+            ],
+            "reason": null,
+            "appearance": 0.980008939348918,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 13,
+          "inferenceMs": 47.90000003576279,
+          "raw": {
+            "box": [
+              204.81059833552834,
+              47.35878101381887,
+              78.84400044964794,
+              130.20187231342896
+            ],
+            "score": 0.9998835296536065,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              204.81059833552834,
+              47.35878101381887,
+              78.84400044964794,
+              130.20187231342896
+            ],
+            "reason": null,
+            "appearance": 0.9731630421408255,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 14,
+          "inferenceMs": 47.5,
+          "raw": {
+            "box": [
+              208.13352162342838,
+              57.187688975913346,
+              77.84454322398908,
+              130.53007738045244
+            ],
+            "score": 0.9999052179219533,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              208.13352162342838,
+              57.187688975913346,
+              77.84454322398908,
+              130.53007738045244
+            ],
+            "reason": null,
+            "appearance": 0.9844306850687887,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 15,
+          "inferenceMs": 30.600000023841858,
+          "raw": {
+            "box": [
+              212.07713818109872,
+              40.88148392137677,
+              78.68667092658666,
+              129.42792952798868
+            ],
+            "score": 0.9999019376320977,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              212.07713818109872,
+              40.88148392137677,
+              78.68667092658666,
+              129.42792952798868
+            ],
+            "reason": null,
+            "appearance": 0.968401915240987,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 16,
+          "inferenceMs": 27.80000001192093,
+          "raw": {
+            "box": [
+              214.3965630100815,
+              51.22517074200667,
+              78.05098758599024,
+              129.4009028192202
+            ],
+            "score": 0.9999018309722943,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              214.3965630100815,
+              51.22517074200667,
+              78.05098758599024,
+              129.4009028192202
+            ],
+            "reason": null,
+            "appearance": 0.9767669649034896,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 17,
+          "inferenceMs": 26.30000001192093,
+          "raw": {
+            "box": [
+              215.32136846615003,
+              43.469916713913435,
+              77.0131417833596,
+              129.68457146240655
+            ],
+            "score": 0.9999309693320154,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              215.32136846615003,
+              43.469916713913435,
+              77.0131417833596,
+              129.68457146240655
+            ],
+            "reason": null,
+            "appearance": 0.969716793910985,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 18,
+          "inferenceMs": 24.600000023841858,
+          "raw": {
+            "box": [
+              212.34788804313897,
+              45.254718747008354,
+              77.43190288011412,
+              128.32199829251851
+            ],
+            "score": 0.999947336050281,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              212.34788804313897,
+              45.254718747008354,
+              77.43190288011412,
+              128.32199829251851
+            ],
+            "reason": null,
+            "appearance": 0.9675667307783942,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 19,
+          "inferenceMs": 27.099999964237213,
+          "raw": {
+            "box": [
+              204.72267161477885,
+              61.78891642811497,
+              76.36206306813399,
+              128.81666340289482
+            ],
+            "score": 0.9998952579493972,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              204.72267161477885,
+              61.78891642811497,
+              76.36206306813399,
+              128.81666340289482
+            ],
+            "reason": null,
+            "appearance": 0.9850406704680634,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 20,
+          "inferenceMs": 15.600000023841858,
+          "raw": {
+            "box": [
+              198.88116181439852,
+              54.37903972536387,
+              75.41094964631102,
+              129.52145877584758
+            ],
+            "score": 0.9999641913966695,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              198.88116181439852,
+              54.37903972536387,
+              75.41094964631102,
+              129.52145877584758
+            ],
+            "reason": null,
+            "appearance": 0.979389840766036,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 21,
+          "inferenceMs": 23.900000035762787,
+          "raw": {
+            "box": [
+              193.2693827349399,
+              63.61301372761909,
+              74.79899008456998,
+              130.70770542875158
+            ],
+            "score": 0.9999774810930677,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              193.2693827349399,
+              63.61301372761909,
+              74.79899008456998,
+              130.70770542875158
+            ],
+            "reason": null,
+            "appearance": 0.9835443744439603,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 22,
+          "inferenceMs": 31.5,
+          "raw": {
+            "box": [
+              187.51188598511203,
+              52.805630863139356,
+              74.83292710543438,
+              130.53280783339045
+            ],
+            "score": 0.9999646907197475,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              187.51188598511203,
+              52.805630863139356,
+              74.83292710543438,
+              130.53280783339045
+            ],
+            "reason": null,
+            "appearance": 0.9773870246932654,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 23,
+          "inferenceMs": 22.5,
+          "raw": {
+            "box": [
+              185.60785155363408,
+              62.6592454527959,
+              74.70045798999118,
+              130.76416648906067
+            ],
+            "score": 0.9999734465547696,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              185.60785155363408,
+              62.6592454527959,
+              74.70045798999118,
+              130.76416648906067
+            ],
+            "reason": null,
+            "appearance": 0.9794855090000253,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 24,
+          "inferenceMs": 35.200000047683716,
+          "raw": {
+            "box": [
+              181.44517561055306,
+              56.62751850904516,
+              73.8029335464742,
+              131.51357229195196
+            ],
+            "score": 0.9999797018640828,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              181.44517561055306,
+              56.62751850904516,
+              73.8029335464742,
+              131.51357229195196
+            ],
+            "reason": null,
+            "appearance": 0.980351258373045,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 25,
+          "inferenceMs": 34.19999998807907,
+          "raw": {
+            "box": [
+              170.97924826526406,
+              56.41489987930852,
+              72.51814034283474,
+              133.96254857243167
+            ],
+            "score": 0.9999417585473654,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              170.97924826526406,
+              56.41489987930852,
+              72.51814034283474,
+              133.96254857243167
+            ],
+            "reason": null,
+            "appearance": 0.9767709193178677,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 26,
+          "inferenceMs": 27.80000001192093,
+          "raw": {
+            "box": [
+              168.77410136972784,
+              56.557468455593536,
+              72.68390784241642,
+              133.57663974111833
+            ],
+            "score": 0.9999598319264634,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              168.77410136972784,
+              56.557468455593536,
+              72.68390784241642,
+              133.57663974111833
+            ],
+            "reason": null,
+            "appearance": 0.9755523606567391,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 27,
+          "inferenceMs": 30.200000047683716,
+          "raw": {
+            "box": [
+              168.35634570432737,
+              54.48885943420373,
+              71.7106840465733,
+              135.6001562118011
+            ],
+            "score": 0.9998727105653552,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              168.35634570432737,
+              54.48885943420373,
+              71.7106840465733,
+              135.6001562118011
+            ],
+            "reason": null,
+            "appearance": 0.9709865854419302,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 28,
+          "inferenceMs": 15.899999976158142,
+          "raw": {
+            "box": [
+              167.578479457956,
+              54.89103499400592,
+              71.13395474639582,
+              136.99684400746725
+            ],
+            "score": 0.9998879537805109,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              167.578479457956,
+              54.89103499400592,
+              71.13395474639582,
+              136.99684400746725
+            ],
+            "reason": null,
+            "appearance": 0.9752519318997248,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 29,
+          "inferenceMs": 20,
+          "raw": {
+            "box": [
+              155.34774171925977,
+              56.78679273149481,
+              70.81093013355112,
+              137.69321566034432
+            ],
+            "score": 0.9996936024241002,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              155.34774171925977,
+              56.78679273149481,
+              70.81093013355112,
+              137.69321566034432
+            ],
+            "reason": null,
+            "appearance": 0.9742006383308086,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 30,
+          "inferenceMs": 29.899999976158142,
+          "raw": {
+            "box": [
+              150.98123594705737,
+              53.409513584476485,
+              71.07852848059579,
+              138.86100231670179
+            ],
+            "score": 0.999736994984788,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              150.98123594705737,
+              53.409513584476485,
+              71.07852848059579,
+              138.86100231670179
+            ],
+            "reason": null,
+            "appearance": 0.9750598056679397,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 31,
+          "inferenceMs": 31.299999952316284,
+          "raw": {
+            "box": [
+              142.3276689226551,
+              59.842341962120855,
+              72.14798893627206,
+              139.80572234796148
+            ],
+            "score": 0.999889171279132,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              142.3276689226551,
+              59.842341962120855,
+              72.14798893627206,
+              139.80572234796148
+            ],
+            "reason": null,
+            "appearance": 0.974534335438492,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 32,
+          "inferenceMs": 24.799999952316284,
+          "raw": {
+            "box": [
+              132.40894020447988,
+              50.14817842772942,
+              73.58593298299245,
+              139.9416268168856
+            ],
+            "score": 0.9997355235914417,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              132.40894020447988,
+              50.14817842772942,
+              73.58593298299245,
+              139.9416268168856
+            ],
+            "reason": null,
+            "appearance": 0.9730913939582021,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 33,
+          "inferenceMs": 27.69999998807907,
+          "raw": {
+            "box": [
+              128.3689982454339,
+              55.37821752601046,
+              74.16492448559771,
+              140.7242293338024
+            ],
+            "score": 0.9999182188665036,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              128.3689982454339,
+              55.37821752601046,
+              74.16492448559771,
+              140.7242293338024
+            ],
+            "reason": null,
+            "appearance": 0.975742956666595,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 34,
+          "inferenceMs": 19.099999964237213,
+          "raw": {
+            "box": [
+              114.95331030337778,
+              51.89399752316372,
+              76.69657128800871,
+              140.94181057816894
+            ],
+            "score": 0.9998682536365052,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              114.95331030337778,
+              51.89399752316372,
+              76.69657128800871,
+              140.94181057816894
+            ],
+            "reason": null,
+            "appearance": 0.9754182761441796,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 35,
+          "inferenceMs": 27.80000001192093,
+          "raw": {
+            "box": [
+              115.67673658827266,
+              51.764778100625705,
+              76.86553772618915,
+              142.05749148307342
+            ],
+            "score": 0.9998378753717226,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              115.67673658827266,
+              51.764778100625705,
+              76.86553772618915,
+              142.05749148307342
+            ],
+            "reason": null,
+            "appearance": 0.9763733998789312,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 36,
+          "inferenceMs": 28.69999998807907,
+          "raw": {
+            "box": [
+              108.78648053661402,
+              56.8290168095686,
+              78.49844194485733,
+              140.34241729530947
+            ],
+            "score": 0.9996705143513832,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              108.78648053661402,
+              56.8290168095686,
+              78.49844194485733,
+              140.34241729530947
+            ],
+            "reason": null,
+            "appearance": 0.9731028180374804,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 37,
+          "inferenceMs": 28.400000035762787,
+          "raw": {
+            "box": [
+              98.58069853617614,
+              52.38991236813155,
+              82.53483509505062,
+              137.92123613987724
+            ],
+            "score": 0.9998372159490138,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              98.58069853617614,
+              52.38991236813155,
+              82.53483509505062,
+              137.92123613987724
+            ],
+            "reason": null,
+            "appearance": 0.9781456651201015,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 38,
+          "inferenceMs": 26.80000001192093,
+          "raw": {
+            "box": [
+              87.10288267361666,
+              58.1127310777764,
+              87.56601165337125,
+              135.5444736602394
+            ],
+            "score": 0.9998713491928941,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              87.10288267361666,
+              58.1127310777764,
+              87.56601165337125,
+              135.5444736602394
+            ],
+            "reason": null,
+            "appearance": 0.9748773612534307,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 39,
+          "inferenceMs": 26.69999998807907,
+          "raw": {
+            "box": [
+              78.69441750418645,
+              48.64842088702662,
+              89.9174497120024,
+              136.02084248901645
+            ],
+            "score": 0.9998752879617336,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              78.69441750418645,
+              48.64842088702662,
+              89.9174497120024,
+              136.02084248901645
+            ],
+            "reason": null,
+            "appearance": 0.9627240129759143,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 40,
+          "inferenceMs": 15,
+          "raw": {
+            "box": [
+              74.2719069356745,
+              54.248800344924916,
+              90.92703958865755,
+              136.10368869256484
+            ],
+            "score": 0.9995069515404906,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              74.2719069356745,
+              54.248800344924916,
+              90.92703958865755,
+              136.10368869256484
+            ],
+            "reason": null,
+            "appearance": 0.9497717732726861,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 41,
+          "inferenceMs": 26.5,
+          "raw": {
+            "box": [
+              70.45190456803658,
+              46.71933035905984,
+              91.2686136599027,
+              137.10456854568267
+            ],
+            "score": 0.9997161984972425,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              70.45190456803658,
+              46.71933035905984,
+              91.2686136599027,
+              137.10456854568267
+            ],
+            "reason": null,
+            "appearance": 0.9427790427351357,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 42,
+          "inferenceMs": 28.69999998807907,
+          "raw": {
+            "box": [
+              70.31593127482671,
+              50.444148832615824,
+              90.72485506762506,
+              138.02390006516757
+            ],
+            "score": 0.9997746719730096,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              70.31593127482671,
+              50.444148832615824,
+              90.72485506762506,
+              138.02390006516757
+            ],
+            "reason": null,
+            "appearance": 0.9438463809464301,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 43,
+          "inferenceMs": 27,
+          "raw": {
+            "box": [
+              70.04059261288143,
+              50.75518268250234,
+              91.82433142581186,
+              136.05660738113656
+            ],
+            "score": 0.9998796527819782,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              70.04059261288143,
+              50.75518268250234,
+              91.82433142581186,
+              136.05660738113656
+            ],
+            "reason": null,
+            "appearance": 0.9468536309901359,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 44,
+          "inferenceMs": 25.600000023841858,
+          "raw": {
+            "box": [
+              69.50322455330408,
+              50.45394638167927,
+              93.02812779789832,
+              136.28770773394692
+            ],
+            "score": 0.9998340975510522,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              69.50322455330408,
+              50.45394638167927,
+              93.02812779789832,
+              136.28770773394692
+            ],
+            "reason": null,
+            "appearance": 0.9479923443668092,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 45,
+          "inferenceMs": 27.600000023841858,
+          "raw": {
+            "box": [
+              73.05232206588437,
+              47.63123549694539,
+              91.22883998916907,
+              139.4616608992953
+            ],
+            "score": 0.9997996684602491,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              73.05232206588437,
+              47.63123549694539,
+              91.22883998916907,
+              139.4616608992953
+            ],
+            "reason": null,
+            "appearance": 0.9545711321401518,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 46,
+          "inferenceMs": 27.30000001192093,
+          "raw": {
+            "box": [
+              69.94691937675285,
+              47.36348520188686,
+              91.81959306145399,
+              141.4884068728551
+            ],
+            "score": 0.9998535461618293,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              69.94691937675285,
+              47.36348520188686,
+              91.81959306145399,
+              141.4884068728551
+            ],
+            "reason": null,
+            "appearance": 0.9471380332817315,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 47,
+          "inferenceMs": 27.69999998807907,
+          "raw": {
+            "box": [
+              75.04443896073113,
+              45.35633272585642,
+              92.86706443078754,
+              143.14470116112108
+            ],
+            "score": 0.9998886296568475,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              75.04443896073113,
+              45.35633272585642,
+              92.86706443078754,
+              143.14470116112108
+            ],
+            "reason": null,
+            "appearance": 0.9599331476110893,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 48,
+          "inferenceMs": 24.700000047683716,
+          "raw": {
+            "box": [
+              91.51678648351897,
+              52.47677489607598,
+              100.78599582711522,
+              142.09879341542367
+            ],
+            "score": 0.9992976412076965,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              91.51678648351897,
+              52.47677489607598,
+              100.78599582711522,
+              142.09879341542367
+            ],
+            "reason": null,
+            "appearance": 0.9846111233898529,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 49,
+          "inferenceMs": 27.100000023841858,
+          "raw": {
+            "box": [
+              144.8886514147551,
+              60.0538531717074,
+              107.72515950819604,
+              139.8155736592746
+            ],
+            "score": 0.9731343969192834,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              144.8886514147551,
+              60.0538531717074,
+              107.72515950819604,
+              139.8155736592746
+            ],
+            "reason": null,
+            "appearance": 0.9890785452751698,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 50,
+          "inferenceMs": 17.400000035762787,
+          "raw": {
+            "box": [
+              179.28315403727427,
+              76.21062742193025,
+              102.8734845018479,
+              143.73556514964073
+            ],
+            "score": 0.9998161470743033,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              179.28315403727427,
+              76.21062742193025,
+              102.8734845018479,
+              143.73556514964073
+            ],
+            "reason": null,
+            "appearance": 0.980769335665145,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 51,
+          "inferenceMs": 16.30000001192093,
+          "raw": {
+            "box": [
+              183.45711517241094,
+              71.80227623355823,
+              105.94603900027568,
+              140.50176169594002
+            ],
+            "score": 0.9997023632189314,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              183.45711517241094,
+              71.80227623355823,
+              105.94603900027568,
+              140.50176169594002
+            ],
+            "reason": null,
+            "appearance": 0.9856374435170799,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 52,
+          "inferenceMs": 17.400000035762787,
+          "raw": {
+            "box": [
+              195.88145249707344,
+              80.00226623926434,
+              102.17448587009571,
+              142.99866359245766
+            ],
+            "score": 0.9990312555174043,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              195.88145249707344,
+              80.00226623926434,
+              102.17448587009571,
+              142.99866359245766
+            ],
+            "reason": null,
+            "appearance": 0.9842970402654347,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 53,
+          "inferenceMs": 16.799999952316284,
+          "raw": {
+            "box": [
+              198.5415444732842,
+              81.31140915157025,
+              99.45616663923161,
+              145.04305455700012
+            ],
+            "score": 0.9998832956893112,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              198.5415444732842,
+              81.31140915157025,
+              99.45616663923161,
+              145.04305455700012
+            ],
+            "reason": null,
+            "appearance": 0.9837334480100624,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 54,
+          "inferenceMs": 16.69999998807907,
+          "raw": {
+            "box": [
+              199.42150059708985,
+              81.24325813868683,
+              97.68221528049898,
+              146.23556570946124
+            ],
+            "score": 0.9998907525313111,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              199.42150059708985,
+              81.24325813868683,
+              97.68221528049898,
+              146.23556570946124
+            ],
+            "reason": null,
+            "appearance": 0.9878981959828239,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 55,
+          "inferenceMs": 20.200000047683716,
+          "raw": {
+            "box": [
+              197.43486936702078,
+              87.55730344346814,
+              95.15938701654724,
+              147.332589061721
+            ],
+            "score": 0.9999326439285672,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              197.43486936702078,
+              87.55730344346814,
+              95.15938701654724,
+              147.332589061721
+            ],
+            "reason": null,
+            "appearance": 0.9840244623056691,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 56,
+          "inferenceMs": 19.399999976158142,
+          "raw": {
+            "box": [
+              195.44251937677137,
+              84.7106786338936,
+              95.0692602073988,
+              146.12170877103193
+            ],
+            "score": 0.9999298025518552,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              195.44251937677137,
+              84.7106786338936,
+              95.0692602073988,
+              146.12170877103193
+            ],
+            "reason": null,
+            "appearance": 0.9872927169814315,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 57,
+          "inferenceMs": 17,
+          "raw": {
+            "box": [
+              196.07250510596,
+              85.4989721679803,
+              94.08906903908742,
+              146.8543014417313
+            ],
+            "score": 0.9999644340328162,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              196.07250510596,
+              85.4989721679803,
+              94.08906903908742,
+              146.8543014417313
+            ],
+            "reason": null,
+            "appearance": 0.9888980661276681,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 58,
+          "inferenceMs": 18,
+          "raw": {
+            "box": [
+              197.81434355747882,
+              85.49267720788512,
+              92.88788358415192,
+              151.2913238227584
+            ],
+            "score": 0.9999510825424304,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              197.81434355747882,
+              85.49267720788512,
+              92.88788358415192,
+              151.2913238227584
+            ],
+            "reason": null,
+            "appearance": 0.9863983778587082,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 59,
+          "inferenceMs": 18.19999998807907,
+          "raw": {
+            "box": [
+              197.69809224385787,
+              89.19898271071186,
+              92.00746961852583,
+              153.44901927909265
+            ],
+            "score": 0.9999699191012505,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              197.69809224385787,
+              89.19898271071186,
+              92.00746961852583,
+              153.44901927909265
+            ],
+            "reason": null,
+            "appearance": 0.9848969181662024,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 60,
+          "inferenceMs": 15.399999976158142,
+          "raw": {
+            "box": [
+              196.13400200934322,
+              89.46620023693612,
+              92.4693030652142,
+              155.46799073634372
+            ],
+            "score": 0.9999706017354908,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              196.13400200934322,
+              89.46620023693612,
+              92.4693030652142,
+              155.46799073634372
+            ],
+            "reason": null,
+            "appearance": 0.9835589865566052,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 61,
+          "inferenceMs": 23.19999998807907,
+          "raw": {
+            "box": [
+              197.09066489390406,
+              85.12838155705188,
+              96.29201964106198,
+              152.93202917032943
+            ],
+            "score": 0.9999640746921529,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              197.09066489390406,
+              85.12838155705188,
+              96.29201964106198,
+              152.93202917032943
+            ],
+            "reason": null,
+            "appearance": 0.9833235160889333,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 62,
+          "inferenceMs": 16.600000023841858,
+          "raw": {
+            "box": [
+              190.7923732738076,
+              85.71334628757518,
+              93.81943340110895,
+              154.81620740584458
+            ],
+            "score": 0.9999688971656775,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              190.7923732738076,
+              85.71334628757518,
+              93.81943340110895,
+              154.81620740584458
+            ],
+            "reason": null,
+            "appearance": 0.9853749890200952,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 63,
+          "inferenceMs": 26.899999976158142,
+          "raw": {
+            "box": [
+              177.0573124517175,
+              74.88765029977193,
+              95.61227280638542,
+              152.7761566668279
+            ],
+            "score": 0.9999672102163545,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              177.0573124517175,
+              74.88765029977193,
+              95.61227280638542,
+              152.7761566668279
+            ],
+            "reason": null,
+            "appearance": 0.9804314477505536,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 64,
+          "inferenceMs": 16.69999998807907,
+          "raw": {
+            "box": [
+              173.01664754591746,
+              76.72692988268713,
+              94.91822373267772,
+              154.04195935988116
+            ],
+            "score": 0.9999639419992724,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              173.01664754591746,
+              76.72692988268713,
+              94.91822373267772,
+              154.04195935988116
+            ],
+            "reason": null,
+            "appearance": 0.9827522353260204,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 65,
+          "inferenceMs": 26.80000001192093,
+          "raw": {
+            "box": [
+              158.58126245930353,
+              87.36916830875788,
+              93.26715060411703,
+              155.23517878673852
+            ],
+            "score": 0.9931702256710407,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              158.58126245930353,
+              87.36916830875788,
+              93.26715060411703,
+              155.23517878673852
+            ],
+            "reason": null,
+            "appearance": 0.9779456338508759,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 66,
+          "inferenceMs": 22.400000035762787,
+          "raw": {
+            "box": [
+              143.14893997806564,
+              83.53590385780936,
+              90.99401984158314,
+              154.8673074764693
+            ],
+            "score": 0.9989944320694613,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              143.14893997806564,
+              83.53590385780936,
+              90.99401984158314,
+              154.8673074764693
+            ],
+            "reason": null,
+            "appearance": 0.9798377092531909,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 67,
+          "inferenceMs": 29.80000001192093,
+          "raw": {
+            "box": [
+              138.94797072627645,
+              84.62274619246058,
+              89.41988480923408,
+              154.4156086104994
+            ],
+            "score": 0.9998546132228341,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              138.94797072627645,
+              84.62274619246058,
+              89.41988480923408,
+              154.4156086104994
+            ],
+            "reason": null,
+            "appearance": 0.9733082428588209,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 68,
+          "inferenceMs": 17.5,
+          "raw": {
+            "box": [
+              133.08621391253678,
+              84.39181778255363,
+              86.48750601624616,
+              154.7969078986397
+            ],
+            "score": 0.9997716740820259,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              133.08621391253678,
+              84.39181778255363,
+              86.48750601624616,
+              154.7969078986397
+            ],
+            "reason": null,
+            "appearance": 0.9743044458900405,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 69,
+          "inferenceMs": 28.599999964237213,
+          "raw": {
+            "box": [
+              129.22882445483592,
+              81.3458628310088,
+              86.08033352795736,
+              153.25394536130383
+            ],
+            "score": 0.9997724627462367,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              129.22882445483592,
+              81.3458628310088,
+              86.08033352795736,
+              153.25394536130383
+            ],
+            "reason": null,
+            "appearance": 0.9718126592931633,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 70,
+          "inferenceMs": 16.799999952316284,
+          "raw": {
+            "box": [
+              123.38912268868545,
+              95.42852312225259,
+              83.9767804553995,
+              150.1653217460851
+            ],
+            "score": 0.9996716834636832,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              123.38912268868545,
+              95.42852312225259,
+              83.9767804553995,
+              150.1653217460851
+            ],
+            "reason": null,
+            "appearance": 0.9698883078404258,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 71,
+          "inferenceMs": 16.600000023841858,
+          "raw": {
+            "box": [
+              116.25044784702274,
+              86.36564568254435,
+              82.48864745365285,
+              148.053742524952
+            ],
+            "score": 0.9995675491275925,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              116.25044784702274,
+              86.36564568254435,
+              82.48864745365285,
+              148.053742524952
+            ],
+            "reason": null,
+            "appearance": 0.967820766212753,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 72,
+          "inferenceMs": 28.30000001192093,
+          "raw": {
+            "box": [
+              112.58851110967285,
+              90.84327854253074,
+              80.78437513835864,
+              144.93766371337105
+            ],
+            "score": 0.9995760467614849,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              112.58851110967285,
+              90.84327854253074,
+              80.78437513835864,
+              144.93766371337105
+            ],
+            "reason": null,
+            "appearance": 0.963257324454373,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 73,
+          "inferenceMs": 17.80000001192093,
+          "raw": {
+            "box": [
+              94.82206364720375,
+              95.55701743267934,
+              82.7386280864245,
+              140.34586848746562
+            ],
+            "score": 0.9934951401870398,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              94.82206364720375,
+              95.55701743267934,
+              82.7386280864245,
+              140.34586848746562
+            ],
+            "reason": null,
+            "appearance": 0.9585389493109742,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 74,
+          "inferenceMs": 20.100000023841858,
+          "raw": {
+            "box": [
+              77.47927171144994,
+              93.56272162560768,
+              84.686823249159,
+              136.91722333307928
+            ],
+            "score": 0.9994149941799948,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              77.47927171144994,
+              93.56272162560768,
+              84.686823249159,
+              136.91722333307928
+            ],
+            "reason": null,
+            "appearance": 0.9534129618493749,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 75,
+          "inferenceMs": 24.5,
+          "raw": {
+            "box": [
+              72.75383600941778,
+              100.2336191092572,
+              86.03606521243731,
+              135.44876304123585
+            ],
+            "score": 0.9997727256425895,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              72.75383600941778,
+              100.2336191092572,
+              86.03606521243731,
+              135.44876304123585
+            ],
+            "reason": null,
+            "appearance": 0.9394459892616815,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 76,
+          "inferenceMs": 20.30000001192093,
+          "raw": {
+            "box": [
+              70.51011360979976,
+              93.36442150497705,
+              85.95759543094589,
+              133.59979982524524
+            ],
+            "score": 0.999734568842891,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              70.51011360979976,
+              93.36442150497705,
+              85.95759543094589,
+              133.59979982524524
+            ],
+            "reason": null,
+            "appearance": 0.9329124894787841,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 77,
+          "inferenceMs": 16.30000001192093,
+          "raw": {
+            "box": [
+              67.88790144947433,
+              101.30580096106605,
+              85.0053648297901,
+              134.05354192181258
+            ],
+            "score": 0.9997538750028188,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              67.88790144947433,
+              101.30580096106605,
+              85.0053648297901,
+              134.05354192181258
+            ],
+            "reason": null,
+            "appearance": 0.9250552282782257,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 78,
+          "inferenceMs": 16.100000023841858,
+          "raw": {
+            "box": [
+              73.6805580595938,
+              101.46628363678252,
+              86.18732761635637,
+              135.44767894507197
+            ],
+            "score": 0.9997758016672819,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              73.6805580595938,
+              101.46628363678252,
+              86.18732761635637,
+              135.44767894507197
+            ],
+            "reason": null,
+            "appearance": 0.9439601285898982,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 79,
+          "inferenceMs": 15,
+          "raw": {
+            "box": [
+              135.26977118345997,
+              97.86741037082635,
+              86.68927324126307,
+              136.31555573499668
+            ],
+            "score": 0.9999118234660417,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              135.26977118345997,
+              97.86741037082635,
+              86.68927324126307,
+              136.31555573499668
+            ],
+            "reason": null,
+            "appearance": 0.9676328688194029,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 80,
+          "inferenceMs": 16.100000023841858,
+          "raw": {
+            "box": [
+              152.42442487795654,
+              92.81703229083337,
+              88.9870107372632,
+              134.10967374200112
+            ],
+            "score": 0.999502763058214,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              152.42442487795654,
+              92.81703229083337,
+              88.9870107372632,
+              134.10967374200112
+            ],
+            "reason": null,
+            "appearance": 0.9722537374155806,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 81,
+          "inferenceMs": 23.900000035762787,
+          "raw": {
+            "box": [
+              153.01751426613166,
+              99.56059192507168,
+              91.68702855351756,
+              130.85070272559634
+            ],
+            "score": 0.9999534883143512,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              153.01751426613166,
+              99.56059192507168,
+              91.68702855351756,
+              130.85070272559634
+            ],
+            "reason": null,
+            "appearance": 0.9733765087416225,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 82,
+          "inferenceMs": 26.69999998807907,
+          "raw": {
+            "box": [
+              156.69072663749552,
+              106.95615842013686,
+              97.21102492475083,
+              124.85394356398979
+            ],
+            "score": 0.9999281571380054,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              156.69072663749552,
+              106.95615842013686,
+              97.21102492475083,
+              124.85394356398979
+            ],
+            "reason": null,
+            "appearance": 0.9703373476834687,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 83,
+          "inferenceMs": 26.600000023841858,
+          "raw": {
+            "box": [
+              158.63797367483448,
+              111.32036077755926,
+              97.4753125038643,
+              123.96811544352747
+            ],
+            "score": 0.999950856473566,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              158.63797367483448,
+              111.32036077755926,
+              97.4753125038643,
+              123.96811544352747
+            ],
+            "reason": null,
+            "appearance": 0.9628223241913376,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 84,
+          "inferenceMs": 16,
+          "raw": {
+            "box": [
+              160.2459029890685,
+              103.87826730276295,
+              101.259213507666,
+              120.72976524232772
+            ],
+            "score": 0.9999554366920234,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              160.2459029890685,
+              103.87826730276295,
+              101.259213507666,
+              120.72976524232772
+            ],
+            "reason": null,
+            "appearance": 0.9649845946786623,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 85,
+          "inferenceMs": 20.299999952316284,
+          "raw": {
+            "box": [
+              170.2515883393015,
+              114.9928278958323,
+              100.07250968313163,
+              121.9646981311747
+            ],
+            "score": 0.9997892519252007,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              170.2515883393015,
+              114.9928278958323,
+              100.07250968313163,
+              121.9646981311747
+            ],
+            "reason": null,
+            "appearance": 0.9678340377510724,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 86,
+          "inferenceMs": 24.80000001192093,
+          "raw": {
+            "box": [
+              177.07370485013905,
+              120.02301709853288,
+              98.83090409566312,
+              122.83977697592252
+            ],
+            "score": 0.9998806129582005,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              177.07370485013905,
+              120.02301709853288,
+              98.83090409566312,
+              122.83977697592252
+            ],
+            "reason": null,
+            "appearance": 0.9702358790461296,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 87,
+          "inferenceMs": 26.399999976158142,
+          "raw": {
+            "box": [
+              194.57060775760218,
+              128.2520396688492,
+              99.6676095191454,
+              124.26118834435098
+            ],
+            "score": 0.998225786546216,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              194.57060775760218,
+              128.2520396688492,
+              99.6676095191454,
+              124.26118834435098
+            ],
+            "reason": null,
+            "appearance": 0.9722777216162993,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 88,
+          "inferenceMs": 23.900000035762787,
+          "raw": {
+            "box": [
+              200.0600465537083,
+              131.83200561023025,
+              95.53714502485047,
+              127.32463609643145
+            ],
+            "score": 0.9997446379941765,
+            "ambiguous": true,
+            "ambiguousCandidates": [
+              {
+                "box": [
+                  227.30322050693331,
+                  133.41235463120563,
+                  118.75842336217123,
+                  124.63186843923398
+                ],
+                "score": 0.9641985051259988,
+                "overlap": 0.4337476664205203
+              }
+            ]
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": null,
+            "reason": "More than one similar outline is plausible. Confirm the object.",
+            "appearance": null,
+            "requiresConfirmation": true
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        }
+      ],
+      "decoded": [
+        {
+          "requestedTime": 11,
+          "mediaTime": 11
+        },
+        {
+          "requestedTime": 11.2,
+          "mediaTime": 11.208333
+        },
+        {
+          "requestedTime": 11.4,
+          "mediaTime": 11.416667
+        },
+        {
+          "requestedTime": 11.6,
+          "mediaTime": 11.583333
+        },
+        {
+          "requestedTime": 11.8,
+          "mediaTime": 11.791667
+        },
+        {
+          "requestedTime": 12,
+          "mediaTime": 12
+        },
+        {
+          "requestedTime": 12.2,
+          "mediaTime": 12.208333
+        },
+        {
+          "requestedTime": 12.4,
+          "mediaTime": 12.416667
+        },
+        {
+          "requestedTime": 12.6,
+          "mediaTime": 12.583333
+        },
+        {
+          "requestedTime": 12.8,
+          "mediaTime": 12.791667
+        },
+        {
+          "requestedTime": 13,
+          "mediaTime": 13
+        },
+        {
+          "requestedTime": 13.2,
+          "mediaTime": 13.208333
+        },
+        {
+          "requestedTime": 13.4,
+          "mediaTime": 13.416667
+        },
+        {
+          "requestedTime": 13.6,
+          "mediaTime": 13.583333
+        },
+        {
+          "requestedTime": 13.8,
+          "mediaTime": 13.791667
+        },
+        {
+          "requestedTime": 14,
+          "mediaTime": 14
+        },
+        {
+          "requestedTime": 14.2,
+          "mediaTime": 14.208333
+        },
+        {
+          "requestedTime": 14.4,
+          "mediaTime": 14.416667
+        },
+        {
+          "requestedTime": 14.6,
+          "mediaTime": 14.583333
+        },
+        {
+          "requestedTime": 14.8,
+          "mediaTime": 14.791667
+        },
+        {
+          "requestedTime": 15,
+          "mediaTime": 15
+        },
+        {
+          "requestedTime": 15.2,
+          "mediaTime": 15.208333
+        },
+        {
+          "requestedTime": 15.4,
+          "mediaTime": 15.416667
+        },
+        {
+          "requestedTime": 15.600000000000001,
+          "mediaTime": 15.583333
+        },
+        {
+          "requestedTime": 15.8,
+          "mediaTime": 15.791667
+        },
+        {
+          "requestedTime": 16,
+          "mediaTime": 16
+        },
+        {
+          "requestedTime": 16.2,
+          "mediaTime": 16.208333
+        },
+        {
+          "requestedTime": 16.4,
+          "mediaTime": 16.416667
+        },
+        {
+          "requestedTime": 16.6,
+          "mediaTime": 16.583333
+        },
+        {
+          "requestedTime": 16.8,
+          "mediaTime": 16.791667
+        },
+        {
+          "requestedTime": 17,
+          "mediaTime": 17
+        },
+        {
+          "requestedTime": 17.2,
+          "mediaTime": 17.208333
+        },
+        {
+          "requestedTime": 17.4,
+          "mediaTime": 17.416667
+        },
+        {
+          "requestedTime": 17.6,
+          "mediaTime": 17.583333
+        },
+        {
+          "requestedTime": 17.8,
+          "mediaTime": 17.791667
+        },
+        {
+          "requestedTime": 18,
+          "mediaTime": 18
+        },
+        {
+          "requestedTime": 18.2,
+          "mediaTime": 18.208333
+        },
+        {
+          "requestedTime": 18.4,
+          "mediaTime": 18.416667
+        },
+        {
+          "requestedTime": 18.6,
+          "mediaTime": 18.583333
+        },
+        {
+          "requestedTime": 18.8,
+          "mediaTime": 18.791667
+        },
+        {
+          "requestedTime": 19,
+          "mediaTime": 19
+        },
+        {
+          "requestedTime": 19.200000000000003,
+          "mediaTime": 19.208333
+        },
+        {
+          "requestedTime": 19.4,
+          "mediaTime": 19.416667
+        },
+        {
+          "requestedTime": 19.6,
+          "mediaTime": 19.583333
+        },
+        {
+          "requestedTime": 19.8,
+          "mediaTime": 19.791667
+        },
+        {
+          "requestedTime": 20,
+          "mediaTime": 20
+        },
+        {
+          "requestedTime": 20.200000000000003,
+          "mediaTime": 20.208333
+        },
+        {
+          "requestedTime": 20.4,
+          "mediaTime": 20.416667
+        },
+        {
+          "requestedTime": 20.6,
+          "mediaTime": 20.583333
+        },
+        {
+          "requestedTime": 20.8,
+          "mediaTime": 20.791667
+        },
+        {
+          "requestedTime": 21,
+          "mediaTime": 21
+        },
+        {
+          "requestedTime": 21.200000000000003,
+          "mediaTime": 21.208333
+        },
+        {
+          "requestedTime": 21.4,
+          "mediaTime": 21.416667
+        },
+        {
+          "requestedTime": 21.6,
+          "mediaTime": 21.583333
+        },
+        {
+          "requestedTime": 21.8,
+          "mediaTime": 21.791667
+        },
+        {
+          "requestedTime": 22,
+          "mediaTime": 22
+        },
+        {
+          "requestedTime": 22.200000000000003,
+          "mediaTime": 22.208333
+        },
+        {
+          "requestedTime": 22.4,
+          "mediaTime": 22.416667
+        },
+        {
+          "requestedTime": 22.6,
+          "mediaTime": 22.583333
+        },
+        {
+          "requestedTime": 22.8,
+          "mediaTime": 22.791667
+        },
+        {
+          "requestedTime": 23,
+          "mediaTime": 23
+        },
+        {
+          "requestedTime": 23.200000000000003,
+          "mediaTime": 23.208333
+        },
+        {
+          "requestedTime": 23.4,
+          "mediaTime": 23.416667
+        },
+        {
+          "requestedTime": 23.6,
+          "mediaTime": 23.583333
+        },
+        {
+          "requestedTime": 23.8,
+          "mediaTime": 23.791667
+        },
+        {
+          "requestedTime": 24,
+          "mediaTime": 24
+        },
+        {
+          "requestedTime": 24.200000000000003,
+          "mediaTime": 24.208333
+        },
+        {
+          "requestedTime": 24.4,
+          "mediaTime": 24.416667
+        },
+        {
+          "requestedTime": 24.6,
+          "mediaTime": 24.583333
+        },
+        {
+          "requestedTime": 24.8,
+          "mediaTime": 24.791667
+        },
+        {
+          "requestedTime": 25,
+          "mediaTime": 25
+        },
+        {
+          "requestedTime": 25.200000000000003,
+          "mediaTime": 25.208333
+        },
+        {
+          "requestedTime": 25.4,
+          "mediaTime": 25.416667
+        },
+        {
+          "requestedTime": 25.6,
+          "mediaTime": 25.583333
+        },
+        {
+          "requestedTime": 25.8,
+          "mediaTime": 25.791667
+        },
+        {
+          "requestedTime": 26,
+          "mediaTime": 26
+        },
+        {
+          "requestedTime": 26.200000000000003,
+          "mediaTime": 26.208333
+        },
+        {
+          "requestedTime": 26.4,
+          "mediaTime": 26.416667
+        },
+        {
+          "requestedTime": 26.6,
+          "mediaTime": 26.583333
+        },
+        {
+          "requestedTime": 26.8,
+          "mediaTime": 26.791667
+        },
+        {
+          "requestedTime": 27,
+          "mediaTime": 27
+        },
+        {
+          "requestedTime": 27.2,
+          "mediaTime": 27.208333
+        },
+        {
+          "requestedTime": 27.400000000000002,
+          "mediaTime": 27.416667
+        },
+        {
+          "requestedTime": 27.6,
+          "mediaTime": 27.583333
+        },
+        {
+          "requestedTime": 27.8,
+          "mediaTime": 27.791667
+        },
+        {
+          "requestedTime": 28,
+          "mediaTime": 28
+        },
+        {
+          "requestedTime": 28.2,
+          "mediaTime": 28.208333
+        },
+        {
+          "requestedTime": 28.400000000000002,
+          "mediaTime": 28.416667
+        },
+        {
+          "requestedTime": 28.6,
+          "mediaTime": 28.583333
+        }
+      ],
+      "processingMs": 4351.900000035763
+    },
+    {
+      "checkpoint": {
+        "index": 88,
+        "box": [
+          224,
+          132,
+          62,
+          128
+        ]
+      },
+      "rows": [
+        {
+          "index": 89,
+          "inferenceMs": 34.59999996423721,
+          "raw": {
+            "box": [
+              221.85140210772715,
+              129.0607095283837,
+              64.30993027378597,
+              126.8625004099413
+            ],
+            "score": 0.9999997486941129,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              221.85140210772715,
+              129.0607095283837,
+              64.30993027378597,
+              126.8625004099413
+            ],
+            "reason": null,
+            "appearance": 0.9968254894207074,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 90,
+          "inferenceMs": 16.700000047683716,
+          "raw": {
+            "box": [
+              214.97135025743663,
+              129.7962048921355,
+              64.52412051651038,
+              127.31261596990286
+            ],
+            "score": 0.9999994105189953,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              214.97135025743663,
+              129.7962048921355,
+              64.52412051651038,
+              127.31261596990286
+            ],
+            "reason": null,
+            "appearance": 0.997955289899136,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 91,
+          "inferenceMs": 29.700000047683716,
+          "raw": {
+            "box": [
+              190.59499010646078,
+              126.68105424072951,
+              64.18334012683104,
+              129.2169969448462
+            ],
+            "score": 0.9999993272440911,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              190.59499010646078,
+              126.68105424072951,
+              64.18334012683104,
+              129.2169969448462
+            ],
+            "reason": null,
+            "appearance": 0.9947078657462811,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 92,
+          "inferenceMs": 28.099999964237213,
+          "raw": {
+            "box": [
+              177.16932089152348,
+              129.38160856390815,
+              66.1619753231604,
+              128.52956634175985
+            ],
+            "score": 0.9999966195873312,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              177.16932089152348,
+              129.38160856390815,
+              66.1619753231604,
+              128.52956634175985
+            ],
+            "reason": null,
+            "appearance": 0.9922140690996588,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 93,
+          "inferenceMs": 23.19999998807907,
+          "raw": {
+            "box": [
+              169.35306750862878,
+              134.37468301622656,
+              65.04596904477238,
+              129.28407043703703
+            ],
+            "score": 0.9999982647487606,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              169.35306750862878,
+              134.37468301622656,
+              65.04596904477238,
+              129.28407043703703
+            ],
+            "reason": null,
+            "appearance": 0.9879338211454942,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 94,
+          "inferenceMs": 26.599999964237213,
+          "raw": {
+            "box": [
+              156.6363967104908,
+              138.09529126237277,
+              63.94557435690376,
+              130.0530933355645
+            ],
+            "score": 0.9999685693716834,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              156.6363967104908,
+              138.09529126237277,
+              63.94557435690376,
+              130.0530933355645
+            ],
+            "reason": null,
+            "appearance": 0.986748774262884,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 95,
+          "inferenceMs": 27,
+          "raw": {
+            "box": [
+              159.62211591805976,
+              125.78941073684673,
+              68.47142997497829,
+              128.55137979155282
+            ],
+            "score": 0.9999963965736147,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              159.62211591805976,
+              125.78941073684673,
+              68.47142997497829,
+              128.55137979155282
+            ],
+            "reason": null,
+            "appearance": 0.9949944536387969,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 96,
+          "inferenceMs": 28,
+          "raw": {
+            "box": [
+              175.01038269109182,
+              129.32043492072177,
+              70.5225168286393,
+              128.91502381345566
+            ],
+            "score": 0.992604902271464,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              175.01038269109182,
+              129.32043492072177,
+              70.5225168286393,
+              128.91502381345566
+            ],
+            "reason": null,
+            "appearance": 0.9965885443915947,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 97,
+          "inferenceMs": 26.19999998807907,
+          "raw": {
+            "box": [
+              192.0038379810928,
+              129.33805039127955,
+              75.25050895562748,
+              125.60964440097989
+            ],
+            "score": 0.9957654760084752,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              192.0038379810928,
+              129.33805039127955,
+              75.25050895562748,
+              125.60964440097989
+            ],
+            "reason": null,
+            "appearance": 0.9949705295052393,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 98,
+          "inferenceMs": 28,
+          "raw": {
+            "box": [
+              207.46940649678658,
+              128.53675469926716,
+              74.97486226529303,
+              125.47347907016922
+            ],
+            "score": 0.9998447134947015,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              207.46940649678658,
+              128.53675469926716,
+              74.97486226529303,
+              125.47347907016922
+            ],
+            "reason": null,
+            "appearance": 0.996378454444206,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 99,
+          "inferenceMs": 27.799999952316284,
+          "raw": {
+            "box": [
+              216.0713398632342,
+              127.43753485648494,
+              72.01661383796588,
+              126.25569480422398
+            ],
+            "score": 0.9999962836264576,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              216.0713398632342,
+              127.43753485648494,
+              72.01661383796588,
+              126.25569480422398
+            ],
+            "reason": null,
+            "appearance": 0.9954881995946521,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 100,
+          "inferenceMs": 16.5,
+          "raw": {
+            "box": [
+              216.21313360910693,
+              107.14132868238788,
+              72.37278614336375,
+              126.12121999363328
+            ],
+            "score": 0.9999979645743525,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              216.21313360910693,
+              107.14132868238788,
+              72.37278614336375,
+              126.12121999363328
+            ],
+            "reason": null,
+            "appearance": 0.9956087268277842,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 101,
+          "inferenceMs": 29.599999964237213,
+          "raw": {
+            "box": [
+              213.83020471639486,
+              76.40252068618966,
+              72.95546810021605,
+              127.15958601377326
+            ],
+            "score": 0.9904635103677445,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              213.83020471639486,
+              76.40252068618966,
+              72.95546810021605,
+              127.15958601377326
+            ],
+            "reason": null,
+            "appearance": 0.9919931432623019,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 102,
+          "inferenceMs": 15.100000023841858,
+          "raw": {
+            "box": [
+              166.4210274247248,
+              38.98651672486538,
+              80.5850234312418,
+              123.54759342207666
+            ],
+            "score": 0.9993365500971538,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              166.4210274247248,
+              38.98651672486538,
+              80.5850234312418,
+              123.54759342207666
+            ],
+            "reason": null,
+            "appearance": 0.9549036169356018,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 103,
+          "inferenceMs": 12.799999952316284,
+          "raw": {
+            "box": [
+              99.78096447755678,
+              45.72674560918885,
+              88.84475336363,
+              118.0881478942591
+            ],
+            "score": 0.999446449077826,
+            "ambiguous": true,
+            "ambiguousCandidates": [
+              {
+                "box": [
+                  252.89820704779217,
+                  138.2485385463924,
+                  76.08963748381989,
+                  109.45565817919774
+                ],
+                "score": 0.9682550440694896,
+                "overlap": 0
+              },
+              {
+                "box": [
+                  254.5830182414174,
+                  137.2081613462979,
+                  82.70938375654214,
+                  109.42994508694343
+                ],
+                "score": 0.9773738581817352,
+                "overlap": 0
+              },
+              {
+                "box": [
+                  253.38406071246266,
+                  139.7301358244128,
+                  76.77655265205672,
+                  109.2433041342856
+                ],
+                "score": 0.9740783412504526,
+                "overlap": 0
+              },
+              {
+                "box": [
+                  253.37334438340477,
+                  141.03214389063191,
+                  82.47987139016838,
+                  106.90090362426068
+                ],
+                "score": 0.9865019302127274,
+                "overlap": 0
+              }
+            ]
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": null,
+            "reason": "More than one similar outline is plausible. Confirm the object.",
+            "appearance": null,
+            "requiresConfirmation": true
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        }
+      ],
+      "decoded": [
+        {
+          "requestedTime": 28.6,
+          "mediaTime": 28.583333
+        },
+        {
+          "requestedTime": 28.8,
+          "mediaTime": 28.791667
+        },
+        {
+          "requestedTime": 29,
+          "mediaTime": 29
+        },
+        {
+          "requestedTime": 29.2,
+          "mediaTime": 29.208333
+        },
+        {
+          "requestedTime": 29.400000000000002,
+          "mediaTime": 29.416667
+        },
+        {
+          "requestedTime": 29.6,
+          "mediaTime": 29.583333
+        },
+        {
+          "requestedTime": 29.8,
+          "mediaTime": 29.791667
+        },
+        {
+          "requestedTime": 30,
+          "mediaTime": 30
+        },
+        {
+          "requestedTime": 30.200000000000003,
+          "mediaTime": 30.208333
+        },
+        {
+          "requestedTime": 30.400000000000002,
+          "mediaTime": 30.416667
+        },
+        {
+          "requestedTime": 30.6,
+          "mediaTime": 30.583333
+        },
+        {
+          "requestedTime": 30.8,
+          "mediaTime": 30.791667
+        },
+        {
+          "requestedTime": 31,
+          "mediaTime": 31
+        },
+        {
+          "requestedTime": 31.200000000000003,
+          "mediaTime": 31.208333
+        },
+        {
+          "requestedTime": 31.400000000000002,
+          "mediaTime": 31.416667
+        },
+        {
+          "requestedTime": 31.6,
+          "mediaTime": 31.583333
+        }
+      ],
+      "processingMs": 887.5999999642372
+    },
+    {
+      "checkpoint": {
+        "index": 103,
+        "box": [
+          80,
+          48,
+          125,
+          114
+        ]
+      },
+      "rows": [
+        {
+          "index": 104,
+          "inferenceMs": 37.5,
+          "raw": {
+            "box": [
+              40.60546200036808,
+              54.59548083285793,
+              113.5931679176569,
+              124.80239689794743
+            ],
+            "score": 0.9996109320757937,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              40.60546200036808,
+              54.59548083285793,
+              113.5931679176569,
+              124.80239689794743
+            ],
+            "reason": null,
+            "appearance": 0.9594406527390265,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 105,
+          "inferenceMs": 17.400000035762787,
+          "raw": {
+            "box": [
+              51.377911800222776,
+              42.64441119850076,
+              106.71551026260164,
+              129.1498851314468
+            ],
+            "score": 0.9997859013811102,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              51.377911800222776,
+              42.64441119850076,
+              106.71551026260164,
+              129.1498851314468
+            ],
+            "reason": null,
+            "appearance": 0.9574787120059574,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 106,
+          "inferenceMs": 20.899999976158142,
+          "raw": {
+            "box": [
+              69.18532057787165,
+              45.810093882703114,
+              103.65995290638051,
+              130.37172492409047
+            ],
+            "score": 0.9991168346661206,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              69.18532057787165,
+              45.810093882703114,
+              103.65995290638051,
+              130.37172492409047
+            ],
+            "reason": null,
+            "appearance": 0.9760699505202197,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 107,
+          "inferenceMs": 20.900000035762787,
+          "raw": {
+            "box": [
+              74.59782999456223,
+              58.106248681585086,
+              99.27711136641574,
+              134.7745855403966
+            ],
+            "score": 0.9999723022733041,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              74.59782999456223,
+              58.106248681585086,
+              99.27711136641574,
+              134.7745855403966
+            ],
+            "reason": null,
+            "appearance": 0.9737222543352254,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 108,
+          "inferenceMs": 16.599999964237213,
+          "raw": {
+            "box": [
+              75.76129010174142,
+              61.38555432564931,
+              95.77097841052587,
+              138.74072109618248
+            ],
+            "score": 0.9999701886014438,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              75.76129010174142,
+              61.38555432564931,
+              95.77097841052587,
+              138.74072109618248
+            ],
+            "reason": null,
+            "appearance": 0.9745752792103626,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 109,
+          "inferenceMs": 21.30000001192093,
+          "raw": {
+            "box": [
+              78.73813767328207,
+              46.05860387325049,
+              92.9606326971826,
+              139.96800741278622
+            ],
+            "score": 0.9999787265194191,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              78.73813767328207,
+              46.05860387325049,
+              92.9606326971826,
+              139.96800741278622
+            ],
+            "reason": null,
+            "appearance": 0.9750750220898489,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 110,
+          "inferenceMs": 17,
+          "raw": {
+            "box": [
+              75.84919732715534,
+              48.44033596498204,
+              90.71898498074019,
+              141.92832875747777
+            ],
+            "score": 0.9999900764207584,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              75.84919732715534,
+              48.44033596498204,
+              90.71898498074019,
+              141.92832875747777
+            ],
+            "reason": null,
+            "appearance": 0.9752198708108393,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 111,
+          "inferenceMs": 17.099999964237213,
+          "raw": {
+            "box": [
+              78.42253300878791,
+              65.6795014097675,
+              89.48305680238403,
+              145.1907319165978
+            ],
+            "score": 0.9999108971975925,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              78.42253300878791,
+              65.6795014097675,
+              89.48305680238403,
+              145.1907319165978
+            ],
+            "reason": null,
+            "appearance": 0.978258329478217,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 112,
+          "inferenceMs": 23.900000035762787,
+          "raw": {
+            "box": [
+              81.35715706062078,
+              54.344002842055446,
+              88.56036698158205,
+              145.2796840775748
+            ],
+            "score": 0.9999653686198261,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              81.35715706062078,
+              54.344002842055446,
+              88.56036698158205,
+              145.2796840775748
+            ],
+            "reason": null,
+            "appearance": 0.9758816427643289,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 113,
+          "inferenceMs": 16.600000023841858,
+          "raw": {
+            "box": [
+              84.40282632211805,
+              53.42428608094602,
+              88.6204174979701,
+              145.20796569293054
+            ],
+            "score": 0.9999821604085928,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              84.40282632211805,
+              53.42428608094602,
+              88.6204174979701,
+              145.20796569293054
+            ],
+            "reason": null,
+            "appearance": 0.975479469628342,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 114,
+          "inferenceMs": 25,
+          "raw": {
+            "box": [
+              83.94552179787725,
+              72.5131857256405,
+              88.5151676009144,
+              145.63164081969782
+            ],
+            "score": 0.9998601617242958,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              83.94552179787725,
+              72.5131857256405,
+              88.5151676009144,
+              145.63164081969782
+            ],
+            "reason": null,
+            "appearance": 0.9763237738445569,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 115,
+          "inferenceMs": 15.300000011920929,
+          "raw": {
+            "box": [
+              86.29993702318757,
+              66.83078870799977,
+              87.37963517406143,
+              145.359672605698
+            ],
+            "score": 0.9999576867636202,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              86.29993702318757,
+              66.83078870799977,
+              87.37963517406143,
+              145.359672605698
+            ],
+            "reason": null,
+            "appearance": 0.9795841996770374,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 116,
+          "inferenceMs": 26.099999964237213,
+          "raw": {
+            "box": [
+              84.00322800924555,
+              65.20211012722757,
+              91.68377992603669,
+              138.24162958290697
+            ],
+            "score": 0.9999901366304023,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              84.00322800924555,
+              65.20211012722757,
+              91.68377992603669,
+              138.24162958290697
+            ],
+            "reason": null,
+            "appearance": 0.9838804526708516,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 117,
+          "inferenceMs": 16.200000047683716,
+          "raw": {
+            "box": [
+              82.95769739603786,
+              77.7228945350484,
+              91.28009933841028,
+              136.94675543228414
+            ],
+            "score": 0.9999729733358647,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              82.95769739603786,
+              77.7228945350484,
+              91.28009933841028,
+              136.94675543228414
+            ],
+            "reason": null,
+            "appearance": 0.9772395437962952,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 118,
+          "inferenceMs": 28.099999964237213,
+          "raw": {
+            "box": [
+              87.05911121264043,
+              71.16224624657951,
+              96.70179824426299,
+              132.2584243521116
+            ],
+            "score": 0.9999849004505845,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              87.05911121264043,
+              71.16224624657951,
+              96.70179824426299,
+              132.2584243521116
+            ],
+            "reason": null,
+            "appearance": 0.9862712732163019,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 119,
+          "inferenceMs": 23.400000035762787,
+          "raw": {
+            "box": [
+              87.30062699136302,
+              78.80484701761951,
+              95.6359015059937,
+              133.1913338482618
+            ],
+            "score": 0.9999596387281118,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              87.30062699136302,
+              78.80484701761951,
+              95.6359015059937,
+              133.1913338482618
+            ],
+            "reason": null,
+            "appearance": 0.9787197502593059,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 120,
+          "inferenceMs": 17.900000035762787,
+          "raw": {
+            "box": [
+              90.3688034299849,
+              75.96286406315477,
+              92.95777329766275,
+              135.98830486692378
+            ],
+            "score": 0.9999680734985047,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              90.3688034299849,
+              75.96286406315477,
+              92.95777329766275,
+              135.98830486692378
+            ],
+            "reason": null,
+            "appearance": 0.9744324626647833,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 121,
+          "inferenceMs": 29.200000047683716,
+          "raw": {
+            "box": [
+              90.67902382103998,
+              60.39060326184227,
+              90.47291625099025,
+              141.3956320861604
+            ],
+            "score": 0.9999495108714243,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              90.67902382103998,
+              60.39060326184227,
+              90.47291625099025,
+              141.3956320861604
+            ],
+            "reason": null,
+            "appearance": 0.9718950354453316,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 122,
+          "inferenceMs": 15.900000035762787,
+          "raw": {
+            "box": [
+              79.32200492849302,
+              44.205146800821566,
+              88.2512835078855,
+              143.59551837311113
+            ],
+            "score": 0.999900735778994,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              79.32200492849302,
+              44.205146800821566,
+              88.2512835078855,
+              143.59551837311113
+            ],
+            "reason": null,
+            "appearance": 0.9696310384964212,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 123,
+          "inferenceMs": 31.100000023841858,
+          "raw": {
+            "box": [
+              73.83751339754843,
+              41.290227098510485,
+              86.2103248250782,
+              146.33502238580874
+            ],
+            "score": 0.9999830235649699,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              73.83751339754843,
+              41.290227098510485,
+              86.2103248250782,
+              146.33502238580874
+            ],
+            "reason": null,
+            "appearance": 0.9628795870678298,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 124,
+          "inferenceMs": 20.80000001192093,
+          "raw": {
+            "box": [
+              76.50098382086735,
+              49.74212786861479,
+              87.01000276835302,
+              144.80527729517271
+            ],
+            "score": 0.9999855952103969,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              76.50098382086735,
+              49.74212786861479,
+              87.01000276835302,
+              144.80527729517271
+            ],
+            "reason": null,
+            "appearance": 0.9736682025957504,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 125,
+          "inferenceMs": 16.600000023841858,
+          "raw": {
+            "box": [
+              93.84347577070032,
+              45.39080601654129,
+              92.78577346409438,
+              142.99033573280494
+            ],
+            "score": 0.9999291159850193,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              93.84347577070032,
+              45.39080601654129,
+              92.78577346409438,
+              142.99033573280494
+            ],
+            "reason": null,
+            "appearance": 0.9829089346379485,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 126,
+          "inferenceMs": 29.69999998807907,
+          "raw": {
+            "box": [
+              97.9525621573393,
+              51.53548479830977,
+              93.79523526864156,
+              143.48449663464515
+            ],
+            "score": 0.9999894282484588,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              97.9525621573393,
+              51.53548479830977,
+              93.79523526864156,
+              143.48449663464515
+            ],
+            "reason": null,
+            "appearance": 0.9823539542135198,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 127,
+          "inferenceMs": 26.80000001192093,
+          "raw": {
+            "box": [
+              98.79568764089991,
+              55.50892923889607,
+              103.9975165554267,
+              135.85970735247417
+            ],
+            "score": 0.9999979802513732,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              98.79568764089991,
+              55.50892923889607,
+              103.9975165554267,
+              135.85970735247417
+            ],
+            "reason": null,
+            "appearance": 0.9890381117261258,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 128,
+          "inferenceMs": 23.600000023841858,
+          "raw": {
+            "box": [
+              87.51575274148959,
+              53.04672073446159,
+              116.15248504212418,
+              126.8499410470748
+            ],
+            "score": 0.9999942525258335,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              87.51575274148959,
+              53.04672073446159,
+              116.15248504212418,
+              126.8499410470748
+            ],
+            "reason": null,
+            "appearance": 0.9936082107726691,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 129,
+          "inferenceMs": 20.700000047683716,
+          "raw": {
+            "box": [
+              80.92957057822665,
+              44.01087703458983,
+              129.29460938977684,
+              113.38272791348375
+            ],
+            "score": 0.9999179400987882,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              80.92957057822665,
+              44.01087703458983,
+              129.29460938977684,
+              113.38272791348375
+            ],
+            "reason": null,
+            "appearance": 0.9933252549855067,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 130,
+          "inferenceMs": 17.399999976158142,
+          "raw": {
+            "box": [
+              78.35501510791627,
+              49.33332543876847,
+              139.07432088654213,
+              104.27826955260241
+            ],
+            "score": 0.999985891692526,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              78.35501510791627,
+              49.33332543876847,
+              139.07432088654213,
+              104.27826955260241
+            ],
+            "reason": null,
+            "appearance": 0.9928536277158522,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 131,
+          "inferenceMs": 28.5,
+          "raw": {
+            "box": [
+              75.08481383136458,
+              64.33845524978247,
+              146.21999721120204,
+              100.30418368943158
+            ],
+            "score": 0.9999553596421991,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              75.08481383136458,
+              64.33845524978247,
+              146.21999721120204,
+              100.30418368943158
+            ],
+            "reason": null,
+            "appearance": 0.9882645060512224,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 132,
+          "inferenceMs": 27.600000023841858,
+          "raw": {
+            "box": [
+              81.24363974711626,
+              78.87860169332339,
+              145.83789245846336,
+              103.98502822796978
+            ],
+            "score": 0.9999703370308078,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              81.24363974711626,
+              78.87860169332339,
+              145.83789245846336,
+              103.98502822796978
+            ],
+            "reason": null,
+            "appearance": 0.9885475996731075,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 133,
+          "inferenceMs": 28.69999998807907,
+          "raw": {
+            "box": [
+              82.58135009577569,
+              94.46571124854815,
+              139.87836310480776,
+              108.23058672155761
+            ],
+            "score": 0.999947127041184,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              82.58135009577569,
+              94.46571124854815,
+              139.87836310480776,
+              108.23058672155761
+            ],
+            "reason": null,
+            "appearance": 0.9890405234817616,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 134,
+          "inferenceMs": 28.69999998807907,
+          "raw": {
+            "box": [
+              81.5212762268068,
+              97.87937046719463,
+              131.41464692519315,
+              115.2342194734606
+            ],
+            "score": 0.999971939540957,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              81.5212762268068,
+              97.87937046719463,
+              131.41464692519315,
+              115.2342194734606
+            ],
+            "reason": null,
+            "appearance": 0.9855387715477829,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 135,
+          "inferenceMs": 17.30000001192093,
+          "raw": {
+            "box": [
+              88.27139603762555,
+              107.86600953985615,
+              129.2147521370469,
+              115.38899367024271
+            ],
+            "score": 0.9999763815350136,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              88.27139603762555,
+              107.86600953985615,
+              129.2147521370469,
+              115.38899367024271
+            ],
+            "reason": null,
+            "appearance": 0.9872615150814381,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 136,
+          "inferenceMs": 19.399999976158142,
+          "raw": {
+            "box": [
+              87.12575437570595,
+              104.07460014121237,
+              130.12105423333514,
+              113.22569220299684
+            ],
+            "score": 0.9999213141726907,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              87.12575437570595,
+              104.07460014121237,
+              130.12105423333514,
+              113.22569220299684
+            ],
+            "reason": null,
+            "appearance": 0.9880450520866211,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 137,
+          "inferenceMs": 21.299999952316284,
+          "raw": {
+            "box": [
+              84.20372168512458,
+              106.75063660610097,
+              131.92807861128915,
+              110.90851691922873
+            ],
+            "score": 0.999970943962459,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              84.20372168512458,
+              106.75063660610097,
+              131.92807861128915,
+              110.90851691922873
+            ],
+            "reason": null,
+            "appearance": 0.9842023243359598,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 138,
+          "inferenceMs": 22.69999998807907,
+          "raw": {
+            "box": [
+              82.17375659954419,
+              103.99385138924691,
+              133.69741632944084,
+              109.74793279273871
+            ],
+            "score": 0.9999813918437381,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              82.17375659954419,
+              103.99385138924691,
+              133.69741632944084,
+              109.74793279273871
+            ],
+            "reason": null,
+            "appearance": 0.9859244706603396,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 139,
+          "inferenceMs": 26.19999998807907,
+          "raw": {
+            "box": [
+              81.80793461316848,
+              114.01967557232373,
+              126.88708023659811,
+              113.17739661939561
+            ],
+            "score": 0.9999522329045393,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              81.80793461316848,
+              114.01967557232373,
+              126.88708023659811,
+              113.17739661939561
+            ],
+            "reason": null,
+            "appearance": 0.9835029864036133,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 140,
+          "inferenceMs": 15.800000011920929,
+          "raw": {
+            "box": [
+              89.22575908129109,
+              122.13697715864744,
+              121.82769313702775,
+              115.47433990398295
+            ],
+            "score": 0.9999811368264513,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              89.22575908129109,
+              122.13697715864744,
+              121.82769313702775,
+              115.47433990398295
+            ],
+            "reason": null,
+            "appearance": 0.9831369171283633,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 141,
+          "inferenceMs": 26.5,
+          "raw": {
+            "box": [
+              96.70515854735562,
+              130.2691721431513,
+              113.68488784924781,
+              122.02005218380341
+            ],
+            "score": 0.9999537398119677,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              96.70515854735562,
+              130.2691721431513,
+              113.68488784924781,
+              122.02005218380341
+            ],
+            "reason": null,
+            "appearance": 0.9765177012493167,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 142,
+          "inferenceMs": 21.69999998807907,
+          "raw": {
+            "box": [
+              100.83800441567638,
+              133.18520534533494,
+              115.17332292257022,
+              118.5322266385175
+            ],
+            "score": 0.999980688366021,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              100.83800441567638,
+              133.18520534533494,
+              115.17332292257022,
+              118.5322266385175
+            ],
+            "reason": null,
+            "appearance": 0.9763680009643144,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 143,
+          "inferenceMs": 27.80000001192093,
+          "raw": {
+            "box": [
+              111.699790796028,
+              137.26047958195056,
+              107.36555071873074,
+              125.14244201144044
+            ],
+            "score": 0.9998822214390942,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              111.699790796028,
+              137.26047958195056,
+              107.36555071873074,
+              125.14244201144044
+            ],
+            "reason": null,
+            "appearance": 0.9664685562682838,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 144,
+          "inferenceMs": 26.600000023841858,
+          "raw": {
+            "box": [
+              119.26031710835514,
+              132.90872156220257,
+              101.89963640813886,
+              129.9268822783038
+            ],
+            "score": 0.9999767389473302,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              119.26031710835514,
+              132.90872156220257,
+              101.89963640813886,
+              129.9268822783038
+            ],
+            "reason": null,
+            "appearance": 0.9738540878290797,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 145,
+          "inferenceMs": 28.5,
+          "raw": {
+            "box": [
+              118.35231954888688,
+              131.8286816640575,
+              101.56088916394393,
+              128.50464594411358
+            ],
+            "score": 0.9999826596437821,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              118.35231954888688,
+              131.8286816640575,
+              101.56088916394393,
+              128.50464594411358
+            ],
+            "reason": null,
+            "appearance": 0.9739939198132401,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 146,
+          "inferenceMs": 26.900000035762787,
+          "raw": {
+            "box": [
+              120.83410460515657,
+              132.41554489523895,
+              98.00722056244105,
+              130.66655283336453
+            ],
+            "score": 0.9999694489214526,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              120.83410460515657,
+              132.41554489523895,
+              98.00722056244105,
+              130.66655283336453
+            ],
+            "reason": null,
+            "appearance": 0.9771737693466793,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 147,
+          "inferenceMs": 28,
+          "raw": {
+            "box": [
+              127.74557901578495,
+              118.37133894297074,
+              96.03318034890327,
+              131.79340361169136
+            ],
+            "score": 0.9999443436082535,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              127.74557901578495,
+              118.37133894297074,
+              96.03318034890327,
+              131.79340361169136
+            ],
+            "reason": null,
+            "appearance": 0.9759223689784766,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 148,
+          "inferenceMs": 27.100000023841858,
+          "raw": {
+            "box": [
+              135.58113059599498,
+              95.09968918653396,
+              104.60098274528403,
+              126.71830330418845
+            ],
+            "score": 0.99718371297011,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              135.58113059599498,
+              95.09968918653396,
+              104.60098274528403,
+              126.71830330418845
+            ],
+            "reason": null,
+            "appearance": 0.9764677994847908,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 149,
+          "inferenceMs": 27.599999964237213,
+          "raw": {
+            "box": [
+              146.85820679173966,
+              102.91922701152706,
+              103.72547760414773,
+              126.72389699450815
+            ],
+            "score": 0.999843748797934,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              146.85820679173966,
+              102.91922701152706,
+              103.72547760414773,
+              126.72389699450815
+            ],
+            "reason": null,
+            "appearance": 0.9763779847468335,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 150,
+          "inferenceMs": 16.5,
+          "raw": {
+            "box": [
+              159.98213879810405,
+              111.74896332453082,
+              107.92968438050485,
+              121.56055543304929
+            ],
+            "score": 0.9997566469853988,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              159.98213879810405,
+              111.74896332453082,
+              107.92968438050485,
+              121.56055543304929
+            ],
+            "reason": null,
+            "appearance": 0.9740766196209732,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 151,
+          "inferenceMs": 27,
+          "raw": {
+            "box": [
+              177.9537581212129,
+              113.34304036213297,
+              101.89860542393635,
+              126.13948671492318
+            ],
+            "score": 0.9994029156489652,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              177.9537581212129,
+              113.34304036213297,
+              101.89860542393635,
+              126.13948671492318
+            ],
+            "reason": null,
+            "appearance": 0.9669472746593866,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 152,
+          "inferenceMs": 26.5,
+          "raw": {
+            "box": [
+              194.26366123144427,
+              117.26209990381403,
+              100.51482179588692,
+              128.55479447421646
+            ],
+            "score": 0.9993493262828349,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              194.26366123144427,
+              117.26209990381403,
+              100.51482179588692,
+              128.55479447421646
+            ],
+            "reason": null,
+            "appearance": 0.9638729761070699,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 153,
+          "inferenceMs": 27.69999998807907,
+          "raw": {
+            "box": [
+              202.23646520082997,
+              117.71104580614958,
+              100.51512442394855,
+              128.54003590061436
+            ],
+            "score": 0.9995830937900647,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              202.23646520082997,
+              117.71104580614958,
+              100.51512442394855,
+              128.54003590061436
+            ],
+            "reason": null,
+            "appearance": 0.9668381184858295,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 154,
+          "inferenceMs": 15.199999988079071,
+          "raw": {
+            "box": [
+              214.6781126185653,
+              113.26414577010935,
+              97.6096812204345,
+              132.50032103929252
+            ],
+            "score": 0.9987259631536209,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              214.6781126185653,
+              113.26414577010935,
+              97.6096812204345,
+              132.50032103929252
+            ],
+            "reason": null,
+            "appearance": 0.9797489466433619,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 155,
+          "inferenceMs": 14.900000035762787,
+          "raw": {
+            "box": [
+              213.9947682711541,
+              120.1188674687373,
+              97.62487489931758,
+              130.8564434112277
+            ],
+            "score": 0.9998918450898832,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              213.9947682711541,
+              120.1188674687373,
+              97.62487489931758,
+              130.8564434112277
+            ],
+            "reason": null,
+            "appearance": 0.9761280075642595,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 156,
+          "inferenceMs": 15.599999964237213,
+          "raw": {
+            "box": [
+              217.53361423585488,
+              112.11020741398534,
+              95.86228497014608,
+              132.2627669751335
+            ],
+            "score": 0.9998072494158686,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              217.53361423585488,
+              112.11020741398534,
+              95.86228497014608,
+              132.2627669751335
+            ],
+            "reason": null,
+            "appearance": 0.9743449373491123,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 157,
+          "inferenceMs": 16.100000023841858,
+          "raw": {
+            "box": [
+              217.53285628399664,
+              94.31820755577752,
+              95.17064021816307,
+              137.58914376512251
+            ],
+            "score": 0.9998787888949471,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              217.53285628399664,
+              94.31820755577752,
+              95.17064021816307,
+              137.58914376512251
+            ],
+            "reason": null,
+            "appearance": 0.9731104648358975,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 158,
+          "inferenceMs": 16.600000023841858,
+          "raw": {
+            "box": [
+              211.76778837244416,
+              74.546314619713,
+              99.29403676950392,
+              135.5142376044368
+            ],
+            "score": 0.9996047535035161,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              211.76778837244416,
+              74.546314619713,
+              99.29403676950392,
+              135.5142376044368
+            ],
+            "reason": null,
+            "appearance": 0.973927817346758,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 159,
+          "inferenceMs": 18.399999976158142,
+          "raw": {
+            "box": [
+              202.14031092678155,
+              52.54812686574627,
+              104.08200326278524,
+              129.2486769300651
+            ],
+            "score": 0.9802509853537947,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              202.14031092678155,
+              52.54812686574627,
+              104.08200326278524,
+              129.2486769300651
+            ],
+            "reason": null,
+            "appearance": 0.9708277920382763,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 160,
+          "inferenceMs": 16.19999998807907,
+          "raw": {
+            "box": [
+              189.7646463155141,
+              14.176347704333487,
+              114.07624492602686,
+              117.95949080411869
+            ],
+            "score": 0.9988389042393759,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              189.7646463155141,
+              14.176347704333487,
+              114.07624492602686,
+              117.95949080411869
+            ],
+            "reason": null,
+            "appearance": 0.9309036268947887,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 161,
+          "inferenceMs": 16.700000047683716,
+          "raw": {
+            "box": [
+              185.0901590531044,
+              -1.7305573562869654,
+              121.45162883567818,
+              109.66119496675933
+            ],
+            "score": 0.9982212279574398,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": null,
+            "reason": "Outline left the frame or became invalid.",
+            "appearance": null,
+            "requiresConfirmation": true
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        }
+      ],
+      "decoded": [
+        {
+          "requestedTime": 31.6,
+          "mediaTime": 31.583333
+        },
+        {
+          "requestedTime": 31.8,
+          "mediaTime": 31.791667
+        },
+        {
+          "requestedTime": 32,
+          "mediaTime": 32
+        },
+        {
+          "requestedTime": 32.2,
+          "mediaTime": 32.208333
+        },
+        {
+          "requestedTime": 32.400000000000006,
+          "mediaTime": 32.416667
+        },
+        {
+          "requestedTime": 32.6,
+          "mediaTime": 32.583333
+        },
+        {
+          "requestedTime": 32.8,
+          "mediaTime": 32.791667
+        },
+        {
+          "requestedTime": 33,
+          "mediaTime": 33
+        },
+        {
+          "requestedTime": 33.2,
+          "mediaTime": 33.208333
+        },
+        {
+          "requestedTime": 33.400000000000006,
+          "mediaTime": 33.416667
+        },
+        {
+          "requestedTime": 33.6,
+          "mediaTime": 33.583333
+        },
+        {
+          "requestedTime": 33.8,
+          "mediaTime": 33.791667
+        },
+        {
+          "requestedTime": 34,
+          "mediaTime": 34
+        },
+        {
+          "requestedTime": 34.2,
+          "mediaTime": 34.208333
+        },
+        {
+          "requestedTime": 34.400000000000006,
+          "mediaTime": 34.416667
+        },
+        {
+          "requestedTime": 34.6,
+          "mediaTime": 34.583333
+        },
+        {
+          "requestedTime": 34.8,
+          "mediaTime": 34.791667
+        },
+        {
+          "requestedTime": 35,
+          "mediaTime": 35
+        },
+        {
+          "requestedTime": 35.2,
+          "mediaTime": 35.208333
+        },
+        {
+          "requestedTime": 35.400000000000006,
+          "mediaTime": 35.416667
+        },
+        {
+          "requestedTime": 35.6,
+          "mediaTime": 35.583333
+        },
+        {
+          "requestedTime": 35.8,
+          "mediaTime": 35.791667
+        },
+        {
+          "requestedTime": 36,
+          "mediaTime": 36
+        },
+        {
+          "requestedTime": 36.2,
+          "mediaTime": 36.208333
+        },
+        {
+          "requestedTime": 36.400000000000006,
+          "mediaTime": 36.416667
+        },
+        {
+          "requestedTime": 36.6,
+          "mediaTime": 36.583333
+        },
+        {
+          "requestedTime": 36.8,
+          "mediaTime": 36.791667
+        },
+        {
+          "requestedTime": 37,
+          "mediaTime": 37
+        },
+        {
+          "requestedTime": 37.2,
+          "mediaTime": 37.208333
+        },
+        {
+          "requestedTime": 37.400000000000006,
+          "mediaTime": 37.416667
+        },
+        {
+          "requestedTime": 37.6,
+          "mediaTime": 37.583333
+        },
+        {
+          "requestedTime": 37.8,
+          "mediaTime": 37.791667
+        },
+        {
+          "requestedTime": 38,
+          "mediaTime": 38
+        },
+        {
+          "requestedTime": 38.2,
+          "mediaTime": 38.208333
+        },
+        {
+          "requestedTime": 38.400000000000006,
+          "mediaTime": 38.416667
+        },
+        {
+          "requestedTime": 38.6,
+          "mediaTime": 38.583333
+        },
+        {
+          "requestedTime": 38.8,
+          "mediaTime": 38.791667
+        },
+        {
+          "requestedTime": 39,
+          "mediaTime": 39
+        },
+        {
+          "requestedTime": 39.2,
+          "mediaTime": 39.208333
+        },
+        {
+          "requestedTime": 39.400000000000006,
+          "mediaTime": 39.416667
+        },
+        {
+          "requestedTime": 39.6,
+          "mediaTime": 39.583333
+        },
+        {
+          "requestedTime": 39.8,
+          "mediaTime": 39.791667
+        },
+        {
+          "requestedTime": 40,
+          "mediaTime": 40
+        },
+        {
+          "requestedTime": 40.2,
+          "mediaTime": 40.208333
+        },
+        {
+          "requestedTime": 40.400000000000006,
+          "mediaTime": 40.416667
+        },
+        {
+          "requestedTime": 40.6,
+          "mediaTime": 40.583333
+        },
+        {
+          "requestedTime": 40.8,
+          "mediaTime": 40.791667
+        },
+        {
+          "requestedTime": 41,
+          "mediaTime": 41
+        },
+        {
+          "requestedTime": 41.2,
+          "mediaTime": 41.208333
+        },
+        {
+          "requestedTime": 41.400000000000006,
+          "mediaTime": 41.416667
+        },
+        {
+          "requestedTime": 41.6,
+          "mediaTime": 41.583333
+        },
+        {
+          "requestedTime": 41.8,
+          "mediaTime": 41.791667
+        },
+        {
+          "requestedTime": 42,
+          "mediaTime": 42
+        },
+        {
+          "requestedTime": 42.2,
+          "mediaTime": 42.208333
+        },
+        {
+          "requestedTime": 42.400000000000006,
+          "mediaTime": 42.416667
+        },
+        {
+          "requestedTime": 42.6,
+          "mediaTime": 42.583333
+        },
+        {
+          "requestedTime": 42.8,
+          "mediaTime": 42.791667
+        },
+        {
+          "requestedTime": 43,
+          "mediaTime": 43
+        },
+        {
+          "requestedTime": 43.2,
+          "mediaTime": 43.208333
+        }
+      ],
+      "processingMs": 2592.400000035763
+    },
+    {
+      "checkpoint": {
+        "index": 161,
+        "box": [
+          187,
+          23,
+          130,
+          75
+        ]
+      },
+      "rows": [
+        {
+          "index": 162,
+          "inferenceMs": 30.80000001192093,
+          "raw": {
+            "box": [
+              171.80742055287715,
+              8.979427966179756,
+              124.1945215808453,
+              82.61535406635286
+            ],
+            "score": 0.9777172325306375,
+            "ambiguous": true,
+            "ambiguousCandidates": [
+              {
+                "box": [
+                  129.58106503650262,
+                  -0.6166474882509192,
+                  126.1281602098099,
+                  89.37586584803755
+                ],
+                "score": 0.9942281151492182,
+                "overlap": 0.4405798313278751
+              },
+              {
+                "box": [
+                  131.0419670646923,
+                  4.642633984023682,
+                  126.61570113368668,
+                  90.36905821540718
+                ],
+                "score": 0.997698450349727,
+                "overlap": 0.4685570609924703
+              }
+            ]
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": null,
+            "reason": "More than one similar outline is plausible. Confirm the object.",
+            "appearance": null,
+            "requiresConfirmation": true
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        }
+      ],
+      "decoded": [
+        {
+          "requestedTime": 43.2,
+          "mediaTime": 43.208333
+        },
+        {
+          "requestedTime": 43.4,
+          "mediaTime": 43.416667
+        }
+      ],
+      "processingMs": 38.30000001192093
+    },
+    {
+      "checkpoint": {
+        "index": 162,
+        "box": [
+          179,
+          0,
+          92,
+          98
+        ]
+      },
+      "rows": [
+        {
+          "index": 163,
+          "inferenceMs": 40,
+          "raw": {
+            "box": [
+              112.3488655019743,
+              10.518600108060646,
+              91.83308562273642,
+              103.8688418089267
+            ],
+            "score": 0.9996135208390415,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": null,
+            "reason": "Outline changed abruptly.",
+            "appearance": 0.9772615484549894,
+            "requiresConfirmation": true
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        }
+      ],
+      "decoded": [
+        {
+          "requestedTime": 43.4,
+          "mediaTime": 43.416667
+        },
+        {
+          "requestedTime": 43.6,
+          "mediaTime": 43.583333
+        }
+      ],
+      "processingMs": 48.90000003576279
+    },
+    {
+      "checkpoint": {
+        "index": 163,
+        "box": [
+          78,
+          8,
+          120,
+          112
+        ]
+      },
+      "rows": [
+        {
+          "index": 164,
+          "inferenceMs": 37.40000003576279,
+          "raw": {
+            "box": [
+              57.5563093275363,
+              4.848681435080451,
+              127.18878673793822,
+              111.67669292236835
+            ],
+            "score": 0.9999917793750719,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              57.5563093275363,
+              4.848681435080451,
+              127.18878673793822,
+              111.67669292236835
+            ],
+            "reason": null,
+            "appearance": 0.9925009696313742,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 165,
+          "inferenceMs": 23.899999976158142,
+          "raw": {
+            "box": [
+              73.33938879916042,
+              13.954075551018335,
+              126.98159493805143,
+              114.5070134091539
+            ],
+            "score": 0.9999486660626977,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              73.33938879916042,
+              13.954075551018335,
+              126.98159493805143,
+              114.5070134091539
+            ],
+            "reason": null,
+            "appearance": 0.9883943554529335,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 166,
+          "inferenceMs": 32.80000001192093,
+          "raw": {
+            "box": [
+              61.09817635064974,
+              21.34265946888074,
+              121.3956397095723,
+              124.53316555586244
+            ],
+            "score": 0.999727648242195,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              61.09817635064974,
+              21.34265946888074,
+              121.3956397095723,
+              124.53316555586244
+            ],
+            "reason": null,
+            "appearance": 0.9834933526898113,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 167,
+          "inferenceMs": 17.80000001192093,
+          "raw": {
+            "box": [
+              63.37145740356327,
+              15.811009882158736,
+              122.77394546790003,
+              120.72531693218947
+            ],
+            "score": 0.9999036196927757,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              63.37145740356327,
+              15.811009882158736,
+              122.77394546790003,
+              120.72531693218947
+            ],
+            "reason": null,
+            "appearance": 0.9844306374756899,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 168,
+          "inferenceMs": 34.5,
+          "raw": {
+            "box": [
+              48.51418493970985,
+              21.562555532697914,
+              116.40147723457153,
+              129.59454811530625
+            ],
+            "score": 0.9974625990992461,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              48.51418493970985,
+              21.562555532697914,
+              116.40147723457153,
+              129.59454811530625
+            ],
+            "reason": null,
+            "appearance": 0.9771072473709277,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        },
+        {
+          "index": 169,
+          "inferenceMs": 20.099999964237213,
+          "raw": {
+            "box": [
+              32.12567743859488,
+              20.896010225808837,
+              116.34101274236812,
+              132.3069383688503
+            ],
+            "score": 0.9991843202350482,
+            "ambiguous": false,
+            "ambiguousCandidates": []
+          },
+          "heuristicStopped": false,
+          "safety": {
+            "proposal": [
+              32.12567743859488,
+              20.896010225808837,
+              116.34101274236812,
+              132.3069383688503
+            ],
+            "reason": null,
+            "appearance": 0.9719645558742982,
+            "requiresConfirmation": false
+          },
+          "state": "Needs checking",
+          "acceptedBox": null
+        }
+      ],
+      "decoded": [
+        {
+          "requestedTime": 43.6,
+          "mediaTime": 43.583333
+        },
+        {
+          "requestedTime": 43.800000000000004,
+          "mediaTime": 43.791667
+        },
+        {
+          "requestedTime": 44,
+          "mediaTime": 44
+        },
+        {
+          "requestedTime": 44.2,
+          "mediaTime": 44.208333
+        },
+        {
+          "requestedTime": 44.4,
+          "mediaTime": 44.416667
+        },
+        {
+          "requestedTime": 44.6,
+          "mediaTime": 44.583333
+        },
+        {
+          "requestedTime": 44.800000000000004,
+          "mediaTime": 44.791667
+        }
+      ],
+      "processingMs": 244.19999998807907
+    }
+  ],
+  "limitations": [
+    "Developer marked visible iron bounds on unoverlaid decoded frames before comparing predictions; approximate edges, especially hand-covered or blurred frames. Hidden extent is not invented.",
+    "Selected difficult frames in one clip, not a representative accuracy benchmark or accepted annotations.",
+    "Previous eight-correction result is superseded: the 31.6-second test box was misplaced and later decoding changed exact frame capture.",
+    "No automatic acceptance, database writes, representative dataset or independent annotator."
+  ]
+}

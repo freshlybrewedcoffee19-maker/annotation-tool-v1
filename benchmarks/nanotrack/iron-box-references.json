@@ -1,0 +1,21 @@
+{
+  "clipSha256": "e05a44b0be391b7dc6a60f72591f598d20d6ca1b4a572bba730f46d51901da1e",
+  "coordinateSpace": [640,360],
+  "method": "Developer marked visible iron bounds on unoverlaid decoded frames before comparing predictions; approximate edges, especially hand-covered or blurred frames. Hidden extent is not invented.",
+  "independentAnnotator": false,
+  "scope": "Selected difficult frames in one clip, not a representative accuracy benchmark or accepted annotations.",
+  "references": [
+    {"time":11,"mediaTime":11,"box":[142,83,128,90],"note":"Initial reference; hand covers rear/body."},
+    {"time":21,"mediaTime":21,"box":[200,82,73,134],"note":"Hand covers handle."},
+    {"time":28.6,"mediaTime":28.583333,"box":[222,132,62,126],"note":"Hand covers handle."},
+    {"time":29.8,"mediaTime":29.791667,"box":[158,138,60,126],"note":"Hand covers left edge."},
+    {"time":31.6,"mediaTime":31.583333,"box":[80,48,125,114],"note":"Fast movement and blur; approximate visible bounds."},
+    {"time":31.8,"mediaTime":31.791667,"box":[34,43,93,140],"note":"Fast sideways move; hand covers handle."},
+    {"time":36.8,"mediaTime":36.791667,"box":[72,68,156,66],"note":"Horizontal orientation, hand covers rear edge."},
+    {"time":39,"mediaTime":39,"box":[114,120,91,115],"note":"Turning; hand covers handle."},
+    {"time":43,"mediaTime":43,"box":[181,43,134,73],"note":"Lifting toward top edge; hand covers rear."},
+    {"time":43.4,"mediaTime":43.416667,"box":[179,0,92,98],"note":"Top-cropped, blurred; visible extent only."},
+    {"time":43.6,"mediaTime":43.583333,"box":[78,8,120,112],"note":"Fast return, blurred; approximate visible bounds."},
+    {"time":44.8,"mediaTime":44.791667,"box":[58,35,89,116],"note":"Hand covers handle and rear."}
+  ]
+}
