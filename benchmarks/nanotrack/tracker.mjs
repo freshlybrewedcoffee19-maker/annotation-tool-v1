@@ -20,16 +20,19 @@ export class Tracker{
   const scale=127/Math.sqrt((this.w+.5*(this.w+this.h))*(this.h+.5*(this.w+this.h)));
   const x=(await this.backbone.run({input:this.crop(image,255,Math.round(255/scale))})).output;
   const out=await this.head.run({input1:this.z,input2:x});const cls=out.output1.data,loc=out.output2.data;
-  const sz=(w,h)=>Math.sqrt((w+(w+h)/2)*(h+(w+h)/2)),change=r=>Math.max(r,1/r);let best=-Infinity,pick;
+  const sz=(w,h)=>Math.sqrt((w+(w+h)/2)*(h+(w+h)/2)),change=r=>Math.max(r,1/r);let best=-Infinity,pick;const candidates=[];
   for(let i=0;i<225;i++){
    const px=(i%15-7)*16,py=(Math.floor(i/15)-7)*16,l=loc[i],t=loc[225+i],r=loc[450+i],b=loc[675+i],w=l+r,h=t+b;
    const score=1/(1+Math.exp(cls[i]-cls[225+i]));const penalty=Math.exp(-(change(sz(w,h)/sz(this.w*scale,this.h*scale))*change((this.w/this.h)/(w/h))-1)*.138);
    const window=(.5-.5*Math.cos(2*Math.PI*(i%15)/14))*(.5-.5*Math.cos(2*Math.PI*Math.floor(i/15)/14));const rank=penalty*score*(1-.455)+window*.455;
+   if(score>=.9&&penalty>.8)candidates.push({cx:(px+(r-l)/2)/scale,cy:(py+(b-t)/2)/scale,w:w/scale,h:h/scale,score});
    if(rank>best){best=rank;pick={cx:(px+(r-l)/2)/scale,cy:(py+(b-t)/2)/scale,w:w/scale,h:h/scale,score,penalty};}
   }
   if(!pick) return {box:null,score:0};const lr=pick.penalty*pick.score*.348;
+  const overlap=(a,b)=>{const intersection=Math.max(0,Math.min(a.cx+a.w/2,b.cx+b.w/2)-Math.max(a.cx-a.w/2,b.cx-b.w/2))*Math.max(0,Math.min(a.cy+a.h/2,b.cy+b.h/2)-Math.max(a.cy-a.h/2,b.cy-b.h/2));return intersection/(a.w*a.h+b.w*b.h-intersection);};
+  const ambiguous=candidates.some(c=>c.score>=pick.score*.95&&overlap(c,pick)<.5&&c.w>0&&c.h>0&&c.w*c.h>pick.w*pick.h*.5&&c.w*c.h<pick.w*pick.h*2);
   this.cx=Math.max(0,Math.min(image.width,this.cx+pick.cx));this.cy=Math.max(0,Math.min(image.height,this.cy+pick.cy));
   this.w=Math.max(10,Math.min(image.width,this.w*(1-lr)+pick.w*lr));this.h=Math.max(10,Math.min(image.height,this.h*(1-lr)+pick.h*lr));
-  return {box:[this.cx-this.w/2,this.cy-this.h/2,this.w,this.h],score:pick.score};
+  return {box:[this.cx-this.w/2,this.cy-this.h/2,this.w,this.h],score:pick.score,ambiguous};
  }
 }

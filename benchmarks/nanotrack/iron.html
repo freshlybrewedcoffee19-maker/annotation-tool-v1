@@ -14,11 +14,13 @@ window.trackIron=async(initialBox)=>{
   worker.onerror=e=>resolve({error:e.message});worker.onmessage=async({data})=>{
    if(data.frame){try{const i=data.frame.index;await seek(11+i*.2);if(i%10===0)snapshots.push({index:i,png:canvas.toDataURL()});const image=await createImageBitmap(canvas);worker.postMessage({image},[image]);}catch(e){resolve({error:String(e)});}return;}
    if(data.progress)return;resolve({...data,decoded,snapshots,wallMs:performance.now()-start,mainThreadTicks:ticks});
-  };worker.postMessage({provider:'wasm',cases:['moving-iron'],initialBox});
+  };worker.postMessage({provider:'wasm',cases:['moving-iron'],initialBox,diagnostics:window.diagnostics??true});
  });}finally{clearInterval(timer);worker.terminate();video.src='';}
 };
 </script>
 <script type="module">
 const run=document.getElementById('run'),status=document.getElementById('status'),shots=document.getElementById('shots');
-run.onclick=async()=>{run.disabled=true;status.textContent='Processing on this laptop…';shots.replaceChildren();try{const box=[142,85,130,90],r=await window.trackIron(box);if(r.error)throw Error(r.error);for(const s of r.snapshots){const image=new Image();image.src=s.png;await image.decode();const figure=document.createElement('figure'),canvas=document.createElement('canvas'),caption=document.createElement('figcaption');canvas.width=640;canvas.height=360;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0);const b=s.index===0?box:r.cases[0].rows.find(row=>row.index===s.index).raw.box;ctx.strokeStyle='#b52b32';ctx.lineWidth=3;ctx.strokeRect(...b);caption.textContent=`${11+s.index*.2} sec · ${s.index===0?'Initial outline':'Needs checking'}`;figure.append(canvas,caption);shots.append(figure);}status.textContent=`50 frames processed in ${(r.cases[0].processingMs/1000).toFixed(1)} seconds. Suggestions need your review; no annotations saved.`;}catch(e){status.textContent=`Preview failed: ${e.message}`;}finally{run.disabled=false;}};
+run.onclick=async()=>{run.disabled=true;window.diagnostics=false;status.textContent='Processing on this laptop…';shots.replaceChildren();try{const box=[142,85,130,90],r=await window.trackIron(box);if(r.error)throw Error(r.error);for(const s of r.snapshots){const image=new Image();image.src=s.png;await image.decode();const figure=document.createElement('figure'),canvas=document.createElement('canvas'),caption=document.createElement('figcaption');canvas.width=640;canvas.height=360;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0);const b=s.index===0?box:r.cases[0].rows.find(row=>row.index===s.index)?.safety.proposal;ctx.strokeStyle='#b52b32';ctx.lineWidth=3;if(b)ctx.strokeRect(...b);caption.textContent=`${11+s.index*.2} sec · ${s.index===0?'Initial outline':b?'Needs checking':'Tracking stopped — confirm reappearance'}`;figure.append(canvas,caption);shots.append(figure);}status.textContent=`${r.cases[0].rows.length} frames processed in ${(r.cases[0].processingMs/1000).toFixed(1)} seconds. Suggestions need your review; no annotations saved.`;}catch(e){status.textContent=`Preview failed: ${e.message}`;}finally{run.disabled=false;}};
 </script>
+
+

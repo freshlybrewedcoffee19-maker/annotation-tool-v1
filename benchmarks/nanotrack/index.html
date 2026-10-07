@@ -14,9 +14,10 @@ window.run=async(provider)=>{
 </script>
 <script type="module">
 window.track=async(provider)=>{
- const video=document.createElement('video');video.src='./trial.mp4';video.muted=true;await new Promise((resolve,reject)=>{video.onloadeddata=resolve;video.onerror=reject;});
+ const video=document.createElement('video'),videoUrl=URL.createObjectURL(await(await fetch('./trial.mp4')).blob());video.src=videoUrl;video.muted=true;await new Promise((resolve,reject)=>{video.onloadeddata=resolve;video.onerror=reject;});
  const c=document.getElementById('frame'),ctx=c.getContext('2d');
- const seek=async time=>{if(Math.abs(video.currentTime-time)>.001)await new Promise(resolve=>{video.onseeked=resolve;video.currentTime=time;});ctx.drawImage(video,0,0,640,360);};
+ let lastPresented=null;
+ const seek=async time=>{if(lastPresented===null||Math.abs(video.currentTime-time)>.001)await new Promise((resolve,reject)=>{let callback;const timer=setTimeout(()=>{video.cancelVideoFrameCallback(callback);reject(Error('Frame presentation timeout'));},10000);const presented=(_,m)=>{if(Math.abs(m.mediaTime-time)<.05){lastPresented=m.mediaTime;clearTimeout(timer);resolve();}else callback=video.requestVideoFrameCallback(presented);};callback=video.requestVideoFrameCallback(presented);video.currentTime=time;});ctx.drawImage(video,0,0,640,360);};
  await seek(2);const target=document.createElement('canvas');target.width=231;target.height=308;target.getContext('2d').drawImage(c,70,7,231,308,0,0,231,308);
  const worker=new Worker('./track-worker.mjs',{type:'module'});let ticks=0,maxTickGap=0,last=performance.now();const timer=setInterval(()=>{const now=performance.now();maxTickGap=Math.max(maxTickGap,now-last);last=now;ticks++;},16),start=performance.now();const truths={};
  const result=await new Promise(resolve=>{
@@ -38,8 +39,8 @@ window.track=async(provider)=>{
    }
    if(data.progress){document.getElementById('status').textContent=data.progress;return;}
    resolve(data);
-  };worker.onerror=e=>resolve({error:e.message});worker.postMessage({provider});
+  };worker.onerror=e=>resolve({error:e.message});worker.postMessage({provider,diagnostics:window.diagnostics??true,cases:window.trackingCases,startIndex:window.resumeIndex,initialBox:window.resumeBox,confirmedResume:window.confirmedResume});
  });
- clearInterval(timer);worker.terminate();video.src='';return {...result,wallMs:performance.now()-start,ticks,maxTickGap,truths};
+ clearInterval(timer);worker.terminate();video.src='';URL.revokeObjectURL(videoUrl);return {...result,wallMs:performance.now()-start,ticks,maxTickGap,truths};
 };
 </script>

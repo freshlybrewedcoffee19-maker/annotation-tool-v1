@@ -2,9 +2,9 @@
   "cancel": {
     "cancelled": true,
     "cancelMs": 0,
-    "wallMs": 1447.8999999985099,
-    "ticks": 90,
-    "maxTickGap": 23.80000000447035,
+    "wallMs": 1110.6000000238419,
+    "ticks": 69,
+    "maxTickGap": 23.30000001192093,
     "truths": {
       "trial": [
         {
@@ -37,10 +37,10 @@
   },
   "missing": {
     "error": "Error: Missing template.onnx",
-    "stack": "Error: Missing template.onnx\n    at self.onmessage (http://127.0.0.1:5185/track-worker.mjs:8:183)",
-    "wallMs": 1105.2000000029802,
-    "ticks": 68,
-    "maxTickGap": 23.899999998509884,
+    "stack": "Error: Missing template.onnx\n    at self.onmessage (http://127.0.0.1:5185/track-worker.mjs:12:183)",
+    "wallMs": 691,
+    "ticks": 43,
+    "maxTickGap": 24.30000001192093,
     "truths": {}
   }
 }
