@@ -3,9 +3,12 @@ import { v } from "convex/values";
 import {boxValue} from './boxes';
 import {visibilityValue} from './visibility';
 import {trackFields} from './tracks';
+import {draftValue} from './projectSetup';
 import {authTables} from '@convex-dev/auth/server';
 export default defineSchema({
  ...authTables,
+ setupDrafts:defineTable({episodeId:v.id('episodes'),draft:draftValue}).index('by_episode',['episodeId']),
+ projectSettings:defineTable({projectId:v.id('projects'),draft:draftValue}).index('by_project',['projectId']),
  r2Uploads:defineTable({workspaceId:v.id('workspaces'),key:v.string(),name:v.string(),size:v.number(),mime:v.string(),duration:v.number(),width:v.number(),height:v.number(),createdAt:v.number(),cleanedAt:v.optional(v.number()),episodeId:v.optional(v.id('episodes'))}).index('by_workspace',['workspaceId']).index('by_cleanup',['cleanedAt','createdAt']).index('by_created',['createdAt']),
  projects:defineTable({workspaceId:v.id('workspaces'),name:v.string(),thumbnail:v.optional(v.string()),updatedAt:v.number()}).index('by_workspace',['workspaceId']),
  projectVideos:defineTable({projectId:v.id('projects'),episodeId:v.id('episodes'),workspaceId:v.id('workspaces')}).index('by_project',['projectId']).index('by_episode',['episodeId']).index('by_workspace',['workspaceId']),
@@ -23,9 +26,6 @@ export default defineSchema({
  metadataDefaults:defineTable({workspaceId:v.optional(v.id("workspaces")),key:v.literal("shared"),values:v.array(v.object({field:v.string(),value:v.string(),locked:v.boolean()}))}).index("by_key",["key"]).index("by_workspace",["workspaceId"]),
  metadataFields:defineTable({workspaceId:v.optional(v.id("workspaces")),key:v.literal("shared"),fields:v.array(v.string())}).index("by_key",["key"]).index("by_workspace",["workspaceId"]),
  labelLists: defineTable({workspaceId:v.optional(v.id("workspaces")),key:v.literal("shared"),labels:v.array(v.string())}).index("by_key",["key"]).index("by_workspace",["workspaceId"]),
- episodes: defineTable({labels:v.optional(v.array(v.string())),workspaceId:v.optional(v.id("workspaces")),name:v.string(),storageId:v.optional(v.id("_storage")),r2Key:v.optional(v.string()),duration:v.number(),fileSize:v.optional(v.number()),mimeType:v.optional(v.string()),width:v.optional(v.number()),height:v.optional(v.number()),frameRate:v.optional(v.union(v.number(),v.null())),nextSegmentNumber:v.optional(v.number()),metadata:v.optional(v.array(v.object({field:v.string(),value:v.string()}))),metadataLocks:v.optional(v.array(v.string()))}).index("by_name",["name"]).index("by_workspace",["workspaceId"]),
+ episodes: defineTable({setupFields:v.optional(v.array(v.string())),labels:v.optional(v.array(v.string())),workspaceId:v.optional(v.id("workspaces")),name:v.string(),storageId:v.optional(v.id("_storage")),r2Key:v.optional(v.string()),duration:v.number(),fileSize:v.optional(v.number()),mimeType:v.optional(v.string()),width:v.optional(v.number()),height:v.optional(v.number()),frameRate:v.optional(v.union(v.number(),v.null())),nextSegmentNumber:v.optional(v.number()),metadata:v.optional(v.array(v.object({field:v.string(),value:v.string()}))),metadataLocks:v.optional(v.array(v.string()))}).index("by_name",["name"]).index("by_workspace",["workspaceId"]),
  segments: defineTable({historyHidden:v.optional(v.boolean()),objectIds:v.optional(v.array(v.string())),reviewStatus:v.optional(v.union(v.literal("pending"),v.literal("verified"),v.literal("disqualified"))),episodeId:v.id("episodes"),label:v.string(),start_sec:v.number(),end_sec:v.number(),segmentNumber:v.optional(v.number()),source:v.optional(v.union(v.literal("manual"),v.literal("voice")))}).index("by_episode",["episodeId"]),
 });
-
-
-

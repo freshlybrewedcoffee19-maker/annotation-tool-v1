@@ -1,0 +1,10 @@
+import {useEffect,useRef,useState} from 'react';
+type Recognition={continuous:boolean;interimResults:boolean;lang:string;start:()=>void;stop:()=>void;abort:()=>void;onstart:(()=>void)|null;onend:(()=>void)|null;onerror:((e:{error:string})=>void)|null;onresult:((e:{resultIndex:number;results:ArrayLike<{isFinal:boolean;0:{transcript:string}}>})=>void)|null};
+export function SetupDictation({onText,disabled=false}:{onText:(text:string)=>void;disabled?:boolean}){
+ const latest=useRef(onText);latest.current=onText;const recognition=useRef<Recognition|null>(null);const [listening,setListening]=useState(false),[message,setMessage]=useState('');
+ const Speech=(window as Window&{SpeechRecognition?:new()=>Recognition;webkitSpeechRecognition?:new()=>Recognition}).SpeechRecognition??(window as any).webkitSpeechRecognition;
+ useEffect(()=>()=>{recognition.current?.abort();},[]);
+ useEffect(()=>{if(disabled)recognition.current?.abort();},[disabled]);
+ function toggle(){if(listening){recognition.current?.stop();return;}if(!Speech)return;const r:Recognition=new Speech(),seen=new Set<number>();recognition.current=r;r.continuous=true;r.interimResults=true;r.lang='en-US';r.onstart=()=>{setListening(true);setMessage('Listening. Speak your answer.');};r.onend=()=>{setListening(false);};r.onerror=e=>{setListening(false);setMessage(e.error==='not-allowed'?'Allow microphone access, or type your answer.':'Speech recognition stopped. Try again, or type your answer.');};r.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal&&!seen.has(i)){seen.add(i);latest.current(e.results[i][0].transcript.trim());setMessage('Answer added. Check the text before continuing.');}}};try{r.start();}catch{setMessage('Could not start the microphone. Try again, or type.');}}
+ return <div className="setup-dictation"><button type="button" aria-pressed={listening} disabled={!Speech||disabled} onClick={toggle}>{listening?'Turn mic off':'Speak your answer'}</button><p role="status">{!Speech?'Use Chrome for speech recognition, or type below.':message}</p></div>;
+}

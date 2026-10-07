@@ -19,6 +19,7 @@ import type * as http from "../http.js";
 import type * as labels from "../labels.js";
 import type * as media from "../media.js";
 import type * as metadata from "../metadata.js";
+import type * as projectSetup from "../projectSetup.js";
 import type * as projects from "../projects.js";
 import type * as r2 from "../r2.js";
 import type * as r2Cleanup from "../r2Cleanup.js";
@@ -52,6 +53,7 @@ declare const fullApi: ApiFromModules<{
   labels: typeof labels;
   media: typeof media;
   metadata: typeof metadata;
+  projectSetup: typeof projectSetup;
   projects: typeof projects;
   r2: typeof r2;
   r2Cleanup: typeof r2Cleanup;
