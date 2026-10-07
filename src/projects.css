@@ -5,3 +5,4 @@
 .project-sidebar{border-radius:0;border-top:0;border-left:0;border-bottom:0}.project-sidebar .brand{border-top:0;border-left:0;border-right:0}.project-main .project-cover h1{font-weight:550}
 
 .project-continue{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--soft-blue);padding:16px;border-radius:12px;margin:0 0 24px}.project-continue p{margin:0 auto 0 0;color:var(--deep-navy)}
+@media(max-width:760px){.project-sidebar-bottom{width:100%;margin:0;justify-content:space-between}.project-sidebar-bottom p:first-child{display:flex;gap:10px;margin:0}.project-sidebar-bottom strong{white-space:nowrap}}

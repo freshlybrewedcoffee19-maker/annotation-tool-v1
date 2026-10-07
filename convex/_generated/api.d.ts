@@ -14,6 +14,7 @@ import type * as annotations from "../annotations.js";
 import type * as auth from "../auth.js";
 import type * as boxes from "../boxes.js";
 import type * as crons from "../crons.js";
+import type * as freeLimits from "../freeLimits.js";
 import type * as http from "../http.js";
 import type * as labels from "../labels.js";
 import type * as media from "../media.js";
@@ -29,6 +30,7 @@ import type * as tracks from "../tracks.js";
 import type * as trial from "../trial.js";
 import type * as trialHistory from "../trialHistory.js";
 import type * as trialHistoryHelpers from "../trialHistoryHelpers.js";
+import type * as usage from "../usage.js";
 import type * as visibility from "../visibility.js";
 import type * as workspaces from "../workspaces.js";
 
@@ -45,6 +47,7 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   boxes: typeof boxes;
   crons: typeof crons;
+  freeLimits: typeof freeLimits;
   http: typeof http;
   labels: typeof labels;
   media: typeof media;
@@ -60,6 +63,7 @@ declare const fullApi: ApiFromModules<{
   trial: typeof trial;
   trialHistory: typeof trialHistory;
   trialHistoryHelpers: typeof trialHistoryHelpers;
+  usage: typeof usage;
   visibility: typeof visibility;
   workspaces: typeof workspaces;
 }>;

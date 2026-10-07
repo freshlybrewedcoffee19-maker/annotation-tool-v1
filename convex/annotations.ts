@@ -1,5 +1,6 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
+import {allowUpload} from './freeLimits';
 import {isTrialEpisode,recordTrialEdit} from './trialHistoryHelpers';
 import {workspace,ownedEpisode} from "./access";
 const episode = v.object({labels:v.optional(v.array(v.string())),_id:v.id("episodes"),_creationTime:v.number(),workspaceId:v.optional(v.id("workspaces")),name:v.string(),storageId:v.optional(v.id("_storage")),r2Key:v.optional(v.string()),duration:v.number(),fileSize:v.optional(v.number()),mimeType:v.optional(v.string()),width:v.optional(v.number()),height:v.optional(v.number()),frameRate:v.optional(v.union(v.number(),v.null())),nextSegmentNumber:v.optional(v.number()),metadata:v.optional(v.array(v.object({field:v.string(),value:v.string()}))),metadataLocks:v.optional(v.array(v.string())),url:v.union(v.string(),v.null())});
@@ -10,6 +11,7 @@ export const addEpisode = mutation({args:{workspaceToken:v.string(),name:v.strin
  const space=await workspace(ctx,workspaceToken);const claim=await ctx.db.query("fileOwners").withIndex("by_storage_workspace",q=>q.eq("storageId",args.storageId).eq("workspaceId",space._id)).first();if(!claim)throw new Error("Upload this video to your own workspace first.");
  if(!args.name.trim() || !Number.isFinite(args.duration) || args.duration<=0) throw new Error("Choose a playable MP4.");
  const file=await ctx.db.system.get(args.storageId); if(!file || !["video/mp4","video/quicktime","video/webm"].includes(file.contentType??"")) throw new Error("Upload an MP4, MOV or WebM video.");
+ await allowUpload(ctx,space,file.size);
  const fields=await ctx.db.query("metadataFields").withIndex("by_workspace",q=>q.eq("workspaceId",space._id)).unique();
  const defaults=await ctx.db.query("metadataDefaults").withIndex("by_workspace",q=>q.eq("workspaceId",space._id)).unique();
  const inherited=(defaults?.values??[]).filter(row=>row.locked&&fields?.fields.includes(row.field));
@@ -45,4 +47,5 @@ export const linkObjects=mutation({args:{workspaceToken:v.string(),id:v.id('segm
 export const review=mutation({args:{workspaceToken:v.string(),id:v.id("segments"),status:v.union(v.literal("pending"),v.literal("verified"),v.literal("disqualified"))},returns:v.null(),handler:async(ctx,{workspaceToken,id,status})=>{
  const row=await ctx.db.get(id);if(!row)throw new Error("Segment not found.");await ownedEpisode(ctx,workspaceToken,row.episodeId);await ctx.db.patch(id,{reviewStatus:status});return null;
 }});
+
 
