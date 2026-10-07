@@ -17,6 +17,7 @@ import type * as http from "../http.js";
 import type * as labels from "../labels.js";
 import type * as media from "../media.js";
 import type * as metadata from "../metadata.js";
+import type * as projects from "../projects.js";
 import type * as services from "../services.js";
 import type * as tracks from "../tracks.js";
 import type * as trial from "../trial.js";
@@ -41,6 +42,7 @@ declare const fullApi: ApiFromModules<{
   labels: typeof labels;
   media: typeof media;
   metadata: typeof metadata;
+  projects: typeof projects;
   services: typeof services;
   tracks: typeof tracks;
   trial: typeof trial;

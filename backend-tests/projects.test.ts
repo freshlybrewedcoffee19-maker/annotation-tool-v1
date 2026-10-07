@@ -1,0 +1,26 @@
+import {convexTest} from 'convex-test';
+import {test,expect} from 'vitest';
+import schema from '../convex/schema';
+import {api} from '../convex/_generated/api';
+const modules=import.meta.glob('../convex/**/*.{ts,js}');
+test('project grouping and rename preserve annotations and enforce account ownership',async()=>{
+ const t=convexTest(schema,modules);const token='a'.repeat(64),otherToken='b'.repeat(64);
+ const data=await t.run(async ctx=>{const owner=await ctx.db.insert('users',{name:'Test owner'}),other=await ctx.db.insert('users',{name:'Test other'});const workspaceId=await ctx.db.insert('workspaces',{token,kind:'personal',userId:owner}),otherSpace=await ctx.db.insert('workspaces',{token:otherToken,kind:'personal',userId:other});const storageId=await ctx.storage.store(new Blob(['test'],{type:'video/mp4'}));const first=await ctx.db.insert('episodes',{workspaceId,storageId,name:'Grasping.mp4',duration:45}),second=await ctx.db.insert('episodes',{workspaceId,storageId,name:'Placing.mp4',duration:45}),foreign=await ctx.db.insert('episodes',{workspaceId:otherSpace,storageId,name:'Private.mp4',duration:45});const segment=await ctx.db.insert('segments',{episodeId:first,label:'grasp',start_sec:1,end_sec:3});return {owner,other,first,second,foreign,segment};});
+ const owner=t.withIdentity({subject:`${data.owner}|test-session`}),other=t.withIdentity({subject:`${data.other}|test-session`});
+ const id=await owner.mutation(api.projects.addVideos,{workspaceToken:token,name:'Grasping',episodeIds:[data.first,data.second]});
+ expect(await owner.query(api.projects.list,{workspaceToken:token})).toEqual([{id,name:'Grasping',episodeIds:[data.first,data.second]}]);
+ await owner.mutation(api.projects.rename,{workspaceToken:token,projectId:id,name:'Robot grasping'});
+ expect((await owner.query(api.projects.list,{workspaceToken:token}))[0].name).toBe('Robot grasping');
+ await expect(other.query(api.projects.list,{workspaceToken:token})).rejects.toThrow('Sign in');
+ await expect(other.mutation(api.projects.rename,{workspaceToken:otherToken,projectId:id,name:'Stolen'})).rejects.toThrow('Project not found');
+ await expect(t.query(api.projects.list,{workspaceToken:token})).rejects.toThrow('Sign in');
+ await expect(owner.mutation(api.projects.addVideos,{workspaceToken:token,name:'Wrong',episodeIds:[data.foreign]})).rejects.toThrow('Video not found');
+ await expect(owner.mutation(api.projects.addVideos,{workspaceToken:token,name:'Duplicate',episodeIds:[data.first]})).rejects.toThrow('already belongs');
+ await expect(owner.mutation(api.projects.rename,{workspaceToken:token,projectId:id,name:' '})).rejects.toThrow('project name');
+ await owner.mutation(api.projects.organiseExisting,{workspaceToken:token});await owner.mutation(api.projects.organiseExisting,{workspaceToken:token});
+ expect(await owner.query(api.projects.list,{workspaceToken:token})).toHaveLength(1);
+ const legacy=await t.run(async ctx=>{const first=await ctx.db.get(data.first);return ctx.db.insert('episodes',{workspaceId:first!.workspaceId,storageId:first!.storageId,name:'Legacy video.mp4',duration:45});});
+ await owner.mutation(api.projects.organiseExisting,{workspaceToken:token});await owner.mutation(api.projects.organiseExisting,{workspaceToken:token});
+ const restored=await owner.query(api.projects.list,{workspaceToken:token});expect(restored).toHaveLength(2);expect(restored.find(p=>p.name==='Legacy video')?.episodeIds).toEqual([legacy]);
+ expect(await t.run(ctx=>ctx.db.get(data.segment))).toMatchObject({episodeId:data.first,label:'grasp',start_sec:1,end_sec:3});
+});

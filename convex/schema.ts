@@ -6,6 +6,8 @@ import {trackFields} from './tracks';
 import {authTables} from '@convex-dev/auth/server';
 export default defineSchema({
  ...authTables,
+ projects:defineTable({workspaceId:v.id('workspaces'),name:v.string(),thumbnail:v.optional(v.string()),updatedAt:v.number()}).index('by_workspace',['workspaceId']),
+ projectVideos:defineTable({projectId:v.id('projects'),episodeId:v.id('episodes'),workspaceId:v.id('workspaces')}).index('by_project',['projectId']).index('by_episode',['episodeId']).index('by_workspace',['workspaceId']),
  trialHistoryState:defineTable({episodeId:v.id('episodes'),workspaceId:v.id('workspaces'),sequence:v.number()}).index('by_episode',['episodeId']),
  trialEditHistory:defineTable({episodeId:v.id('episodes'),workspaceId:v.id('workspaces'),sequence:v.number(),kind:v.union(v.literal('segment'),v.literal('outlines')),description:v.string(),before:v.string(),after:v.string(),undone:v.boolean()}).index('by_episode_sequence',['episodeId','sequence']).index('by_episode_state',['episodeId','undone','sequence']),
  users:defineTable({name:v.optional(v.string()),image:v.optional(v.string()),email:v.optional(v.string()),emailVerificationTime:v.optional(v.number()),phone:v.optional(v.string()),phoneVerificationTime:v.optional(v.number()),isAnonymous:v.optional(v.boolean()),guidePreference:v.optional(v.union(v.literal('on'),v.literal('off')))}).index('email',['email']).index('phone',['phone']),
