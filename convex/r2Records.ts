@@ -1,0 +1,23 @@
+import {internalQuery,internalMutation} from './_generated/server';
+import {v} from 'convex/values';
+import {workspace,ownedEpisode} from './access';
+import {getAuthUserId} from '@convex-dev/auth/server';
+export const owner=internalQuery({args:{workspaceToken:v.string()},returns:v.id('workspaces'),handler:async(ctx,{workspaceToken})=>{
+ const space=await workspace(ctx,workspaceToken);if(!space.userId||space.kind==='trial'||space.userId!==await getAuthUserId(ctx))throw new Error('Sign in to upload private videos.');return space._id;
+}});
+export const reserve=internalMutation({args:{workspaceToken:v.string(),key:v.string(),name:v.string(),size:v.number(),mime:v.string(),duration:v.number(),width:v.number(),height:v.number()},returns:v.id('r2Uploads'),handler:async(ctx,{workspaceToken,...fields})=>{
+ const space=await workspace(ctx,workspaceToken);if(!space.userId||space.kind==='trial')throw new Error('Sign in to upload.');
+ if(!fields.name.trim()||fields.name.length>255||!Number.isInteger(fields.size)||fields.size<=0||fields.size>5e9||!['video/mp4','video/webm','video/quicktime'].includes(fields.mime)||!Number.isFinite(fields.duration)||fields.duration<=0||fields.width<=0||fields.height<=0)throw new Error('Choose a playable video under 5 GB.');
+ return ctx.db.insert('r2Uploads',{...fields,workspaceId:space._id,createdAt:Date.now()});
+}});
+export const pending=internalQuery({args:{workspaceToken:v.string(),uploadId:v.id('r2Uploads')},returns:v.any(),handler:async(ctx,{workspaceToken,uploadId})=>{const space=await workspace(ctx,workspaceToken);const row=await ctx.db.get(uploadId);if(!row||row.workspaceId!==space._id)throw new Error('Upload not found.');return row;}});
+export const finish=internalMutation({args:{workspaceToken:v.string(),uploadId:v.id('r2Uploads'),key:v.string()},returns:v.id('episodes'),handler:async(ctx,{workspaceToken,uploadId,key})=>{
+ const space=await workspace(ctx,workspaceToken),row=await ctx.db.get(uploadId);if(!row||row.workspaceId!==space._id)throw new Error('Upload not found.');if(row.episodeId)return row.episodeId;
+ const fields=await ctx.db.query('metadataFields').withIndex('by_workspace',q=>q.eq('workspaceId',space._id)).unique();const defaults=await ctx.db.query('metadataDefaults').withIndex('by_workspace',q=>q.eq('workspaceId',space._id)).unique();const labels=await ctx.db.query('labelLists').withIndex('by_workspace',q=>q.eq('workspaceId',space._id)).unique();const inherited=(defaults?.values??[]).filter(r=>r.locked&&fields?.fields.includes(r.field));
+ const id=await ctx.db.insert('episodes',{workspaceId:space._id,r2Key:key,name:row.name,fileSize:row.size,mimeType:row.mime,duration:row.duration,width:row.width,height:row.height,labels:labels?.labels??[],metadata:inherited.map(({field,value})=>({field,value})),metadataLocks:inherited.map(r=>r.field)});await ctx.db.patch(uploadId,{episodeId:id});return id;
+}});
+export const video=internalQuery({args:{workspaceToken:v.string(),episodeId:v.id('episodes')},returns:v.union(v.string(),v.null()),handler:async(ctx,{workspaceToken,episodeId})=>(await ownedEpisode(ctx,workspaceToken,episodeId)).r2Key??null});
+export const stale=internalQuery({args:{},returns:v.array(v.object({id:v.id('r2Uploads'),key:v.string()})),handler:async(ctx)=>{
+ const rows=await ctx.db.query('r2Uploads').withIndex('by_cleanup',q=>q.eq('cleanedAt',undefined).lt('createdAt',Date.now()-86400000)).take(50);return rows.map(r=>({id:r._id,key:r.key}));
+}});
+export const cleaned=internalMutation({args:{id:v.id('r2Uploads')},returns:v.null(),handler:async(ctx,{id})=>{await ctx.db.patch(id,{cleanedAt:Date.now()});return null;}});

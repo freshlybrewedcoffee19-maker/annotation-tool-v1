@@ -1,7 +1,7 @@
 import {SampleLoading} from './SampleLoading';
 import React, {useEffect,useRef,useState} from 'react';
 import {createRoot} from 'react-dom/client';
-import {ConvexReactClient,useQuery,useMutation,useConvex,useConvexAuth} from 'convex/react';
+import {ConvexReactClient,useQuery,useMutation,useConvex,useConvexAuth,useAction} from 'convex/react';
 import {api} from '../convex/_generated/api';
 import type {Id} from '../convex/_generated/dataModel';
 import './style.css';
@@ -46,9 +46,12 @@ function App(){
  const {workspaceToken,kind,ready:workspaceReady,connectionError,prepare,switchWorkspace,trialSetup,setTrialSetup,trialError,setTrialError,trialProgress,setTrialProgress,trialAttempt}=useWorkspace();const trial=useMutation(api.trial.start);
  const episodeKey=`np-episode-${workspaceToken}`,stepKey=`np-step-${workspaceToken}`;
  useEffect(()=>{localStorage.setItem('cv-activity-'+workspaceToken,activity);},[activity,workspaceToken]);
+ const r2Begin=useAction(api.r2.begin),r2Complete=useAction(api.r2.complete),r2Playback=useAction(api.r2.playback);
+ const [privateUrls,setPrivateUrls]=useState<Record<string,string>>({});
  const savedEpisodes=useQuery(api.annotations.episodes,workspaceReady?{workspaceToken}:'skip'); const convex=useConvex();
- // Cloudflare serves the public trial; personal uploads keep their private Convex URLs.
- const episodes=savedEpisodes?.map(e=>kind==='trial'&&e.name==='IRON_001_trial_45s.mp4'?{...e,url:import.meta.env.VITE_TRIAL_VIDEO_PATH||'/videos/iron-e05a44b0.mp4'}:e);
+ // Public trial remains on Pages; private R2 playback uses short-lived owner-authorized links.
+ useEffect(()=>{let alive=true;async function refresh(){for(const e of savedEpisodes??[]){if(e.r2Key){try{const url=await r2Playback({workspaceToken,episodeId:e._id});if(alive&&url)setPrivateUrls(old=>({...old,[e._id]:url}));}catch{if(alive)setError('Could not open your private video. Refresh to try again.');}}}}void refresh();const timer=setInterval(()=>void refresh(),30*60*1000);return()=>{alive=false;clearInterval(timer);};},[savedEpisodes,workspaceToken,r2Playback]);
+ const episodes=savedEpisodes?.map(e=>kind==='trial'&&e.name==='IRON_001_trial_45s.mp4'?{...e,url:import.meta.env.VITE_TRIAL_VIDEO_PATH||'/videos/iron-e05a44b0.mp4'}:e.r2Key?{...e,url:privateUrls[e._id]??null}:e);
  const workspaceLabels=useQuery(api.labels.list,workspaceReady?{workspaceToken}:'skip'); const saveLabels=useMutation(api.labels.save); const [labelDraft,setLabelDraft]=useState<string|null>(null);
 
  const [step,setStep]=useState<Step>(()=>{const saved=localStorage.getItem(stepKey);return steps.includes(saved as Step)?saved as Step:'upload';});
@@ -102,6 +105,7 @@ function App(){
  const contentType=extension==='mov'?'video/quicktime':extension==='webm'?'video/webm':'video/mp4';
  if(!['mp4','mov','webm'].includes(extension??''))throw new Error('Choose an MP4, MOV or WebM video.');
  const media=await new Promise<{duration:number;width:number;height:number;thumbnail?:string}>((resolve,reject)=>{const v=document.createElement('video');const url=URL.createObjectURL(file);let finished=false;const timer=setTimeout(()=>finish(new Error('This video took too long to open. Try a compatible MP4.')),15000);function finish(error?:Error){if(finished)return;finished=true;clearTimeout(timer);URL.revokeObjectURL(url);if(error){reject(error);return;}let thumbnail:string|undefined;try{const canvas=document.createElement('canvas');canvas.width=320;canvas.height=Math.max(1,Math.round(320*v.videoHeight/v.videoWidth));canvas.getContext('2d')?.drawImage(v,0,0,canvas.width,canvas.height);const image=canvas.toDataURL('image/jpeg',.7);if(image.length<=100000)thumbnail=image;}catch{}resolve({duration:v.duration,width:v.videoWidth,height:v.videoHeight,thumbnail});}v.preload='auto';v.muted=true;v.onloadeddata=()=>{if(!Number.isFinite(v.duration)||v.duration<=0)finish(new Error('This video has no valid duration.'));else finish();};v.onerror=()=>finish(new Error('This video cannot play in your browser. Try an H.264 MP4 or compatible MOV/WebM.'));v.src=url;});
+ if(isAuthenticated&&kind!=='trial'){const pending=await r2Begin({workspaceToken,name:file.name,size:file.size,mime:contentType,duration:media.duration,width:media.width,height:media.height});const put=await fetch(pending.url,{method:'PUT',headers:{'Content-Type':contentType},body:file});if(!put.ok)throw new Error('Private upload failed. Try again.');const id=await r2Complete({workspaceToken,uploadId:pending.uploadId});return {id,thumbnail:media.thumbnail};}
  const url=await uploadUrl({workspaceToken});const response=await fetch(url,{method:'POST',headers:{'Content-Type':contentType,'X-Workspace-Token':workspaceToken,...(authToken?{Authorization:`Bearer ${authToken}`}:{})},body:file});if(!response.ok)throw new Error('Upload failed. Try again.');const {storageId}=await response.json();const id=await addEpisode({workspaceToken,name:file.name,duration:media.duration,width:media.width,height:media.height,storageId});return {id,thumbnail:media.thumbnail};
  }
  async function upload(file:File){await act(async()=>{const {id}=await persistVideo(file);setNextVideo(false);setSelected(id);localStorage.setItem(episodeKey,id);reset();setStep('annotate');localStorage.setItem(stepKey,'annotate');if(entry==='upload')enter('setup');});}
@@ -132,3 +136,4 @@ function App(){
 }
 createRoot(document.getElementById('root')!).render(<React.StrictMode><ConvexAuthProvider client={client}><WorkspaceProvider><App/></WorkspaceProvider></ConvexAuthProvider></React.StrictMode>);
 import './release-fixes.css';
+

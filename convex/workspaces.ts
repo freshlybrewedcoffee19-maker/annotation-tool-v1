@@ -15,7 +15,8 @@ export const preserveExisting=internalMutation({args:{workspaceToken:v.string()}
  const workspaceId=existing?existing._id:await ctx.db.insert('workspaces',{token:workspaceToken,kind:'owner'});
  if(existing&&existing.token!==workspaceToken)throw new Error('Owner workspace already exists.');
  const legacy=await ctx.db.query('episodes').withIndex('by_workspace',q=>q.eq('workspaceId',undefined)).take(1000);let segments=0;
- for(const episode of legacy){await ctx.db.patch(episode._id,{workspaceId});segments+=(await ctx.db.query('segments').withIndex('by_episode',q=>q.eq('episodeId',episode._id)).take(10000)).length;await ctx.db.insert('fileOwners',{workspaceId,storageId:episode.storageId});}
+ for(const episode of legacy){await ctx.db.patch(episode._id,{workspaceId});segments+=(await ctx.db.query('segments').withIndex('by_episode',q=>q.eq('episodeId',episode._id)).take(10000)).length;if(episode.storageId)await ctx.db.insert('fileOwners',{workspaceId,storageId:episode.storageId});}
  for(const table of ['labelLists','metadataFields','metadataDefaults'] as const){const settings=await ctx.db.query(table).withIndex('by_workspace',q=>q.eq('workspaceId',undefined)).take(100);for(const row of settings)await ctx.db.patch(row._id,{workspaceId});}
  return {episodes:legacy.length,segments};
 }});
+
