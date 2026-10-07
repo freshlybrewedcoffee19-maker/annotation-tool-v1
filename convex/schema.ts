@@ -7,7 +7,7 @@ import {draftValue} from './projectSetup';
 import {authTables} from '@convex-dev/auth/server';
 export default defineSchema({
  ...authTables,
- setupDrafts:defineTable({episodeId:v.id('episodes'),draft:draftValue}).index('by_episode',['episodeId']),
+ setupDrafts:defineTable({episodeId:v.id('episodes'),draft:draftValue,episodeIds:v.optional(v.array(v.id('episodes'))),status:v.optional(v.union(v.literal('pending'),v.literal('completed'),v.literal('skipped')))}).index('by_episode',['episodeId']),
  projectSettings:defineTable({projectId:v.id('projects'),draft:draftValue}).index('by_project',['projectId']),
  r2Uploads:defineTable({workspaceId:v.id('workspaces'),key:v.string(),name:v.string(),size:v.number(),mime:v.string(),duration:v.number(),width:v.number(),height:v.number(),createdAt:v.number(),cleanedAt:v.optional(v.number()),episodeId:v.optional(v.id('episodes'))}).index('by_workspace',['workspaceId']).index('by_cleanup',['cleanedAt','createdAt']).index('by_created',['createdAt']),
  projects:defineTable({workspaceId:v.id('workspaces'),name:v.string(),thumbnail:v.optional(v.string()),updatedAt:v.number()}).index('by_workspace',['workspaceId']),
