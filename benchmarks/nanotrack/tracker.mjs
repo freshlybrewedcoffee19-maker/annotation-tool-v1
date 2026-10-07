@@ -30,9 +30,10 @@ export class Tracker{
   }
   if(!pick) return {box:null,score:0};const lr=pick.penalty*pick.score*.348;
   const overlap=(a,b)=>{const intersection=Math.max(0,Math.min(a.cx+a.w/2,b.cx+b.w/2)-Math.max(a.cx-a.w/2,b.cx-b.w/2))*Math.max(0,Math.min(a.cy+a.h/2,b.cy+b.h/2)-Math.max(a.cy-a.h/2,b.cy-b.h/2));return intersection/(a.w*a.h+b.w*b.h-intersection);};
-  const ambiguous=candidates.some(c=>c.score>=pick.score*.95&&overlap(c,pick)<.5&&c.w>0&&c.h>0&&c.w*c.h>pick.w*pick.h*.5&&c.w*c.h<pick.w*pick.h*2);
+  const ambiguousCandidates=candidates.filter(c=>c.score>=pick.score*.95&&overlap(c,pick)<.5&&c.w>0&&c.h>0&&c.w*c.h>pick.w*pick.h*.5&&c.w*c.h<pick.w*pick.h*2).map(c=>({box:[this.cx+c.cx-c.w/2,this.cy+c.cy-c.h/2,c.w,c.h],score:c.score,overlap:overlap(c,pick)}));
+  const ambiguous=ambiguousCandidates.length>0;
   this.cx=Math.max(0,Math.min(image.width,this.cx+pick.cx));this.cy=Math.max(0,Math.min(image.height,this.cy+pick.cy));
   this.w=Math.max(10,Math.min(image.width,this.w*(1-lr)+pick.w*lr));this.h=Math.max(10,Math.min(image.height,this.h*(1-lr)+pick.h*lr));
-  return {box:[this.cx-this.w/2,this.cy-this.h/2,this.w,this.h],score:pick.score,ambiguous};
+  return {box:[this.cx-this.w/2,this.cy-this.h/2,this.w,this.h],score:pick.score,ambiguous,ambiguousCandidates};
  }
 }
