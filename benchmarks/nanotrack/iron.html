@@ -5,16 +5,18 @@
 <canvas id="frame" width="640" height="360"></canvas>
 <div id="shots"></div>
 <script type="module">
-window.trackIron=async(initialBox)=>{
+window.trackIron=async(initialBox,options={})=>{
+ const startTime=options.startTime??11,step=options.step??.2,frameCount=options.frameCount??50;
+ if(!Number.isFinite(startTime)||!Number.isFinite(step)||startTime<0||step<=0||!Number.isInteger(frameCount)||frameCount<1||startTime+step*frameCount>=45)throw Error('Choose a range inside the 45-second trial.');
  const video=document.createElement('video');video.src=URL.createObjectURL(await (await fetch('./iron-trial.mp4')).blob());await new Promise((resolve,reject)=>{video.onloadeddata=resolve;video.onerror=reject;});
  const canvas=document.getElementById('frame'),ctx=canvas.getContext('2d'),decoded=[];
  async function seek(time){const mediaTime=await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Frame presentation timeout')),10000);const presented=(_,m)=>{if(Math.abs(m.mediaTime-time)<.1){clearTimeout(timer);resolve(m.mediaTime);}else video.requestVideoFrameCallback(presented);};video.requestVideoFrameCallback(presented);video.currentTime=time;});ctx.drawImage(video,0,0,640,360);decoded.push({requestedTime:time,mediaTime});}
  const worker=new Worker('./track-worker.mjs',{type:'module'}),snapshots=[];let ticks=0;const timer=setInterval(()=>ticks++,16);const start=performance.now();
  try{return await new Promise(resolve=>{
   worker.onerror=e=>resolve({error:e.message});worker.onmessage=async({data})=>{
-   if(data.frame){try{const i=data.frame.index;await seek(11+i*.2);if(i%10===0)snapshots.push({index:i,png:canvas.toDataURL()});const image=await createImageBitmap(canvas);worker.postMessage({image},[image]);}catch(e){resolve({error:String(e)});}return;}
+   if(data.frame){try{const i=data.frame.index;await seek(startTime+i*step);if(i%10===0)snapshots.push({index:i,png:canvas.toDataURL()});const image=await createImageBitmap(canvas);worker.postMessage({image},[image]);}catch(e){resolve({error:String(e)});}return;}
    if(data.progress)return;resolve({...data,decoded,snapshots,wallMs:performance.now()-start,mainThreadTicks:ticks});
-  };worker.postMessage({provider:'wasm',cases:['moving-iron'],initialBox,diagnostics:window.diagnostics??true});
+  };worker.postMessage({provider:'wasm',cases:['moving-iron'],initialBox,frameCount,diagnostics:window.diagnostics??true});
  });}finally{clearInterval(timer);worker.terminate();video.src='';}
 };
 </script>
