@@ -1,0 +1,20 @@
+{
+  "model": "Xenova/slimsam-77-uniform",
+  "dtype": "fp32",
+  "loadMs": 765.8625,
+  "inferenceMs": 2608.5083999999997,
+  "point": [
+    340,
+    190
+  ],
+  "width": 848,
+  "height": 478,
+  "scores": [
+    0.7634499669075012,
+    0.7766632437705994,
+    0.9560835361480713
+  ],
+  "best": 2,
+  "pixels": 5196,
+  "status": "Needs review"
+}

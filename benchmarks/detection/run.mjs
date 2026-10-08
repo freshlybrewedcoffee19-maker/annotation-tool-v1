@@ -1,0 +1,2 @@
+import {chromium} from '@playwright/test';import {writeFile} from 'node:fs/promises';
+const browser=await chromium.launch({channel:'chrome'});try{const page=await browser.newPage();await page.goto('http://127.0.0.1:5192/benchmarks/detection/index.html');const result=await page.evaluate(()=>window.runDetection());await writeFile('benchmarks/detection/results.json',JSON.stringify({measuredAt:new Date().toISOString(),browser:browser.version(),...result},null,2));console.log(JSON.stringify(result));}finally{await browser.close();}

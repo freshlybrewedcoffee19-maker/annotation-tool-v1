@@ -1,0 +1,13 @@
+# Single-frame masks — local preview
+
+Run from the project folder: `node benchmarks/masks/server.mjs`, then open http://127.0.0.1:5194/ . Requires the isolated @huggingface/transformers 3.8.1 runtime installed under benchmarks/detection. Uses Xenova/slimsam-77-uniform FP32, Apache-2.0 model card: https://huggingface.co/Xenova/slimsam-77-uniform . Both encoder and decoder run on this laptop in Node, not in the browser and not in the cloud. No paid processing or footage upload.
+
+Current source: correctly decoded frame 360 / 15 seconds from IRON_001_trial_45s.mp4, 848×478. This preview is deliberately limited to that frame. It is not integrated with uploaded projects or Convex saving yet. Browser-local drafts restore on refresh, not across devices. Existing action CSV/JSON formats remain unchanged; new mask JSON is separate.
+
+Tools: positive/negative points, three model suggestions, transparent mask overlay, add/erase brush, undo/redo, explicit confirmation, disqualification and separate exact-pixel JSON export. Modifying a confirmed mask changes it back to Needs review and disables export. Disqualified masks are retained for correction and cannot export. The JSON encoding is binary-rle-row-major: runs alternate zero/one, starting with zeros, with width/height and time/frame/source references.
+
+Evidence: cached model load 0.766 seconds, inference plus mask post-processing 2.609 seconds on this laptop. The inspected suggestion follows visible iron pixels; occluded pixels are not a claim of whole-object geometry. Model self-estimated scores are not measured accuracy. No labelled ground truth, cross-video robustness, weaker-laptop performance or memory gate established. First cold download time not reliably recorded.
+
+Checks: `node benchmarks/masks/check-data.mjs` proves exact reconstruction on zero/full/mixed masks and rejects invalid runs/dimensions. `node benchmarks/masks/check-browser.mjs` uses actual model inference in Chrome at 1280×800 and 390×844; generate → disqualify/export blocked → undo → confirm → download/reconstruct → refresh restored → erase invalidates approval → undo/redo passed. Desktop overlay visually inspected; screenshots outputs/local-masks-1280.png and outputs/local-masks-390.png. This is a local feature preview, not a production release or a full-app compile pass. Unrelated incomplete collaboration code remains untouched.
+
+Remaining before release: arbitrary selected video/frame support, authenticated mask storage/object linkage, review integration, cancellable model jobs, privacy checks, model asset/version pinning and broader quality/hardware gates. Video tracking/masks remain pending.

@@ -393,3 +393,11 @@ Released with npm run deploy, Pages b772bccb. Post-release public checks passed:
 ### Homepage time-segment positioning — local batch, 8 October 2026
 User feedback supersedes the broad Talk to your dataset promise. Homepage now leads with time segments, explains start/stop during playback once, prompts saying an action label, and names CSV/JSON action labels with start/end times. Search description matches. Local 1280/390 browser copy/overflow checks and production compilation passed. Copy checkpoint only; no deployment, held for requested combined pending-feature release. Existing collaboration work remains unfinished and uncommitted; do not present it as released.
 Copy-only release published at user request, 8 October 2026: Pages 452a256a. Deployed from a committed snapshot so unfinished collaboration schema/access files were excluded. Both new headlines, voice mechanism and CSV/JSON output verified on cheddarvox.com at 1280 and 390 widths. Temporary deployment credentials copy removed. Saved browser tests updated to new approved headlines; annotation functionality unchanged.
+
+### Object detection gate — local, 8 October 2026
+Tested COCO-SSD and quantized OWL-ViT on decoded trial frames. Neither passes iron detection: standard classes exclude iron; low-score prompt detector misidentifies shirt as iron. Isolated local preview handles inference and empty results at 1280/390; no app integration, deployment, paid processing or accepted annotations. See benchmarks/detection/README.md for actual timing, corrected frame-decoding method and open gates. Product feature remains pending. Unfinished collaboration changes preserved.
+
+
+### Single-frame mask preview — local, 8 October 2026
+SlimSAM FP32 encoder/decoder run on the laptop in Node with no paid inference. Trial frame 360: point-prompt mask, 3 suggestions, transparent overlay, paint/erase correction, undo/redo, review decisions, browser draft recovery and exact-pixel mask JSON implemented. Actual desktop/390px model-to-export browser checks passed; mask reconstruction checks passed. Cached inference/postprocessing 2.609s. Fixed trial frame only; not integrated with project uploads, Convex or live website. See benchmarks/masks/README.md for open release gates. Existing annotation/export code unchanged by this work.
+

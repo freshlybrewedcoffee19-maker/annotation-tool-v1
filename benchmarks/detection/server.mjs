@@ -1,0 +1,2 @@
+import {createServer} from 'node:http';import {readFile} from 'node:fs/promises';import {resolve,extname} from 'node:path';
+const root=process.cwd();createServer(async(req,res)=>{try{const path=resolve(root,'.'+decodeURIComponent(req.url.split('?')[0]));if(!path.startsWith(root+'\\'))throw Error();const data=await readFile(path);res.setHeader('Content-Type',extname(path)==='.mp4'?'video/mp4':'text/html');res.end(data);}catch{res.writeHead(404);res.end();}}).listen(5192,'127.0.0.1');
