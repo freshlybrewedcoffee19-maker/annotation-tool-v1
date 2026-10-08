@@ -14,3 +14,19 @@
 .film-card span{color:var(--white)}
 
 .landing-footer nav{display:flex;gap:20px;flex-wrap:wrap}.landing-footer a{color:var(--vox-blue);text-underline-offset:4px}.landing-footer{flex-wrap:wrap}
+
+/* Homepage-only portrait footage and navigation. */
+.landing .home-sign-in{font-family:inherit;font-weight:400;font-size:14px;text-decoration:none;background:transparent;border:1px solid var(--deep-navy);border-radius:8px;padding:8px 16px;box-shadow:none;color:var(--deep-navy)}
+.landing .home-sign-in:hover{background:var(--soft-blue)}
+.landing .hero-media{gap:18px;max-width:1000px;height:310px;width:100%;margin:24px auto 28px}
+.landing .film-card{flex:0 0 17%;height:auto;aspect-ratio:4/5;background-color:var(--warm-white);background-size:cover;background-position:center;opacity:1}
+.landing .film-card img{width:100%;height:100%;object-fit:cover;opacity:1}
+.landing .film-2{flex-basis:23%;height:auto;aspect-ratio:4/5}
+.landing .film-card .film-result{left:10px;right:10px;bottom:12px;display:grid;gap:3px;padding:9px;background:rgba(23,32,51,.92);font-size:13px;text-shadow:none}
+.landing .film-result small{font-size:12px;font-weight:400;color:var(--soft-blue)}
+.landing .film-result b{font-size:13px;font-weight:600;white-space:nowrap}
+.landing .film-result em{font-size:16px;font-style:normal;font-weight:600}
+.landing .home-services{font-family:inherit;font-size:14px;font-weight:400;margin:14px auto 0;line-height:1.5}
+.landing .home-services button{font-family:inherit;font-size:inherit;font-weight:400;background:transparent;border:0;border-radius:0;padding:0 3px;color:var(--vox-blue);text-decoration:underline;text-underline-offset:3px;vertical-align:baseline;box-shadow:none}
+.landing .hero-note,.landing .landing-footer,.landing .landing-footer a{font-size:14px;line-height:1.6}
+@media(max-width:700px){.landing .hero-media{height:auto;width:100%;margin:22px auto;gap:0;perspective:none}.landing .film-card:not(.film-2){display:none}.landing .film-2{display:block;flex:0 0 auto;width:220px;max-width:100%;height:auto;aspect-ratio:4/5;transform:none;margin:0 auto}.landing .hero-note{max-width:330px}.landing .home-services{max-width:340px}.landing .landing-footer nav{justify-content:center}}
