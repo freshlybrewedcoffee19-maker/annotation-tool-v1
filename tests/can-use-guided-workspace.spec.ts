@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 
 test('account, video upload, metadata locks and saved work follow the approved order',async({page,browser})=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto('/');await expect(page.getByRole('heading',{name:'Label robotics videos as you speak.',exact:true})).toBeVisible();
+ await page.goto('/');await expect(page.getByRole('heading',{name:'Label time segments in robotics videos by voice.',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Use my own video',exact:true}).click();
  await page.getByRole('button',{name:'Create account',exact:true}).click();
  const email=`flow-${Date.now()}@example.invalid`;
@@ -15,7 +15,7 @@ test('account, video upload, metadata locks and saved work follow the approved o
  await expect(page.getByRole('navigation',{name:'Annotation features'})).toBeVisible();await expect(page.getByLabel('Guided tasks')).toContainText('Turn on your mic');
  await page.getByRole('button',{name:'Work independently',exact:true}).click();await expect(page.getByLabel('Guided tasks')).toContainText('Work your way');await page.reload();await expect(page.getByRole('button',{name:'Guide me',exact:true})).toBeVisible();
  await page.getByRole('tab',{name:'Metadata',exact:true}).click();await expect(page.getByLabel('Metadata: Task',{exact:true})).toHaveValue('Ironing');await expect(page.getByLabel('Metadata: Task',{exact:true})).toBeDisabled();
- await page.getByRole('button',{name:'Sign out',exact:true}).click();await expect(page.getByRole('heading',{name:'Label robotics videos as you speak.',exact:true})).toBeVisible();expect(errors).toEqual([]);
+ await page.getByRole('button',{name:'Sign out',exact:true}).click();await expect(page.getByRole('heading',{name:'Label time segments in robotics videos by voice.',exact:true})).toBeVisible();expect(errors).toEqual([]);
  const fresh=await browser.newContext();const returning=await fresh.newPage();await returning.goto(process.env.APP_URL??'http://127.0.0.1:5187');await returning.getByRole('button',{name:'Use my own video',exact:true}).click();await returning.getByLabel('Email',{exact:true}).fill(email);await returning.getByLabel('Password',{exact:true}).fill('Test-only-password-829!');await returning.getByRole('button',{name:'Sign in & continue',exact:true}).click();await returning.getByRole('button',{name:'sample.mp4',exact:true}).click();await expect(returning.getByRole('button',{name:'Guide me',exact:true})).toBeVisible();await fresh.close();
 });
 

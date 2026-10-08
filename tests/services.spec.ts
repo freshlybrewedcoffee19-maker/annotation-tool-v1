@@ -4,7 +4,7 @@ import {api} from '../convex/_generated/api';
 test('dataset services receives a private enquiry and preserves the annotation route',async({page})=>{
  const externalForms:string[]=[];page.on('request',r=>{if(r.url().includes('formspree'))externalForms.push(r.url());});
  await page.goto('/');await page.getByRole('button',{name:'Dataset services',exact:true}).click();
- await expect(page).toHaveURL(/\/services$/);await expect(page.getByRole('heading',{name:'Sub-symbolic datasets for robotics and simulation.'})).toBeVisible();
+ await expect(page).toHaveURL(/\/services$/);await expect(page.getByRole('heading',{name:'We label actions in your videos.'})).toBeVisible();
  await page.reload();await expect(page.getByRole('heading',{name:'What data does your lab need?'})).toBeVisible();
  await expect(page.getByRole('heading',{name:'How fabric slips. And stays in place.'})).toBeVisible();
  await expect(page.getByRole('link',{name:'Explore sample dataset on Hugging Face'})).toHaveAttribute('href','https://huggingface.co/datasets/CaramelCoffee19/naive-physics-ironing-v0.2');
@@ -27,7 +27,7 @@ test('public pages appear without waiting for the private backend',async({page})
  await page.routeWebSocket('**/*.convex.cloud/**',socket=>socket.close());
  for(const path of ['/','/services']){
   await page.goto(path,{waitUntil:'domcontentloaded'});
-  await expect(page.getByRole('heading',{level:1,name:path==='/'?'Voice led video annotation tool.':'Sub-symbolic datasets for robotics and simulation.'})).toBeVisible({timeout:1000});
+  await expect(page.getByRole('heading',{level:1,name:path==='/'?'Voice led video annotation tool.':'We label actions in your videos.'})).toBeVisible({timeout:1000});
   await expect(page.getByText('Opening your private workspace...', {exact:true})).toHaveCount(0);
   console.log(JSON.stringify({path,paint:await page.evaluate(()=>performance.getEntriesByType('paint').map(p=>({name:p.name,ms:Math.round(p.startTime)})))}));
  }
