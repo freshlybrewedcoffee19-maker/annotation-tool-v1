@@ -8,9 +8,10 @@ import {ExperimentTable} from './services/experiment-table';
 import './services.css';
 export function Services({home}:{home:()=>void}){
  const {workspaceToken,prepare}=useWorkspace(),send=useMutation(api.services.requestDataset);
- const [busy,setBusy]=useState(false),[error,setError]=useState(''),[receipt,setReceipt]=useState('');const sending=useRef(false);const [formOpen,setFormOpen]=useState(false);const nameField=useRef<HTMLInputElement>(null);
+ const [busy,setBusy]=useState(false),[error,setError]=useState(''),[receipt,setReceipt]=useState('');const sending=useRef(false);const [formOpen,setFormOpen]=useState(()=>location.hash==='#dataset-request');const nameField=useRef<HTMLInputElement>(null);
+ useEffect(()=>{const openRequest=()=>{if(location.hash==='#dataset-request')setFormOpen(true);};window.addEventListener('hashchange',openRequest);return()=>window.removeEventListener('hashchange',openRequest);},[]);
  useEffect(()=>{if(formOpen)nameField.current?.focus();},[formOpen]);
- return <main className="services-page"><header className="brand-header"><button className="brand" onClick={home}>Cheddar Vox</button><nav aria-label="Services navigation"><a href="#dataset-request">Discuss your dataset</a></nav></header>
+ return <main className="services-page"><header className="brand-header"><button className="brand" onClick={home}>Cheddar Vox</button><nav aria-label="Services navigation"><a href="#dataset-request" onClick={()=>setFormOpen(true)}>Discuss your dataset</a></nav></header>
  <section className="services-hero"><h1>We label actions in your videos.</h1><p>Real-world demonstrations, captured and labelled for your lab.</p></section>
  <CaptureStory/>
  <section className="services-sample" aria-labelledby="sample-title"><div className="services-sample-copy"><p className="services-eyebrow">Sample dataset</p><h2 id="sample-title">How fabric slips.<br/>And stays in place.</h2><p>Human ironing demos with action labels and capture metadata.</p><p className="services-stats">12 episodes · 4 garments · 3 regions · 13:07 min of video</p><a className="sprint-button" href="https://huggingface.co/datasets/CaramelCoffee19/naive-physics-ironing-v0.2" target="_blank" rel="noreferrer">Explore sample dataset on Hugging Face ↗</a><div className="services-included"><h3>What’s included</h3><p>MP4 videos, CSV action labels, and CSV / JSON metadata.</p></div></div><SampleDemonstration/></section>

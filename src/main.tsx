@@ -60,7 +60,7 @@ function App(){
  const [selected,setSelected]=useState<string|null>(()=>localStorage.getItem(episodeKey)??(kind==='owner'?localStorage.getItem('episode'):null));
  const ep=episodes?.find(e=>e._id===selected)??episodes?.[0];
  const labels=useQuery(api.labels.list,workspaceReady?(ep?{workspaceToken,episodeId:ep._id}:{workspaceToken}):'skip');const labelList=labels??workspaceLabels??[];const [reuseLabels,setReuseLabels]=useState(false);
- const routeEntry=()=>location.pathname==='/signin'?'signin':location.pathname==='/upload'?'upload':location.pathname==='/services'?'services':location.pathname==='/workspace'?(localStorage.getItem('np-trial-token')===workspaceToken?'dashboard':'projects'):location.pathname==='/annotate'?'dashboard':location.pathname==='/setup'?'setup':'home';
+ const routeEntry=()=>location.pathname==='/signin'?'signin':location.pathname==='/upload'?'upload':/^\/services\/?$/.test(location.pathname)?'services':location.pathname==='/workspace'?(localStorage.getItem('np-trial-token')===workspaceToken?'dashboard':'projects'):location.pathname==='/annotate'?'dashboard':location.pathname==='/setup'?'setup':'home';
  const [entry,setEntry]=useState<'home'|'setup'|'dashboard'|'services'|'signin'|'upload'|'projects'>(routeEntry);
  const setupProject=useQuery(api.projects.forVideo,entry==='setup'&&ep&&workspaceReady?{workspaceToken,episodeId:ep._id}:'skip');
  function enter(next:'home'|'setup'|'dashboard'|'services'|'signin'|'upload'|'projects'){video.current?.pause();history.pushState(null,'',next==='home'?'/':next==='setup'?'/setup':next==='services'?'/services':next==='signin'?'/signin':next==='upload'?'/upload':next==='projects'?'/workspace':kind==='trial'?'/workspace':'/annotate');setEntry(next);}
