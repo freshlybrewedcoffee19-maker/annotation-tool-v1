@@ -2,7 +2,7 @@ export type TrackingBox=[number,number,number,number];
 export type TrackingFrame={time:number;decodedTime?:number;x:number;y:number;width:number;height:number;uncertain:boolean};
 export type TrackingRaw={box:TrackingBox|null;displayBox?:TrackingBox|null;score:number;ambiguous:boolean};
 export function validTrackingBox(box:TrackingBox|null,width:number,height:number):box is TrackingBox{return !!box&&box.length===4&&box.every(Number.isFinite)&&box[0]>=0&&box[1]>=0&&box[2]>0&&box[3]>0&&box[0]+box[2]<=width&&box[1]+box[3]<=height;}
-export function trackingTimes(start:number,end:number){if(!Number.isFinite(start)||!Number.isFinite(end)||start<0||end<=start||end-start>10.000001)throw Error('Choose up to ten seconds after the starting frame.');const steps=Math.ceil((end-start)*5);return Array.from({length:steps+1},(_,i)=>start+(end-start)*i/steps);}
+export function trackingTimes(start:number,end:number){if(!Number.isFinite(start)||!Number.isFinite(end)||start<0||end<=start||end-start>10.000001)throw Error('Choose up to ten seconds after the starting frame.');const steps=Math.min(50,Math.ceil((end-start)*5));return Array.from({length:steps+1},(_,i)=>start+(end-start)*i/steps);}
 export function maskBounds(pixels:Uint8Array,width:number,height:number):TrackingBox{let left=width,top=height,right=-1,bottom=-1;for(let i=0;i<pixels.length;i++)if(pixels[i]){const x=i%width,y=Math.floor(i/width);left=Math.min(left,x);top=Math.min(top,y);right=Math.max(right,x);bottom=Math.max(bottom,y);}if(right<0)throw Error('Choose a nonempty confirmed mask.');return [left/width,top/height,(right-left+1)/width,(bottom-top+1)/height];}
 export class TrackingGuard{
  reference:Float32Array|null=null;last:TrackingBox|null=null;reason:string|null='Confirm a starting outline.';
