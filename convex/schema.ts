@@ -5,7 +5,10 @@ import {visibilityValue} from './visibility';
 import {trackFields} from './tracks';
 import {draftValue} from './projectSetup';
 import {authTables} from '@convex-dev/auth/server';
+import {maskFields} from './masks';
 export default defineSchema({
+ maskPixels:defineTable({episodeId:v.id('episodes'),maskId:v.id('pixelMasks'),runs:v.array(v.number())}).index('by_episode',['episodeId']).index('by_mask',['maskId']),
+ pixelMasks:defineTable(maskFields).index('by_episode',['episodeId']),
  ...authTables,
  projectMembers:defineTable({projectId:v.id('projects'),userId:v.id('users'),role:v.union(v.literal('annotator'),v.literal('reviewer'))}).index('by_project',['projectId']).index('by_user',['userId']).index('by_project_user',['projectId','userId']),
  projectInvites:defineTable({projectId:v.id('projects'),token:v.string(),role:v.union(v.literal('annotator'),v.literal('reviewer')),expiresAt:v.number(),usedBy:v.optional(v.id('users')),revoked:v.optional(v.boolean())}).index('by_token',['token']).index('by_project',['projectId']),

@@ -10,7 +10,7 @@ type Task={id:string;title:string;help:string;target:string;done:boolean;reward:
 export function GuidedTasks({activity,episodeId,labels,segments,navigate}:{activity:Activity;episodeId:Id<'episodes'>;labels:string[];segments:Doc<'segments'>[];navigate:(activity:Activity)=>void}){
  const {workspaceToken,kind}=useWorkspace();const args={workspaceToken,episodeId};
  const {isAuthenticated}=useConvexAuth();const profile=useQuery(api.accounts.me,isAuthenticated&&kind!=='trial'?{}:'skip');const savePreference=useMutation(api.accounts.saveGuidePreference);const hydrated=useRef(false);const [preferenceError,setPreferenceError]=useState('');
- const boxes=useQuery(api.boxes.list,args),spans=useQuery(api.visibility.list,args);
+ const boxes=useQuery(api.boxes.list,args),spans=useQuery(api.visibility.list,args),masks=useQuery(api.masks.list,activity==='masks'?args:'skip');
  const key=`cv-guide-v1-${workspaceToken}`;const [enabled,setEnabled]=useState(()=>localStorage.getItem(key)!=='off');
  const [returning,setReturning]=useState(()=>localStorage.getItem(key)!==null);
  useEffect(()=>{if(!profile||hydrated.current)return;hydrated.current=true;if(profile.guidePreference){localStorage.setItem(key,profile.guidePreference);setEnabled(profile.guidePreference==='on');setReturning(true);window.dispatchEvent(new Event('cv-guide-preference'));}},[profile,key]);
@@ -27,6 +27,7 @@ export function GuidedTasks({activity,episodeId,labels,segments,navigate}:{activ
  visibility:[{id:'visibility-object',title:'Start with a named object',help:'Save an object outline first so your visibility decisions refer to the same object.',target:'.box-tools',done:!!boxes?.length,reward:'Object ready'},{id:'visibility-span',title:'Mark a missing or uncertain period',help:'Use Annotate objects under the mic, or fill in Object visibility & reappearance. Save both boundaries and your decision.',target:'.action-objects',done:!!spans?.length,reward:'Visibility decision saved'},{id:'reappearance',title:'Reconnect only after checking',help:'If it reappears, draw and verify the same object at the saved end time, then confirm reappearance. Skip if it never reappears.',target:'.action-objects',done:!!spans?.some(s=>s.reappearanceBoxId),reward:'Reappearance confirmed'}],
  relationships:[{id:'linked',title:'Connect an action to its objects',help:'Choose a saved action, select the objects involved, then Save object links.',target:'.relationships-panel',done:segments.some(s=>s.objectIds?.length),reward:'Action and objects connected'}],
  review:[{id:'reviewed',title:'One clip. One decision.',help:'Watch the clip. Swipe right to verify, left to disqualify, or choose Edit. A useful correction counts too.',target:'.review-card',done:reviewed,reward:'First review saved'}],
+ masks:[{id:'mask',title:'Paint the visible pixels of an object',help:'Choose a saved object, freeze the current frame, then paint and erase. Save, confirm and export the mask below.',target:'.frame-masks',done:!!masks?.some(m=>m.status==='verified'),reward:'First frame mask checked'}],
  export:[{id:'download',title:'Take your annotations with you',help:'Choose CSV for action rows, or JSON for structured data. Disqualified clips stay saved but are excluded.',target:'.exports',done:downloaded,reward:'Export downloaded'}]
  };
  const list=tasks[activity]??[];const completed=list.filter(t=>t.done).length;

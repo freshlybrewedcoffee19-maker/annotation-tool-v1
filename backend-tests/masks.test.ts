@@ -1,0 +1,36 @@
+import {test,expect} from 'vitest';
+import {convexTest} from 'convex-test';
+import schema from '../convex/schema';
+import {api} from '../convex/_generated/api';
+import {encodeMask,decodeMask,paintMask} from '../src/mask-data';
+const modules=import.meta.glob('../convex/**/*.{ts,js}');
+test('mask encoding reconstructs exact pixels and brush stays inside the frame',()=>{for(const p of [new Uint8Array(16),new Uint8Array(16).fill(1),Uint8Array.from([0,1,0,1,1,0,0,1,0,0,0,0,1,1,1,1])])expect(decodeMask(4,4,encodeMask(p))).toEqual(p);const p=new Uint8Array(16);paintMask(p,4,4,0,0,2,1);expect(p[0]).toBe(1);expect(p[15]).toBe(0);paintMask(p,4,4,0,0,2,0);expect(p.some(Boolean)).toBe(false);});
+test('masks enforce access, object linkage, exact dimensions, revisions and review invalidation',async()=>{
+ const t=convexTest(schema,modules),token='a'.repeat(64),otherToken='b'.repeat(64);
+ const ids=await t.run(async ctx=>{const workspaceId=await ctx.db.insert('workspaces',{token,kind:'trial'});await ctx.db.insert('workspaces',{token:otherToken,kind:'trial'});const episodeId=await ctx.db.insert('episodes',{workspaceId,name:'Mask test',duration:10});await ctx.db.insert('objects',{episodeId,objectId:'iron',name:'Iron'});return {episodeId};});
+ const args={workspaceToken:token,...ids,objectId:'iron',time:2,width:4,height:4,runs:[0,4,12]};
+ await expect(t.mutation(api.masks.save,{...args,workspaceToken:otherToken})).rejects.toThrow();
+ await expect(t.mutation(api.masks.save,{...args,objectId:'missing'})).rejects.toThrow('outline first');
+ for(const runs of [[0,0,16],[15],[0,17],[0,1.5,14.5]])await expect(t.mutation(api.masks.save,{...args,runs})).rejects.toThrow();
+ const id=await t.mutation(api.masks.save,args);
+ expect(await t.query(api.masks.get,{workspaceToken:token,id})).toMatchObject({status:'pending',revision:1,runs:args.runs});
+ expect((await t.query(api.masks.list,{workspaceToken:token,...ids}))[0]).not.toHaveProperty('runs');
+ await t.mutation(api.masks.review,{workspaceToken:token,id,revision:1,status:'verified'});
+ await expect(t.mutation(api.masks.save,{...args,id,revision:1})).rejects.toThrow('changed elsewhere');
+ await t.mutation(api.masks.save,{...args,id,revision:2,runs:[1,3,12]});
+ expect(await t.query(api.masks.get,{workspaceToken:token,id})).toMatchObject({status:'pending',revision:3});
+ await t.mutation(api.masks.review,{workspaceToken:token,id,revision:3,status:'disqualified'});
+ await expect(t.query(api.masks.get,{workspaceToken:otherToken,id})).rejects.toThrow();
+ await expect(t.mutation(api.masks.review,{workspaceToken:token,id,revision:3,status:'verified'})).rejects.toThrow('changed');
+});
+test('reviewers can correct existing masks but cannot create, and an active teammate lease blocks writes',async()=>{
+ const t=convexTest(schema,modules),token='c'.repeat(64),reviewToken='d'.repeat(64);
+ const d=await t.run(async ctx=>{const owner=await ctx.db.insert('users',{}),reviewer=await ctx.db.insert('users',{});const workspaceId=await ctx.db.insert('workspaces',{token,kind:'personal',userId:owner});await ctx.db.insert('workspaces',{token:reviewToken,kind:'personal',userId:reviewer});const projectId=await ctx.db.insert('projects',{workspaceId,name:'Mask sharing',updatedAt:Date.now()});const episodeId=await ctx.db.insert('episodes',{workspaceId,name:'Shared mask',duration:10});await ctx.db.insert('projectVideos',{workspaceId,projectId,episodeId});await ctx.db.insert('projectMembers',{projectId,userId:reviewer,role:'reviewer'});await ctx.db.insert('objects',{episodeId,objectId:'iron',name:'Iron'});return {owner,reviewer,episodeId};});
+ const owner=t.withIdentity({subject:`${d.owner}|session`}),reviewer=t.withIdentity({subject:`${d.reviewer}|session`});const args={workspaceToken:token,episodeId:d.episodeId,objectId:'iron',time:1,width:2,height:2,runs:[0,1,3]};
+ const id=await owner.mutation(api.masks.save,args);
+ await expect(reviewer.mutation(api.masks.review,{workspaceToken:reviewToken,id,revision:1,status:'verified'})).rejects.toThrow('teammate');
+ await t.run(async ctx=>{const lease=await ctx.db.query('videoLeases').withIndex('by_episode',q=>q.eq('episodeId',d.episodeId)).unique();if(lease)await ctx.db.delete(lease._id);});
+ await expect(reviewer.mutation(api.masks.save,{...args,workspaceToken:reviewToken})).rejects.toThrow('Reviewers');
+ await reviewer.mutation(api.masks.save,{...args,workspaceToken:reviewToken,id,revision:1,runs:[1,1,2]});
+ expect(await reviewer.query(api.masks.get,{workspaceToken:reviewToken,id})).toMatchObject({revision:2,status:'pending'});
+});

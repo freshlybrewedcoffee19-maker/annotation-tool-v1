@@ -40,6 +40,9 @@ test('teammates join a project and video progress returns in a fresh browser',as
  const annotationId=await owner.client.mutation(api.annotations.save,{...args,label:'Release check',start_sec:1,end_sec:2});
  await page.locator('video').first().evaluate((v:HTMLVideoElement)=>{v.currentTime=3;});
  await expect.poll(async()=> (await owner.client.query(api.sessions.load,args))?.position).toBe(3);
+ await owner.client.mutation(api.boxes.save,{...args,boxes:[{id:'mask-outline',objectId:'release-object',name:'Release mask object',time:3,frameIndex:null,timing:'time',x:.2,y:.2,width:.4,height:.4}]});
+ await page.getByRole('button',{name:'Pixel masks',exact:true}).click();await page.getByLabel('Mask object',{exact:true}).selectOption({label:'Release mask object'});await page.getByRole('button',{name:'Use current frame',exact:true}).click();await page.getByRole('button',{name:'Fill saved outline',exact:true}).click();await page.getByRole('button',{name:'Save mask',exact:true}).click();await expect(page.getByRole('button',{name:'Confirm mask',exact:true})).toBeEnabled();await page.getByRole('button',{name:'Confirm mask',exact:true}).click();await expect(page.getByRole('button',{name:'Export confirmed mask',exact:true})).toBeEnabled();
+ const savedMask=(await owner.client.query(api.masks.list,args))[0];expect(savedMask.status).toBe('verified');expect((await owner.client.query(api.masks.get,{workspaceToken,id:savedMask._id})).runs.length).toBeGreaterThan(1);
  await page.goto('/workspace');
  await page.getByRole('button',{name:'sample',exact:true}).click();
  await page.getByRole('button',{name:'+ Collaborator',exact:true}).click();
@@ -82,6 +85,7 @@ test('teammates join a project and video progress returns in a fresh browser',as
  await fresh.getByRole('button',{name:'Restore sample.mp4',exact:true}).click();
  await expect(fresh.getByRole('status')).toContainText('sample.mp4 restored');
  expect((await owner.client.query(api.annotations.segments,args))[0]._id).toBe(annotationId);
+ expect((await owner.client.query(api.masks.list,args))[0]._id).toBe(savedMask._id);
  await fresh.getByRole('button',{name:'My projects',exact:true}).click();
  await fresh.getByRole('button',{name:'sample',exact:true}).click();
  await fresh.getByRole('button',{name:'Move sample to Trash',exact:true}).click();

@@ -85,7 +85,7 @@ export const finishPurge=internalMutation({args:{id:v.id('videoTrash')},returns:
  let more=false;
  const history=await ctx.db.query('trialEditHistory').withIndex('by_episode_sequence',q=>q.eq('episodeId',row.episodeId)).take(100);
  for(const entry of history)await ctx.db.delete(entry._id);if(history.length===100)more=true;
- for(const table of ['segments','objects','objectBoxes','objectVisibility','trackSuggestions','setupDrafts','trialHistoryState','videoSessions','videoLeases','r2Uploads','projectVideos'] as const){
+ for(const table of ['maskPixels','pixelMasks','segments','objects','objectBoxes','objectVisibility','trackSuggestions','setupDrafts','trialHistoryState','videoSessions','videoLeases','r2Uploads','projectVideos'] as const){
   const records=await ctx.db.query(table).withIndex('by_episode',q=>q.eq('episodeId',row.episodeId)).take(100);
   for(const record of records)await ctx.db.delete(record._id);if(records.length===100)more=true;
  }

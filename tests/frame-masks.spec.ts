@@ -1,0 +1,28 @@
+import {test,expect} from '@playwright/test';
+import fs from 'node:fs/promises';
+test('frame masks paint, save, review, export exact pixels and reopen after refresh',async({page})=>{
+ test.setTimeout(120000);page.setDefaultTimeout(20000);
+ await page.goto('/');await page.getByRole('button',{name:'Try a sample video',exact:true}).click();
+ const video=page.locator('video').first();await expect.poll(()=>video.evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);
+ await page.locator('.trial-more-tools>summary').click();
+ await page.getByRole('button',{name:'Objects & outlines',exact:true}).click();
+ await page.getByLabel('Object name',{exact:true}).fill('Mask release object');
+ await page.getByRole('button',{name:'Draw box',exact:true}).click();
+ const area=page.getByLabel('Object box drawing area'),r=await area.boundingBox();if(!r)throw Error('Drawing area missing');
+ await page.mouse.move(r.x+r.width*.3,r.y+r.height*.3);await page.mouse.down();await page.mouse.move(r.x+r.width*.6,r.y+r.height*.6);await page.mouse.up();
+ await expect(page.getByLabel('Saved object boxes')).toContainText('Mask release object');
+ await page.getByRole('button',{name:'Pixel masks',exact:true}).click();await page.getByLabel('Mask object',{exact:true}).selectOption({label:'Mask release object'});await page.getByRole('button',{name:'Use current frame',exact:true}).click();
+ await page.getByRole('button',{name:'Fill saved outline',exact:true}).click();await page.getByRole('button',{name:'Undo mask edit',exact:true}).click();
+ const canvas=page.getByLabel('Paint mask pixels');await canvas.scrollIntoViewIfNeeded();const c=await canvas.boundingBox();if(!c)throw Error('Mask canvas missing');
+ await page.mouse.move(c.x+c.width*.45,c.y+c.height*.45);await page.mouse.down();await page.mouse.move(c.x+c.width*.5,c.y+c.height*.5,{steps:8});await page.mouse.up();
+ await expect(page.getByRole('button',{name:'Export confirmed mask',exact:true})).toBeDisabled();
+ await page.getByRole('button',{name:'Undo mask edit',exact:true}).click();await page.getByRole('button',{name:'Redo mask edit',exact:true}).click();
+ await page.getByRole('button',{name:'Save mask',exact:true}).click();await expect(page.getByRole('button',{name:'Confirm mask',exact:true})).toBeEnabled();
+ await page.getByRole('button',{name:'Disqualify mask',exact:true}).click();await expect(page.getByRole('button',{name:'Export confirmed mask',exact:true})).toBeDisabled();
+ await page.getByRole('button',{name:'Confirm mask',exact:true}).click();await expect(page.getByRole('button',{name:'Export confirmed mask',exact:true})).toBeEnabled();
+ const pending=page.waitForEvent('download');await page.getByRole('button',{name:'Export confirmed mask',exact:true}).click();const file=await (await pending).path();if(!file)throw Error('Export missing');const data=JSON.parse(await fs.readFile(file,'utf8'));
+ expect(data.encoding).toBe('binary-rle-row-major');expect(data.runs.reduce((a:number,b:number)=>a+b,0)).toBe(data.maskWidth*data.maskHeight);expect(data.runs.some((n:number,i:number)=>i%2===1&&n>0)).toBe(true);expect(data.runs.reduce((n:number,run:number,i:number)=>n+(i%2?run:0),0)).toBeLessThan(10000);
+ await page.screenshot({path:'outputs/masks-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'outputs/masks-phone.png',fullPage:true});await expect.poll(()=>page.evaluate(()=>({width:innerWidth,page:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll('*')].filter(e=>e.getBoundingClientRect().right>innerWidth+1).map(e=>e.className).slice(0,10)}))).toMatchObject({width:390,page:390});
+ await page.reload();await expect.poll(()=>video.evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);await page.getByRole('button',{name:/Mask release object · .* · Confirmed/}).click();await expect(canvas).toBeVisible();
+ await page.getByRole('button',{name:'Erase mask',exact:true}).click();await canvas.scrollIntoViewIfNeeded();const b=await canvas.boundingBox();if(!b)throw Error('Canvas missing');await page.mouse.click(b.x+b.width*.45,b.y+b.height*.45);await expect(page.getByRole('button',{name:'Export confirmed mask',exact:true})).toBeDisabled();await page.getByRole('button',{name:'Save mask',exact:true}).click();await expect(page.getByRole('button',{name:'Export confirmed mask',exact:true})).toBeDisabled();await expect(page.getByRole('button',{name:'Confirm mask',exact:true})).toBeEnabled();
+});

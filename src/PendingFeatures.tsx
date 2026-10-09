@@ -1,7 +1,7 @@
 const pending=[
  ['Assisted tracking','Follow a confirmed object through your own footage. Laptop and disappearance checks are still pending.'],
  ['Object detection','Suggest boxes for supported categories, then review them.'],
- ['Single-frame masks','Mark the exact pixels of an object, with editable suggestions.'],
+ ['Automatic mask suggestions','Suggest object pixels before manual correction. Frame-mask painting is available now.'],
  ['Video masks','Follow object outlines through time, after laptop checks pass.'],
  ['Team review','Separate reviewer accounts, access permissions and disagreement checks.'],
 ];

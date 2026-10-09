@@ -15,7 +15,8 @@ async function fixture(){
   const episodeId=await ctx.db.insert('episodes',{workspaceId,name:'Video.mp4',duration:60,fileSize:100,r2Key:'videos/trash-test'});
   await ctx.db.insert('projectVideos',{workspaceId,projectId,episodeId});
   const segmentId=await ctx.db.insert('segments',{episodeId,label:'Keep this label',start_sec:1,end_sec:2});
-  return {user,other,workspaceId,projectId,episodeId,segmentId};
+  const maskId=await ctx.db.insert('pixelMasks',{episodeId,objectId:'trash-mask-object',time:1,width:2,height:2,status:'verified',revision:1});await ctx.db.insert('maskPixels',{episodeId,maskId,runs:[0,1,3]});
+  return {user,other,workspaceId,projectId,episodeId,segmentId,maskId};
  });
  return {t,d,token,owner:t.withIdentity({subject:`${d.user}|session`}),other:t.withIdentity({subject:`${d.other}|session`})};
 }
@@ -57,6 +58,7 @@ test('permanent cleanup waits seven days and storage removal before deleting dep
  expect(await t.mutation(internal.trash.finishPurge,{id:claim.id})).toBe(true);
  expect(await t.run(ctx=>ctx.db.get(d.episodeId))).toBeNull();
  expect(await t.run(ctx=>ctx.db.get(d.segmentId))).toBeNull();
+ expect(await t.run(ctx=>ctx.db.get(d.maskId))).toBeNull();expect(await t.run(ctx=>ctx.db.query('maskPixels').withIndex('by_episode',q=>q.eq('episodeId',d.episodeId)).collect())).toEqual([]);
  await t.mutation(internal.trash.finishProjects,{});
  expect(await t.run(ctx=>ctx.db.get(d.projectId))).toBeNull();
  expect(await owner.query(api.usage.limits,{workspaceToken:token})).toMatchObject({stored:0,projects:0});

@@ -18,6 +18,7 @@ import type * as crons from "../crons.js";
 import type * as freeLimits from "../freeLimits.js";
 import type * as http from "../http.js";
 import type * as labels from "../labels.js";
+import type * as masks from "../masks.js";
 import type * as media from "../media.js";
 import type * as metadata from "../metadata.js";
 import type * as projectAccess from "../projectAccess.js";
@@ -58,6 +59,7 @@ declare const fullApi: ApiFromModules<{
   freeLimits: typeof freeLimits;
   http: typeof http;
   labels: typeof labels;
+  masks: typeof masks;
   media: typeof media;
   metadata: typeof metadata;
   projectAccess: typeof projectAccess;

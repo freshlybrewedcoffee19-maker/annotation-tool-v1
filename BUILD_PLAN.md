@@ -411,3 +411,11 @@ Tested COCO-SSD and quantized OWL-ViT on decoded trial frames. Neither passes ir
 ### Single-frame mask preview — local, 8 October 2026
 SlimSAM FP32 encoder/decoder run on the laptop in Node with no paid inference. Trial frame 360: point-prompt mask, 3 suggestions, transparent overlay, paint/erase correction, undo/redo, review decisions, browser draft recovery and exact-pixel mask JSON implemented. Actual desktop/390px model-to-export browser checks passed; mask reconstruction checks passed. Cached inference/postprocessing 2.609s. Fixed trial frame only; not integrated with project uploads, Convex or live website. See benchmarks/masks/README.md for open release gates. Existing annotation/export code unchanged by this work.
 
+
+## Frame-mask tool release — 9 October 2026
+
+Manual single-frame masks are integrated with trial and uploaded videos. Choose a saved object and frozen frame; paint/erase pixels or fill a saved box/polygon at that frame, then refine it. Undo/redo, saved account storage, revision conflict checks, confirmation/disqualification and confirmed-only JSON export are included. Any saved pixel edit resets review. Pixel runs are stored separately from list summaries. Trash retains masks and permanent cleanup removes them with their video. Mask grids retain source resolution up to two million pixels; larger sources are reduced with exported source and mask dimensions. Automatic suggestions and video masks remain pending; no model calls or paid processing were enabled.
+
+The mask release also fixes private playback URLs being regenerated on annotation updates, which could reload footage and reset the selected frame. Links are reused until their scheduled refresh.
+
+Release verification: production build and all 23 backend/data checks passed. Four live browser flows passed against cheddarvox.com: trial-mask painting/outline undo/review/exact-pixel export/reload; authenticated upload mask saving and Trash restoration with same mask ID, sharing and fresh-browser progress; password recovery; trial playback. Desktop and 390px phone screenshots inspected. Automatic models were not enabled.

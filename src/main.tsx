@@ -50,10 +50,20 @@ function App(){
  const episodeKey=`np-episode-${workspaceToken}`,stepKey=`np-step-${workspaceToken}`;
  useEffect(()=>{localStorage.setItem('cv-activity-'+workspaceToken,activity);},[activity,workspaceToken]);
  const r2Begin=useAction(api.r2.begin),r2Complete=useAction(api.r2.complete),r2Playback=useAction(api.r2.playback);
- const [privateUrls,setPrivateUrls]=useState<Record<string,string>>({});
+ const [privateUrls,setPrivateUrls]=useState<Record<string,string>>({});const privateUrlFetched=useRef(new Map<string,number>());
  const savedEpisodes=useQuery(api.annotations.episodes,workspaceReady?{workspaceToken}:'skip'); const convex=useConvex();
  // Public trial remains on Pages; private R2 playback uses short-lived owner-authorized links.
- useEffect(()=>{let alive=true;async function refresh(){for(const e of savedEpisodes??[]){if(e.r2Key){try{const url=await r2Playback({workspaceToken,episodeId:e._id});if(alive&&url)setPrivateUrls(old=>({...old,[e._id]:url}));}catch{if(alive)setError('Could not open your private video. Refresh to try again.');}}}}void refresh();const timer=setInterval(()=>void refresh(),30*60*1000);return()=>{alive=false;clearInterval(timer);};},[savedEpisodes,workspaceToken,r2Playback]);
+ useEffect(()=>{
+  let alive=true;
+  async function refresh(){for(const e of savedEpisodes??[]){
+   const key=workspaceToken+':'+e._id;
+   if(!e.r2Key||Date.now()-(privateUrlFetched.current.get(key)??0)<29*60*1000)continue;
+   try{const url=await r2Playback({workspaceToken,episodeId:e._id});if(alive&&url){privateUrlFetched.current.set(key,Date.now());setPrivateUrls(old=>({...old,[e._id]:url}));}}
+   catch{if(alive)setError('Could not open your private video. Refresh to try again.');}
+  }}
+  void refresh();const timer=setInterval(()=>void refresh(),30*60*1000);
+  return()=>{alive=false;clearInterval(timer);};
+ },[savedEpisodes,workspaceToken,r2Playback]);
  const episodes=savedEpisodes?.map(e=>kind==='trial'&&e.name==='IRON_001_trial_45s.mp4'?{...e,url:import.meta.env.VITE_TRIAL_VIDEO_PATH||'/videos/iron-e05a44b0.mp4'}:e.r2Key?{...e,url:privateUrls[e._id]??null}:e);
  const workspaceLabels=useQuery(api.labels.list,workspaceReady?{workspaceToken}:'skip'); const saveLabels=useMutation(api.labels.save); const [labelDraft,setLabelDraft]=useState<string|null>(null);
 
