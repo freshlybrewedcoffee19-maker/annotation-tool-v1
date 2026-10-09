@@ -9,3 +9,6 @@
 
 /mask-model/*
   Cache-Control: public, max-age=31536000, immutable
+
+/tracking-model/*
+  Cache-Control: public, max-age=31536000, immutable

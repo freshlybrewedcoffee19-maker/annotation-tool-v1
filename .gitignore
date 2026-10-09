@@ -18,3 +18,5 @@ benchmarks/detection/.cache/
 
 # Reproducible, checksum-verified browser model assets
 public/mask-model/
+
+public/tracking-model/

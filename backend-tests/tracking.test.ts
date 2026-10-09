@@ -1,0 +1,32 @@
+import {test,expect} from 'vitest';
+import {convexTest} from 'convex-test';
+import schema from '../convex/schema';
+import {api} from '../convex/_generated/api';
+import {TrackingGuard,trackingTimes,maskBounds,type TrackingBox} from '../src/tracking/rules';
+const modules=import.meta.glob('../convex/**/*.{ts,js}');
+test('tracking stops latch after disappearance, ambiguity or abrupt motion and require a new confirmed start',()=>{
+ const signature=new Float32Array(88);signature[0]=signature[8]=signature[16]=signature[24]=1;const changed=new Float32Array(88);changed[7]=changed[15]=changed[23]=changed[87]=1;
+ const box:TrackingBox=[20,20,30,30],raw={box,score:.99,ambiguous:false},guard=new TrackingGuard();
+ expect(()=>guard.confirm(box,signature,100,100,false)).toThrow('Confirm');guard.confirm(box,signature,100,100,true);expect(guard.evaluate(raw,signature,100,100)).toBeNull();expect(guard.evaluate(raw,changed,100,100)).toContain('appearance');expect(guard.evaluate(raw,signature,100,100)).toContain('appearance');
+ guard.confirm(box,signature,100,100,true);expect(guard.evaluate({...raw,ambiguous:true},signature,100,100)).toContain('similar');guard.confirm(box,signature,100,100,true);expect(guard.evaluate({...raw,box:[70,20,30,30]},signature,100,100)).toContain('abruptly');guard.confirm(box,signature,100,100,true);expect(guard.evaluate({...raw,box:[90,90,30,30]},signature,100,100)).toContain('left');
+ expect(trackingTimes(1,3)).toHaveLength(11);expect(()=>trackingTimes(1,3.1)).toThrow();expect(maskBounds(Uint8Array.from([0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0]),4,4)).toEqual([.25,.25,.5,.5]);
+});
+test('automatic tracks require a current confirmed source, keep every frame pending and invalidate changed sources',async()=>{
+ const t=convexTest(schema,modules),token='a'.repeat(64),other='b'.repeat(64);
+ const episodeId=await t.run(async ctx=>{const workspaceId=await ctx.db.insert('workspaces',{token,kind:'trial'});await ctx.db.insert('workspaces',{token:other,kind:'trial'});return ctx.db.insert('episodes',{workspaceId,name:'Tracking',duration:10});});
+ const args={workspaceToken:token,episodeId},box={id:'start',objectId:'iron',name:'Iron',time:1,frameIndex:null,timing:'time' as const,x:.2,y:.2,width:.3,height:.3};
+ await t.mutation(api.boxes.save,{...args,boxes:[box]});
+ const frames=trackingTimes(1,2).map(time=>({time,x:.2,y:.2,width:.3,height:.3,uncertain:false}));
+ const create={...args,source:{kind:'box' as const,boxId:box.id},requestedEnd:2,key:'tracking-test',frames};
+ await expect(t.mutation(api.tracks.addTracked,create)).rejects.toThrow('confirmed');await t.mutation(api.boxes.review,{...args,boxId:box.id,status:'verified'});
+ await expect(t.mutation(api.tracks.addTracked,{...create,workspaceToken:other})).rejects.toThrow();
+ const id=await t.mutation(api.tracks.addTracked,create);let track=(await t.query(api.tracks.list,args))[0];expect(track.frames.every(f=>f.uncertain)).toBe(true);expect(track.sourceBox?.id).toBe(box.id);expect(await t.query(api.tracks.exportVerified,args)).toHaveLength(0);
+ await expect(t.mutation(api.tracks.review,{workspaceToken:token,id,revision:1,status:'verified'})).rejects.toThrow('uncertain');
+ await t.mutation(api.tracks.edit,{workspaceToken:token,id,revision:1,frames:track.frames.map(f=>({...f,uncertain:false}))});await t.mutation(api.tracks.review,{workspaceToken:token,id,revision:2,status:'verified'});expect(await t.query(api.tracks.exportVerified,args)).toHaveLength(1);
+ await expect(t.mutation(api.tracks.review,{workspaceToken:token,id,revision:2,status:'disqualified'})).rejects.toThrow('changed');
+ await t.mutation(api.boxes.save,{...args,boxes:[{...box,x:.21}]});expect(await t.query(api.tracks.exportVerified,args)).toHaveLength(0);track=(await t.query(api.tracks.list,args))[0];expect(track.blocked.some(s=>s.includes('source'))).toBe(true);
+ const maskId=await t.mutation(api.masks.save,{...args,objectId:box.objectId,time:3,width:4,height:4,runs:[5,2,2,2,5]});await t.mutation(api.masks.review,{workspaceToken:token,id:maskId,revision:1,status:'verified'});
+ const maskCreate={...args,source:{kind:'mask' as const,maskId,revision:2},requestedEnd:4,key:'mask-track',frames:trackingTimes(3,4).map(time=>({time,x:.25,y:.25,width:.5,height:.5,uncertain:false}))};
+ const maskTrack=await t.mutation(api.tracks.addTracked,maskCreate);expect((await t.query(api.tracks.list,args)).find(t=>t._id===maskTrack)?.sourceMask).toMatchObject({id:maskId,revision:2});await t.mutation(api.masks.save,{...args,id:maskId,revision:2,objectId:box.objectId,time:3,width:4,height:4,runs:[0,1,15]});expect((await t.query(api.tracks.list,args)).find(t=>t._id===maskTrack)?.blocked.join(' ')).toContain('source');
+ await t.mutation(api.visibility.save,{...args,span:{id:'absence',objectId:box.objectId,start:3.5,end:4,state:'absent'}});await expect(t.mutation(api.tracks.addTracked,{...maskCreate,key:'absent'})).rejects.toThrow();
+});

@@ -8,7 +8,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
     "deploy": "node scripts/deploy.mjs",
-    "prebuild": "node scripts/prepare-mask-model.mjs"
+    "prebuild": "node scripts/prepare-mask-model.mjs && node scripts/prepare-tracking-model.mjs"
   },
   "keywords": [],
   "author": "",
@@ -29,7 +29,8 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "typescript": "^7.0.2",
-    "vite": "^8.3.2"
+    "vite": "^8.3.2",
+    "onnxruntime-web": "1.31.0-dev.20260914-8d85527a0"
   },
   "devDependencies": {
     "@edge-runtime/vm": "^5.0.0",
