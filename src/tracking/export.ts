@@ -1,0 +1,5 @@
+import {csv} from '../csv';
+import type {TrackingFrame} from './rules';
+type ExportTrack={_id:string;episodeId:string;objectId:string;name:string;model:string;status:string;blocked:string[];frames:TrackingFrame[];sourceBox?:{id:string};sourceMask?:{id:string;revision:number};sourceTrack?:{id:string;revision:number}};
+const safeText=(s:string)=>/^[\s]*[=+@-]/.test(s)?"'"+s:s;
+export function trackingCSV(tracks:readonly ExportTrack[]){return csv(['episode_id','track_id','object_id','object_name','time_seconds','decoded_time_seconds','x','y','width','height','coordinate_space','sampled_frames_only','source_box_id','source_mask_id','source_mask_revision','source_track_id','source_track_revision','model'],tracks.filter(t=>t.status==='verified'&&!t.blocked.length&&t.frames.every(f=>!f.uncertain)).flatMap(t=>t.frames.map(f=>[safeText(t.episodeId),safeText(t._id),safeText(t.objectId),safeText(t.name),f.time,f.decodedTime??'',f.x,f.y,f.width,f.height,'normalized-video','true',safeText(t.sourceBox?.id??''),safeText(t.sourceMask?.id??''),t.sourceMask?.revision??'',safeText(t.sourceTrack?.id??''),t.sourceTrack?.revision??'',safeText(t.model)])));}
