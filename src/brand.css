@@ -30,3 +30,22 @@
 .landing .home-services button{font-family:inherit;font-size:inherit;font-weight:400;background:transparent;border:0;border-radius:0;padding:0 3px;color:var(--vox-blue);text-decoration:underline;text-underline-offset:3px;vertical-align:baseline;box-shadow:none}
 .landing .hero-note,.landing .landing-footer,.landing .landing-footer a{font-size:14px;line-height:1.6}
 @media(max-width:700px){.landing .hero-media{height:auto;width:100%;margin:22px auto;gap:0;perspective:none}.landing .film-card:not(.film-2){display:none}.landing .film-2{display:block;flex:0 0 auto;width:220px;max-width:100%;height:auto;aspect-ratio:4/5;transform:none;margin:0 auto}.landing .hero-note{max-width:330px}.landing .home-services{max-width:340px}.landing .landing-footer nav{justify-content:center}}
+
+/* Phone-only arc; the five desktop cards keep their existing composition. */
+@media(max-width:767px){
+ .landing .hero-media{display:block;position:relative;height:320px;width:calc(100% + 40px);max-width:none;margin:22px -20px;overflow:hidden;perspective:none;touch-action:pan-y;user-select:none}
+ .landing .hero-media .film-card{display:block;position:absolute;left:calc(50% - 110px);top:8px;width:220px;height:275px;max-width:none;margin:0;flex:none;aspect-ratio:4/5;transform-origin:50% 50%;transition:transform 700ms cubic-bezier(.22,1,.36,1),opacity 700ms ease;will-change:transform;z-index:0}
+ .landing .film-card[data-arc-slot="0"]{transform:translate(0,0) rotate(0deg) scale(1);opacity:1;z-index:3}
+ .landing .film-card[data-arc-slot="-1"]{transform:translate(-160px,36px) rotate(-18deg) scale(.76);opacity:1;z-index:2}
+ .landing .film-card[data-arc-slot="1"]{transform:translate(160px,36px) rotate(18deg) scale(.76);opacity:1;z-index:2}
+ .landing .film-card[data-arc-slot="-2"]{transform:translate(-310px,120px) rotate(-36deg) scale(.55);opacity:0}
+ .landing .film-card[data-arc-slot="2"]{transform:translate(310px,120px) rotate(36deg) scale(.55);opacity:0}
+ .landing .hero-media .film-card span{visibility:hidden;opacity:0;transition:none}
+ .landing .hero-media .film-card[data-arc-slot="0"] span{visibility:visible;opacity:1;transition:visibility 0s 700ms,opacity 120ms 700ms}
+ .landing .hero-media .film-card img{pointer-events:none}
+}
+@media(max-width:767px) and (prefers-reduced-motion:reduce){
+ .landing .hero-media .film-card{display:none;transition:none;will-change:auto}
+ .landing .hero-media .film-2{display:block;transform:none;opacity:1;z-index:3}
+ .landing .hero-media .film-2 span{visibility:visible;opacity:1;transition:none}
+}
