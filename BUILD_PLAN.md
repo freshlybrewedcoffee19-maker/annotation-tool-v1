@@ -1,5 +1,15 @@
 # nAIve Physics build and deployment plan
 
+## 9 October 2026 — seven-day Trash and restore
+
+Owner-only project/video Trash controls and a confirmation dialog are live. Restore keeps the original annotation IDs, metadata, settings and sharing memberships. Restoring a project leaves separately trashed videos in Trash. Trashed projects free an active project slot; restoring still respects the five-active-project limit. Video bytes remain counted until permanent removal.
+
+Hourly cleanup claims only expired items, removes media first, then deletes dependent annotations, history, progress, leases, upload records and project membership/settings records in bounded batches. File deletion failures retain records/accounting and retry later. Files referenced by another video are preserved. There is no immediate permanent-delete or empty-Trash control.
+
+Validation: compiler/build and all 20 backend tests passed, including simulated seven-day expiry, failed-storage retry, batch cleanup, shared-file preservation and restore limits. Live Chrome checked video/project Trash and restore, cancellation, annotation ID preservation, storage accounting, restored teammate access, owner-only controls, fresh-browser progress and phone overflow. Password recovery and bundled sample playback also passed. Expiry was checked with a simulated clock in the isolated test database; seven real days have not elapsed on production.
+
+An additional live check caught late progress restoration rewinding an early seek. Signed-in playback now has one restore path, and a delayed restore preserves a video position the user has already changed. The saved browser flow covers the initial seek and restoration in a fresh browser. Sample-loading assertions use the existing fifteen-second loading window.
+
 Updated 4 October 2026. This plan covers every layer in the supplied comparison table. Build and publish the video layers in stages; keep 3D and supplying human labellers deferred as agreed. Existing voice annotation, private workspaces and exports must keep working.
 
 The central decision is fixed: model processing runs inside the user's laptop browser. No rented graphics-processing computer, remote model API or desktop installation. Convex remains the database, backend, file storage, sign-in provider when needed, and website host. GitHub stores code. This is a plan, not evidence that a model has been installed or tested.

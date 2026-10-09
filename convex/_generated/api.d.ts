@@ -32,6 +32,8 @@ import type * as securityEmail from "../securityEmail.js";
 import type * as services from "../services.js";
 import type * as sessions from "../sessions.js";
 import type * as tracks from "../tracks.js";
+import type * as trash from "../trash.js";
+import type * as trashCleanup from "../trashCleanup.js";
 import type * as trial from "../trial.js";
 import type * as trialHistory from "../trialHistory.js";
 import type * as trialHistoryHelpers from "../trialHistoryHelpers.js";
@@ -70,6 +72,8 @@ declare const fullApi: ApiFromModules<{
   services: typeof services;
   sessions: typeof sessions;
   tracks: typeof tracks;
+  trash: typeof trash;
+  trashCleanup: typeof trashCleanup;
   trial: typeof trial;
   trialHistory: typeof trialHistory;
   trialHistoryHelpers: typeof trialHistoryHelpers;

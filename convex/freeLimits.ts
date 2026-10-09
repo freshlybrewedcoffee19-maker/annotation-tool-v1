@@ -19,7 +19,7 @@ export async function accountUsage(ctx:QueryCtx,space:Doc<'workspaces'>){
   const groups=await ctx.db.query('projects').withIndex('by_workspace',q=>q.eq('workspaceId',workspace._id)).take(1001);
   if(videos.length>1000||uploads.length>1000||groups.length>1000)throw new Error('Account storage needs review before another upload.');
   for(const video of videos){stored+=video.fileSize??(video.storageId?(await ctx.db.system.get(video.storageId))?.size??0:0);}
-  reserved+=uploads.filter(u=>!u.episodeId&&!u.cleanedAt).reduce((sum,u)=>sum+u.size,0);projects+=groups.length;
+  reserved+=uploads.filter(u=>!u.episodeId&&!u.cleanedAt).reduce((sum,u)=>sum+u.size,0);projects+=groups.filter(project=>project.deletedAt===undefined).length;
  }
  return {stored,reserved,projects};
 }

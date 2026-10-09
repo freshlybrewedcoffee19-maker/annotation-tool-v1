@@ -10,7 +10,7 @@ export const reserve=internalMutation({args:{workspaceToken:v.string(),key:v.str
  const space=await workspace(ctx,workspaceToken);if(!space.userId||space.kind==='trial')throw new Error('Sign in to upload.');
  if(!fields.name.trim()||fields.name.length>255||!Number.isInteger(fields.size)||fields.size<=0||fields.size>5e9||!['video/mp4','video/webm','video/quicktime'].includes(fields.mime)||!Number.isFinite(fields.duration)||fields.duration<=0||fields.width<=0||fields.height<=0)throw new Error('Choose a playable video under 5 GB.');
  await allowSiteUpload(ctx,fields.size);
- const usage=await allowUpload(ctx,space,fields.size);if(projectId){const project=await ctx.db.get(projectId);if(!project||project.workspaceId!==space._id)throw new Error('Project not found.');}else if(usage.projects>=FREE_PROJECTS)throw new Error('Free plan: up to 5 projects. Add videos to an existing project.');
+ const usage=await allowUpload(ctx,space,fields.size);if(projectId){const project=await ctx.db.get(projectId);if(!project||project.workspaceId!==space._id||project.deletedAt!==undefined)throw new Error('Project not found.');}else if(usage.projects>=FREE_PROJECTS)throw new Error('Free plan: up to 5 projects. Add videos to an existing project.');
  return ctx.db.insert('r2Uploads',{...fields,workspaceId:space._id,createdAt:Date.now()});
 }});
 export const pending=internalQuery({args:{workspaceToken:v.string(),uploadId:v.id('r2Uploads')},returns:v.any(),handler:async(ctx,{workspaceToken,uploadId})=>{const space=await workspace(ctx,workspaceToken);const row=await ctx.db.get(uploadId);if(!row||row.workspaceId!==space._id)throw new Error('Upload not found.');return row;}});
