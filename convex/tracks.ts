@@ -1,6 +1,7 @@
 import {v,type Infer} from 'convex/values';
 import {mutation,query,type QueryCtx} from './_generated/server';
 import type {Id} from './_generated/dataModel';
+import {requireProjectPermission} from './projectAccess';
 import {ownedEpisode} from './access';
 import {boxValue} from './boxes';
 import {canonical} from './trialHistoryHelpers';
@@ -17,7 +18,7 @@ async function reasons(ctx:QueryCtx,t:{anchors?:Infer<typeof boxValue>[];episode
 }
 export const interpolate=mutation({args:{workspaceToken:v.string(),episodeId:v.id('episodes'),startBoxId:v.string(),endBoxId:v.string(),continuouslyVisible:v.boolean()},returns:v.id('trackSuggestions'),handler:async(ctx,a)=>{
  await ownedEpisode(ctx,a.workspaceToken,a.episodeId);
- if(!a.continuouslyVisible)throw Error('Check that the same object stays visible throughout this short clip.');
+ await requireProjectPermission(ctx,a.episodeId,'create');if(!a.continuouslyVisible)throw Error('Check that the same object stays visible throughout this short clip.');
  const boxes=(await ctx.db.query('objectBoxes').withIndex('by_episode',q=>q.eq('episodeId',a.episodeId)).unique())?.boxes??[];
  const first=boxes.find(b=>b.id===a.startBoxId),last=boxes.find(b=>b.id===a.endBoxId);
  if(!first||!last||first.points||last.points||first.reviewStatus!=='verified'||last.reviewStatus!=='verified'||first.objectId!==last.objectId||last.time<=first.time||last.time-first.time>2)throw Error('Choose two verified boxes for the same object, in time order and at most two seconds apart.');
@@ -34,7 +35,7 @@ export const interpolate=mutation({args:{workspaceToken:v.string(),episodeId:v.i
 const resultValue=v.object({...trackFields,_id:v.id('trackSuggestions'),_creationTime:v.number(),blocked:v.array(v.string())});
 export const list=query({args:{workspaceToken:v.string(),episodeId:v.id('episodes')},returns:v.array(resultValue),handler:async(ctx,a)=>{await ownedEpisode(ctx,a.workspaceToken,a.episodeId);const rows=await ctx.db.query('trackSuggestions').withIndex('by_episode',q=>q.eq('episodeId',a.episodeId)).take(500);return Promise.all(rows.map(async t=>({...t,blocked:await reasons(ctx,t)})));}});
 export const add=mutation({args:{workspaceToken:v.string(),episodeId:v.id('episodes'),objectId:v.string(),name:v.string(),key:v.string(),model:v.string(),start:v.number(),end:v.number(),frames:v.array(trackFrame)},returns:v.id('trackSuggestions'),handler:async(ctx,a)=>{
- const ep=await ownedEpisode(ctx,a.workspaceToken,a.episodeId);if(!a.objectId||!a.name.trim()||a.name.length>100||!a.key||a.key.length>200||!a.model||a.model.length>200||!Number.isFinite(a.start)||!Number.isFinite(a.end)||a.start<0||a.end<=a.start||a.end>ep.duration||a.end-a.start>2.01||!a.frames.length||a.frames.length>30)throw Error('Use a named suggestion clip of at most two seconds.');
+ await requireProjectPermission(ctx,a.episodeId,'create');const ep=await ownedEpisode(ctx,a.workspaceToken,a.episodeId);if(!a.objectId||!a.name.trim()||a.name.length>100||!a.key||a.key.length>200||!a.model||a.model.length>200||!Number.isFinite(a.start)||!Number.isFinite(a.end)||a.start<0||a.end<=a.start||a.end>ep.duration||a.end-a.start>2.01||!a.frames.length||a.frames.length>30)throw Error('Use a named suggestion clip of at most two seconds.');
  validateFrames(a.frames,a.start,a.end);
  const prior=await ctx.db.query('trackSuggestions').withIndex('by_episode_key',q=>q.eq('episodeId',a.episodeId).eq('key',a.key)).unique();if(prior)return prior._id;
  if((await ctx.db.query('trackSuggestions').withIndex('by_episode',q=>q.eq('episodeId',a.episodeId)).take(500)).length>=500)throw Error('Suggestion limit reached for this video.');

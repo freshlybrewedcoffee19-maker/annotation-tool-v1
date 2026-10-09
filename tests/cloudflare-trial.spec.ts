@@ -17,7 +17,7 @@ test('Cloudflare build plays bundled trial without a Convex video download',asyn
  await page.getByRole('button',{name:'Play video',exact:true}).click();
  await expect.poll(()=>video.evaluate((v:HTMLVideoElement)=>v.currentTime)).toBeGreaterThan(12);
  await page.getByRole('button',{name:'Pause video',exact:true}).click();
- await page.getByRole('button',{name:'Next estimated frame',exact:true}).click();
+ await page.getByRole('button',{name:/^Next (estimated )?frame$/}).click();
  await expect.poll(()=>video.evaluate((v:HTMLVideoElement)=>v.seeking)).toBe(false);
  await page.getByLabel('Seek video',{exact:true}).fill('1');
  await expect.poll(()=>video.evaluate((v:HTMLVideoElement)=>v.currentTime)).toBe(1);

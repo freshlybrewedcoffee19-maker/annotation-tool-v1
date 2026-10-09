@@ -3,9 +3,10 @@ import { v } from "convex/values";
 import {allowUpload} from './freeLimits';
 import {isTrialEpisode,recordTrialEdit} from './trialHistoryHelpers';
 import {workspace,ownedEpisode} from "./access";
+import {visibleEpisodes,requireProjectPermission} from './projectAccess';
 const episode = v.object({setupFields:v.optional(v.array(v.string())),labels:v.optional(v.array(v.string())),_id:v.id("episodes"),_creationTime:v.number(),workspaceId:v.optional(v.id("workspaces")),name:v.string(),storageId:v.optional(v.id("_storage")),r2Key:v.optional(v.string()),duration:v.number(),fileSize:v.optional(v.number()),mimeType:v.optional(v.string()),width:v.optional(v.number()),height:v.optional(v.number()),frameRate:v.optional(v.union(v.number(),v.null())),nextSegmentNumber:v.optional(v.number()),metadata:v.optional(v.array(v.object({field:v.string(),value:v.string()}))),metadataLocks:v.optional(v.array(v.string())),url:v.union(v.string(),v.null())});
 const segment = v.object({historyHidden:v.optional(v.boolean()),objectIds:v.optional(v.array(v.string())),reviewStatus:v.optional(v.union(v.literal("pending"),v.literal("verified"),v.literal("disqualified"))),_id:v.id("segments"),_creationTime:v.number(),episodeId:v.id("episodes"),label:v.string(),start_sec:v.number(),end_sec:v.number(),segmentNumber:v.optional(v.number()),source:v.optional(v.union(v.literal("manual"),v.literal("voice")))});
-export const episodes = query({args:{workspaceToken:v.string()},returns:v.array(episode),handler:async(ctx,{workspaceToken})=>{const space=await workspace(ctx,workspaceToken);return Promise.all((await ctx.db.query("episodes").withIndex("by_workspace",q=>q.eq("workspaceId",space._id)).take(1000)).sort((a,b)=>a.name.localeCompare(b.name)).map(async e=>({...e,url:e.storageId?await ctx.storage.getUrl(e.storageId):null})));}});
+export const episodes = query({args:{workspaceToken:v.string()},returns:v.array(episode),handler:async(ctx,{workspaceToken})=>{const space=await workspace(ctx,workspaceToken);return Promise.all((await visibleEpisodes(ctx,space._id)).sort((a,b)=>a.name.localeCompare(b.name)).map(async e=>({...e,url:e.storageId?await ctx.storage.getUrl(e.storageId):null})));}});
 export const uploadUrl = mutation({args:{workspaceToken:v.string()},returns:v.string(),handler:async(ctx,{workspaceToken})=>{await workspace(ctx,workspaceToken);return process.env.CONVEX_SITE_URL+"/api/upload";}});
 export const addEpisode = mutation({args:{workspaceToken:v.string(),name:v.string(),storageId:v.id("_storage"),duration:v.number(),width:v.optional(v.number()),height:v.optional(v.number())},returns:v.id("episodes"),handler:async(ctx,{workspaceToken,...args})=>{
  const space=await workspace(ctx,workspaceToken);const claim=await ctx.db.query("fileOwners").withIndex("by_storage_workspace",q=>q.eq("storageId",args.storageId).eq("workspaceId",space._id)).first();if(!claim)throw new Error("Upload this video to your own workspace first.");
@@ -22,7 +23,7 @@ export const segments = query({args:{workspaceToken:v.string(),episodeId:v.id("e
 export const save = mutation({args:{workspaceToken:v.string(),id:v.optional(v.id("segments")),episodeId:v.id("episodes"),label:v.string(),start_sec:v.number(),end_sec:v.number(),source:v.optional(v.union(v.literal("manual"),v.literal("voice")))},returns:v.id("segments"),handler:async(ctx,{workspaceToken,id,...args})=>{
  const ep=await ownedEpisode(ctx,workspaceToken,args.episodeId);
  if(!ep || !args.label.trim() || !Number.isFinite(args.start_sec) || !Number.isFinite(args.end_sec) || args.start_sec<0 || args.end_sec<=args.start_sec || args.end_sec>ep.duration) throw new Error("Use a label and times between 0 and the video duration, with end after start.");
- args.label=args.label.trim();
+ if(!id)await requireProjectPermission(ctx,args.episodeId,'create');args.label=args.label.trim();
  if(id){const old=await ctx.db.get(id); if(!old || old.historyHidden || old.episodeId!==args.episodeId) throw new Error("Segment not found."); const {source,...changes}=args; await ctx.db.patch(id,{...changes,reviewStatus:"pending"}); await recordTrialEdit(ctx,args.episodeId,'segment','Edit segment',old,await ctx.db.get(id)); return id;}
  const segmentNumber=ep.nextSegmentNumber??1;
  await ctx.db.patch(ep._id,{nextSegmentNumber:segmentNumber+1});
@@ -31,7 +32,7 @@ export const save = mutation({args:{workspaceToken:v.string(),id:v.optional(v.id
 export const remove = mutation({args:{workspaceToken:v.string(),id:v.id("segments")},returns:v.null(),handler:async(ctx,{workspaceToken,id})=>{const row=await ctx.db.get(id);if(!row||row.historyHidden)throw new Error("Segment not found.");await ownedEpisode(ctx,workspaceToken,row.episodeId);if(await isTrialEpisode(ctx,row.episodeId)){await ctx.db.patch(id,{historyHidden:true});await recordTrialEdit(ctx,row.episodeId,'segment','Delete segment',row,null);}else await ctx.db.delete(id);return null;}});
 export const exportAll = query({args:{workspaceToken:v.string()},returns:v.array(v.object({episode:v.string(),label:v.string(),start_sec:v.number(),end_sec:v.number()})),handler:async(ctx,{workspaceToken})=>{
  const space=await workspace(ctx,workspaceToken);
- const eps=await ctx.db.query("episodes").withIndex("by_workspace",q=>q.eq("workspaceId",space._id)).take(1000);
+ const eps=await visibleEpisodes(ctx,space._id);
  const result=[];
  for(const ep of eps){const rows=await ctx.db.query("segments").withIndex("by_episode",q=>q.eq("episodeId",ep._id)).take(10000);for(const row of rows)if(!row.historyHidden&&row.reviewStatus!=="disqualified")result.push({episode:ep.name,label:row.label,start_sec:row.start_sec,end_sec:row.end_sec});}
  return result.sort((a,b)=>a.episode.localeCompare(b.episode)||a.start_sec-b.start_sec);

@@ -7,10 +7,15 @@ import {draftValue} from './projectSetup';
 import {authTables} from '@convex-dev/auth/server';
 export default defineSchema({
  ...authTables,
+ projectMembers:defineTable({projectId:v.id('projects'),userId:v.id('users'),role:v.union(v.literal('annotator'),v.literal('reviewer'))}).index('by_project',['projectId']).index('by_user',['userId']).index('by_project_user',['projectId','userId']),
+ projectInvites:defineTable({projectId:v.id('projects'),token:v.string(),role:v.union(v.literal('annotator'),v.literal('reviewer')),expiresAt:v.number(),usedBy:v.optional(v.id('users')),revoked:v.optional(v.boolean())}).index('by_token',['token']).index('by_project',['projectId']),
+ videoLeases:defineTable({episodeId:v.id('episodes'),userId:v.id('users'),expiresAt:v.number()}).index('by_episode',['episodeId']),
+ videoSessions:defineTable({episodeId:v.id('episodes'),userId:v.id('users'),position:v.number(),activity:v.string(),step:v.string(),updatedAt:v.number()}).index('by_user_episode',['userId','episodeId']).index('by_user',['userId']),
+ videoTrash:defineTable({episodeId:v.id('episodes'),workspaceId:v.id('workspaces'),sourceProject:v.optional(v.id('projects')),deletedAt:v.number(),purgeAfter:v.number()}).index('by_episode',['episodeId']).index('by_workspace',['workspaceId']).index('by_expiry',['purgeAfter']),
  setupDrafts:defineTable({episodeId:v.id('episodes'),draft:draftValue,episodeIds:v.optional(v.array(v.id('episodes'))),status:v.optional(v.union(v.literal('pending'),v.literal('completed'),v.literal('skipped')))}).index('by_episode',['episodeId']),
  projectSettings:defineTable({projectId:v.id('projects'),draft:draftValue}).index('by_project',['projectId']),
  r2Uploads:defineTable({workspaceId:v.id('workspaces'),key:v.string(),name:v.string(),size:v.number(),mime:v.string(),duration:v.number(),width:v.number(),height:v.number(),createdAt:v.number(),cleanedAt:v.optional(v.number()),episodeId:v.optional(v.id('episodes'))}).index('by_workspace',['workspaceId']).index('by_cleanup',['cleanedAt','createdAt']).index('by_created',['createdAt']),
- projects:defineTable({workspaceId:v.id('workspaces'),name:v.string(),thumbnail:v.optional(v.string()),updatedAt:v.number()}).index('by_workspace',['workspaceId']),
+ projects:defineTable({workspaceId:v.id('workspaces'),name:v.string(),thumbnail:v.optional(v.string()),updatedAt:v.number(),deletedAt:v.optional(v.number())}).index('by_workspace',['workspaceId']),
  projectVideos:defineTable({projectId:v.id('projects'),episodeId:v.id('episodes'),workspaceId:v.id('workspaces')}).index('by_project',['projectId']).index('by_episode',['episodeId']).index('by_workspace',['workspaceId']),
  trialHistoryState:defineTable({episodeId:v.id('episodes'),workspaceId:v.id('workspaces'),sequence:v.number()}).index('by_episode',['episodeId']),
  trialEditHistory:defineTable({episodeId:v.id('episodes'),workspaceId:v.id('workspaces'),sequence:v.number(),kind:v.union(v.literal('segment'),v.literal('outlines')),description:v.string(),before:v.string(),after:v.string(),undone:v.boolean()}).index('by_episode_sequence',['episodeId','sequence']).index('by_episode_state',['episodeId','undone','sequence']),
