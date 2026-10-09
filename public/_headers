@@ -6,3 +6,6 @@
   Cache-Control: public, max-age=3600
 /services/*
   Cache-Control: public, max-age=86400
+
+/mask-model/*
+  Cache-Control: public, max-age=31536000, immutable

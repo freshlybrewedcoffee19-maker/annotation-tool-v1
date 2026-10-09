@@ -6,7 +6,8 @@ import {ConvexHttpClient} from 'convex/browser';
 import {api} from '../convex/_generated/api';
 
 test('teammates join a project and video progress returns in a fresh browser',async({page,browser})=>{
- test.setTimeout(180000);
+ test.setTimeout(240000);
+ page.on('response',r=>{const u=new URL(r.url());if(u.hostname.endsWith('.r2.cloudflarestorage.com')&&r.request().method()==='GET')console.log('Private media:',r.status(),'origin:',r.headers()['access-control-allow-origin']??'missing','vary:',r.headers()['vary']??'missing');});page.on('requestfailed',r=>{if(r.resourceType()==='media')console.log('Private media failure:',r.failure()?.errorText);});
  const root=path.resolve('.'),url='https://precious-fish-294.convex.cloud';
  async function account(name:string){
   const email=`release-${randomUUID()}@example.invalid`,password=randomUUID()+'Aa1!';
@@ -32,7 +33,7 @@ test('teammates join a project and video progress returns in a fresh browser',as
  await page.getByLabel('Upload project videos').setInputFiles('public/sample.mp4');
  await expect(page.getByRole('button',{name:'Skip to annotation',exact:true})).toBeVisible({timeout:45000});
  await page.getByRole('button',{name:'Skip to annotation',exact:true}).click();
- await expect.poll(()=>page.locator('video').first().evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);
+ await expect.poll(()=>page.locator('video').first().evaluate((v:HTMLVideoElement)=>v.readyState),{timeout:20000}).toBeGreaterThanOrEqual(2);
  const workspaceToken=await owner.client.query(api.accounts.workspace,{});
  if(!workspaceToken)throw Error('Test workspace missing.');
  const episode=(await owner.client.query(api.annotations.episodes,{workspaceToken}))[0];
@@ -41,7 +42,10 @@ test('teammates join a project and video progress returns in a fresh browser',as
  await page.locator('video').first().evaluate((v:HTMLVideoElement)=>{v.currentTime=3;});
  await expect.poll(async()=> (await owner.client.query(api.sessions.load,args))?.position).toBe(3);
  await owner.client.mutation(api.boxes.save,{...args,boxes:[{id:'mask-outline',objectId:'release-object',name:'Release mask object',time:3,frameIndex:null,timing:'time',x:.2,y:.2,width:.4,height:.4}]});
- await page.getByRole('button',{name:'Pixel masks',exact:true}).click();await page.getByLabel('Mask object',{exact:true}).selectOption({label:'Release mask object'});await page.getByRole('button',{name:'Use current frame',exact:true}).click();await page.getByRole('button',{name:'Fill saved outline',exact:true}).click();await page.getByRole('button',{name:'Save mask',exact:true}).click();await expect(page.getByRole('button',{name:'Confirm mask',exact:true})).toBeEnabled();await page.getByRole('button',{name:'Confirm mask',exact:true}).click();await expect(page.getByRole('button',{name:'Export confirmed mask',exact:true})).toBeEnabled();
+ await page.getByRole('button',{name:'Pixel masks',exact:true}).click();await page.getByLabel('Mask object',{exact:true}).selectOption({label:'Release mask object'});await page.getByRole('button',{name:'Use current frame',exact:true}).click();if(process.env.EXPECT_MASK_SUGGESTIONS==='1'){
+  page.on('response',r=>{if(new URL(r.url()).pathname.startsWith('/mask-model/'))console.log('Model asset:',r.status(),new URL(r.url()).pathname);});
+  await page.getByRole('button',{name:'Add inside point',exact:true}).click();const canvas=page.getByLabel('Paint mask pixels');await canvas.scrollIntoViewIfNeeded();const r=await canvas.boundingBox();if(!r)throw Error('Mask frame missing');await page.mouse.click(r.x+r.width*.5,r.y+r.height*.5);await page.getByRole('button',{name:'Suggest mask',exact:true}).click();const report=setInterval(()=>void page.getByRole('region',{name:'Frame mask editor'}).getByRole('status').textContent().then(s=>console.log('Private mask:',s)).catch(()=>{}),10000);try{await expect(page.getByRole('button',{name:'Use previewed suggestion',exact:true})).toBeEnabled({timeout:150000});}finally{clearInterval(report);}await page.getByRole('button',{name:'Use previewed suggestion',exact:true}).click();await canvas.screenshot({path:'outputs/private-video-suggestion.png'});
+ }else await page.getByRole('button',{name:'Fill saved outline',exact:true}).click();await page.getByRole('button',{name:'Save mask',exact:true}).click();await expect(page.getByRole('button',{name:'Confirm mask',exact:true})).toBeEnabled();await page.getByRole('button',{name:'Confirm mask',exact:true}).click();await expect(page.getByRole('button',{name:'Export confirmed mask',exact:true})).toBeEnabled();
  const savedMask=(await owner.client.query(api.masks.list,args))[0];expect(savedMask.status).toBe('verified');expect((await owner.client.query(api.masks.get,{workspaceToken,id:savedMask._id})).runs.length).toBeGreaterThan(1);
  await page.goto('/workspace');
  await page.getByRole('button',{name:'sample',exact:true}).click();
@@ -56,7 +60,7 @@ test('teammates join a project and video progress returns in a fresh browser',as
  await other.getByRole('button',{name:'Join project',exact:true}).click();
  await expect(other.getByRole('heading',{name:'sample',exact:true})).toBeVisible({timeout:30000});
  await other.getByRole('button',{name:'sample.mp4',exact:true}).click();
- await expect.poll(()=>other.locator('video').first().evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);
+ await expect.poll(()=>other.locator('video').first().evaluate((v:HTMLVideoElement)=>v.readyState),{timeout:20000}).toBeGreaterThanOrEqual(2);
  await other.goto('/workspace');
  const freshContext=await browser.newContext(),fresh=await freshContext.newPage();
  await login(fresh,owner);

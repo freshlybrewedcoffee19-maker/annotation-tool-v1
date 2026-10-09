@@ -15,3 +15,6 @@ outputs/np-tools-owner.html
 benchmarks/nanotrack/iron-trial.mp4
 
 benchmarks/detection/.cache/
+
+# Reproducible, checksum-verified browser model assets
+public/mask-model/

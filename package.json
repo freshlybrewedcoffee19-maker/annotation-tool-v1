@@ -7,7 +7,8 @@
     "test": "playwright test",
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
-    "deploy": "node scripts/deploy.mjs"
+    "deploy": "node scripts/deploy.mjs",
+    "prebuild": "node scripts/prepare-mask-model.mjs"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "@aws-sdk/s3-request-presigner": "^3.1147.0",
     "@convex-dev/auth": "0.0.96",
     "@convex-dev/static-hosting": "^0.2.1",
+    "@huggingface/transformers": "4.3.1",
     "@playwright/test": "^1.63.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
