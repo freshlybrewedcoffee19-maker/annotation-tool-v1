@@ -1,0 +1,8 @@
+"Check","Result","Limit"
+"Commercial and usage checks","333 dependency entries plus component/model/media/provider rows reviewed","Declared package licences are not independent proof of all upstream rights; unresolved evidence remains listed"
+"Exact SlimSAM evidence","Pinned model card recovered and SHA-256 archived","Does not independently establish title to training data"
+"Exact ONNX evidence","Runtime commit LICENSE and ThirdPartyNotices recovered and SHA-256 archived","Precise CPU/WASM embedded-component and source obligations still need verification"
+"Build","npm run build passed on 2026-10-10","Existing use-client/chunk-size warnings remain; no annotation logic changed"
+"Code tests","32 tests across 16 files passed","No new real-microphone hardware test"
+"Notice browser check","Chrome passed heading, all four notice downloads, desktop screenshot and 390px phone fit","Local preview only; these notice changes have not been deployed"
+"Git scope","Only licence packaging, two notice links, terms footer link and audit files included","Earlier V2 test edits and unrelated outreach/outputs left outside this change"

@@ -1,0 +1,22 @@
+[
+  {
+    "file": "onnxruntime-LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/microsoft/onnxruntime/8d85527a010e294a26b274749f74294b2a32cec5/LICENSE",
+    "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c"
+  },
+  {
+    "file": "onnxruntime-ThirdPartyNotices.txt",
+    "url": "https://raw.githubusercontent.com/microsoft/onnxruntime/8d85527a010e294a26b274749f74294b2a32cec5/ThirdPartyNotices.txt",
+    "sha256": "143764b952fdb1a7c69ce653bfba74a7744d6a8a573bfb73e235fba356c83de3"
+  },
+  {
+    "file": "slimsam-model-card.txt",
+    "url": "https://huggingface.co/Xenova/slimsam-77-uniform/resolve/5850ab45f587c112167512ffef949107115e26a0/README.md",
+    "sha256": "93ae9259be974a58bee5e16bb68c42dcf511ea829f58aa405694af04d0296773"
+  },
+  {
+    "file": "nanotrack-README.txt",
+    "url": "https://raw.githubusercontent.com/HonglinChu/SiamTrackers/248663fde6bf7c40190cf10ee396d5662919ecd3/NanoTrack/README.md",
+    "sha256": "c49845b695fa89713677f163a40ee82d496bb5276e17cc107803d7de60f3c940"
+  }
+]

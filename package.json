@@ -8,7 +8,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
     "deploy": "node scripts/deploy.mjs",
-    "prebuild": "node scripts/prepare-mask-model.mjs && node scripts/prepare-tracking-model.mjs"
+    "prebuild": "node scripts/prepare-mask-model.mjs && node scripts/prepare-tracking-model.mjs && node scripts/prepare-third-party-notices.mjs"
   },
   "keywords": [],
   "author": "",
