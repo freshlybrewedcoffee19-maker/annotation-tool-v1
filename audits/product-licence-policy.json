@@ -2,14 +2,14 @@
   "recordedOn": "2026-10-10",
   "userRequirements": {
     "licenceFeesRoyaltiesMandatoryPaidCommercialLicence": "Exclude",
-    "RequiredUserFacingCompetitorLogosBrandOrCopyrightCredit": "Exclude; includes a separate notices page naming CVAT or Label Studio",
+    "RequiredUserFacingCompetitorLogosBrandOrCopyrightCredit": "Ordinary copyright and licence credit in a separate legal notices page is accepted. No promotional competitor logos or branding required in the annotation workspace.",
     "ModelAttribution": "Exception permitted by user for Llama and other models",
-    "MeaningOfDuties": "Clarification pending: monetary duties versus all licence obligations including ordinary legal notices"
+    "MeaningOfDuties": "User accepted ordinary legal notice obligations after explanation. Exclude unwanted licence purchases, royalties, revenue sharing and other unsuitable conditions; assess source-sharing and model-use obligations individually."
   },
   "decisions": [
-    {"item":"CVAT copied geometry", "status":"Does not meet no-competitor-credit requirement", "next":"Replace with independently authored geometry before removing applicable attribution from future builds. Preserve notices for any code still used or distributed. Do not merely rename copied code or strip headers."},
-    {"item":"Label Studio", "status":"Do not integrate competitor code requiring user-distributed attribution", "next":"Build own annotation features from agreed functional requirements; no Label Studio code is currently integrated."},
-    {"item":"MIT / Apache / BSD / ISC standard libraries", "status":"No mandatory licence fee in reviewed licence texts; still carry legal notice duties", "next":"Eligibility depends on pending clarification of duties. Do not remove React, Convex or other working dependencies based on an assumed answer."},
+    {"item":"CVAT copied geometry", "status":"Accepted under free commercial use with ordinary notices", "next":"Keep existing geometry and its MIT copyright/licence notices. No rewrite solely to avoid a copyright credit. Review licences and dependencies before any broader reuse."},
+    {"item":"Label Studio", "status":"Community-code reuse may be assessed under accepted notice policy", "next":"No code is currently integrated. Check each selected component, its dependencies and licence before reuse; community permission does not extend to separately licensed enterprise features."},
+    {"item":"MIT / Apache / BSD / ISC standard libraries", "status":"Eligible in principle: no mandatory licence fee in reviewed texts; ordinary notice duties accepted", "next":"Retain exact required licence/copyright notices and resolve missing attribution evidence. No claim all embedded binaries have been cleared."},
     {"item":"SlimSAM", "status":"Potentially eligible under model-credit exception; exact card declares Apache-2.0", "next":"Retain licence, source evidence and applicable notices; finish runtime embedded-component obligations separately."},
     {"item":"NanoTrack weights", "status":"Uncleared; no definitive weight-specific confirmation located", "next":"No newly cleared commercial reliance. Seek explicit weight grant or assess replacement with documented commercial weight permission; current feature not silently disabled."},
     {"item":"SAM 3 / Llama", "status":"Model credits are acceptable under user exception; use restrictions remain", "next":"Do not integrate until exact version, permitted customer use, notices and operational terms are satisfied. Charging for ordinary annotation is not itself prohibited."},
