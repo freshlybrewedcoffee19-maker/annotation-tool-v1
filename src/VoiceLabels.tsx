@@ -11,13 +11,14 @@ type SpeechResult={isFinal:boolean;0:{transcript:string}};
 type SpeechEvent={resultIndex:number;results:ArrayLike<SpeechResult>};
 type Recognition={continuous:boolean;interimResults:boolean;lang:string;start:()=>void;stop:()=>void;abort:()=>void;onstart:(()=>void)|null;onend:(()=>void)|null;onerror:((event:{error:string})=>void)|null;onresult:((event:SpeechEvent)=>void)|null};
 type SpeechWindow=Window&{SpeechRecognition?:new()=>Recognition;webkitSpeechRecognition?:new()=>Recognition};
-export function VoiceLabels({episodeId,labels,video,active=true,navigate,reviewMode=false,compact=false}:{compact?:boolean;episodeId:Id<'episodes'>;labels:string[];video:RefObject<HTMLVideoElement|null>;active?:boolean;navigate?:(activity:Activity)=>void;reviewMode?:boolean}){
+export function VoiceLabels({episodeId,labels,video,active=true,navigate,reviewMode=false,compact=false,onToolCommand}:{onToolCommand?:(words:string,execute:boolean)=>boolean;compact?:boolean;episodeId:Id<'episodes'>;labels:string[];video:RefObject<HTMLVideoElement|null>;active?:boolean;navigate?:(activity:Activity)=>void;reviewMode?:boolean}){
  const {workspaceToken,kind}=useWorkspace();
  const save=useMutation(api.annotations.save);const objects=useQuery(api.boxes.objects,{workspaceToken,episodeId});
  const [listening,setListening]=useState(false),[heard,setHeard]=useState(''),[message,setMessage]=useState(''),[state,setState]=useState<VoiceState>({waiting:'start',start_sec:null,end_sec:null,error:null}),[failed,setFailed]=useState<VoiceSegment[]>([]);
  const [pending,setPending]=useState(0);
  const [mode,setMode]=useState<'labels'|'objects'>('labels');const modeRef=useRef(mode);
  const recognition=useRef<Recognition|null>(null),wanted=useRef(false),latestLabels=useRef(labels);
+ const toolCommandRef=useRef(onToolCommand);toolCommandRef.current=onToolCommand;
  latestLabels.current=labels;
  useEffect(()=>{window.dispatchEvent(new CustomEvent('cv-mic-state',{detail:{listening,episodeId}}));},[listening,episodeId]);
  useEffect(()=>{window.dispatchEvent(new CustomEvent('cv-voice-progress',{detail:{episodeId,state}}));},[state,episodeId]);
@@ -55,6 +56,7 @@ export function VoiceLabels({episodeId,labels,video,active=true,navigate,reviewM
    for(let i=event.resultIndex;i<event.results.length;i++){
     const result=event.results[i];setHeard(result[0].transcript);
     const words=normalizeSpeech(result[0].transcript);
+    if(toolCommandRef.current?.(words,false)){if(result.isFinal&&!visibilityResults.has(i)){visibilityResults.add(i);toolCommandRef.current(words,true);}continue;}
     const destinations:Record<string,Activity>={'open labels':'actions','open action labels':'actions','open objects':'objects','open visibility':'visibility','open relationships':'relationships','open review':'review','open export':'export','open detection':'detection','open tracking':'tracking','open masks':'masks','open team review':'team'};
     if(destinations[words]){if(result.isFinal&&!visibilityResults.has(i)){visibilityResults.add(i);navigate?.(destinations[words]);}continue;}
     const dashboardCommands=['play video','pause video','draw box','draw polygon','save labels','export csv','export json','guide me','work independently'];

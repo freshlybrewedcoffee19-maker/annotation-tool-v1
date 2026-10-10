@@ -13,7 +13,7 @@ export async function requireProjectPermission(ctx:QueryCtx,id:Id<'episodes'>,mo
 export async function visibleEpisodes(ctx:QueryCtx,spaceId:Id<'workspaces'>){
  const own=await ctx.db.query('episodes').withIndex('by_workspace',q=>q.eq('workspaceId',spaceId)).take(1000),user=await getAuthUserId(ctx);const all=new Map(own.map(e=>[e._id,e]));
  if(user&&(await ctx.db.get(spaceId))?.userId===user){const memberships=await ctx.db.query('projectMembers').withIndex('by_user',q=>q.eq('userId',user)).take(51);if(memberships.length>50)throw Error('Shared projects need review before opening.');for(const member of memberships){const project=await ctx.db.get(member.projectId);if(!project||project.deletedAt)continue;const links=await ctx.db.query('projectVideos').withIndex('by_project',q=>q.eq('projectId',project._id)).take(1000);for(const link of links){const ep=await ctx.db.get(link.episodeId);if(ep)all.set(ep._id,ep);}}}
- const result=[];for(const ep of all.values())if(await activeEpisode(ctx,ep._id))result.push(ep);return result;
+ const result=[];for(const ep of all.values())if(!await ctx.db.query('v2Videos').withIndex('by_episode',q=>q.eq('episodeId',ep._id)).unique()&&await activeEpisode(ctx,ep._id))result.push(ep);return result;
 }
 export async function activeEpisode(ctx:QueryCtx,id:Id<'episodes'>){if(await ctx.db.query('videoTrash').withIndex('by_episode',q=>q.eq('episodeId',id)).unique())return false;const projectId=await episodeProject(ctx,id);return !projectId||!(await ctx.db.get(projectId))?.deletedAt;}
 export async function editLease(ctx:MutationCtx,id:Id<'episodes'>){

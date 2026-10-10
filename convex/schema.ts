@@ -6,7 +6,10 @@ import {trackFields} from './tracks';
 import {draftValue} from './projectSetup';
 import {authTables} from '@convex-dev/auth/server';
 import {maskFields} from './masks';
+import {shapeFields} from './v2Values';
 export default defineSchema({
+ v2Videos:defineTable({workspaceId:v.id('workspaces'),episodeId:v.id('episodes'),sample:v.boolean()}).index('by_workspace',['workspaceId']).index('by_episode',['episodeId']),
+ v2Shapes:defineTable(shapeFields).index('by_episode',['episodeId']).index('by_episode_key',['episodeId','key']),
  maskPixels:defineTable({episodeId:v.id('episodes'),maskId:v.id('pixelMasks'),runs:v.array(v.number())}).index('by_episode',['episodeId']).index('by_mask',['maskId']),
  pixelMasks:defineTable(maskFields).index('by_episode',['episodeId']),
  ...authTables,
@@ -17,7 +20,7 @@ export default defineSchema({
  videoTrash:defineTable({episodeId:v.id('episodes'),workspaceId:v.id('workspaces'),sourceProject:v.optional(v.id('projects')),deletedAt:v.number(),purgeAfter:v.number(),projectDeletionAt:v.optional(v.number()),purgeStartedAt:v.optional(v.number()),mediaRemovedAt:v.optional(v.number())}).index('by_episode',['episodeId']).index('by_workspace',['workspaceId']).index('by_expiry',['purgeAfter']),
  setupDrafts:defineTable({episodeId:v.id('episodes'),draft:draftValue,episodeIds:v.optional(v.array(v.id('episodes'))),status:v.optional(v.union(v.literal('pending'),v.literal('completed'),v.literal('skipped')))}).index('by_episode',['episodeId']),
  projectSettings:defineTable({projectId:v.id('projects'),draft:draftValue}).index('by_project',['projectId']),
- r2Uploads:defineTable({workspaceId:v.id('workspaces'),key:v.string(),name:v.string(),size:v.number(),mime:v.string(),duration:v.number(),width:v.number(),height:v.number(),createdAt:v.number(),cleanedAt:v.optional(v.number()),episodeId:v.optional(v.id('episodes'))}).index('by_workspace',['workspaceId']).index('by_cleanup',['cleanedAt','createdAt']).index('by_created',['createdAt']).index('by_episode',['episodeId']),
+ r2Uploads:defineTable({version:v.optional(v.literal(2)),workspaceId:v.id('workspaces'),key:v.string(),name:v.string(),size:v.number(),mime:v.string(),duration:v.number(),width:v.number(),height:v.number(),createdAt:v.number(),cleanedAt:v.optional(v.number()),episodeId:v.optional(v.id('episodes'))}).index('by_workspace',['workspaceId']).index('by_cleanup',['cleanedAt','createdAt']).index('by_created',['createdAt']).index('by_episode',['episodeId']),
  projects:defineTable({workspaceId:v.id('workspaces'),name:v.string(),thumbnail:v.optional(v.string()),updatedAt:v.number(),deletedAt:v.optional(v.number()),purgeAfter:v.optional(v.number())}).index('by_workspace',['workspaceId']).index('by_purge',['purgeAfter']),
  projectVideos:defineTable({projectId:v.id('projects'),episodeId:v.id('episodes'),workspaceId:v.id('workspaces')}).index('by_project',['projectId']).index('by_episode',['episodeId']).index('by_workspace',['workspaceId']),
  trialHistoryState:defineTable({episodeId:v.id('episodes'),workspaceId:v.id('workspaces'),sequence:v.number()}).index('by_episode',['episodeId']),

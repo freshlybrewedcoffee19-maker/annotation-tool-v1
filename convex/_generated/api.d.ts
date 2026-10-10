@@ -39,6 +39,8 @@ import type * as trial from "../trial.js";
 import type * as trialHistory from "../trialHistory.js";
 import type * as trialHistoryHelpers from "../trialHistoryHelpers.js";
 import type * as usage from "../usage.js";
+import type * as v2 from "../v2.js";
+import type * as v2Values from "../v2Values.js";
 import type * as visibility from "../visibility.js";
 import type * as workspaces from "../workspaces.js";
 
@@ -80,6 +82,8 @@ declare const fullApi: ApiFromModules<{
   trialHistory: typeof trialHistory;
   trialHistoryHelpers: typeof trialHistoryHelpers;
   usage: typeof usage;
+  v2: typeof v2;
+  v2Values: typeof v2Values;
   visibility: typeof visibility;
   workspaces: typeof workspaces;
 }>;

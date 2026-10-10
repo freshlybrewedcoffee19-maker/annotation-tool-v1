@@ -6,7 +6,7 @@ import type {Id,Doc} from './_generated/dataModel';
 import {PutObjectCommand,GetObjectCommand,HeadObjectCommand,CopyObjectCommand,DeleteObjectCommand} from '@aws-sdk/client-s3';
 import {getSignedUrl} from '@aws-sdk/s3-request-presigner';
 import {r2Client} from './r2Client';
-export const begin=action({args:{workspaceToken:v.string(),name:v.string(),size:v.number(),mime:v.string(),duration:v.number(),width:v.number(),height:v.number(),projectId:v.optional(v.id('projects'))},returns:v.object({uploadId:v.id('r2Uploads'),url:v.string()}),handler:async(ctx,args):Promise<{uploadId:Id<'r2Uploads'>;url:string}>=>{
+export const begin=action({args:{workspaceToken:v.string(),name:v.string(),size:v.number(),mime:v.string(),version:v.optional(v.literal(2)),duration:v.number(),width:v.number(),height:v.number(),projectId:v.optional(v.id('projects'))},returns:v.object({uploadId:v.id('r2Uploads'),url:v.string()}),handler:async(ctx,args):Promise<{uploadId:Id<'r2Uploads'>;url:string}>=>{
  const owner=await ctx.runQuery(internal.r2Records.owner,{workspaceToken:args.workspaceToken});const {client,bucket}=r2Client();const key=`staging/${owner}/${crypto.randomUUID()}`;
  const uploadId=await ctx.runMutation(internal.r2Records.reserve,{...args,key});const url=await getSignedUrl(client,new PutObjectCommand({Bucket:bucket,Key:key,ContentType:args.mime,ContentLength:args.size}),{expiresIn:3600});return {uploadId,url};
 }});
