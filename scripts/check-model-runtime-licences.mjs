@@ -1,0 +1,8 @@
+import fs from 'node:fs';
+import {createHash} from 'node:crypto';
+const ort='8d85527a010e294a26b274749f74294b2a32cec5',nano='248663fde6bf7c40190cf10ee396d5662919ecd3';
+const targets=[['nano-tree',`https://api.github.com/repos/HonglinChu/SiamTrackers/git/trees/${nano}?recursive=1`],['ort-wasm-cmake',`https://raw.githubusercontent.com/microsoft/onnxruntime/${ort}/cmake/onnxruntime_webassembly.cmake`],['ort-eigen-cmake',`https://raw.githubusercontent.com/microsoft/onnxruntime/${ort}/cmake/external/eigen.cmake`],['ort-deps',`https://raw.githubusercontent.com/microsoft/onnxruntime/${ort}/cmake/deps.txt`],['ort-wasm-workflow',`https://raw.githubusercontent.com/microsoft/onnxruntime/${ort}/tools/ci_build/github/azure-pipelines/wasm-ci.yml`]];
+fs.mkdirSync('audits/model-runtime-evidence',{recursive:true});
+const results=await Promise.all(targets.map(async([name,url])=>{const r=await fetch(url,{headers:{'User-Agent':'CheddarVox-notice-audit'}});const body=await r.text();fs.writeFileSync(`audits/model-runtime-evidence/${name}.txt`,body);const result={name,url,status:r.status,sha256:createHash('sha256').update(body).digest('hex')};if(name==='nano-tree'&&r.ok){const tree=JSON.parse(body);result.truncated=tree.truncated;result.relevantPaths=tree.tree.filter(x=>x.path.startsWith('NanoTrack/')&&(/licen[sc]e|notice|readme|nanotrackv3/i.test(x.path))).map(x=>x.path);}return result;}));
+fs.writeFileSync('audits/model-runtime-evidence/results.json',JSON.stringify({checkedAt:new Date().toISOString(),results},null,2)+'\n');
+for(const r of results)console.log(r.name,r.status,r.relevantPaths??'');
