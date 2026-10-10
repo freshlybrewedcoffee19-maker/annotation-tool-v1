@@ -201,7 +201,8 @@
     "noticeStatus": "Upstream main licence/copyright text unresolved",
     "collectedNoticeFiles": [
       "Embedded attribution retained from src/server/provider_utils.ts",
-      "Embedded attribution retained from src/nextjs/server/routeMatcher.ts"
+      "Embedded attribution retained from src/nextjs/server/routeMatcher.ts",
+      "src/server/oauth/NOTICE.txt (exact published source revision)"
     ]
   },
   {

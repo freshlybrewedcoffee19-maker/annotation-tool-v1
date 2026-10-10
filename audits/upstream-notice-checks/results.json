@@ -1,0 +1,83 @@
+{
+  "checkedAt": "2026-10-10T14:27:45.275Z",
+  "note": "Current AWS main files are context only, not version-matched clearance. HTTP errors are not proof of absent rights.",
+  "results": [
+    {
+      "name": "convex-oauth-notice",
+      "url": "https://raw.githubusercontent.com/get-convex/convex-auth/7eab86015b09cf91ac36a359beaaa4036aa24cc1/src/server/oauth/NOTICE.txt",
+      "status": 200,
+      "sha256": "d6ed1730b7d96c2e57bedf030036fdbf48c9b9f341699175544aa627d218c0e3"
+    },
+    {
+      "name": "convex-test-license",
+      "url": "https://raw.githubusercontent.com/get-convex/convex-auth/7eab86015b09cf91ac36a359beaaa4036aa24cc1/test-nextjs/LICENSE.txt",
+      "status": 200,
+      "sha256": "dec23a93339dc3b52bad1ee6cc96f452a6aaea5fc89a5e58150ee4370f71945e"
+    },
+    {
+      "name": "guid-master-tree",
+      "url": "https://api.github.com/repos/snico-dev/guid-typescript/git/trees/master?recursive=1",
+      "status": 200,
+      "sha256": "6d55fe9a41a94bbacb183290772c3d1877691a88381dd1de6d4653a01c14dedf",
+      "noticePaths": []
+    },
+    {
+      "name": "aws-release",
+      "url": "https://api.github.com/repos/aws/aws-sdk-js-v3/git/ref/tags/v3.997.0",
+      "status": 200,
+      "sha256": "4f828539ba6bc6327fc6d8d4e79dc9b3be4abaabee08c0edae502198418af9b9"
+    },
+    {
+      "name": "convex-auth-package",
+      "url": "https://raw.githubusercontent.com/get-convex/convex-auth/7eab86015b09cf91ac36a359beaaa4036aa24cc1/package.json",
+      "status": 200,
+      "sha256": "9160e9d138b6e6d1d20528685d2b53445135268a4cf6713b159eac571a4b2aa0"
+    },
+    {
+      "name": "convex-auth-tree",
+      "url": "https://api.github.com/repos/get-convex/convex-auth/git/trees/7eab86015b09cf91ac36a359beaaa4036aa24cc1?recursive=1",
+      "status": 200,
+      "sha256": "f6d4d4e08f6430c91441e568b8f10f96b84d16f6ee57d72eb86d314fa276f94b",
+      "noticePaths": [
+        "src/server/oauth/NOTICE.txt",
+        "test-nextjs/LICENSE.txt"
+      ]
+    },
+    {
+      "name": "guid-tree",
+      "url": "https://api.github.com/repos/snico-dev/guid-typescript/git/trees/1870de806c3db7ba46c5b8a1387c60fc9dda9284?recursive=1",
+      "status": 422,
+      "sha256": "9aa3b16b4ac72e8416868eea03fb74481e7c94aed7a4fd383044e5ab58c79d77"
+    },
+    {
+      "name": "aws-http",
+      "url": "https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/packages-internal/credential-provider-http/LICENSE",
+      "status": 404,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed"
+    },
+    {
+      "name": "aws-login",
+      "url": "https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/packages-internal/credential-provider-login/LICENSE",
+      "status": 404,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed"
+    },
+    {
+      "name": "aws-nested",
+      "url": "https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/packages-internal/nested-clients/LICENSE",
+      "status": 404,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed"
+    },
+    {
+      "name": "aws-root",
+      "url": "https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/LICENSE",
+      "status": 200,
+      "sha256": "edea91454b811f127fbdea3d86f378f6719bd372ed440abf82b232f6fca06c3d"
+    },
+    {
+      "name": "server-only",
+      "url": "https://registry.npmjs.org/server-only/0.0.1",
+      "status": 200,
+      "sha256": "582afeb39de054dae176460e6e632230a1aa23e66e6d693bb5b50e5bbbae45d3"
+    }
+  ]
+}

@@ -4,3 +4,4 @@ scripts/license-evidence/** -text
 scripts/license-evidence/*.txt whitespace=-trailing-space,-blank-at-eof
 public/licenses/*notices.txt -text whitespace=-trailing-space,-blank-at-eof
 public/licenses/onnxruntime-ThirdPartyNotices.txt -text whitespace=-trailing-space,-blank-at-eof
+audits/upstream-notice-checks/** -text whitespace=-trailing-space,-blank-at-eof

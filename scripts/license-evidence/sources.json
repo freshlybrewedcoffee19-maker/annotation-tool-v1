@@ -18,5 +18,10 @@
     "file": "nanotrack-README.txt",
     "url": "https://raw.githubusercontent.com/HonglinChu/SiamTrackers/248663fde6bf7c40190cf10ee396d5662919ecd3/NanoTrack/README.md",
     "sha256": "c49845b695fa89713677f163a40ee82d496bb5276e17cc107803d7de60f3c940"
+  },
+  {
+    "file": "convex-auth-oauth-NOTICE.txt",
+    "url": "https://raw.githubusercontent.com/get-convex/convex-auth/7eab86015b09cf91ac36a359beaaa4036aa24cc1/src/server/oauth/NOTICE.txt",
+    "sha256": "d6ed1730b7d96c2e57bedf030036fdbf48c9b9f341699175544aa627d218c0e3"
   }
 ]
