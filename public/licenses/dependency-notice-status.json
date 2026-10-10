@@ -4,832 +4,1188 @@
     "version": "0.41.3",
     "license": "ISC",
     "location": "node_modules/@auth/core",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/checksums",
     "version": "3.1001.1",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/checksums",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/client-s3",
     "version": "3.1147.0",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/client-s3",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/core",
     "version": "3.978.1",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/core",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/credential-provider-env",
     "version": "3.972.72",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/credential-provider-env",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/credential-provider-http",
     "version": "3.972.74",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/credential-provider-http",
-    "noticeStatus": "Upstream licence/copyright text unresolved"
+    "noticeStatus": "Upstream main licence/copyright text unresolved",
+    "collectedNoticeFiles": []
   },
   {
     "name": "@aws-sdk/credential-provider-ini",
     "version": "3.973.17",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/credential-provider-ini",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/credential-provider-login",
     "version": "3.972.79",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/credential-provider-login",
-    "noticeStatus": "Upstream licence/copyright text unresolved"
+    "noticeStatus": "Upstream main licence/copyright text unresolved",
+    "collectedNoticeFiles": []
   },
   {
     "name": "@aws-sdk/credential-provider-node",
     "version": "3.972.84",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/credential-provider-node",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/credential-provider-process",
     "version": "3.972.72",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/credential-provider-process",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/credential-provider-sso",
     "version": "3.973.16",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/credential-provider-sso",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/credential-provider-web-identity",
     "version": "3.972.78",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/credential-provider-web-identity",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/middleware-sdk-s3",
     "version": "3.972.77",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/middleware-sdk-s3",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/nested-clients",
     "version": "3.997.46",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/nested-clients",
-    "noticeStatus": "Upstream licence/copyright text unresolved"
+    "noticeStatus": "Upstream main licence/copyright text unresolved",
+    "collectedNoticeFiles": []
   },
   {
     "name": "@aws-sdk/s3-request-presigner",
     "version": "3.1147.0",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/s3-request-presigner",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/signature-v4-multi-region",
     "version": "3.996.47",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/signature-v4-multi-region",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/token-providers",
     "version": "3.1138.0",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/token-providers",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/types",
     "version": "3.974.6",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/types",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws-sdk/xml-builder",
     "version": "3.972.41",
     "license": "Apache-2.0",
     "location": "node_modules/@aws-sdk/xml-builder",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@aws/lambda-invoke-store",
     "version": "0.3.0",
     "license": "Apache-2.0",
     "location": "node_modules/@aws/lambda-invoke-store",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@convex-dev/auth",
     "version": "0.0.96",
     "license": "Apache-2.0",
     "location": "node_modules/@convex-dev/auth",
-    "noticeStatus": "Upstream licence/copyright text unresolved"
+    "noticeStatus": "Upstream main licence/copyright text unresolved",
+    "collectedNoticeFiles": [
+      "Embedded attribution retained from src/server/provider_utils.ts",
+      "Embedded attribution retained from src/nextjs/server/routeMatcher.ts"
+    ]
   },
   {
     "name": "jose",
     "version": "5.10.0",
     "license": "MIT",
     "location": "node_modules/@convex-dev/auth/node_modules/jose",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE.md"
+    ]
   },
   {
     "name": "@convex-dev/static-hosting",
     "version": "0.2.1",
     "license": "Apache-2.0",
     "location": "node_modules/@convex-dev/static-hosting",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@esbuild/win32-x64",
     "version": "0.27.0",
     "license": "MIT",
     "location": "node_modules/@esbuild/win32-x64",
-    "noticeStatus": "Upstream licence/copyright text unresolved"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "esbuild 0.27.0/LICENSE.md"
+    ]
   },
   {
     "name": "@huggingface/jinja",
     "version": "0.5.10",
     "license": "MIT",
     "location": "node_modules/@huggingface/jinja",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@huggingface/tokenizers",
     "version": "0.2.0",
     "license": "Apache-2.0",
     "location": "node_modules/@huggingface/tokenizers",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@huggingface/transformers",
     "version": "4.3.1",
     "license": "Apache-2.0",
     "location": "node_modules/@huggingface/transformers",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@img/colour",
     "version": "1.1.0",
     "license": "MIT",
     "location": "node_modules/@img/colour",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE.md"
+    ]
   },
   {
     "name": "@img/sharp-win32-x64",
     "version": "0.35.5",
     "license": "Apache-2.0 AND LGPL-3.0-or-later",
     "location": "node_modules/@img/sharp-win32-x64",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@oslojs/asn1",
     "version": "1.0.0",
     "license": "MIT",
     "location": "node_modules/@oslojs/asn1",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@oslojs/binary",
     "version": "1.0.0",
     "license": "MIT",
     "location": "node_modules/@oslojs/binary",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@oslojs/crypto",
     "version": "1.0.1",
     "license": "MIT",
     "location": "node_modules/@oslojs/crypto",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@oslojs/encoding",
     "version": "1.1.0",
     "license": "MIT",
     "location": "node_modules/@oslojs/encoding",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@oxc-project/types",
     "version": "0.152.0",
     "license": "MIT",
     "location": "node_modules/@oxc-project/types",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@panva/hkdf",
     "version": "1.2.1",
     "license": "MIT",
     "location": "node_modules/@panva/hkdf",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE.md"
+    ]
   },
   {
     "name": "@playwright/test",
     "version": "1.63.0",
     "license": "Apache-2.0",
     "location": "node_modules/@playwright/test",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE",
+      "NOTICE"
+    ]
   },
   {
     "name": "@protobufjs/aspromise",
     "version": "1.1.2",
     "license": "BSD-3-Clause",
     "location": "node_modules/@protobufjs/aspromise",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@protobufjs/base64",
     "version": "1.1.2",
     "license": "BSD-3-Clause",
     "location": "node_modules/@protobufjs/base64",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@protobufjs/codegen",
     "version": "2.0.5",
     "license": "BSD-3-Clause",
     "location": "node_modules/@protobufjs/codegen",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@protobufjs/eventemitter",
     "version": "1.1.1",
     "license": "BSD-3-Clause",
     "location": "node_modules/@protobufjs/eventemitter",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@protobufjs/fetch",
     "version": "1.1.1",
     "license": "BSD-3-Clause",
     "location": "node_modules/@protobufjs/fetch",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@protobufjs/float",
     "version": "1.0.2",
     "license": "BSD-3-Clause",
     "location": "node_modules/@protobufjs/float",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@protobufjs/path",
     "version": "1.1.2",
     "license": "BSD-3-Clause",
     "location": "node_modules/@protobufjs/path",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@protobufjs/pool",
     "version": "1.1.0",
     "license": "BSD-3-Clause",
     "location": "node_modules/@protobufjs/pool",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@protobufjs/utf8",
     "version": "1.1.2",
     "license": "BSD-3-Clause",
     "location": "node_modules/@protobufjs/utf8",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@rolldown/binding-win32-x64-msvc",
     "version": "1.2.12",
     "license": "MIT",
     "location": "node_modules/@rolldown/binding-win32-x64-msvc",
-    "noticeStatus": "Upstream licence/copyright text unresolved"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "rolldown 1.2.12/LICENSE",
+      "rolldown 1.2.12/THIRD-PARTY-LICENSE"
+    ]
   },
   {
     "name": "@rolldown/pluginutils",
     "version": "1.0.1",
     "license": "MIT",
     "location": "node_modules/@rolldown/pluginutils",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@smithy/core",
     "version": "3.35.1",
     "license": "Apache-2.0",
     "location": "node_modules/@smithy/core",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@smithy/credential-provider-imds",
     "version": "4.5.2",
     "license": "Apache-2.0",
     "location": "node_modules/@smithy/credential-provider-imds",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@smithy/fetch-http-handler",
     "version": "5.8.0",
     "license": "Apache-2.0",
     "location": "node_modules/@smithy/fetch-http-handler",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@smithy/node-http-handler",
     "version": "4.12.1",
     "license": "Apache-2.0",
     "location": "node_modules/@smithy/node-http-handler",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@smithy/signature-v4",
     "version": "5.7.4",
     "license": "Apache-2.0",
     "location": "node_modules/@smithy/signature-v4",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@smithy/types",
     "version": "4.19.0",
     "license": "Apache-2.0",
     "location": "node_modules/@smithy/types",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@types/node",
     "version": "26.6.4",
     "license": "MIT",
     "location": "node_modules/@types/node",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@types/react",
     "version": "19.3.0",
     "license": "MIT",
     "location": "node_modules/@types/react",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@types/react-dom",
     "version": "19.3.0",
     "license": "MIT",
     "location": "node_modules/@types/react-dom",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "@typescript/typescript-win32-x64",
     "version": "7.0.2",
     "license": "Apache-2.0",
     "location": "node_modules/@typescript/typescript-win32-x64",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE",
+      "NOTICE.txt"
+    ]
   },
   {
     "name": "adm-zip",
     "version": "0.6.1",
     "license": "MIT",
     "location": "node_modules/adm-zip",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "bowser",
     "version": "2.14.1",
     "license": "MIT",
     "location": "node_modules/bowser",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "convex",
     "version": "1.46.0",
     "license": "Apache-2.0",
     "location": "node_modules/convex",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "cookie",
     "version": "1.1.1",
     "license": "MIT",
     "location": "node_modules/cookie",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "csstype",
     "version": "3.2.3",
     "license": "MIT",
     "location": "node_modules/csstype",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "define-data-property",
     "version": "1.1.4",
     "license": "MIT",
     "location": "node_modules/define-data-property",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "define-properties",
     "version": "1.2.1",
     "license": "MIT",
     "location": "node_modules/define-properties",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "detect-libc",
     "version": "2.1.2",
     "license": "Apache-2.0",
     "location": "node_modules/detect-libc",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "es-define-property",
     "version": "1.0.1",
     "license": "MIT",
     "location": "node_modules/es-define-property",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "es-errors",
     "version": "1.3.0",
     "license": "MIT",
     "location": "node_modules/es-errors",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "esbuild",
     "version": "0.27.0",
     "license": "MIT",
     "location": "node_modules/esbuild",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE.md"
+    ]
   },
   {
     "name": "escape-string-regexp",
     "version": "4.0.0",
     "license": "MIT",
     "location": "node_modules/escape-string-regexp",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "license"
+    ]
   },
   {
     "name": "fdir",
     "version": "6.5.0",
     "license": "MIT",
     "location": "node_modules/fdir",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "fflate",
     "version": "0.8.3",
     "license": "MIT",
     "location": "node_modules/fflate",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "flatbuffers",
     "version": "25.9.23",
     "license": "Apache-2.0",
     "location": "node_modules/flatbuffers",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "global-agent",
     "version": "4.1.3",
     "license": "BSD-3-Clause",
     "location": "node_modules/global-agent",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "globalthis",
     "version": "1.0.4",
     "license": "MIT",
     "location": "node_modules/globalthis",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "gopd",
     "version": "1.2.0",
     "license": "MIT",
     "location": "node_modules/gopd",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "guid-typescript",
     "version": "1.0.9",
     "license": "ISC",
     "location": "node_modules/guid-typescript",
-    "noticeStatus": "Upstream licence/copyright text unresolved"
+    "noticeStatus": "Upstream main licence/copyright text unresolved",
+    "collectedNoticeFiles": []
   },
   {
     "name": "has-property-descriptors",
     "version": "1.0.2",
     "license": "MIT",
     "location": "node_modules/has-property-descriptors",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "is-network-error",
     "version": "1.3.2",
     "license": "MIT",
     "location": "node_modules/is-network-error",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "license"
+    ]
   },
   {
     "name": "jose",
     "version": "6.2.12",
     "license": "MIT",
     "location": "node_modules/jose",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE.md"
+    ]
   },
   {
     "name": "jwt-decode",
     "version": "4.0.0",
     "license": "MIT",
     "location": "node_modules/jwt-decode",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "lightningcss",
     "version": "1.33.0",
     "license": "MPL-2.0",
     "location": "node_modules/lightningcss",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "lightningcss-win32-x64-msvc",
     "version": "1.33.0",
     "license": "MPL-2.0",
     "location": "node_modules/lightningcss-win32-x64-msvc",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "long",
     "version": "5.3.2",
     "license": "Apache-2.0",
     "location": "node_modules/long",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "lucia",
     "version": "3.2.2",
     "license": "MIT",
     "location": "node_modules/lucia",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "matcher",
     "version": "4.0.0",
     "license": "MIT",
     "location": "node_modules/matcher",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "license"
+    ]
   },
   {
     "name": "nanoid",
     "version": "3.3.19",
     "license": "MIT",
     "location": "node_modules/nanoid",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "oauth4webapi",
     "version": "3.8.8",
     "license": "MIT",
     "location": "node_modules/oauth4webapi",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE.md"
+    ]
   },
   {
     "name": "object-keys",
     "version": "1.1.1",
     "license": "MIT",
     "location": "node_modules/object-keys",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "onnxruntime-common",
     "version": "1.30.0",
     "license": "MIT",
     "location": "node_modules/onnxruntime-common",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "Microsoft ONNX Runtime licence"
+    ]
   },
   {
     "name": "onnxruntime-node",
     "version": "1.30.0",
     "license": "MIT",
     "location": "node_modules/onnxruntime-node",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "Microsoft ONNX Runtime licence"
+    ]
   },
   {
     "name": "onnxruntime-web",
     "version": "1.31.0-dev.20260914-8d85527a0",
     "license": "MIT",
     "location": "node_modules/onnxruntime-web",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "Microsoft ONNX Runtime licence"
+    ]
   },
   {
     "name": "onnxruntime-common",
     "version": "1.31.0-dev.20260911-2a43ec07e",
     "license": "MIT",
     "location": "node_modules/onnxruntime-web/node_modules/onnxruntime-common",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "Microsoft ONNX Runtime licence"
+    ]
   },
   {
     "name": "path-to-regexp",
     "version": "6.3.0",
     "license": "MIT",
     "location": "node_modules/path-to-regexp",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "picocolors",
     "version": "1.1.1",
     "license": "ISC",
     "location": "node_modules/picocolors",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "picomatch",
     "version": "4.0.7",
     "license": "MIT",
     "location": "node_modules/picomatch",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "platform",
     "version": "1.3.6",
     "license": "MIT",
     "location": "node_modules/platform",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "playwright",
     "version": "1.63.0",
     "license": "Apache-2.0",
     "location": "node_modules/playwright",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE",
+      "NOTICE"
+    ]
   },
   {
     "name": "playwright-core",
     "version": "1.63.0",
     "license": "Apache-2.0",
     "location": "node_modules/playwright-core",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE",
+      "NOTICE"
+    ]
   },
   {
     "name": "postcss",
     "version": "8.5.28",
     "license": "MIT",
     "location": "node_modules/postcss",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "preact",
     "version": "10.24.3",
     "license": "MIT",
     "location": "node_modules/preact",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "preact-render-to-string",
     "version": "6.5.11",
     "license": "MIT",
     "location": "node_modules/preact-render-to-string",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "prettier",
     "version": "3.9.9",
     "license": "MIT",
     "location": "node_modules/prettier",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE",
+      "THIRD-PARTY-NOTICES.md"
+    ]
   },
   {
     "name": "protobufjs",
     "version": "7.6.6",
     "license": "BSD-3-Clause",
     "location": "node_modules/protobufjs",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "react",
     "version": "19.3.0",
     "license": "MIT",
     "location": "node_modules/react",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "react-dom",
     "version": "19.3.0",
     "license": "MIT",
     "location": "node_modules/react-dom",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "rolldown",
     "version": "1.2.12",
     "license": "MIT",
     "location": "node_modules/rolldown",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE",
+      "THIRD-PARTY-LICENSE"
+    ]
   },
   {
     "name": "scheduler",
     "version": "0.28.0",
     "license": "MIT",
     "location": "node_modules/scheduler",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "semver",
     "version": "7.8.5",
     "license": "ISC",
     "location": "node_modules/semver",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "serialize-error",
     "version": "8.1.0",
     "license": "MIT",
     "location": "node_modules/serialize-error",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "license"
+    ]
   },
   {
     "name": "server-only",
     "version": "0.0.1",
     "license": "MIT",
     "location": "node_modules/server-only",
-    "noticeStatus": "Upstream licence/copyright text unresolved"
+    "noticeStatus": "Upstream main licence/copyright text unresolved",
+    "collectedNoticeFiles": []
   },
   {
     "name": "sharp",
     "version": "0.35.5",
     "license": "Apache-2.0",
     "location": "node_modules/sharp",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "source-map-js",
     "version": "1.2.2",
     "license": "BSD-3-Clause",
     "location": "node_modules/source-map-js",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "tinyglobby",
     "version": "0.2.17",
     "license": "MIT",
     "location": "node_modules/tinyglobby",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "tslib",
     "version": "2.8.1",
     "license": "0BSD",
     "location": "node_modules/tslib",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE.txt"
+    ]
   },
   {
     "name": "type-fest",
     "version": "0.20.2",
     "license": "(MIT OR CC0-1.0)",
     "location": "node_modules/type-fest",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "license"
+    ]
   },
   {
     "name": "typescript",
     "version": "7.0.2",
     "license": "Apache-2.0",
     "location": "node_modules/typescript",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE",
+      "NOTICE.txt"
+    ]
   },
   {
     "name": "undici-types",
     "version": "8.9.0",
     "license": "MIT",
     "location": "node_modules/undici-types",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   },
   {
     "name": "vite",
     "version": "8.3.2",
     "license": "MIT",
     "location": "node_modules/vite",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE.md"
+    ]
   },
   {
     "name": "ws",
     "version": "8.21.0",
     "license": "MIT",
     "location": "node_modules/ws",
-    "noticeStatus": "Licence text collected; embedded components separately reviewed"
+    "noticeStatus": "Licence text collected; embedded-component review may remain open",
+    "collectedNoticeFiles": [
+      "LICENSE"
+    ]
   }
 ]

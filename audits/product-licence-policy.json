@@ -7,15 +7,51 @@
     "MeaningOfDuties": "User accepted ordinary legal notice obligations after explanation. Exclude unwanted licence purchases, royalties, revenue sharing and other unsuitable conditions; assess source-sharing and model-use obligations individually."
   },
   "decisions": [
-    {"item":"CVAT copied geometry", "status":"Accepted under free commercial use with ordinary notices", "next":"Keep existing geometry and its MIT copyright/licence notices. No rewrite solely to avoid a copyright credit. Review licences and dependencies before any broader reuse."},
-    {"item":"Label Studio", "status":"Community-code reuse may be assessed under accepted notice policy", "next":"No code is currently integrated. Check each selected component, its dependencies and licence before reuse; community permission does not extend to separately licensed enterprise features."},
-    {"item":"MIT / Apache / BSD / ISC standard libraries", "status":"Eligible in principle: no mandatory licence fee in reviewed texts; ordinary notice duties accepted", "next":"Retain exact required licence/copyright notices and resolve missing attribution evidence. No claim all embedded binaries have been cleared."},
-    {"item":"SlimSAM", "status":"Potentially eligible under model-credit exception; exact card declares Apache-2.0", "next":"Retain licence, source evidence and applicable notices; finish runtime embedded-component obligations separately."},
-    {"item":"NanoTrack weights", "status":"Uncleared; no definitive weight-specific confirmation located", "next":"No newly cleared commercial reliance. Seek explicit weight grant or assess replacement with documented commercial weight permission; current feature not silently disabled."},
-    {"item":"SAM 3 / Llama", "status":"Model credits are acceptable under user exception; use restrictions remain", "next":"Do not integrate until exact version, permitted customer use, notices and operational terms are satisfied. Charging for ordinary annotation is not itself prohibited."},
-    {"item":"LGPL / MPL libraries", "status":"Distribution-specific source/library duties need assessment", "next":"Prefer not to distribute covered native/compiler binaries. Build-only use is different from shipping them; do not remove build tooling merely due to its licence label."},
-    {"item":"Eight attribution evidence gaps / exact WASM composition", "status":"Still open, not passed", "next":"Resolve evidence or replace the affected distributed component before claiming complete compliance."},
-    {"item":"Demo footage and transactional email intent", "status":"Owner ownership/intended use confirmed", "next":"No replacement indicated on those grounds. Other provider operational terms continue to apply."}
+    {
+      "item": "CVAT copied geometry",
+      "status": "Accepted under free commercial use with ordinary notices",
+      "next": "Keep existing geometry and its MIT copyright/licence notices. No rewrite solely to avoid a copyright credit. Review licences and dependencies before any broader reuse."
+    },
+    {
+      "item": "Label Studio",
+      "status": "Community-code reuse may be assessed under accepted notice policy",
+      "next": "No code is currently integrated. Check each selected component, its dependencies and licence before reuse; community permission does not extend to separately licensed enterprise features."
+    },
+    {
+      "item": "MIT / Apache / BSD / ISC standard libraries",
+      "status": "Eligible in principle: no mandatory licence fee in reviewed texts; ordinary notice duties accepted",
+      "next": "Retain exact required licence/copyright notices and resolve missing attribution evidence. No claim all embedded binaries have been cleared."
+    },
+    {
+      "item": "SlimSAM",
+      "status": "Potentially eligible under model-credit exception; exact card declares Apache-2.0",
+      "next": "Retain licence, source evidence and applicable notices; finish runtime embedded-component obligations separately."
+    },
+    {
+      "item": "NanoTrack weights",
+      "status": "Uncleared; no definitive weight-specific confirmation located",
+      "next": "No newly cleared commercial reliance. Seek explicit weight grant or assess replacement with documented commercial weight permission; current feature not silently disabled."
+    },
+    {
+      "item": "SAM 3 / Llama",
+      "status": "Model credits are acceptable under user exception; use restrictions remain",
+      "next": "Do not integrate until exact version, permitted customer use, notices and operational terms are satisfied. Charging for ordinary annotation is not itself prohibited."
+    },
+    {
+      "item": "LGPL / MPL libraries",
+      "status": "Distribution-specific source/library duties need assessment",
+      "next": "Prefer not to distribute covered native/compiler binaries. Build-only use is different from shipping them; do not remove build tooling merely due to its licence label."
+    },
+    {
+      "item": "Six main attribution evidence gaps / exact WASM composition",
+      "status": "Still open, not passed",
+      "next": "Two build-binding gaps resolved from matching parent packages; embedded Convex Auth notices collected. Remaining permission questions are drafted in audits/permission-followups.csv; no external message sent."
+    },
+    {
+      "item": "Demo footage and transactional email intent",
+      "status": "Owner ownership/intended use confirmed",
+      "next": "No replacement indicated on those grounds. Other provider operational terms continue to apply."
+    }
   ],
   "limits": "This policy records product choices and reviewed evidence, not a legal clearance. No licence text, copied-source header, app feature, host or deployed release was removed or changed by this policy file. Ordinary hosting/inference charges are distinct from licence fees and have not been authorised by this record."
 }

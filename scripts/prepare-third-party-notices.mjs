@@ -12,10 +12,14 @@ for(const [location,entry] of Object.entries(lock.packages)){
  if(!location||entry.dev||!fs.existsSync(path.join(root,location)))continue;
  const pkg=JSON.parse(read(location+'/package.json'));
  if(pkg.version!==entry.version)throw Error('Installed dependency differs from lockfile: '+pkg.name);
- const found=fs.readdirSync(path.join(root,location)).filter(f=>/^(licen[sc]e|copying|notice)(\.|$)/i.test(f)&&fs.statSync(path.join(root,location,f)).isFile());
+ const found=fs.readdirSync(path.join(root,location)).filter(f=>/(^|[-_])(licen[sc]e|copying|notice)(s?\.|s?$)/i.test(f)&&fs.statSync(path.join(root,location,f)).isFile());
  const files=found.map(f=>({file:f,text:read(location+'/'+f)}));
- if(pkg.name.startsWith('onnxruntime-'))files.push({file:'Microsoft ONNX Runtime licence',text:read('scripts/license-evidence/onnxruntime-LICENSE.txt')});
- inventory.push({name:pkg.name,version:pkg.version,license:entry.license,location,noticeStatus:files.length?'Licence text collected; embedded components separately reviewed':'Upstream licence/copyright text unresolved'});
+ let mainLicenceCollected=files.length>0;
+ if(pkg.name.startsWith('onnxruntime-')){files.push({file:'Microsoft ONNX Runtime licence',text:read('scripts/license-evidence/onnxruntime-LICENSE.txt')});mainLicenceCollected=true;}
+ const parentName=pkg.name.startsWith('@esbuild/')?'esbuild':pkg.name.startsWith('@rolldown/binding-')?'rolldown':null;
+ if(parentName){const parent=JSON.parse(read('node_modules/'+parentName+'/package.json'));if(parent.version!==pkg.version)throw Error('Binding/parent licence version mismatch: '+pkg.name);for(const f of fs.readdirSync(path.join(root,'node_modules',parentName)).filter(f=>/(^|[-_])(licen[sc]e|notice)(s?\.|s?$)/i.test(f))){files.push({file:parentName+' '+parent.version+'/'+f,text:read('node_modules/'+parentName+'/'+f)});}mainLicenceCollected=files.length>0;}
+ if(pkg.name==='@convex-dev/auth')for(const f of ['src/server/provider_utils.ts','src/nextjs/server/routeMatcher.ts']){const header=read(location+'/'+f).split(/\r?\n/).filter((line,i,lines)=>i<lines.findIndex(l=>l.startsWith('import '))).join('\n').trim();if(!header.includes('Copyright'))throw Error('Embedded attribution header missing: '+f);files.push({file:'Embedded attribution retained from '+f,text:header});}
+ inventory.push({name:pkg.name,version:pkg.version,license:entry.license,location,noticeStatus:mainLicenceCollected?'Licence text collected; embedded-component review may remain open':'Upstream main licence/copyright text unresolved',collectedNoticeFiles:files.map(f=>f.file)});
  notices.push('\n'+'='.repeat(72)+'\n'+pkg.name+' '+pkg.version+'\nDeclared licence: '+entry.license+'\n'+(files.length?files.map(f=>'\n--- '+f.file+' ---\n'+f.text).join('\n'):'No licence text included in this package; declaration recorded, attribution evidence still unresolved.')+'\n');
 }
 notices.push('\n'+'='.repeat(72)+'\nCVAT geometry helpers\n'+read('public/licenses/cvat-MIT.txt'));
