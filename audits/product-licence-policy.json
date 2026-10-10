@@ -44,8 +44,8 @@
     },
     {
       "item": "Six main attribution evidence gaps / exact WASM composition",
-      "status": "Still open, not passed",
-      "next": "Two build-binding gaps resolved from matching parent packages; embedded Convex Auth notices collected. Remaining permission questions are drafted in audits/permission-followups.csv; no external message sent."
+      "status": "Four Apache notice-completion questions; two MIT/ISC original-attribution uncertainties; separate WASM review open",
+      "next": "No maintainer contact required by the reviewed licence texts. Preserve published declarations, supply licence copies and retain applicable existing notices. Do not invent copyright holders or equate omitted files with commercial bans. See audits/notice-resolution-status.md. Draft enquiries are optional and unsent."
     },
     {
       "item": "Demo footage and transactional email intent",

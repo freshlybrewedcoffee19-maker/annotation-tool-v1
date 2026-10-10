@@ -11,4 +11,16 @@ All six outstanding entries were checked against official npm or source-reposito
 
 Raw official-source checks and SHA-256 hashes are in `upstream-notice-checks/results.json`. HTTP failures establish only the outcome of that request, not absence of rights. Current AWS main is context, not proof of exact-version provenance.
 
-Next external step: obtain authoritative source/notice pointers using the draft questions in `permission-followups.csv`. Until then, preserve the declared licences and collected notices and keep the uncertainty visible in the internal audit. NanoTrack weight scope and exact ONNX WASM composition remain separate checks.
+## Reassessment: contact is optional, not a licence requirement
+
+The earlier recommendation to contact maintainers as the required next step was too strong. None of the reviewed Apache-2.0, MIT or ISC texts requires asking permission or contacting a maintainer for ordinary permitted commercial use. Published declarations are relevant evidence; missing files do not establish a commercial ban.
+
+**Four Apache entries (Convex Auth and the three AWS packages):** classify as notice-completion/source-mapping housekeeping, not requests for a new commercial grant. Supply the standard Apache-2.0 text with the collection and retain applicable original notices already found. Apache section 4(d) requires preservation of an existing applicable NOTICE, not creating a notice that upstream never supplied. The test-app licence must not be presented as a new library-wide grant. We do not assert that all original notices have been identified, or that full compliance has been proven.
+
+**Two MIT/ISC entries (server-only and guid-typescript):** retain their published declarations; record original copyright notice as not located rather than invent a holder. These remain attribution-evidence questions because the licence conditions preserve copyright and permission notices. A generic licence template alone does not establish that every original notice is retained. Contact can help resolve this, but is not prescribed by either licence; a documented distribution assessment or a tested replacement are other routes. No package is being removed on this record.
+
+**Separate model/runtime questions:** NanoTrack's model-weight scope and ONNX's exact WASM composition are not part of the six missing package notices and are not cleared by this reassessment.
+
+The draft enquiries in `permission-followups.csv` are optional fallbacks. No messages have been sent or are authorised by this document. Next: finish the applicable licence-copy collection and distribution assessment before deciding whether any external clarification is useful.
+
+Sources: https://www.apache.org/licenses/LICENSE-2.0 (sections 2, 4); https://opensource.org/license/mit; https://opensource.org/license/isc.
