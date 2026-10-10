@@ -1,0 +1,6 @@
+# Keep archived upstream evidence byte-for-byte on Windows checkouts.
+scripts/license-evidence/** -text
+# Upstream notices intentionally retain the original formatting.
+scripts/license-evidence/*.txt whitespace=-trailing-space,-blank-at-eof
+public/licenses/*notices.txt -text whitespace=-trailing-space,-blank-at-eof
+public/licenses/onnxruntime-ThirdPartyNotices.txt -text whitespace=-trailing-space,-blank-at-eof
