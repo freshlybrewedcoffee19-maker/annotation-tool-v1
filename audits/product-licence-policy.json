@@ -45,7 +45,7 @@
     {
       "item": "Six main attribution evidence gaps / exact WASM composition",
       "status": "Four Apache standard licence copies supplied with original-attribution limits; two MIT/ISC original-attribution uncertainties absent from checked browser JS; separate WASM review open",
-      "next": "No maintainer contact required by the reviewed licence texts. Browser rendered-module records show only Convex Auth among these six. Backend/CLI distribution is not assessed by that check. Retain applicable existing notices and do not invent copyright holders. See audits/notice-resolution-status.md and audits/browser-notice-distribution.json. Draft enquiries are optional and unsent."
+      "next": "No maintainer contact required by the reviewed licence texts. Browser records show only Convex Auth among these six; offline backend records show Convex Auth and three AWS packages. guid-typescript and server-only contribute no rendered JS to those checks; retain their original-notice questions as inventory follow-ups. Prebuilt CLI/component bundles and historical releases are outside this check. Retain applicable existing notices and do not invent copyright holders. See audits/notice-resolution-status.md and both distribution JSON reports. Draft enquiries are optional and unsent."
     },
     {
       "item": "Demo footage and transactional email intent",

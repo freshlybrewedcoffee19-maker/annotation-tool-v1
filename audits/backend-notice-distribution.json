@@ -1,0 +1,252 @@
+{
+  "checkedAt": "2026-10-10T14:50:35.905Z",
+  "method": "Offline esbuild check using installed Convex innerEsbuild settings and server-only/async_hooks stubs. Root backend source files excluding config; no code execution, credentials loaded, network calls or deployment. Diagnostic local bundle, not fetched live deployment.",
+  "limits": "Does not inspect prebuilt CLI internals, Convex component bundles or embedded native/WASM code.",
+  "results": [
+    {
+      "runtime": "Convex Node",
+      "entryPoints": [
+        "convex/r2.ts",
+        "convex/r2Cleanup.ts",
+        "convex/r2Client.ts",
+        "convex/r2Diagnostics.ts",
+        "convex/trashCleanup.ts"
+      ],
+      "packages": [
+        {
+          "name": "@convex-dev/auth",
+          "renderedInputs": []
+        },
+        {
+          "name": "@aws-sdk/credential-provider-http",
+          "renderedInputs": [
+            "node_modules/@aws-sdk/credential-provider-http/dist-cjs/index.js"
+          ]
+        },
+        {
+          "name": "@aws-sdk/credential-provider-login",
+          "renderedInputs": [
+            "node_modules/@aws-sdk/credential-provider-login/dist-cjs/index.js"
+          ]
+        },
+        {
+          "name": "@aws-sdk/nested-clients",
+          "renderedInputs": [
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthSchemeProvider.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/EndpointParameters.js",
+            "node_modules/@aws-sdk/nested-clients/package.json",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/bdd.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/endpoint/endpointResolver.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/SSOOIDCServiceException.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/errors.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/schemas/schemas_0.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.shared.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeConfig.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/auth/httpAuthExtensionConfiguration.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/runtimeExtensions.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDCClient.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commandBuilder.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/CreateTokenCommand.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/SSOOIDC.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/commands/index.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/enums.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/models/models_0.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso-oidc/index.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthSchemeProvider.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/EndpointParameters.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/bdd.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/endpoint/endpointResolver.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/SSOServiceException.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/errors.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/schemas/schemas_0.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.shared.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeConfig.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/auth/httpAuthExtensionConfiguration.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/runtimeExtensions.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSOClient.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commandBuilder.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/GetRoleCredentialsCommand.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/SSO.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/commands/index.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/models/models_0.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sso/index.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/bdd.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/endpointResolver.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthSchemeProvider.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/endpoint/EndpointParameters.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/STSServiceException.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/errors.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/schemas/schemas_0.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.shared.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeConfig.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/auth/httpAuthExtensionConfiguration.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/runtimeExtensions.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STSClient.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commandBuilder.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleCommand.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/AssumeRoleWithWebIdentityCommand.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/STS.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/commands/index.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/models/models_0.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultStsRoleAssumers.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/defaultRoleAssumers.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/sts/index.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthSchemeProvider.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/EndpointParameters.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/bdd.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/endpoint/endpointResolver.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/SigninServiceException.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/errors.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/schemas/schemas_0.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.shared.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeConfig.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/auth/httpAuthExtensionConfiguration.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/runtimeExtensions.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/SigninClient.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commandBuilder.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/CreateOAuth2TokenCommand.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/CreateOAuth2TokenWithIAMCommand.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/Signin.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/commands/index.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/enums.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/models/models_0.js",
+            "node_modules/@aws-sdk/nested-clients/dist-es/submodules/signin/index.js"
+          ]
+        },
+        {
+          "name": "guid-typescript",
+          "renderedInputs": []
+        },
+        {
+          "name": "server-only",
+          "renderedInputs": []
+        }
+      ]
+    },
+    {
+      "runtime": "Convex isolate",
+      "entryPoints": [
+        "convex/access.ts",
+        "convex/accounts.ts",
+        "convex/annotations.ts",
+        "convex/auth.ts",
+        "convex/boxes.ts",
+        "convex/collaboration.ts",
+        "convex/crons.ts",
+        "convex/freeLimits.ts",
+        "convex/http.ts",
+        "convex/labels.ts",
+        "convex/masks.ts",
+        "convex/media.ts",
+        "convex/metadata.ts",
+        "convex/projectAccess.ts",
+        "convex/projects.ts",
+        "convex/projectSetup.ts",
+        "convex/r2Records.ts",
+        "convex/schema.ts",
+        "convex/securityEmail.ts",
+        "convex/services.ts",
+        "convex/sessions.ts",
+        "convex/tracks.ts",
+        "convex/trash.ts",
+        "convex/trial.ts",
+        "convex/trialHistory.ts",
+        "convex/trialHistoryHelpers.ts",
+        "convex/usage.ts",
+        "convex/v2.ts",
+        "convex/v2Values.ts",
+        "convex/visibility.ts",
+        "convex/workspaces.ts"
+      ],
+      "packages": [
+        {
+          "name": "@convex-dev/auth",
+          "renderedInputs": [
+            "node_modules/@convex-dev/auth/dist/providers/ConvexCredentials.js",
+            "node_modules/@convex-dev/auth/dist/providers/Password.js",
+            "node_modules/@convex-dev/auth/dist/providers/Email.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/types.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/index.js",
+            "node_modules/@convex-dev/auth/dist/server/utils.js",
+            "node_modules/@convex-dev/auth/dist/server/cookies.js",
+            "node_modules/@convex-dev/auth/dist/server/provider_utils.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/utils.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/runtime/webcrypto.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/lib/buffer_utils.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/runtime/base64url.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/util/errors.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/lib/crypto_key.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/lib/invalid_key_input.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/runtime/is_key_like.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/lib/is_disjoint.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/lib/is_object.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/runtime/check_key_length.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/lib/is_jwk.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/runtime/jwk_to_key.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/runtime/normalize_key.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/runtime/asn1.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/key/import.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/lib/check_key_type.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/lib/validate_crit.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/runtime/subtle_dsa.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/runtime/get_sign_verify_key.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/lib/epoch.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/lib/secs.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/runtime/sign.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/jws/flattened/sign.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/jws/compact/sign.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/jwt/produce.js",
+            "node_modules/@convex-dev/auth/node_modules/jose/dist/browser/jwt/sign.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/tokens.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/refreshTokens.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/sessions.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/signIn.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/signOut.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/refreshSession.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/rateLimit.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/provider.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/users.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/verifyCodeAndSignIn.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/verifierSignature.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/userOAuth.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/createVerificationCode.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/createAccountFromCredentials.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/retrieveAccountWithCredentials.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/modifyAccount.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/invalidateSessions.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/verifier.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/mutations/index.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/redirects.js",
+            "node_modules/@convex-dev/auth/dist/server/implementation/signIn.js",
+            "node_modules/@convex-dev/auth/dist/server/oauth/checks.js",
+            "node_modules/@convex-dev/auth/dist/server/oauth/lib/utils/customFetch.js",
+            "node_modules/@convex-dev/auth/dist/server/oauth/convexAuth.js",
+            "node_modules/@convex-dev/auth/dist/server/oauth/authorizationUrl.js",
+            "node_modules/@convex-dev/auth/dist/server/oauth/lib/utils/providers.js",
+            "node_modules/@convex-dev/auth/dist/server/oauth/callback.js"
+          ]
+        },
+        {
+          "name": "@aws-sdk/credential-provider-http",
+          "renderedInputs": []
+        },
+        {
+          "name": "@aws-sdk/credential-provider-login",
+          "renderedInputs": []
+        },
+        {
+          "name": "@aws-sdk/nested-clients",
+          "renderedInputs": []
+        },
+        {
+          "name": "guid-typescript",
+          "renderedInputs": []
+        },
+        {
+          "name": "server-only",
+          "renderedInputs": []
+        }
+      ]
+    }
+  ]
+}

@@ -33,3 +33,13 @@ Sources: https://www.apache.org/licenses/LICENSE-2.0 (sections 2, 4); https://op
 - The three AWS internal packages, guid-typescript and server-only have no rendered JavaScript modules in the checked browser chunks. This narrows the browser-notice concern; it does not remove them from the installed inventory or assess their presence in Convex backend/CLI bundles.
 - The four Apache packages now have the official standard Apache licence text in the generated notice collection, identified as a standard copy rather than an upstream package-specific notice. Original attribution/source mapping limits remain recorded. The two MIT/ISC original-notice uncertainties remain internal follow-up items; neither appears in the checked browser JavaScript.
 - This check does not inspect embedded WASM libraries or establish NanoTrack weight rights. Nothing has been deployed or sent to maintainers.
+
+## Local backend distribution checked
+
+`scripts/check-backend-notice-distribution.mjs` builds local backend entry points in memory using the installed Convex bundler's esbuild settings, grouping Node and isolate sources and reproducing its server-only and async_hooks stubs. It does not execute backend functions, load credentials, contact Convex or deploy. This is an offline diagnostic rather than an inspection of live deployment bundles. Results are saved in `backend-notice-distribution.json`.
+
+- The three AWS packages contribute rendered code to the Node backend bundle used for private storage. Keep their declared Apache licence copies and existing applicable notices; their presence is not evidence of a commercial ban. This report does not prove those optional credential-provider branches execute for our explicit R2 credentials.
+- Convex Auth contributes rendered code to the isolate backend bundle. Retain its Apache licence copy and collected embedded notices.
+- guid-typescript and server-only contribute no rendered code to either checked backend runtime or the previously checked frontend. Their original attribution questions can remain inventory follow-ups rather than being represented as demonstrated distribution gaps for the current app. This is not a claim they are absent from all prebuilt local tooling, third-party component bundles or historical releases.
+
+The six package-file omissions therefore do not establish a need to request commercial permission. No packages, sign-in logic or storage logic were changed. Model-weight permission scope and embedded ONNX WASM obligations remain separate unresolved questions.
