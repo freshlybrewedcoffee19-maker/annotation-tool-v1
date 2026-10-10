@@ -1,0 +1,21 @@
+{
+  "recordedOn": "2026-10-10",
+  "userRequirements": {
+    "licenceFeesRoyaltiesMandatoryPaidCommercialLicence": "Exclude",
+    "RequiredUserFacingCompetitorLogosBrandOrCopyrightCredit": "Exclude; includes a separate notices page naming CVAT or Label Studio",
+    "ModelAttribution": "Exception permitted by user for Llama and other models",
+    "MeaningOfDuties": "Clarification pending: monetary duties versus all licence obligations including ordinary legal notices"
+  },
+  "decisions": [
+    {"item":"CVAT copied geometry", "status":"Does not meet no-competitor-credit requirement", "next":"Replace with independently authored geometry before removing applicable attribution from future builds. Preserve notices for any code still used or distributed. Do not merely rename copied code or strip headers."},
+    {"item":"Label Studio", "status":"Do not integrate competitor code requiring user-distributed attribution", "next":"Build own annotation features from agreed functional requirements; no Label Studio code is currently integrated."},
+    {"item":"MIT / Apache / BSD / ISC standard libraries", "status":"No mandatory licence fee in reviewed licence texts; still carry legal notice duties", "next":"Eligibility depends on pending clarification of duties. Do not remove React, Convex or other working dependencies based on an assumed answer."},
+    {"item":"SlimSAM", "status":"Potentially eligible under model-credit exception; exact card declares Apache-2.0", "next":"Retain licence, source evidence and applicable notices; finish runtime embedded-component obligations separately."},
+    {"item":"NanoTrack weights", "status":"Uncleared; no definitive weight-specific confirmation located", "next":"No newly cleared commercial reliance. Seek explicit weight grant or assess replacement with documented commercial weight permission; current feature not silently disabled."},
+    {"item":"SAM 3 / Llama", "status":"Model credits are acceptable under user exception; use restrictions remain", "next":"Do not integrate until exact version, permitted customer use, notices and operational terms are satisfied. Charging for ordinary annotation is not itself prohibited."},
+    {"item":"LGPL / MPL libraries", "status":"Distribution-specific source/library duties need assessment", "next":"Prefer not to distribute covered native/compiler binaries. Build-only use is different from shipping them; do not remove build tooling merely due to its licence label."},
+    {"item":"Eight attribution evidence gaps / exact WASM composition", "status":"Still open, not passed", "next":"Resolve evidence or replace the affected distributed component before claiming complete compliance."},
+    {"item":"Demo footage and transactional email intent", "status":"Owner ownership/intended use confirmed", "next":"No replacement indicated on those grounds. Other provider operational terms continue to apply."}
+  ],
+  "limits": "This policy records product choices and reviewed evidence, not a legal clearance. No licence text, copied-source header, app feature, host or deployed release was removed or changed by this policy file. Ordinary hosting/inference charges are distinct from licence fees and have not been authorised by this record."
+}
