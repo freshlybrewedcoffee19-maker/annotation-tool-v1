@@ -1,0 +1,51 @@
+{
+  "checkedAt": "2026-10-10T14:45:41.647Z",
+  "method": "Vite rendered module records; only modules with renderedLength > 0. Build uses existing configuration and writes no deployable files.",
+  "packages": [
+    {
+      "name": "@convex-dev/auth",
+      "browserChunks": [
+        {
+          "scope": "main",
+          "file": "assets/index-DFPRxIEk.js",
+          "modules": [
+            {
+              "id": "node_modules/@convex-dev/auth/dist/react/client.js",
+              "renderedLength": 12141
+            },
+            {
+              "id": "node_modules/@convex-dev/auth/dist/react/index.js",
+              "renderedLength": 1179
+            }
+          ]
+        }
+      ],
+      "scope": "Current local frontend build, including worker chunks. Does not assess Convex backend bundles, CLI packages, other deployments or embedded WASM contents."
+    },
+    {
+      "name": "@aws-sdk/credential-provider-http",
+      "browserChunks": [],
+      "scope": "Current local frontend build, including worker chunks. Does not assess Convex backend bundles, CLI packages, other deployments or embedded WASM contents."
+    },
+    {
+      "name": "@aws-sdk/credential-provider-login",
+      "browserChunks": [],
+      "scope": "Current local frontend build, including worker chunks. Does not assess Convex backend bundles, CLI packages, other deployments or embedded WASM contents."
+    },
+    {
+      "name": "@aws-sdk/nested-clients",
+      "browserChunks": [],
+      "scope": "Current local frontend build, including worker chunks. Does not assess Convex backend bundles, CLI packages, other deployments or embedded WASM contents."
+    },
+    {
+      "name": "guid-typescript",
+      "browserChunks": [],
+      "scope": "Current local frontend build, including worker chunks. Does not assess Convex backend bundles, CLI packages, other deployments or embedded WASM contents."
+    },
+    {
+      "name": "server-only",
+      "browserChunks": [],
+      "scope": "Current local frontend build, including worker chunks. Does not assess Convex backend bundles, CLI packages, other deployments or embedded WASM contents."
+    }
+  ]
+}

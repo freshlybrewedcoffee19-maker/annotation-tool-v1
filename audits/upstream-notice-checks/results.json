@@ -1,7 +1,13 @@
 {
-  "checkedAt": "2026-10-10T14:27:45.275Z",
+  "checkedAt": "2026-10-10T14:45:57.406Z",
   "note": "Current AWS main files are context only, not version-matched clearance. HTTP errors are not proof of absent rights.",
   "results": [
+    {
+      "name": "apache-2.0-standard",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "status": 200,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
     {
       "name": "convex-oauth-notice",
       "url": "https://raw.githubusercontent.com/get-convex/convex-auth/7eab86015b09cf91ac36a359beaaa4036aa24cc1/src/server/oauth/NOTICE.txt",

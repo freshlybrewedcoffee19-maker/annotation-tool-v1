@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 const targets=[
+ ['apache-2.0-standard','https://www.apache.org/licenses/LICENSE-2.0.txt'],
  ['convex-oauth-notice','https://raw.githubusercontent.com/get-convex/convex-auth/7eab86015b09cf91ac36a359beaaa4036aa24cc1/src/server/oauth/NOTICE.txt'],
  ['convex-test-license','https://raw.githubusercontent.com/get-convex/convex-auth/7eab86015b09cf91ac36a359beaaa4036aa24cc1/test-nextjs/LICENSE.txt'],
  ['guid-master-tree','https://api.github.com/repos/snico-dev/guid-typescript/git/trees/master?recursive=1'],

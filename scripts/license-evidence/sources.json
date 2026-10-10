@@ -23,5 +23,10 @@
     "file": "convex-auth-oauth-NOTICE.txt",
     "url": "https://raw.githubusercontent.com/get-convex/convex-auth/7eab86015b09cf91ac36a359beaaa4036aa24cc1/src/server/oauth/NOTICE.txt",
     "sha256": "d6ed1730b7d96c2e57bedf030036fdbf48c9b9f341699175544aa627d218c0e3"
+  },
+  {
+    "file": "Apache-2.0.txt",
+    "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
   }
 ]

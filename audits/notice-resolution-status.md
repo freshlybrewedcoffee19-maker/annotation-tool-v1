@@ -24,3 +24,12 @@ The earlier recommendation to contact maintainers as the required next step was 
 The draft enquiries in `permission-followups.csv` are optional fallbacks. No messages have been sent or are authorised by this document. Next: finish the applicable licence-copy collection and distribution assessment before deciding whether any external clarification is useful.
 
 Sources: https://www.apache.org/licenses/LICENSE-2.0 (sections 2, 4); https://opensource.org/license/mit; https://opensource.org/license/isc.
+
+## Local browser distribution checked
+
+`scripts/check-notice-distribution.mjs` inspected Vite's rendered JavaScript module records for the main app and both worker builds, using the existing build configuration with output writes disabled. `browser-notice-distribution.json` records the results.
+
+- Convex Auth React code is present in the main browser bundle. Its declared Apache-2.0 licence copy is now included explicitly, together with the conservatively collected embedded notices.
+- The three AWS internal packages, guid-typescript and server-only have no rendered JavaScript modules in the checked browser chunks. This narrows the browser-notice concern; it does not remove them from the installed inventory or assess their presence in Convex backend/CLI bundles.
+- The four Apache packages now have the official standard Apache licence text in the generated notice collection, identified as a standard copy rather than an upstream package-specific notice. Original attribution/source mapping limits remain recorded. The two MIT/ISC original-notice uncertainties remain internal follow-up items; neither appears in the checked browser JavaScript.
+- This check does not inspect embedded WASM libraries or establish NanoTrack weight rights. Nothing has been deployed or sent to maintainers.
