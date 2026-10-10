@@ -25,3 +25,19 @@ Sources: https://raw.githubusercontent.com/microsoft/onnxruntime/8d85527a010e294
 ## Decision supported by this check
 
 There is no demonstrated commercial-ban reason in this evidence to replace either component now. Keep the existing tool unchanged. Do not describe the complete product as legally cleared. NanoTrack provenance and the exact ONNX embedded-library/source obligations remain explicitly bounded uncertainties; contact is an optional evidence route, not a licence requirement.
+
+## Source-access work completed locally
+
+The identified Eigen source-access requirement is now implemented at `/licenses/onnx-sources/`, linked from the main notices page and generated notice collection:
+
+- Full original Eigen source archive for the dependency revision, verified against the SHA-1 pinned in ONNX's dependency configuration and recorded with a SHA-256 checksum.
+- The two matching ONNX Eigen patches, supplied separately and identified as upstream changes.
+- Original Eigen MPL-2.0, BSD and MINPACK notices; original source-file headers remain in the archive.
+- Pinned ONNX dependency source references and runtime source link.
+- Emscripten 4.0.23 licence/authors and its musl copyright notice. This version is identified by the now-located pinned Linux WASM workflow, not assumed from a current release.
+
+All collected source files are checked against a manifest by the normal notice-generation build step. It does not fetch these files during ordinary builds. The separate collection script can fetch missing material and checks the original Eigen archive against ONNX's dependency hash.
+
+Validation: production build passed; real Chrome verified navigation from notices, all local source/download links, served archive checksum, source archive contents, MPL licence presence and desktop/390px phone fit. The first phone check caught long revision text overflow, fixed and rechecked successfully. No annotation code, model binary, auth code or backend function changed. Nothing deployed.
+
+**Bounded conclusion:** the concrete Eigen source-access omission and identified toolchain notice omissions are addressed in the local frontend. This is not a certification that the exact prebuilt WASM binary's complete component list has been reconstructed; no such build-specific manifest was obtained. Retain that evidentiary limit without reclassifying it as a discovered commercial ban or a mandatory maintainer permission request.

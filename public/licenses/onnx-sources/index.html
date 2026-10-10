@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ONNX Runtime source access — Cheddar Vox</title><link rel="stylesheet" href="/legal.css"><style>main{overflow-wrap:anywhere}code{white-space:normal;overflow-wrap:anywhere}</style></head>
+<body><header><a class="brand" href="/">Cheddar Vox</a></header><main>
+<h1>ONNX Runtime source access</h1>
+<p>Our browser AI tools use ONNX Runtime Web. Its own code is MIT licensed. Its third-party libraries keep their own licences and rights. The materials below provide source access and notices for the pinned upstream dependencies; they do not license Cheddar Vox or customer data.</p>
+<h2>Eigen source and licence</h2>
+<p>Eigen is primarily governed by the Mozilla Public License 2.0 (MPL-2.0). Covered source is available below under that licence, with additional file-specific notices retained in the archive. These rights are not restricted by Cheddar Vox’s terms of use.</p>
+<ul>
+<li><a href="/licenses/onnx-sources/eigen-source.zip">Download Eigen source archive</a> — revision <code>1d8b82b0740839c0de7f1242a3585e3390ff5f33</code></li>
+<li><a href="/licenses/onnx-sources/COPYING.README">Eigen licence overview</a></li>
+<li><a href="/licenses/onnx-sources/COPYING.MPL2">Mozilla Public License 2.0</a></li>
+<li><a href="/licenses/onnx-sources/COPYING.BSD">Additional BSD notices</a></li>
+<li><a href="/licenses/onnx-sources/COPYING.MINPACK">Additional MINPACK notice</a></li>
+</ul>
+<p>The archive is the original Eigen source pinned by ONNX Runtime. ONNX’s dependency setup applies the following upstream patches; they are supplied separately with their original content. Cheddar Vox has not modified this library.</p>
+<ul><li><a href="/licenses/onnx-sources/s390x-build.patch">ONNX Eigen build patch</a></li><li><a href="/licenses/onnx-sources/s390x-build-werror.patch">ONNX Eigen compiler-warning patch</a></li></ul>
+<h2>Runtime and toolchain references</h2>
+<ul>
+<li><a href="https://github.com/microsoft/onnxruntime/tree/8d85527a010e294a26b274749f74294b2a32cec5">ONNX Runtime source at our pinned revision</a></li>
+<li><a href="/licenses/onnxruntime-ThirdPartyNotices.txt">ONNX Runtime third-party notices</a></li>
+<li><a href="/licenses/onnx-sources/onnxruntime-dependencies.txt">Pinned upstream dependency source URLs and checksums</a></li>
+<li><a href="/licenses/onnx-sources/emscripten-LICENSE.txt">Emscripten 4.0.23 licence notices</a> and <a href="/licenses/onnx-sources/emscripten-AUTHORS.txt">authors</a></li>
+<li><a href="/licenses/onnx-sources/musl-COPYRIGHT.txt">Bundled musl library copyright notices</a></li>
+<li><a href="https://github.com/emscripten-core/emscripten/tree/4.0.23">Emscripten source</a></li>
+</ul>
+<p>The upstream dependency list and notices cover multiple build options. They are provided conservatively and do not mean every listed component is included in the browser binary.</p>
+<p><a href="/licenses/">Back to third-party notices</a></p>
+</main><footer><a href="/terms/">Terms of use</a> · <a href="/privacy/">Privacy policy</a></footer></body></html>

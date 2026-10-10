@@ -7,6 +7,10 @@ const lock=JSON.parse(read('package-lock.json'));
 const evidence=JSON.parse(read('scripts/license-evidence/sources.json'));
 for(const item of evidence){const data=fs.readFileSync(path.join(root,'scripts/license-evidence',item.file));if(createHash('sha256').update(data).digest('hex')!==item.sha256)throw Error('Licence evidence checksum mismatch: '+item.file);}
 const notices=['Cheddar Vox — third-party notices\n\nThis collection includes installed production dependencies, some used only by the build or Node tooling. Listing a library does not mean its binaries are distributed in the browser. Each component keeps its own licence; this file does not license Cheddar Vox or customer data.\n'];
+const sourceFiles=JSON.parse(read('scripts/license-evidence/onnx-source-files.json'));
+for(const item of sourceFiles){const data=fs.readFileSync(path.join(root,'public/licenses/onnx-sources',item.file));if(createHash('sha256').update(data).digest('hex')!==item.sha256)throw Error('ONNX source/notice checksum mismatch: '+item.file);}
+notices.push('\nONNX Runtime third-party source access: /licenses/onnx-sources/\nEigen source is provided under MPL-2.0 with its original file-specific notices and the upstream ONNX dependency patches. The source-access page also links the pinned runtime source and dependency references.\n');
+for(const item of sourceFiles.filter(x=>/^(COPYING\.|emscripten-LICENSE|musl-COPYRIGHT)/.test(x.file)))notices.push('\n--- '+item.file+' ---\n'+read('public/licenses/onnx-sources/'+item.file));
 const inventory=[];
 for(const [location,entry] of Object.entries(lock.packages)){
  if(!location||entry.dev||!fs.existsSync(path.join(root,location)))continue;

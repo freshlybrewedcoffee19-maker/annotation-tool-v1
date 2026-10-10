@@ -1,0 +1,57 @@
+[
+  {
+    "file": "eigen-source.zip",
+    "url": "https://codeload.github.com/eigen-mirror/eigen/zip/1d8b82b0740839c0de7f1242a3585e3390ff5f33",
+    "sha256": "6a60d76351f97132669daeeb721d6bf14b008101883ad2d687a3201c5c461eb0"
+  },
+  {
+    "file": "COPYING.README",
+    "url": "https://raw.githubusercontent.com/eigen-mirror/eigen/1d8b82b0740839c0de7f1242a3585e3390ff5f33/COPYING.README",
+    "sha256": "db640ff2bd90c6abd6a4d3fbb351e0ee4d555417cf840492054d1cbb2ea85644"
+  },
+  {
+    "file": "COPYING.MPL2",
+    "url": "https://raw.githubusercontent.com/eigen-mirror/eigen/1d8b82b0740839c0de7f1242a3585e3390ff5f33/COPYING.MPL2",
+    "sha256": "66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172"
+  },
+  {
+    "file": "COPYING.BSD",
+    "url": "https://raw.githubusercontent.com/eigen-mirror/eigen/1d8b82b0740839c0de7f1242a3585e3390ff5f33/COPYING.BSD",
+    "sha256": "51928dce36213c5333ba3172e847d735d4c6e9b7ff2722a326c49067155b82eb"
+  },
+  {
+    "file": "COPYING.MINPACK",
+    "url": "https://raw.githubusercontent.com/eigen-mirror/eigen/1d8b82b0740839c0de7f1242a3585e3390ff5f33/COPYING.MINPACK",
+    "sha256": "c87b7f8ee88f6195e91743820c00354833583aef091b72e2d4a49c8e28e798a0"
+  },
+  {
+    "file": "s390x-build.patch",
+    "url": "https://raw.githubusercontent.com/microsoft/onnxruntime/8d85527a010e294a26b274749f74294b2a32cec5/cmake/patches/eigen/s390x-build.patch",
+    "sha256": "6d41f4504f665bc591336c668a1aa16ffc5e0f02fe9c2f9c46c6f5660b54c849"
+  },
+  {
+    "file": "s390x-build-werror.patch",
+    "url": "https://raw.githubusercontent.com/microsoft/onnxruntime/8d85527a010e294a26b274749f74294b2a32cec5/cmake/patches/eigen/s390x-build-werror.patch",
+    "sha256": "a1a7b0ca8382cb00542587b6bc725f59abd59ad5bb491825f7876ad6e344ef0b"
+  },
+  {
+    "file": "onnxruntime-dependencies.txt",
+    "url": "https://raw.githubusercontent.com/microsoft/onnxruntime/8d85527a010e294a26b274749f74294b2a32cec5/cmake/deps.txt",
+    "sha256": "30ae431b18059ffeba197dff395d4e4d5eca65ed3fd296dabf77075bca1cc71f"
+  },
+  {
+    "file": "emscripten-LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/emscripten-core/emscripten/4.0.23/LICENSE",
+    "sha256": "620a78084fc7ca97c0b5dea9abf891f3ffcadfdbf305276f099c9c4e12fc1d86"
+  },
+  {
+    "file": "emscripten-AUTHORS.txt",
+    "url": "https://raw.githubusercontent.com/emscripten-core/emscripten/4.0.23/AUTHORS",
+    "sha256": "8585fa1b981f576f52806833481323007ccac5c00f31a873215e31c0f42820f0"
+  },
+  {
+    "file": "musl-COPYRIGHT.txt",
+    "url": "https://raw.githubusercontent.com/emscripten-core/emscripten/4.0.23/system/lib/libc/musl/COPYRIGHT",
+    "sha256": "f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af"
+  }
+]
