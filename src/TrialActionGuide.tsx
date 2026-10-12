@@ -20,13 +20,9 @@ export function TrialActionGuide({episodeId,count}:{episodeId:Id<'episodes'>;cou
  const line=!listening?'Turn on your mic':state.waiting==='stop'?'Say stop':state.waiting==='label'?'Say a label':saving?'Saving…':saved?'Saved. Do the next one':'Say start';
  const total=count+(state.start_sec!==null||saving?1:0);
  return <div className="trial-action-guide">
-  <div className="trial-guide-line"><strong role="status" aria-live="polite">{line}</strong><span aria-label="Labelling progress">{count} of {total} segments labelled</span></div>
-  <details className="trial-how"><summary>How it works</summary><div>
-   <p>Turn on the mic. Say “start” to play and mark the beginning, “stop” to pause and mark the end, then say one of your saved labels. The segment saves automatically.</p>
-   <p>Progress counts saved segments against segments marked so far. There is no fixed number to finish.</p>
-   <p>Say “start” again to replace the marked times. Turning off the mic keeps them. Switching between actions and objects pauses the video and turns off the mic.</p>
-   <p>Shortcuts: Space plays or pauses; [ marks start; ] marks end. Open More tools for manual labels, objects, review and exports.</p>
-   <p>You can also say “open objects”, “open visibility”, “open review”, “open export”, “play video”, “pause video” or “go to 12 seconds”.</p>
-  </div></details>
+  <div className="trial-guide-line" hidden><strong role="status" aria-live="polite">{line}</strong><span aria-label="Labelling progress">{count} of {total} segments labelled</span></div>
+  <details className="trial-how"><summary aria-label="Annotation help" title="Annotation help"><span aria-hidden="true">i</span></summary><div><button type="button" className="trial-help-close" aria-label="Close annotation help" onClick={event=>{const details=event.currentTarget.closest('details');if(details)details.open=false;}}>×</button><ol><li>Turn on your mic and say “start” to play and mark the beginning.</li><li>Say “stop” to pause and mark the end.</li><li>Say any label—the segment saves automatically.</li></ol></div></details>
  </div>;
 }
+
+

@@ -1,4 +1,4 @@
-export const steps=['upload','metadata','annotate','export'] as const;
+export const steps=['upload','annotate','export'] as const;
 export type Step=typeof steps[number];
 export function StepNavigation({step,hasVideo,change}:{step:Step;hasVideo:boolean;change:(step:Step)=>void}){
  return <nav className="step-navigation" aria-label="Annotation steps"><div role="tablist" aria-label="Workflow">{steps.map((item,index)=><button key={item} id={`tab-${item}`} type="button" role="tab" aria-label={item[0].toUpperCase()+item.slice(1)} aria-controls={`panel-${item}`} aria-selected={step===item} tabIndex={step===item?0:-1} disabled={!hasVideo&&index>0} onClick={()=>change(item)} onKeyDown={event=>{

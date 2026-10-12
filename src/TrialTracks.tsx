@@ -1,0 +1,10 @@
+import {coverage} from './coverage';
+import {displayLabel} from './label-display';
+type Segment={_id:string;label:string;start_sec:number;end_sec:number;reviewStatus?:string};
+export function TrialTracks({duration,segments,time,select}:{duration:number;segments:Segment[];time:number;select:(segment:Segment)=>void}){
+ const valid=segments.filter(s=>s.reviewStatus!=='disqualified'),check=coverage(duration,valid),ends:number[]=[];
+ const placed=[...valid].sort((a,b)=>a.start_sec-b.start_sec).map(s=>{let lane=ends.findIndex(end=>end<=s.start_sec);if(lane<0)lane=ends.length;ends[lane]=s.end_sec;return {s,lane};});
+ const style=(s:{start_sec:number;end_sec:number})=>({left:`${s.start_sec/(duration||1)*100}%`,width:`${(s.end_sec-s.start_sec)/(duration||1)*100}%`});
+ return <section className="editor-timeline trial-tracks" aria-label="Saved annotation timeline"><div className="track-scale"><span>0s</span><span>{(duration/4).toFixed(1)}s</span><span>{(duration/2).toFixed(1)}s</span><span>{(duration*3/4).toFixed(1)}s</span><span>{duration.toFixed(1)}s</span></div>{['Labels','Overlaps','Coverage'].map((name,index)=><div className="track-row" key={name}><h3>{name}</h3><div className="track-lane" style={{height:index===1?Math.max(36,(ends.length-1)*34):36}}>{index<2?placed.filter(p=>index===0?p.lane===0:p.lane>0).map(({s,lane})=><button key={s._id} title={`${displayLabel(s.label,true)} · ${s.start_sec.toFixed(2)}–${s.end_sec.toFixed(2)} sec`} style={{...style(s),top:index===0?3:3+(lane-1)*34}} onClick={()=>select(s)}>{displayLabel(s.label,true)}</button>):<><span className="coverage-base"/>{check.gaps.map((s,i)=><span key={i} className="coverage-gap" style={style(s)} title={`Unlabelled: ${s.start_sec.toFixed(2)}–${s.end_sec.toFixed(2)} sec`}/>)}</>}</div></div>)}<p>{check.percent.toFixed(0)}% covered · {check.overlaps.length} overlapping intervals</p></section>;
+}
+

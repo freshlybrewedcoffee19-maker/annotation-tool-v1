@@ -12,76 +12,35 @@ export function HomeAnimation(){
   return()=>{media.removeEventListener('change',sync);observer.disconnect();document.removeEventListener('visibilitychange',visibility);};
  },[]);
  useEffect(()=>{if(!visible||reduced)return;const tick=window.setTimeout(()=>setTime(t=>t>=24?0:t+.1),100);return()=>clearTimeout(tick);},[visible,reduced,time]);
+ const [mobile,setMobile]=useState(false);
+ useEffect(()=>{const query=matchMedia("(max-width:600px)");const sync=()=>setMobile(query.matches);sync();query.addEventListener("change",sync);return()=>query.removeEventListener("change",sync);},[]);
  const stage=time<4?'clicking':time<6?'arrival':time<20?'speaking':'ending';
  const cue=time<9?'start':time<12?'stop':time<14?'label':'saved';
  const speech=cue==='start'?'“Start.”':cue==='stop'?'“Stop.”':cue==='label'?'“Walking.”':'“Walking.”';
- return <figure ref={host} className="vox-story" data-stage={stage} data-cue={cue} data-paused={!visible||reduced} aria-label="A person switches from repeated mouse clicks to relaxed voice annotation with Cheddar Vox.">
+ return <figure ref={host} className="vox-story film-story" data-stage={stage} data-cue={cue} data-paused={!visible||reduced} aria-label="A person switches from repeated mouse clicks to relaxed voice annotation with Cheddar Vox.">
   <div className="vox-story-scene">
-   <svg viewBox="0 0 900 380" role="img" aria-label={stage==='clicking'?'A person repeatedly clicking at their desktop':stage==='ending'?'Use voice to annotate videos':'A relaxed person speaking to Cheddar Vox on their desktop'}>
-    <ellipse cx="450" cy="339" rx="302" ry="14" fill="#e6eaf0"/>
-    <g className="story-office">
-     <path d="M65 295h770" stroke="#d9e2ec" strokeWidth="2"/>
-     <g>
-     <rect x="95" y="65" width="145" height="160" rx="4" fill="#e1ecf7" stroke="#b7c9dc" strokeWidth="3"/>
-     <path d="M109 211v-72h20v72m10 0V99h26v112m12 0v-52h18v52m10 0v-91h21v91" fill="#c4d6e7"/>
-     <path d="M167 66v159M95 145h145" stroke="white" strokeWidth="5"/>
-
-     </g>
-     <g transform="translate(35 0)">
-     <rect x="715" y="71" width="99" height="85" rx="4" fill="#fff" stroke="#c5cfdc" strokeWidth="2"/>
-     <path d="M728 88h73M728 105h36m-36 14h57m-57 14h46" stroke="#b7c9dc" strokeWidth="4"/>
-     <rect x="704" y="184" width="117" height="9" rx="3" fill="#8194ac"/>
-     <path d="M720 181v-29h10v29m5 0v-35h12v35m6 0v-24h11v24" stroke="#315bea" strokeWidth="6"/>
-     <path d="M785 182v-31m0 14q-28-27-17-31 24 1 17 31m0 0q1-30 20-25 5 18-20 25" fill="#85b69b"/>
-     <path d="M774 174h23l-4 13h-15z" fill="#e6aa80"/>
-
-     </g>
-     <g className="story-coffee-counter" transform="translate(-172 0)">
-      <path d="M99 265h146" stroke="#8194ac" strokeWidth="7" strokeLinecap="round"/>
-      <path d="M110 269v64m124-64v64" stroke="#8194ac" strokeWidth="5"/>
-      <path d="M110 301h124" stroke="#c5cfdc" strokeWidth="3"/>
-      <ellipse cx="173" cy="261" rx="25" ry="3" fill="#d9e2ec"/>
-      <rect x="160" y="239" width="23" height="22" rx="4" fill="#ffcd38"/>
-      <path d="M184 243q15-1 9 12h-9" fill="none" stroke="#e6aa80" strokeWidth="3"/>
-      <path d="M166 232q-5-5 0-10m9 10q-5-5 0-10" fill="none" stroke="#b7c9dc" strokeWidth="2" strokeLinecap="round"/>
-     </g>
-    </g>
-    <g className="story-chair" stroke="#172033" strokeWidth="7" strokeLinecap="round" fill="none"><path d="M285 200v76q0 15 22 15h65M327 291v44m-32 0h65"/></g>
-    <g className="story-person">
-     <path d="M337 267l55 5-10 58m-38-57-13 57" stroke="#172033" strokeWidth="25" strokeLinejoin="round" fill="none"/>
-     <path d="M327 330h-18m70 0h19" stroke="#172033" strokeWidth="13" strokeLinecap="round"/>
-     <g className="story-upper">
-      <path d="M325 201l-5 43 34 13" stroke="#1c665f" strokeWidth="17" strokeLinecap="round" fill="none"/>
-      <path d="M316 181q25-17 49 2l16 79q-30 17-68-1z" fill="#27877e"/>
-      <path d="M341 172v15" stroke="#e6aa80" strokeWidth="19"/>
-      <ellipse cx="342" cy="145" rx="28" ry="33" fill="#f2bc94"/>
-      <path d="M314 146q-11-46 29-42 34 0 29 33l-19-12-9 13-27-2z" fill="#172033"/>
-      <circle cx="358" cy="145" r="2.5" fill="#172033"/>
-      <path className="story-mouth" d="M355 159h9" fill="none" stroke="#172033" strokeWidth="3" strokeLinecap="round"/>
-      <g className="story-arm">
-       <path d="M352 199l31 36 61-2" stroke="#f2bc94" strokeWidth="15" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-       <path d="M352 199l12 14" stroke="#27877e" strokeWidth="19" strokeLinecap="round"/>
-       <path d="M426 227v13" stroke="#172033" strokeWidth="7" strokeLinecap="round"/>
-       <rect x="421" y="228" width="10" height="11" rx="3" fill="#172033"/>
-       <rect x="423" y="230" width="6" height="7" rx="1" fill="#e1ecf7"/>
-      </g>
-
-     </g>
-    </g>
-    <g stroke="#172033" strokeWidth="6" strokeLinejoin="round"><path d="M396 251h331M415 253v80m292-80v80" fill="none"/><path d="M589 233v16m-29 0h59" fill="none"/></g>
-    <g className="story-desktop-monitor">
-     <rect x="490" y="104" width="203" height="129" rx="10" fill="#172033" stroke="#172033" strokeWidth="6"/>
-     <g>
-    <rect x="500" y="114" width="183" height="108" rx="3" fill="#f5f7fb"/>
+   <svg viewBox={mobile?"210 -50 500 500":"0 0 900 380"} role="img" aria-label={stage==='clicking'?'A person repeatedly clicking at their desktop':stage==='ending'?'Use voice to annotate videos':'A relaxed person speaking to Cheddar Vox on their desktop'}>
+    <rect x="-900" y="-900" width="2700" height="2700" fill="#edf0ef"/>
+    <defs>
+     <clipPath id="film-monitor"><polygon points="519,84 668,63 665,161 516,168"/></clipPath>
+     <clipPath id="film-mouth"><ellipse cx="312" cy="115" rx="13" ry="10"/></clipPath>
+     <clipPath id="film-hand"><path d="M427 178h65v22h-65z"/></clipPath>
+    </defs>
+    <image href="/images/office-clicking-branded-2d.png" width="900" height="380" preserveAspectRatio="none"/>
+    <image className="film-click-hand" clipPath="url(#film-hand)" href="/images/office-clicking-branded-2d.png" width="900" height="380" preserveAspectRatio="none"/>
+    <image className="film-relaxed" href="/images/office-relaxed-2d.png" width="900" height="380" preserveAspectRatio="none"/>
+    <image className="film-talking" clipPath="url(#film-mouth)" href="/images/office-speaking-2d.png" width="900" height="380" preserveAspectRatio="none"/>
+    <foreignObject x="0" y="0" width="900" height="380" className="film-monitor-surface"><div className="film-monitor-plane" style={{transform: "matrix3d(0.2980687269611294,-0.15918889681059942,0,-0.0007796762394415719,-0.014012743708175176,0.7822594167771832,0,0.00002667642261550891,0,0,1,0,519,84,0,1)"}}>
+     <svg width="183" height="108" viewBox="500 114 183 108"><rect x="500" y="114" width="183" height="108" fill="#fffdf8"/>
     <g className="story-video">
-     <rect x="508" y="122" width="167" height="76" rx="3" fill="#dbe9f2"/>
-     <path d="M508 181h167v17H508z" fill="#c4d6ce"/><path d="M508 187h167" stroke="#b1c5b9"/>
-     <g className="story-walker" transform="translate(-209.2 0) scale(1.3 1)">
+     <rect x="508" y="122" width="167" height="76" rx="3" fill="#dbeafe"/>
+     <path d="M508 181h167v17H508z" fill="#e6dfce"/><path d="M508 187h167" stroke="#b1c5b9"/>
+     <g className="story-walker" transform="translate(0 0)">
       <ellipse cx="584" cy="190" rx="18" ry="3" fill="#afc1b7"/>
       <path className="walker-leg-a" d="M581 166l-7 12-4 10" stroke="#263951" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
       <path className="walker-leg-b" d="M587 166l5 12 6 9" stroke="#172033" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
       <path className="walker-arm-a" d="M580 150l-7 8-5-1" stroke="#e6aa80" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-      <path d="M579 146q6-3 12 1l2 20q-8 4-17 0z" fill="#315bea"/>
+      <path d="M579 146q6-3 12 1l2 20q-8 4-17 0z" fill="#172033"/>
       <path d="M583 140v7" stroke="#e6aa80" strokeWidth="5"/>
       <ellipse cx="585" cy="136" rx="7" ry="8" fill="#f2bc94"/>
       <path d="M578 136q-3-12 7-11 9 0 8 8l-7-3-4 5z" fill="#172033"/>
@@ -109,19 +68,17 @@ export function HomeAnimation(){
      <text x="591" y="188" textAnchor="middle" fontSize="15" fill="#172033">0:04 – 0:09</text>
      <text x="591" y="207" textAnchor="middle" fontSize="12" fill="#245c38">Annotation saved</text>
     </g>
-     </g>
-    </g>
-    <path d="M478 244h64" stroke="#8194ac" strokeWidth="5" strokeLinecap="round"/>
-    <g className="story-mouse"><rect x="435" y="231" width="25" height="13" rx="7" fill="#172033"/><path d="M448 231v6" stroke="white" strokeWidth="2"/></g>
-    <g className="story-clicks" fill="#172033" fontWeight="750"><text x="220" y="98" fontSize="25" transform="rotate(-12 220 98)">click</text><text x="387" y="125" fontSize="32" transform="rotate(10 387 125)">click</text><text x="245" y="218" fontSize="22" transform="rotate(-8 245 218)">click</text><text x="389" y="193" fontSize="22">click</text><text x="278" y="64" fontSize="19">click</text></g>
-    <g className="story-mic">
-     <rect x="455" y="190" width="13" height="25" rx="6.5" fill="#315bea" stroke="#172033" strokeWidth="2"/>
-     <path d="M450 205v5q0 13 12 13t12-13v-5m-12 18v16m-10 0h20" stroke="#172033" strokeWidth="3" strokeLinecap="round" fill="none"/>
-    </g>
-    <g className="story-speech"><rect x="364" y="45" width="229" height="45" rx="22" fill="#ffcd38" stroke="#172033" strokeWidth="2"/><path d="M384 88l-10 16 26-15" fill="#ffcd38" stroke="#172033" strokeWidth="2"/><text x="479" y="74" textAnchor="middle" fontSize="19" fontWeight="700" fill="#172033">{speech}</text><path className="story-waves" d="M385 143q13 9 0 18m10-26q24 17 0 34" stroke="#315bea" strokeWidth="3" fill="none" strokeLinecap="round"/></g>
+
+     </svg></div></foreignObject>
+    <g className="film-click-words" fill="#172033" fontWeight="700" fontSize="17"><text x="431" y="156">click</text><text x="488" y="222">click</text><text x="364" y="208">click</text></g>
+    <g className="story-speech"><rect x="255" y="22" width="206" height="45" rx="22" fill="#ffcd38" stroke="#172033" strokeWidth="1.5"/><path d="M292 66l-10 15 26-15" fill="#ffcd38"/><text x="357" y="51" textAnchor="middle" fontSize="20" fontWeight="700" fill="#172033">{speech}</text><path className="story-waves" d="M334 103q13 9 0 18m10-26q24 17 0 34" stroke="#315bea" strokeWidth="3" fill="none" strokeLinecap="round"/></g>
    </svg>
-   <div className="story-ending"><span className="story-end-brand">Cheddar Vox</span><h2>Use voice to<br/>annotate videos.</h2><div className="story-end-wave" aria-hidden="true">{[12,24,38,22,46,30,18,34,14].map((h,i)=><i key={i} style={{height:h,animationDelay:`${i*.08}s`}}/>)}</div></div>
+   <div className="story-ending"><h2>Use voice to<br/>annotate videos.</h2><div className="story-end-wave" aria-hidden="true">{[12,24,38,22,46,30,18,34,14].map((h,i)=><i key={i} style={{height:h,animationDelay:`${i*.08}s`}}/>)}</div></div>
   </div>
 
  </figure>;
 }
+
+
+
+

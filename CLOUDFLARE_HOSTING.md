@@ -1,5 +1,7 @@
 # Cloudflare website preparation
 
+Current instruction, reconfirmed 12 October 2026: keep Cloudflare Pages hosting at https://cheddarvox.com. Do not migrate hosting to Convex. `npm run deploy` now publishes the Convex backend and the Cloudflare website, then verifies the built frontend is live. The notes below record earlier deployment stages; their older statements about the deploy command are historical.
+
 User approved moving website hosting and the public trial video to Cloudflare on 6 October 2026. Convex remains the backend/database. No user uploads, workspaces or annotations are moved or deleted.
 
 Cloudflare Pages build settings (published through terminal Direct Upload):

@@ -33,10 +33,11 @@ export function TrialPlayer({video,frameRate,episodeId,active,draft,locked=false
   window.addEventListener('keydown',keys,true);return()=>window.removeEventListener('keydown',keys,true);
  },[active,fps,duration,canUndo,canRedo,history,draft,position]);
  return <div className="trial-player" aria-label="Trial player controls">
-  <div className="editor-playback" role="group" aria-label="Video playback">
+  <div className="editor-playback" role="group" aria-label="Video playback">{[-10,-5].map(delta=><button className="main-skip" type="button" key={delta} aria-label={`Jump back ${-delta} seconds`} disabled={!duration} onClick={()=>seek((video.current?.currentTime??0)+delta)}>{delta}s</button>)}
    <button type="button" aria-label="Previous frame" title="Previous frame (Left arrow)" disabled={!fps||!duration||position<=0} onClick={()=>step(-1)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M18 5l-9 7 9 7Z"/></svg></button>
    <button type="button" className="playback-toggle" aria-label={paused?'Play video':'Pause video'} disabled={!duration} onClick={()=>{const player=video.current;if(player){if(player.paused)void player.play().catch(()=>setError('The video could not play. Try again.'));else player.pause();}}}><svg viewBox="0 0 24 24" aria-hidden="true">{paused?<path d="m8 5 11 7-11 7Z"/>:<path d="M8 5v14M16 5v14"/>}</svg></button>
    <button type="button" aria-label="Next frame" title="Next frame (Right arrow)" disabled={!fps||!duration||position>=(Math.ceil(duration*(fps??1))-1)/(fps??1)} onClick={()=>step(1)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M6 5l9 7-9 7Z"/></svg></button>
+   {[5,10].map(delta=><button className="main-skip" type="button" key={delta} aria-label={`Jump forward ${delta} seconds`} disabled={!duration} onClick={()=>seek((video.current?.currentTime??0)+delta)}>+{delta}s</button>)}
    <input aria-label="Seek video" type="range" min="0" max={duration||1} step="0.001" value={Math.min(position,duration||1)} disabled={!duration} onInput={e=>seek(Number(e.currentTarget.value))}/>
    <span className="playback-time">{fps?frameTimecode(position,fps):position.toFixed(2)} / {fps?frameTimecode(duration,fps):duration.toFixed(2)}</span>
   </div>
@@ -49,3 +50,4 @@ export function TrialPlayer({video,frameRate,episodeId,active,draft,locked=false
   {error&&<p className="player-error" role="alert">{error}</p>}
  </div>;
 }
+

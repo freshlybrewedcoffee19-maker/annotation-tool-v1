@@ -63,7 +63,7 @@
 
 [data-stage=speaking][data-cue=saved] .story-video{opacity:0}
 
-.landing .vox-story{width:100vw;max-width:none;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);border-left:0;border-right:0;border-radius:0}
+.landing .vox-story{width:100%;max-width:1100px;margin-left:auto;margin-right:auto;box-sizing:border-box;border:1px solid #d9e2ec;border-radius:18px}
 
 .dataset-services-section{margin:40px auto 0;padding:32px 20px;text-align:center;border-top:1px solid #d9e2ec;max-width:1100px}
 .landing .dataset-services-section .home-services{margin:0;font-size:18px;line-height:1.6}
@@ -75,5 +75,76 @@
 .landing .landing-footer,.landing .landing-footer a,.landing .landing-footer .home-services,.landing .landing-footer .home-services button{color:#000}
 
 
-.landing .landing-footer{border-top:3px solid #172033}
+.landing .landing-footer{border-top:3px solid #315bea}
+
+
+
+/* Keep the animation and both calls to action within the first screen. */
+.landing .vox-story{width:100%;max-width:min(960px,calc((100svh - 310px)*2.368));margin:16px auto 20px}
+.landing .vox-story-scene{aspect-ratio:900/380}
+.landing .hero-actions{gap:12px;margin-top:0}
+.landing .hero-actions .sprint-button{min-height:44px;padding:10px 22px;font-size:15px}
+@media(min-width:700px){.landing .hero-actions{display:flex;flex-direction:row;align-items:center;justify-content:center}.landing .hero h1{margin-top:12px;margin-bottom:16px}}
+@media(max-height:700px){.landing .brand-header{padding-top:12px;padding-bottom:12px}.landing .hero h1{font-size:clamp(26px,4vw,40px);margin:12px 0}.landing .vox-story{margin:12px auto 16px;max-width:min(860px,calc((100svh - 280px)*2.368))}}
+
+/* Painted 2D film frames share the original animation timing. */
+.film-story .film-relaxed{opacity:0;transition:opacity .65s ease}
+.film-story[data-stage=speaking] .film-relaxed{opacity:1}
+.film-story .film-talking{opacity:0}
+.film-story[data-stage=speaking]:not([data-cue=saved]) .film-talking{animation:film-syllable .46s steps(1,end) infinite}
+.film-story .film-click-hand{animation:film-tap .28s ease-in-out infinite}
+.film-story .film-click-words{opacity:0}
+.film-story[data-stage=clicking] .film-click-words{opacity:1}
+.film-story .film-click-words text{animation:story-click .7s infinite alternate;paint-order:stroke;stroke:#fffdf8;stroke-width:2px}
+.film-story .film-click-words text:nth-child(2){animation-delay:.23s}.film-story .film-click-words text:nth-child(3){animation-delay:.4s}
+.film-story .story-walker{animation:film-walk-across 3s linear infinite}
+.film-story[data-stage=speaking]:not([data-cue=start]) .story-walker{animation-play-state:paused}
+@keyframes film-syllable{0%,50%,100%{opacity:0}20%,75%{opacity:1}}
+@keyframes film-tap{50%{transform:translateY(.9px)}}
+@keyframes film-walk-across{0%{translate:-10px 0}100%{translate:12px 0}}
+@media(prefers-reduced-motion:reduce){.film-story *{animation:none!important;transition:none!important}}
+
+.film-story svg svg{width:153px;height:106px}
+
+
+.film-monitor-surface{overflow:visible;pointer-events:none}
+.film-monitor-plane{width:183px;height:108px;transform-origin:0 0;overflow:hidden;background:#fffdf8}
+.film-story .film-monitor-plane svg{display:block;width:183px;height:108px}
+
+
+@media(max-width:600px){
+ .landing .vox-story{max-width:420px;width:100%;margin:16px auto 20px}
+ .landing .vox-story-scene{aspect-ratio:1}
+ .landing .vox-story-scene>svg{width:100%;height:100%;transform:none;max-width:100%}
+ .film-story .film-monitor-plane svg{transform:none;width:183px;height:108px}
+ .landing .story-ending h2{font-size:clamp(28px,8vw,36px);line-height:1.15}
+}
+
+
+
+.landing-footer nav[aria-label="Footer"]{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 20px}
+
+
+.landing .landing-footer{display:flex;flex-direction:column;align-items:center;gap:16px}
+.landing-footer .footer-contact{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:20px 36px;width:100%}
+.landing-footer .footer-contact a{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-size:14px;line-height:1.4}
+.landing-footer .footer-contact a:hover>span{text-decoration:underline;text-underline-offset:3px}
+.landing-footer .footer-contact svg{width:22px;height:22px;flex-shrink:0}
+.landing-footer .footer-email{display:block;font-size:12px;margin-top:2px}
+.landing-footer .home-services{margin:0}
+
+
+/* Footer: contact first, supporting links below. */
+.landing .landing-footer{padding:28px clamp(24px,5vw,88px) 20px;gap:0;background:#eaf2ff;border-top:2px solid #315bea;text-align:left}
+.landing-footer .footer-contact{max-width:960px;justify-content:space-between;padding-bottom:22px;border-bottom:1px solid #cbdaf3;gap:20px}
+.landing-footer .footer-contact a{font-size:15px;font-weight:600;gap:12px;color:#172033;text-align:left;min-height:44px}
+.landing-footer .footer-contact svg{width:24px;height:24px}
+.landing-footer .footer-email{font-size:13px;font-weight:400;margin-top:4px;color:#435570}
+.landing .landing-footer .home-services{margin:18px 0 10px;font-size:13px;line-height:1.6;color:#435570}
+.landing .landing-footer .home-services button{font:inherit;color:#172033;text-underline-offset:3px}
+.landing-footer nav[aria-label="Footer"]{gap:4px 24px;font-size:12px;max-width:960px}
+.landing .landing-footer nav[aria-label="Footer"] a{color:#435570;text-decoration:none;line-height:1.5}
+.landing .landing-footer nav[aria-label="Footer"] a:hover{text-decoration:underline;text-underline-offset:4px;color:#315bea}
+.landing-footer a:focus-visible{outline:2px solid #315bea;outline-offset:4px;border-radius:2px}
+@media(max-width:480px){.landing .landing-footer{padding:24px 20px 16px}.landing-footer .footer-contact{align-items:flex-start;gap:16px;flex-direction:column;padding-bottom:18px}.landing .landing-footer .home-services{text-align:left;margin:16px 0 8px}.landing-footer nav[aria-label="Footer"]{justify-content:flex-start;gap:0 18px;width:100%}}
 

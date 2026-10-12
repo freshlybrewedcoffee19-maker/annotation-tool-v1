@@ -1,5 +1,5 @@
 :root{--cheddar-yellow:#FFB82E;--cheddar-orange:#F59E0B;--vox-blue:#2563EB;--deep-navy:#172033;--soft-blue:#DBEAFE;--warm-white:#FFFDF8;--white:#FFFFFF}
-.brand{color:var(--deep-navy);border-bottom:4px solid var(--cheddar-yellow);border-radius:0;padding-bottom:4px}
+.brand{color:var(--deep-navy);border-bottom:4px solid #315bea;border-radius:0;padding-bottom:4px}
 .brand:hover{color:var(--vox-blue)}
 .landing{background:var(--warm-white)}
 .sprint-button{background:var(--cheddar-yellow);border-color:var(--cheddar-orange);color:var(--deep-navy)}
@@ -49,3 +49,4 @@
  .landing .hero-media .film-2{display:block;transform:none;opacity:1;z-index:3}
  .landing .hero-media .film-2 span{visibility:visible;opacity:1;transition:none}
 }
+
