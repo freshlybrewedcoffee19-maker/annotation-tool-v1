@@ -8,8 +8,8 @@ import {api} from '../convex/_generated/api';
 for(const width of [1280,390])test(`images label, reopen, edit, review and export at ${width}px; videos keep timed labels`,async({page})=>{
  test.setTimeout(240000);page.setDefaultTimeout(15000);await page.setViewportSize({width,height:width===390?844:800});
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- const out=path.resolve('outputs/image-annotation-preview');await fs.mkdir(out,{recursive:true});
- await page.route('https://cheddarvox.com/**',async route=>{const url=new URL(route.request().url());await route.fulfill({response:await page.request.get('http://127.0.0.1:5174'+url.pathname+url.search)});});
+ const out=path.resolve(process.env.LOCAL_PREVIEW==='1'?'outputs/image-annotation-preview':'outputs/image-annotation-live');await fs.mkdir(out,{recursive:true});
+ if(process.env.LOCAL_PREVIEW==='1')await page.route('https://cheddarvox.com/**',async route=>{const url=new URL(route.request().url());await route.fulfill({response:await page.request.get('http://127.0.0.1:5174'+url.pathname+url.search)});});
  let failNext=false;
  await page.routeWebSocket(/wss:\/\/precious-fish-294\.convex\.cloud\//,ws=>{const server=ws.connectToServer();ws.onMessage(message=>{const data=JSON.parse(String(message));if(failNext&&data.type==='Mutation'&&data.udfPath==='images:save'){failNext=false;ws.send(JSON.stringify({type:'MutationResponse',requestId:data.requestId,success:false,result:'Test: save unavailable',logLines:[]}));return;}server.send(message);});server.onMessage(message=>ws.send(message));});
  await page.addInitScript(()=>{
