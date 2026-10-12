@@ -17,6 +17,7 @@ import type * as collaboration from "../collaboration.js";
 import type * as crons from "../crons.js";
 import type * as freeLimits from "../freeLimits.js";
 import type * as http from "../http.js";
+import type * as images from "../images.js";
 import type * as labels from "../labels.js";
 import type * as masks from "../masks.js";
 import type * as media from "../media.js";
@@ -60,6 +61,7 @@ declare const fullApi: ApiFromModules<{
   crons: typeof crons;
   freeLimits: typeof freeLimits;
   http: typeof http;
+  images: typeof images;
   labels: typeof labels;
   masks: typeof masks;
   media: typeof media;
