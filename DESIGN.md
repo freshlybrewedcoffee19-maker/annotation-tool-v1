@@ -34,7 +34,7 @@ Use a centred column capped at 510px, warm-white background, Segoe UI and blue p
 
 ## Verification scope
 
-The live sign-in form and signup screens through password entry were checked on 12 October 2026, without creating an account. The live guest trial was opened, its desktop layout visually checked, and its controls inspected, including the More tools route to sign-in. Signed-in layout was compared with source code; signed-in actions, model results and phone layouts were not tested in this pass.
+The live sign-in form and signup screens through password entry were checked on 12 October 2026, without creating an account. The live guest trial was opened, its desktop layout visually checked, and its controls inspected, including the More tools route to sign-in. Signed-in layout was compared with source code; signed-in actions and model results were not tested in this pass. The guest trial was also visually checked at 390 × 844 with tools expanded and collapsed.
 
 ## Current annotation workspace — 12 October 2026
 
@@ -46,7 +46,7 @@ The main canvas holds the full sample footage, with centred playback beneath it:
 
 Saved annotations are represented below footage in three timeline lanes: Labels, Overlaps and Coverage. A shared time scale and written coverage percentage/overlap count accompany the lanes. The old right-side saved-annotation column is hidden. Guest practice stays separate from the account.
 
-Source measurements: the expanded trial has a 190px tools column plus flexible canvas, or 58px when collapsed. Below 700px, the expanded tools column is 176px and playback wraps. Canvas height is clamp(280px, 48vh, 540px). These measurements describe the current stylesheet; narrow-screen usability has not been checked in this pass.
+Source measurements: the expanded trial has a 190px tools column plus flexible canvas, or 58px when collapsed. Below 700px, the expanded tools column is 176px and playback wraps. Canvas height is clamp(280px, 48vh, 540px). At the checked 390px width, expanded labels leave a narrow canvas: playback wraps across several rows and timeline timestamps crowd together. Collapsing labels retains the icon rail and gives the video and timeline substantially more room. This is an observed limitation, not a completed phone-layout fix.
 
 ### Signed-in editor — source-checked
 
