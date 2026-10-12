@@ -2,7 +2,7 @@
 
 ## Current authority — checked 12 October 2026
 
-This document uses the approved yellow, orange, blue and navy identity. Historical red/brown identity, gradient buttons and two-column annotation layout have been removed. The scoped workspace sections below describe the established three-pane foundation; trial-specific changes are noted separately.
+This document uses the approved yellow, orange, blue and navy identity. Historical red/brown identity and gradient buttons have been removed. The current annotation layout replaces the earlier video-between-two-sidebars arrangement. Trial and signed-in workspaces have distinct structures below.
 
 ## Palette
 
@@ -24,7 +24,7 @@ Keep Segoe UI with a sans-serif fallback. Give the current question or footage d
 
 ## Opening page
 
-Use real footage and the approved Relay-inspired composition. Desktop has five portrait footage cards. Below 768px, the cards form an animated arc with a central readable card and adjacent cards; reduced-motion mode shows one static central card. Do not apply the footage fan to data cards or other screens.
+The current landing page uses the headline Your voice. Your annotations. and an animated illustration showing a person switching from mouse clicks to voice annotation. Primary choices are Try a sample video and Use my own video. The older footage-card fan no longer describes the current landing page.
 
 ## Account entry
 
@@ -34,35 +34,35 @@ Use a centred column capped at 510px, warm-white background, Segoe UI and blue p
 
 ## Verification scope
 
-The live sign-in form and signup screens through password entry were checked on 12 October 2026, without creating an account. Workspace descriptions were compared with source code; their visual appearance and model results were not browser-tested in this documentation pass. The trial has additional layout overrides in src/trial-layout.css and a tool rail, so the three-pane foundation below is not an exact description of every trial screen.
+The live sign-in form and signup screens through password entry were checked on 12 October 2026, without creating an account. The live guest trial was opened, its desktop layout visually checked, and its controls inspected, including the More tools route to sign-in. Signed-in layout was compared with source code; signed-in actions, model results and phone layouts were not tested in this pass.
 
-## Annotation workspace layout — 6 October 2026
+## Current annotation workspace — 12 October 2026
 
-This scoped workspace extension follows the user-approved three-pane reference while retaining the approved Cheddar Vox palette, Segoe UI, existing annotation functions and guided setup. It applies to the Annotate stage only; the opening, setup and review layouts keep their existing treatment.
+### Guest trial
 
-The editor shell is capped at 1800px with 18px 24px outer padding. Its desktop grid is 300px / flexible footage / 260px, with object drawing tools plus Your labels, Label by hand, Object visibility & reappearance, and Review object boxes & export on the left; playback and video above the timeline in the centre; and microphone controls, its two modes, command guidance and saved-label hints on the right. Pending features remain below the left-side controls. Both side panes scroll within a maximum height of calc(100vh - 200px), with a 520px minimum height. Video is contained without cropping in a clamp(320px, 48vh, 560px) height. The timeline has an internal 150px scrolling limit.
+Header shows the corgi brand and an editable sample filename. A slim top row holds Try annotation, expandable help and the blue microphone control. The left area has a narrow icon rail for Annotation and locked More tools, beside a panel of six editable saved labels. More tools routes to sign-in. The panel can collapse to a narrow rail.
 
-At 1600px and above, side panes become 310px and 280px. Between 801px and 1100px, they become 260px and 240px, outer padding becomes 16px and playback wraps its time readout. At 800px and below, outer padding becomes 14px and the panes stack in this order: footage, timeline, inspector, object tools. Side-pane height limits are removed; video returns to a 16:9 frame with a 210px minimum and 430px maximum height. The tool buttons wrap.
+The main canvas holds the full sample footage, with centred playback beneath it: jump back 10 or 5 seconds, play/pause and jump forward 5 or 10 seconds. Undo/Redo, exact time entry with Go, and a 24 fps readout support precise navigation. The sample is rotated 90 degrees in its container and fitted without cropping; this rotation is specific to this sample.
 
-Compact editor type is local to this surface: 24px brand, 16px file, secondary-tool and inspector headings, 14px tool and timeline headings, 13px workflow buttons and secondary-tool disclosure labels, 12px controls and body copy, and 11px help, timestamps and timeline notes. The microphone action is 17px with a 54px minimum height. Pending badges use 10px on desktop and 11px on phones; phone playback time uses 10px. Preserve the incumbent Segoe UI family rather than introducing a new identity.
+Saved annotations are represented below footage in three timeline lanes: Labels, Overlaps and Coverage. A shared time scale and written coverage percentage/overlap count accompany the lanes. The old right-side saved-annotation column is hidden. Guest practice stays separate from the account.
 
-The editor grid has 12px corners, reduced to 8px on phones. Playback, tool and mode buttons and compact fieldsets use 6px corners; microphone and mode-group containers use 8px, and Pending badges use 4px. Playback buttons are 32px square on desktop and 28px wide by 32px high on phones. White panes, warm-white tools, soft-blue dividers and navy footage backing organise the work without new shadows. The review action uses Cheddar Yellow with an orange border; microphone and focus use Vox Blue. Selected tool controls use Soft Blue with a blue border. Editor keyboard focus is a 3px blue outline with a 2px offset.
+Source measurements: the expanded trial has a 190px tools column plus flexible canvas, or 58px when collapsed. Below 700px, the expanded tools column is 176px and playback wraps. Canvas height is clamp(280px, 48vh, 540px). These measurements describe the current stylesheet; narrow-screen usability has not been checked in this pass.
 
-Object detection and team review remain Pending in activity navigation. Pixel masks and assisted tracking have active tool destinations; video masks remain pending. An active destination does not establish model accuracy or performance. Existing manual boxes, polygons, visibility, voice annotation and trial tracking review remain available. Playback frame steps are explicitly estimated from a supplied frame rate, with a 0.1-second fallback. Native video controls remain available. No raster assets or model capabilities are introduced by this layout.
+### Signed-in editor — source-checked
 
-## Guided workspace extension — 6 October 2026
+A slim labelled icon rail sits at the far left: Annotation, Outlines, Visibility, Relations, Masks, Tracking, Review and Export. Next is a collapsible panel showing only the selected activity's controls. Footage and playback occupy the remaining area, with the annotation timeline below. The microphone sits in the top guide row for action annotation; it is no longer a dedicated right sidebar.
 
-This user-approved extension supersedes the earlier annotation tool arrangement for the guided workspace and review/export destination. Preserve the services sample and unrelated incumbent surfaces. CVAT precision, Canva feature discovery and Candy Crush microtasks guide the interaction; their visual skins are not copied. The approved Cheddar Yellow, Cheddar Orange, Vox Blue, Deep Navy, Soft Blue, Warm White and White primitives above remain the brand palette. Activity tones distinguish destinations rather than replacing that identity.
+The desktop grid is 62px rail / 220px controls / flexible footage. At 850px and below the rail and controls become 58px / 176px. Collapsing controls keeps the rail and expands footage. This layout is connected to the signed-in editor in ObjectBoxes.tsx; WorkspacePreview.tsx is a sample-only preview and does not prove signed-in saving or permissions.
 
-### Layout and shapes
+### Surface, type and shapes
 
-The existing three-pane editor keeps named, coloured activity destinations on the left, footage and timeline central, and microphone controls on the right. Only the selected activity's relevant manual tools appear. A contextual task strip sits above footage. Video uses contain fitting, centred in its host, and a minimum height of zero in this extension: original footage proportions remain visible without cropping; drawing geometry follows the displayed image bounds. The existing editor breakpoints remain; at 800px and below navigation becomes two columns and task actions wrap below the prompt.
+Use white headers and soft grey working surfaces: #F8F9FB for tools, #E9ECF1 behind footage and #F6F7F9 behind tracks. Dividers use #D5DAE2/#E1E5EB. Main text remains navy #172033; muted controls use #596477. Blue #2563EB marks microphone and selected tools. The signed-in rail's selected tool uses #E8EFFF.
 
-Review/export uses a 260px / flexible content / 260px grid with an 18px gap: navigation left, task and review content central, microphone right. At 1100px and below the grid becomes 220px / flexible content and microphone moves into the content column; at 800px and below it becomes a vertical flow. Activity buttons have 8px corners, 9px 10px padding, 12px labels and a 42px minimum height (44px on phones). Selected destinations use their coloured border plus an inset 1px outline and 700 weight. Numbered symbols use white 22px squares with 5px corners. Export task and microphone containers use 12px corners. No new drop shadows are added.
+The shell is square and compact. Signed-in headings use 14px, secondary headings 12px and ordinary controls/copy 11px Segoe UI. Label inputs are 32px high. Most controls have 3–5px corners; the main play button is a white 38px circle with a soft shadow. Timeline segments use pale blue #DCE7F8, border #B9C9E4 and 3px corners. Coverage uses green #BBD4C6, with striped gaps. Written lane names and counts explain the colours.
 
-### Activity navigation
+### Feature status and guidance
 
-Action labels use Vox Blue / Soft Blue; Objects & outlines and pending Object detection use activity orange / orange surface; Visibility & reappearance and Assisted tracking use teal / teal surface; Actions & objects use yellow / yellow surface; Review uses green / green surface; Export and pending Team review use Deep Navy / navy surface; Pixel masks use purple / purple surface. Activity text/surface pairs are orange #B45309/#FFF0D4, teal #087F8C/#DDF4F2, yellow #946000/#FFF4BF, green #2E6B45/#E4F2E8 and purple #7040AD/#F0E8FA. Navy surfaces use #E9EDF4; task rewards use #235537. Every destination has a written name, and the active button exposes its pressed state. Object detection and team review stay inside Coming next with explicit Pending badges. Pixel masks and assisted tracking are available activity destinations with their own tools and guided tasks; video masks remain pending.
+Pixel masks and assisted tracking have active signed-in destinations; object detection and team review remain Pending in the older activity navigation. Video masks remain pending. Active controls do not establish model accuracy or performance. Preserve manual boxes, polygons, visibility, action-object links, edit/undo and recoverable review decisions.
 
 ### Contextual tasks and progress
 
