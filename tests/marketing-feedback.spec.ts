@@ -1,51 +1,24 @@
 import {test,expect} from '@playwright/test';
-import {ConvexHttpClient} from 'convex/browser';
-import {api} from '../convex/_generated/api';
-import {randomUUID} from 'node:crypto';
 import fs from 'node:fs/promises';
-test.use({launchOptions:{args:['--use-fake-device-for-media-stream','--use-fake-ui-for-media-stream']}});
 
-test('marketing feedback stays separate through sharing, revisions and finalisation',async({browser})=>{
- test.skip(process.env.MARKETING_PREVIEW!=='1','Disposable local deployment only');
- test.setTimeout(240000);
- const baseURL='http://127.0.0.1:5175',backend='http://127.0.0.1:3210';
- const owner=await browser.newContext({baseURL,permissions:['microphone']}),editor=await browser.newContext({baseURL}),viewer=await browser.newContext({baseURL});
- const page=await owner.newPage(),edit=await editor.newPage(),publicPage=await viewer.newPage();
- page.setDefaultTimeout(15000);edit.setDefaultTimeout(15000);publicPage.setDefaultTimeout(15000);
- page.on('console',m=>{if(m.type()==='error'&&m.text().includes('same key'))errors.push('Duplicate interface controls');});
- const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- await page.addInitScript(()=>{class Speech{continuous=false;interimResults=false;lang='';onresult:any;onend:any;onerror:any;start(){(window as any).marketingSay=(words:string)=>this.onresult?.({resultIndex:0,results:[{isFinal:true,0:{transcript:words}}]});}stop(){this.onend?.();}abort(){this.onend?.();}}(window as any).SpeechRecognition=Speech;});
- const password=randomUUID()+'Aa1!',email=`marketing-${randomUUID()}@example.invalid`,editorEmail=`editor-${randomUUID()}@example.invalid`;
- const client=new ConvexHttpClient(backend),editorClient=new ConvexHttpClient(backend);
- for(const [c,e,name] of [[client,email,'Preview owner'],[editorClient,editorEmail,'Preview editor']] as const){const result=await c.action(api.auth.signIn,{provider:'password',params:{flow:'signUp',email:e,password,name}});expect(result.tokens).toBeTruthy();c.setAuth(result.tokens!.token);}
- async function login(p:typeof page,e:string){await p.goto('/marketing/board');await p.getByLabel('Email',{exact:true}).fill(e);await p.getByLabel('Password',{exact:true}).fill(password);await p.getByRole('button',{name:'Sign in & continue',exact:true}).click();await expect(p.getByRole('heading',{name:'Your video feedback board'})).toBeVisible();}
- await fs.mkdir('outputs/marketing-preview',{recursive:true});
- await page.goto('/marketing');await expect(page.getByRole('heading',{name:'Show your editor exactly what you mean.'})).toBeVisible();await page.screenshot({path:'outputs/marketing-preview/entry-desktop.png',fullPage:true});
- await login(page,email);
- console.log('Owner signed in');
- await page.getByLabel('Upload marketing video').setInputFiles('public/sample.mp4');await expect(page).toHaveURL(/\/marketing\/card\//,{timeout:60000});
- const cardId=page.url().split('/').at(-1)!;await expect(page.getByRole('group',{name:'Video playback',exact:true})).toHaveCount(1);
- await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);
- await page.getByLabel('Start (seconds)',{exact:true}).fill('1');await page.getByLabel('Stop (seconds)',{exact:true}).fill('3');await page.getByLabel('Feedback transcript').fill('Shorten the opening.');await page.reload();await expect(page.getByLabel('Feedback transcript')).toHaveValue('Shorten the opening.');
- await page.getByRole('button',{name:'Turn mic on',exact:true}).click();await expect(page.getByRole('button',{name:'Finish recording',exact:true})).toBeVisible();await page.evaluate(()=>(window as any).marketingSay('Please.'));await expect(page.getByLabel('Feedback transcript')).toHaveValue('Shorten the opening. Please.');await expect(page.locator('audio')).toHaveCount(1);await page.getByRole('button',{name:'Finish recording',exact:true}).click();await page.getByLabel('Feedback transcript').fill('Shorten the opening.');await page.reload();await expect(page.locator('audio')).toHaveCount(1);await expect(page.getByLabel('Feedback transcript')).toHaveValue('Shorten the opening.');
- await page.getByRole('button',{name:'Save feedback',exact:true}).click();await expect(page.getByText('Shorten the opening.',{exact:true})).toBeVisible();
- await page.getByRole('button',{name:'Edit text',exact:true}).click();await page.getByLabel('Correct feedback').fill('Shorten the opening to two seconds.');await page.getByRole('button',{name:'Save corrected text'}).click();await expect(page.getByText('Shorten the opening to two seconds.',{exact:true})).toBeVisible();
- await page.getByRole('button',{name:'Play feedback clip',exact:true}).click();await expect.poll(()=>page.locator('video').evaluate((v:HTMLVideoElement)=>v.currentTime)).toBeGreaterThanOrEqual(1);
- await page.getByRole('button',{name:'Create review link',exact:true}).click();const link=await page.getByLabel('View-only review link').inputValue();await publicPage.goto(link);await expect(publicPage.getByText('Shorten the opening to two seconds.',{exact:true})).toBeVisible();await expect(publicPage.getByRole('button',{name:'Save feedback',exact:true})).toHaveCount(0);
- const audioResponse=await publicPage.request.get(await publicPage.locator('audio').getAttribute('src') as string);expect(audioResponse.status()).toBe(200);expect((await audioResponse.body()).length).toBeGreaterThan(0);
- await expect.poll(()=>publicPage.locator('video').evaluate((v:HTMLVideoElement)=>v.readyState)).toBeGreaterThanOrEqual(2);
- await login(edit,editorEmail);await edit.goto(link);await edit.getByRole('button',{name:'Request editor access'}).click();await expect(page.getByRole('button',{name:'Approve editor access'})).toBeVisible();await page.getByRole('button',{name:'Approve editor access'}).click();
- await edit.goto(`/marketing/card/${cardId}`);await edit.getByLabel('Reply to feedback').fill('Opening fixed in the next cut.');await edit.getByRole('button',{name:'Send reply'}).click();await expect(page.getByText('Opening fixed in the next cut.',{exact:true})).toBeVisible();
- await edit.getByLabel('Upload revised video').setInputFiles('public/sample.mp4');await expect(page.getByLabel('Video version')).toHaveValue(/.+/);await expect(page.getByLabel('Video version').locator('option')).toHaveCount(2,{timeout:60000});await expect(page.getByLabel('Board column')).toHaveValue('revised');await expect(page.getByRole('group',{name:'Video playback',exact:true})).toHaveCount(1);
- await page.getByRole('button',{name:'Mark reviewed',exact:true}).click();await page.getByLabel('Board column').selectOption('approved');await page.getByRole('button',{name:'Review finalisation'}).click();await expect(page.getByText(/^Version 1: sample.mp4/)).toBeVisible();await expect(page.getByRole('button',{name:'Confirm deletion and finalise'})).toBeDisabled();
- await page.screenshot({path:'outputs/marketing-preview/card-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'outputs/marketing-preview/card-mobile.png',fullPage:true});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
- await page.getByRole('checkbox').check();await page.getByRole('button',{name:'Confirm deletion and finalise'}).click();await expect(page.getByRole('heading',{name:'Finalised',exact:true})).toBeVisible({timeout:60000});await expect(page.getByText('Shorten the opening to two seconds.',{exact:true})).toBeVisible();await expect(page.getByLabel('Upload revised video')).toHaveCount(0);
- expect((await publicPage.request.get(await publicPage.locator('audio').getAttribute('src') as string)).status()).toBe(200);
- const oldMedia=await publicPage.locator('video').getAttribute('src');await page.getByRole('button',{name:'Revoke link',exact:true}).click();await expect(page.getByText('Review link revoked',{exact:true})).toBeVisible();expect((await publicPage.request.get(oldMedia!,{headers:{Range:'bytes=0-100'}})).status()).toBe(403);await publicPage.reload();await expect(publicPage.getByRole('heading',{name:'Review unavailable'})).toBeVisible();
- await page.getByRole('button',{name:'Reopen card'}).click();await expect(page.getByLabel('Upload revised video')).toBeEnabled();await page.getByRole('link',{name:'Back to board'}).click();await page.screenshot({path:'outputs/marketing-preview/board-mobile.png',fullPage:true});
- await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'outputs/marketing-preview/board-desktop.png',fullPage:true});expect(errors).toEqual([]);
- const demoToken=(randomUUID()+randomUUID()).replaceAll('-','');await client.mutation(api.marketing.share,{cardId:cardId as any,token:demoToken});
- const publicPreview=`${baseURL}/marketing/review/${demoToken}`;await publicPage.goto(publicPreview);await expect(publicPage.getByText('Shorten the opening to two seconds.',{exact:true})).toBeVisible();await publicPage.screenshot({path:'outputs/marketing-preview/shared-review-desktop.png',fullPage:true});
- await fs.writeFile('outputs/marketing-preview/result.json',JSON.stringify({cardId,preview:`${baseURL}/marketing`,publicPreview,checkedAt:new Date().toISOString()},null,2));
- await owner.close();await editor.close();await viewer.close();
+// Browser-memory preview only: no Convex accounts, sessions, files or records.
+test('upload, feedback, revision and done keep every version without approval steps',async({browser})=>{
+ const context=await browser.newContext(),page=await context.newPage();page.setDefaultTimeout(15000);
+ const connections:string[]=[],errors:string[]=[];
+ await page.route(/https?:\/\/(?!127\.0\.0\.1:5176\b)/,route=>{connections.push(route.request().url());return route.abort();});
+ page.on('websocket',ws=>{if(!ws.url().startsWith('ws://127.0.0.1:5176'))connections.push(ws.url());});page.on('pageerror',error=>errors.push(error.message));
+ await fs.mkdir('outputs/marketing-simple-preview',{recursive:true});
+ await page.goto('http://127.0.0.1:5176/marketing');await expect(page.getByRole('heading',{name:'Show your editor exactly what you mean.'})).toBeVisible();await page.screenshot({path:'outputs/marketing-simple-preview/entry.png',fullPage:true});
+ await page.getByRole('button',{name:'Upload a video',exact:true}).click();await expect(page.getByRole('heading',{name:'Your video feedback board'})).toBeVisible();
+ for(const name of ['Feedback 0','Revision 0','Done 0'])await expect(page.getByRole('heading',{name})).toBeVisible();
+ await page.getByLabel('Upload marketing video').setInputFiles('public/sample.mp4');await expect(page.getByLabel('Feedback transcript')).toBeVisible();
+ await page.getByLabel('Start (seconds)',{exact:true}).fill('1');await page.getByLabel('Stop (seconds)',{exact:true}).fill('3');await page.getByLabel('Feedback transcript').fill('Shorten the opening.');await page.getByRole('button',{name:'Save feedback',exact:true}).click();await expect(page.getByText('Shorten the opening.',{exact:true})).toBeVisible();await expect(page.locator('.marketing-page-heading').getByText('Revision',{exact:true})).toBeVisible();
+ await page.getByLabel('Upload revised video').setInputFiles('public/sample.mp4');await expect(page.getByLabel('Video version').locator('option')).toHaveCount(2);await expect(page.locator('.marketing-page-heading').getByText('Feedback',{exact:true})).toBeVisible();await expect(page.getByRole('group',{name:'Video playback',exact:true})).toHaveCount(1);
+ await expect(page.getByRole('tab',{name:'Review',exact:true})).toHaveCount(0);await expect(page.getByRole('button',{name:/finalis|approv|delet/i})).toHaveCount(0);await expect(page.getByRole('button',{name:'Create review link',exact:true})).toBeHidden();
+ await page.screenshot({path:'outputs/marketing-simple-preview/tool-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'outputs/marketing-simple-preview/tool-mobile.png',fullPage:true});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.getByRole('button',{name:'Mark done',exact:true}).click();await expect(page.getByRole('status').filter({hasText:'This video is done.'})).toBeVisible();await expect(page.getByLabel('Video version').locator('option')).toHaveCount(2);await expect(page.getByText('Shorten the opening.',{exact:true})).toBeVisible();await expect(page.getByLabel('Feedback transcript')).toHaveCount(0);await expect(page.getByLabel('Upload revised video')).toHaveCount(0);
+ await page.getByRole('button',{name:'Continue feedback',exact:true}).click();await expect(page.getByLabel('Feedback transcript')).toBeVisible();await page.getByRole('button',{name:'Mark done',exact:true}).click();await page.getByRole('link',{name:'Back to board'}).click();await expect(page.getByRole('heading',{name:'Done 1'})).toBeVisible();await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'outputs/marketing-simple-preview/board.png',fullPage:true});
+ await page.goto('http://127.0.0.1:5176/marketing/board?example=1');await expect(page.getByRole('button',{name:/Example video/})).toBeVisible();
+ await page.goto('http://127.0.0.1:5176/marketing/card/preview-video?example=1');await expect(page.getByLabel('Feedback transcript')).toBeVisible();await expect(page.getByRole('button',{name:'Mark done',exact:true})).toBeVisible();
+ expect(connections).toEqual([]);expect(errors).toEqual([]);await context.close();
 });

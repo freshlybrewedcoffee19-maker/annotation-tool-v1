@@ -16,7 +16,7 @@ Checkpoint: `4617d9f`. Baseline: TypeScript passes; 37 backend tests pass.
 
 ## Preview and proof
 
-Use an isolated local Convex deployment and disposable test accounts/files, never publish to the live shared backend before preview approval. Test permission rules and cleanup failures with convex-test; exercise the complete browser flow against the isolated preview. Check existing image/video flows and responsive layouts. Report actual checks and limitations, not just build success.
+Current verification rule: never create test users, sessions, files or application records in a local or cloud Convex deployment. Use convex-test only in memory for backend rules and a separate browser-memory preview for interface checks. Do not run account-seeding scripts or integration tests that write to a deployment. The earlier deployment-backed checks below are historical, not permission to repeat them.
 
 Visual direction is fixed by the request: the current Cheddar Vox palette, Segoe UI, corgi mascot, compact panels and existing controls. The board is four status columns, not a new brand. Card and public review share the same player and feedback layout. No generated assets are needed.
 
@@ -35,3 +35,20 @@ Screenshots and the latest populated public preview address are in `outputs/mark
 To resume local servers, use Node 24 (the saved private runtime is `.np-tools-private/node-runtime/node-v24.21.0-win-x64/node.exe`), run Convex with `dev --env-file .np-tools-private/marketing-preview.env`, and run Vite on port 5175 with `VITE_CONVEX_URL=http://127.0.0.1:3210` and `VITE_CONVEX_SITE_URL=http://127.0.0.1:3211`. Do not change `.env.local` or deploy to the live backend for preview.
 
 Publishing remains pending the user's preview review. Do not run `npm run deploy` yet.
+
+## Simplified workflow — 14 October 2026 (current scope)
+
+User approved: **upload → feedback → revision → done**. Creative requests, campaign briefs, dates and approval chains are parked. Existing annotation screens and saved annotation data stay unchanged.
+
+- Board columns are Feedback, Revision and Done. Uploading starts in Feedback; adding feedback moves the video to Revision; uploading a new cut returns it to Feedback.
+- One owner-only Mark done button replaces the approval dropdown, review checklist and finalisation controls. Done keeps every video version, recording, comment and reply. Continue feedback reopens the ordinary flow. No new deletion path was introduced.
+- Existing stored status values remain compatible: `approved` is displayed as Done and `revised` is grouped under Feedback. No schema migration or data rewrite is needed. Earlier finalised records remain readable; any already-running legacy cleanup retains its recovery control.
+- Sharing/editor access and version history are collapsed beneath the workspace. Existing server access rules are retained.
+- Replaced the account-creating marketing browser test. The new test imports the real marketing components with browser-memory substitutes, blocks external requests, and verifies no Convex connection is made. The browser fixture is excluded from the production entry point. Optional example display data lives only in the current tab.
+- Local Convex remains stopped. No deployment was pushed and no test records or users were added to Convex in this session.
+
+Preview command: `npx vite --config tests/marketing-preview.config.ts --host 127.0.0.1 --port 5176 --strictPort`.
+
+Preview screens: `/marketing`, `/marketing/board?example=1`, and `/marketing/card/preview-video?example=1` at `http://127.0.0.1:5176`. No sign-in is needed for this interface-only preview. It uses sample footage and resets when refreshed; it does not prove real authentication, storage uploads or transcription services. Those remain unexercised against a running deployment under the no-test-records constraint.
+
+Checks: 43 in-memory backend tests pass; simplified browser flow passes on desktop and at 390px, keeping both versions and feedback on Done and reopening correctly. TypeScript and production build pass. Screenshots are in `outputs/marketing-simple-preview/`. Existing dependency/bundle warnings remain.
