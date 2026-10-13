@@ -1,0 +1,35 @@
+/* Marketing uses the annotation frame and its existing sizing rules. */
+.marketing-editor-app .marketing-main{max-width:1800px;padding:0;margin:0 auto}
+.marketing-editor-app .marketing-header{min-height:68px;padding:10px 18px}
+.marketing-editor-app .marketing-brand .cheddar-logo{width:56px;height:42px}
+.marketing-app .marketing-card-detail>header h1{font-size:16px;margin:0;overflow-wrap:anywhere;text-align:left}
+.marketing-editor-app .media-navigation label{display:flex;align-items:center;gap:8px;flex:1;min-width:0;margin:0;white-space:nowrap}
+.marketing-editor-app .media-navigation select{flex:1;width:0;min-width:0;max-width:420px}
+.marketing-app .marketing-card-detail>header .exports{margin-left:auto}
+.marketing-card-detail .step-navigation a{display:inline-block;padding:7px 12px;border:1px solid #d5dae2;border-radius:4px;background:#fff;text-decoration:none;font-size:13px}
+.marketing-card-detail .step-navigation [aria-selected=true]{background:#2563eb;color:#fff;border-color:#2563eb}
+.marketing-card-detail .workspace-notices[role=status]{height:auto;min-height:30px;white-space:normal}
+.marketing-card-detail .marketing-feedback-controls .trial-top-labels{grid-row:2/4;max-height:calc(var(--canvas-height) + 220px);overflow:auto}
+.marketing-card-detail .marketing-feedback-controls label{margin:10px 0 6px;gap:4px}
+.marketing-card-detail .marketing-feedback-controls textarea,.marketing-card-detail .marketing-feedback-controls input{width:100%;padding:6px 8px}
+.marketing-card-detail .marketing-feedback-controls .marketing-actions{gap:4px}
+.marketing-card-detail .marketing-feedback-controls .marketing-actions button{flex:1;padding:6px 4px}
+.marketing-card-detail .marketing-feedback-controls>button{display:flex;align-items:center;justify-content:center;gap:6px}
+.marketing-card-detail .editor-toolrail .marketing-panel{padding:0;border:0;background:transparent}
+.marketing-card-detail .editor-toolrail .marketing-feedback-item{padding:10px 0}
+.marketing-card-detail .editor-toolrail .marketing-feedback-item header{flex-direction:column}
+.marketing-card-detail .editor-toolrail .marketing-actions button{font-size:12px;width:100%}
+.marketing-card-detail .marketing-saved-feedback h2{margin:0 0 8px}
+.marketing-card-detail .marketing-saved-feedback table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}
+.marketing-card-detail .marketing-saved-feedback th,.marketing-card-detail .marketing-saved-feedback td{padding:8px;border-bottom:1px solid #d5dae2;vertical-align:top}
+.marketing-card-detail .marketing-saved-feedback td:first-child{min-width:150px;white-space:pre-wrap;overflow-wrap:anywhere;max-width:65ch}
+.marketing-card-detail .marketing-saved-feedback td button{margin:0 4px 4px 0}
+.marketing-card-detail>.marketing-disclosure{margin:12px 18px}
+.marketing-card-detail .editor-playback{background:transparent;padding:0}
+.marketing-entry.marketing-entry-simple{display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:720px;margin:0 auto;min-height:0;padding:44px 0}
+.marketing-entry-simple>.cheddar-logo{width:100px;height:76px}
+.marketing-entry.marketing-entry-simple h1{font-size:44px;max-width:18ch;margin:0}
+.marketing-entry-simple ol{padding-left:24px;margin:0;font-size:21px;line-height:1.7}
+.marketing-entry-simple p{max-width:45ch;margin:0;color:#596477;font-size:15px}
+@media(max-width:900px){.marketing-card-detail .marketing-feedback-controls .trial-top-labels{grid-row:4;max-height:none}}
+@media(max-width:600px){.marketing-entry.marketing-entry-simple{padding:20px 0}.marketing-entry.marketing-entry-simple h1{font-size:34px}.marketing-card-detail>header{align-items:flex-start}.marketing-card-detail .workspace-notices{max-height:none}.marketing-card-detail .marketing-saved-feedback{overflow:hidden}}

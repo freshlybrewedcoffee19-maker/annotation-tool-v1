@@ -52,3 +52,13 @@ Preview command: `npx vite --config tests/marketing-preview.config.ts --host 127
 Preview screens: `/marketing`, `/marketing/board?example=1`, and `/marketing/card/preview-video?example=1` at `http://127.0.0.1:5176`. No sign-in is needed for this interface-only preview. It uses sample footage and resets when refreshed; it does not prove real authentication, storage uploads or transcription services. Those remain unexercised against a running deployment under the no-test-records constraint.
 
 Checks: 43 in-memory backend tests pass; simplified browser flow passes on desktop and at 390px, keeping both versions and feedback on Done and reopening correctly. TypeScript and production build pass. Screenshots are in `outputs/marketing-simple-preview/`. Existing dependency/bundle warnings remain.
+
+## Entry copy and annotation UI correction — 14 October 2026
+
+The user rejected the lengthy entry copy and the separate two-column feedback-tool design. The entry page now says **Video feedback in two steps: 1. Upload your video. 2. Say what to change.**
+
+The feedback tool now reuses the existing signed-in annotation components: WorkspaceLayout, WorkspaceToolRail, MediaNavigation, AnnotationVideo, EditorPlayback and TrialTracks. It keeps the same tool rail, collapsible left controls, microphone placement, video canvas, playback controls, timeline and saved-row structure. Marketing changes the data and relevant labels, not the underlying annotation layout. Its tool rail exposes Feedback, Review and Share; annotation-only object/mask/tracking tools are not shown as nonfunctional marketing controls. Sharing is now in that existing side panel; version history remains below.
+
+Shared components gained optional rail filtering/labels and an accessible selection label. All original defaults, annotation actions and stylesheet ordering remain unchanged. Marketing feedback still uses its own records and audio/transcript recovery. Revisions, Done, and old cleanup recovery remain intact.
+
+Verified: 45 in-memory tests, including original annotation navigation defaults; browser-only upload, feedback correction, reply, sharing, revision, panel collapse/expand, Done and reopen; desktop/phone screenshots; TypeScript and production build. Local Convex remains stopped. No deployment changes or saved test accounts/records.
