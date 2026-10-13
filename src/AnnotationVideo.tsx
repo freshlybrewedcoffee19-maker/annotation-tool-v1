@@ -3,7 +3,7 @@ import {useEffect,useState,type RefObject} from 'react';
 /** The small public trial is loaded once into browser memory so it can seek
  * even when its static host does not support partial-file requests. Personal
  * footage retains its private streaming URL. */
-export function AnnotationVideo({source,localTrial,video,onTime,onError,dimensions,onReady,onProgress}:{source:string;localTrial:boolean;video:RefObject<HTMLVideoElement|null>;onTime:()=>void;onError:(message:string)=>void;dimensions?:{width?:number;height?:number};onReady?:()=>void;onProgress?:(value:number|null)=>void}){
+export function AnnotationVideo({source,localTrial,video,onTime,onError,dimensions,onReady,onProgress,nativeControls}:{source:string;localTrial:boolean;video:RefObject<HTMLVideoElement|null>;onTime:()=>void;onError:(message:string)=>void;dimensions?:{width?:number;height?:number};onReady?:()=>void;onProgress?:(value:number|null)=>void;nativeControls?:boolean}){
  const [localSource,setLocalSource]=useState(''),[loadError,setLoadError]=useState('');
  useEffect(()=>{
   if(!localTrial)return;setLocalSource('');setLoadError('');
@@ -18,5 +18,5 @@ export function AnnotationVideo({source,localTrial,video,onTime,onError,dimensio
   return()=>{disposed=true;controller.abort();if(objectUrl)URL.revokeObjectURL(objectUrl);};
  },[source,localTrial]);
  const ratio=dimensions?.width&&dimensions?.height?dimensions.width/dimensions.height:16/9;
- return <><video crossOrigin="anonymous" style={localTrial?{aspectRatio:String(ratio)}:{width:'100%',height:'100%',objectFit:'contain'}} ref={video} src={localTrial?(localSource||undefined):source} controls={!localTrial} poster={localTrial?'/images/trial-0.png':undefined} preload={localTrial?'auto':'metadata'} onLoadedData={onReady} onTimeUpdate={onTime} onError={()=>onError('The video could not play. Try an H.264 MP4.')}/>{localTrial&&!localSource&&<p className="trial-media-status" role={loadError?'alert':'status'}>{loadError||'Loading trial video…'}</p>}</>;
+ return <><video crossOrigin="anonymous" style={localTrial?{aspectRatio:String(ratio)}:{width:'100%',height:'100%',objectFit:'contain'}} ref={video} src={localTrial?(localSource||undefined):source} controls={nativeControls??!localTrial} poster={localTrial?'/images/trial-0.png':undefined} preload={localTrial?'auto':'metadata'} onLoadedData={onReady} onTimeUpdate={onTime} onError={()=>onError('The video could not play. Try an H.264 MP4.')}/>{localTrial&&!localSource&&<p className="trial-media-status" role={loadError?'alert':'status'}>{loadError||'Loading trial video…'}</p>}</>;
 }

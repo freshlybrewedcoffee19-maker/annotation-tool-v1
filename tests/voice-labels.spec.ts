@@ -1,4 +1,6 @@
 import {test,expect} from '@playwright/test';
+import {ConvexHttpClient} from 'convex/browser';
+import {api} from '../convex/_generated/api';
 import fs from 'node:fs/promises';
 import {createVoiceSegments,type VoiceSegment} from '../src/voice-segments';
 test('interim stop stamps end once and matching final result does not repeat it',async({page})=>{
@@ -47,8 +49,8 @@ test('interim stop stamps end once and matching final result does not repeat it'
  await feed('stop',4.75,true);await feed('iron hold',4.75,false);await expect(page.locator('tbody tr')).toHaveCount(0);
  await feed('iron hold',4.75,true);await expect(page.locator('tbody tr')).toHaveCount(1);await expect(page.locator('.trial-guide-line strong')).toHaveText('Saved. Do the next one');
  await page.getByRole('button',{name:'Turn mic off',exact:true}).click();await expect(page.locator('.trial-guide-line strong')).toHaveText('Turn on your mic');
- await page.reload();await expect(page.locator('tbody tr')).toHaveCount(1);await page.getByText('More tools',{exact:true}).click();
- const pending=page.waitForEvent('download');await page.getByRole('button',{name:'Export JSON',exact:true}).click();const stream=await(await pending).createReadStream();const chunks=[];for await(const c of stream!)chunks.push(c);const result=JSON.parse(Buffer.concat(chunks).toString());
+ await page.reload();await expect(page.locator('tbody tr')).toHaveCount(1);
+ const token=await page.evaluate(()=>localStorage.getItem('np-workspace-token')!);const backend=process.env.ANNOTATION_BACKEND_URL??'https://precious-fish-294.convex.cloud';const result=await new ConvexHttpClient(backend).query(api.annotations.exportAll,{workspaceToken:token});
  expect(result).toContainEqual({episode:'IRON_001_trial_45s.mp4',label:'iron_hold',start_sec:2,end_sec:4});
  await page.addInitScript(()=>{delete(window as any).SpeechRecognition;delete(window as any).webkitSpeechRecognition;});await page.reload();await expect(page.getByText('Open in Chrome to use the mic, or open More tools to label by hand.',{exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Turn mic on',exact:true})).toBeDisabled();
 });

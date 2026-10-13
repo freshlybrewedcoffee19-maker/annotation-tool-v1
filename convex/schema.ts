@@ -7,7 +7,9 @@ import {draftValue} from './projectSetup';
 import {authTables} from '@convex-dev/auth/server';
 import {maskFields} from './masks';
 import {shapeFields} from './v2Values';
+import {marketingTables} from './marketingSchema';
 export default defineSchema({
+ ...marketingTables,
  imageLabels:defineTable({episodeId:v.id('episodes'),label:v.string(),normalizedLabel:v.string(),clientKey:v.string(),source:v.union(v.literal('manual'),v.literal('voice')),reviewStatus:v.union(v.literal('pending'),v.literal('verified'),v.literal('disqualified'))}).index('by_episode',['episodeId']).index('by_episode_key',['episodeId','clientKey']).index('by_episode_label',['episodeId','normalizedLabel']),
  v2Videos:defineTable({workspaceId:v.id('workspaces'),episodeId:v.id('episodes'),sample:v.boolean()}).index('by_workspace',['workspaceId']).index('by_episode',['episodeId']),
  v2Shapes:defineTable(shapeFields).index('by_episode',['episodeId']).index('by_episode_key',['episodeId','key']),
