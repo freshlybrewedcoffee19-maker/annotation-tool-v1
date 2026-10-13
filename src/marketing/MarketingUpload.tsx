@@ -1,6 +1,6 @@
 import {uploadFile} from './uploadFile';
 import {useEffect,useRef,useState} from 'react';
-import {useAction,useQuery} from 'convex/react';
+import {useAction,useQuery} from './hooks';
 import {api} from '../../convex/_generated/api';
 import type {Id} from '../../convex/_generated/dataModel';
 import {readDraft,writeDraft} from './drafts';

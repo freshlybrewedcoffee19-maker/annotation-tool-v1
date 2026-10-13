@@ -5,7 +5,7 @@ import {api} from '../convex/_generated/api';
 import {AccountSecurity} from './AccountSecurity';
 
 type Stage='choice'|'email'|'name'|'password';
-export function SignIn({done,back,redirectTo=location.origin+'/signin'}:{done:()=>void;back:()=>void;redirectTo?:string}){
+export function SignIn({done,back,redirectTo=location.origin+'/signin',marketing=false}:{done:()=>void;back:()=>void;redirectTo?:string;marketing?:boolean}){
  const {signIn}=useAuthActions(),providers=useQuery(api.accounts.providers,{});
  const [flow,setFlow]=useState<'signUp'|'signIn'>('signIn'),[stage,setStage]=useState<Stage>('password');
  const [email,setEmail]=useState(''),[name,setName]=useState(''),[phone,setPhone]=useState(''),[password,setPassword]=useState('');
@@ -14,7 +14,7 @@ export function SignIn({done,back,redirectTo=location.origin+'/signin'}:{done:()
  useEffect(()=>{form.current?.querySelector<HTMLInputElement>('input')?.focus();},[stage,flow]);
  const sequence:Stage[]=flow==='signUp'?['email','name','password']:['email','password'];const index=sequence.indexOf(stage);
  const title=flow==='signIn'?'Welcome back.':stage==='choice'?(flow==='signUp'?'Your work starts here.':'Welcome back.'):stage==='email'?'What’s your email?':stage==='name'?'What should we call you?':flow==='signUp'?'Create your password.':'Enter your password.';
- const description=flow==='signIn'?'Sign in to open your saved work.':stage==='choice'?'Save your videos and annotations in one place.':stage==='email'?'Use the email you want to save your work with.':stage==='name'?'Your name helps make this workspace yours.':flow==='signUp'?'One last step. Then bring your video.':`Signing in as ${email}`;
+ const description=flow==='signIn'?'Sign in to open your saved work.':stage==='choice'?(marketing?'Keep your video feedback and revisions together.':'Save your videos and annotations in one place.'):stage==='email'?'Use the email you want to save your work with.':stage==='name'?'Your name helps make this workspace yours.':flow==='signUp'?'One last step. Then bring your video.':`Signing in as ${email}`;
  function move(next:Stage){setError('');setStage(next);}
  function goBack(){if(busy)return;if(flow==='signIn'){back();return;}if(stage==='choice'){back();return;}move(index>0?sequence[index-1]:'choice');}
  async function submit(e:React.FormEvent<HTMLFormElement>){e.preventDefault();setError('');if(stage!=='password'){move(sequence[index+1]);return;}setBusy(true);const data=new FormData();data.set('flow',flow);data.set('email',email.trim().toLowerCase());data.set('password',password);if(flow==='signUp'){data.set('name',name.trim());data.set('phone',phone.trim());}try{const result=await signIn('password',data);setPassword('');if(result.signingIn)done();else setSecurityMode('verify');}catch{setError(flow==='signUp'?'Could not create your account. If you already have one, choose Sign in below.':'Email or password was not recognised. Try again, or go back to check your email.');}finally{setBusy(false);}}

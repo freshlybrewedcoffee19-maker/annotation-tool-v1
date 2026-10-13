@@ -10,3 +10,17 @@
 .marketing-disclosure>summary{padding:16px 20px;cursor:pointer;font-weight:600}
 .marketing-disclosure>.marketing-panel{border:0;border-top:1px solid var(--marketing-border);border-radius:0}
 .marketing-done-notice{padding:12px 16px;background:var(--soft-blue);border-radius:5px}
+
+.marketing-app .marketing-explainer{max-width:960px;margin:20px auto 48px;padding:28px;border:1px solid var(--marketing-border);border-radius:12px;background:white}
+.marketing-app .marketing-explainer>div:first-child{display:flex;align-items:center;gap:20px}.marketing-app .marketing-explainer .cheddar-logo{width:96px;height:72px}
+.marketing-app .marketing-explainer-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.marketing-app .marketing-explainer-tabs [aria-pressed=true]{background:var(--soft-blue);border-color:var(--vox-blue)}
+.marketing-app .marketing-explainer-scene{padding:24px;background:var(--warm-white);border:1px solid var(--marketing-border);border-radius:8px;min-height:220px;margin-bottom:16px}
+.marketing-app .marketing-demo-time{color:var(--vox-blue);font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}.marketing-app .marketing-demo-track{height:14px;background:#dce5f5;border-radius:4px;margin-top:24px}.marketing-app .marketing-demo-track span{display:block;margin-left:20%;width:30%;height:100%;background:var(--cheddar-yellow);border:1px solid var(--cheddar-orange);border-radius:4px}
+.marketing-app .marketing-secondary{display:inline-flex;align-items:center;padding:9px 16px;border:1px solid var(--marketing-border);border-radius:5px;background:white;text-decoration:none;min-height:40px}
+.marketing-app .marketing-status-controls{display:flex;gap:16px;align-items:center;padding:0 18px;flex-wrap:wrap}.marketing-app .marketing-status-controls label{display:flex;align-items:center;gap:12px}
+.marketing-app .marketing-voice-state{padding:8px;border-left:3px solid var(--vox-blue);background:var(--soft-blue);font-weight:600}.marketing-app .marketing-recording{border-left:4px solid #b53d25;padding:8px}
+.marketing-app .marketing-feedback-item header>span{background:var(--soft-blue);border-radius:4px;padding:2px 8px;font-size:12px}
+@media(max-width:600px){.marketing-app .marketing-explainer{padding:16px}.marketing-app .marketing-explainer-scene{padding:16px}.marketing-app .marketing-header nav{gap:8px}.marketing-app .marketing-status-controls label{flex-wrap:wrap}}
+
+.marketing-app .marketing-explainer-scene>video{float:right;width:42%;height:170px;object-fit:contain;background:#eef1f6;border-radius:6px;margin:0 0 16px 24px}.marketing-app .marketing-explainer-scene:after{content:"";display:block;clear:both}.marketing-app .marketing-demo-track{clear:both}.marketing-app .marketing-explainer-voice{margin-top:16px}.marketing-app .marketing-voice-wave{display:flex;align-items:center;gap:5px;height:32px}.marketing-app .marketing-voice-wave i{width:5px;background:var(--vox-blue);border-radius:3px}
+@media(max-width:600px){.marketing-app .marketing-explainer-scene>video{float:none;width:100%;height:150px;margin:0 0 16px}}
