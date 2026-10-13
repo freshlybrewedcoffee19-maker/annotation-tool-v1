@@ -1,6 +1,7 @@
 // Browser memory only. No client, credentials, users or backend network calls.
 import {useCallback,useSyncExternalStore} from 'react';
 import {getFunctionName} from 'convex/server';
+let authenticated=!new URLSearchParams(location.search).has('signedout');
 let revision=0;
 const listeners=new Set<()=>void>(),pending=new Map<string,any>();
 let card:any=null,versions:any[]=[],feedback:any[]=[],replies:any[]=[],links:any[]=[],events:any[]=[];
@@ -14,8 +15,8 @@ const subscribe=(listener:()=>void)=>{listeners.add(listener);return()=>{listene
 const snapshot=()=>revision;
 function update(){revision++;listeners.forEach(fn=>fn());}
 function event(text:string){events.unshift({id:crypto.randomUUID(),text,author:'Preview',createdAt:Date.now()});}
-export function useConvexAuth(){return {isLoading:false,isAuthenticated:true};}
-export function useAuthActions(){return {signOut:async()=>{},signIn:async()=>{throw Error('Sign-in is disabled in this browser-only preview.');}};}
+export function useConvexAuth(){useSyncExternalStore(subscribe,snapshot);return {isLoading:false,isAuthenticated:authenticated};}
+export function useAuthActions(){return {signOut:async()=>{authenticated=false;update();},signIn:async()=>{authenticated=true;update();return {signingIn:true};}};}
 export function useQuery(reference:any,args:any){useSyncExternalStore(subscribe,snapshot);if(args==='skip')return undefined;switch(getFunctionName(reference)){
  case 'accounts:me':return {name:'Preview',email:''};
  case 'accounts:providers':return {googleAvailable:false,passwordRecoveryAvailable:false};

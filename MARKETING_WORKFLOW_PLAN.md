@@ -62,3 +62,12 @@ The feedback tool now reuses the existing signed-in annotation components: Works
 Shared components gained optional rail filtering/labels and an accessible selection label. All original defaults, annotation actions and stylesheet ordering remain unchanged. Marketing feedback still uses its own records and audio/transcript recovery. Revisions, Done, and old cleanup recovery remain intact.
 
 Verified: 45 in-memory tests, including original annotation navigation defaults; browser-only upload, feedback correction, reply, sharing, revision, panel collapse/expand, Done and reopen; desktop/phone screenshots; TypeScript and production build. Local Convex remains stopped. No deployment changes or saved test accounts/records.
+
+
+## Marketing entry and navigation resume - 14 October 2026
+
+Resumed from committed checkpoint `9788090`, preserving the completed workspace. Updated entry headline to **Give video feedback. Skip writing timestamps.** Supporting copy covers timestamped clips, voice recordings, editable transcripts, invited-editor revisions and public read-only links. Replaced the marketing header link to the annotation product with marketing-home navigation; added an accessible name to the marketing logo. Existing sign-in already preserves the marketing return address.
+
+Verification: 45 in-memory backend tests passed; production build passed with the existing dependency and bundle warnings. Both marketing browser checks passed: upload, timestamped feedback, text correction, replies, sharing, revisions, Done/reopen, desktop/phone layout, public read-only controls, and sign-in-screen return routing with browser-memory authentication. Inspected entry and mobile workspace screenshots in `outputs/marketing-simple-preview/`. The browser authentication substitute is preview-only, not a real sign-in verification. No production annotation code, live backend, saved user records, hosting or deployment settings were changed.
+
+Preview remains at http://127.0.0.1:5176/marketing; populated workspace: http://127.0.0.1:5176/marketing/card/preview-video?example=1 . Actual microphone hardware, speech service, real authentication and invited-editor storage uploads remain unverified in this browser-memory preview. No publishing approval requested or deployment run. Next: user reviews preview, including actual microphone/service validation before publishing approval.
