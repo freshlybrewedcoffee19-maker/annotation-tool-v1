@@ -27,7 +27,10 @@ export function useQuery(reference:any,args:any){useSyncExternalStore(subscribe,
  case 'marketing:detail':case 'marketing:publicReview':if(!card)throw Error('Upload a video to start.');return {card,owner:getFunctionName(reference)==='marketing:detail',versions,feedback,replies,links,events,access};
  default:throw Error('Unexpected preview query: '+getFunctionName(reference));
 }}
+const heldSaves:(()=>void)[]=[];(window as any).__releaseMarketingSaves=()=>{for(const release of heldSaves.splice(0))release();};
 export function useMutation(reference:any){const name=getFunctionName(reference);return useCallback(async(args:any)=>{
+ if(name==='marketing:saveFeedback'&&sessionStorage.getItem('preview-hold-saves'))await new Promise<void>(resolve=>heldSaves.push(resolve));
+ if(name==='marketing:saveFeedback'&&args.text===sessionStorage.getItem('preview-fail-save-text')){sessionStorage.removeItem('preview-fail-save-text');throw Error('Preview: save failed; original audio and transcript retained.');}
  const fail='preview-fail-'+name;if(sessionStorage.getItem(fail)){sessionStorage.removeItem(fail);throw Error('Preview: temporary failure; retry with your draft retained.');}
  let result:any=null;
  switch(name){
@@ -36,7 +39,7 @@ export function useMutation(reference:any){const name=getFunctionName(reference)
  case 'marketingFiles:finalise':if(!args.confirmed)throw Error('Explicit confirmation required.');versions=versions.map((v,i)=>({...v,deleted:i<versions.length-1}));card={...card,finalised:true};event('Finalised the card. Latest video and all feedback retained.');break;
  case 'marketing:reviewFeedback':feedback=feedback.map(f=>f.id===args.feedbackId?{...f,reviewed:args.reviewed}:f);break;
  case 'marketing:status':card={...card,status:args.status,approvedVersionId:args.status==='approved'?card.latestVersionId:null};event(args.status==='approved'?'Marked this video done.':'Continued feedback.');break;
- case 'marketing:saveFeedback':if(args.feedbackId){feedback=feedback.map(f=>f.id===args.feedbackId?{...f,text:args.text}:f);break;}result=crypto.randomUUID();feedback=[...feedback,{id:result,versionId:args.versionId,start:args.start,end:args.end,text:args.text,audioId:args.audioId??null,author:'Preview',createdAt:Date.now(),reviewed:false}];card={...card,status:'changes_requested',approvedVersionId:null};event('Added feedback.');break;
+ case 'marketing:saveFeedback':if(!args.feedbackId&&feedback.some(row=>row.clientKey===args.clientKey)){result=feedback.find(row=>row.clientKey===args.clientKey).id;break;}if(args.feedbackId){feedback=feedback.map(f=>f.id===args.feedbackId?{...f,text:args.text}:f);break;}result=crypto.randomUUID();feedback=[...feedback,{id:result,versionId:args.versionId,start:args.start,end:args.end,text:args.text,audioId:args.audioId??null,clientKey:args.clientKey,author:'Preview',createdAt:Date.now(),reviewed:false}];card={...card,status:'changes_requested',approvedVersionId:null};event('Added feedback.');break;
  case 'marketing:reply':replies=[...replies,{id:crypto.randomUUID(),feedbackId:args.feedbackId,text:args.text,author:'Preview',createdAt:Date.now()}];break;
  case 'marketing:invite':access=[...access.filter(grant=>grant.email!==args.email),{id:crypto.randomUUID(),email:args.email,token:args.token,status:'invited'}];event('Created an editor invitation.');break;
  case 'marketing:decideAccess':access=access.map(grant=>grant.id===args.accessId?{...grant,status:args.decision}:grant);break;
