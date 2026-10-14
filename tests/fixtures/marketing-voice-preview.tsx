@@ -44,15 +44,19 @@ export function VoicePreviewTray(){
  useSyncExternalStore(subscribe,snapshot);
  if(!enabled)return null;
  const button={fontSize:14,minHeight:36,padding:'6px 10px',background:'#fff',color:'#172033',border:'1px solid #8a7958',borderRadius:5};
- return <aside aria-label="Voice simulation controls" style={{padding:'8px 16px',background:'#fff2ca',color:'#172033',font:'14px Segoe UI,sans-serif',borderBottom:'1px solid #8a7958'}}>
-  <strong>Development voice simulation — no microphone or cloud recording</strong>
+ return <details open aria-label="Voice simulation controls" style={{padding:'8px 16px',background:'#fff2ca',color:'#172033',font:'14px Segoe UI,sans-serif',borderBottom:'1px solid #8a7958'}}>
+  <summary>Voice test controls — simulated audio only</summary>
   <div style={{display:'flex',alignItems:'center',gap:8,flexWrap:'wrap',marginTop:5}}>
    <span role="status">{active?'Speech connected (simulated).':'Turn on the page mic to connect.'}</span>
    <button style={button} disabled={!active} onClick={()=>active?.say('Start')}>Simulate Start</button>
+   <button style={button} disabled={!active} onClick={()=>{const current=active;setTimeout(()=>{if(active===current)current?.say('Start',false);},50);}}>Simulate interim Start</button>
+   <button style={button} disabled={!active} onClick={()=>active?.onspeechend?.()}>Finish spoken phrase</button>
+   <button style={button} disabled={!active} onClick={()=>active?.say('Start with the logo instead.')}>Simulate feedback starting with Start</button>
    <button style={button} disabled={!active} onClick={()=>active?.say('Stop')}>Simulate Stop</button>
    <button style={button} disabled={!active} onClick={()=>{const current=active;current?.say('Make the ending brighter.',false);setTimeout(()=>{if(active===current)current?.say('Make the ending brighter.');},450);}}>Simulate feedback</button>
+   <button style={button} disabled={!active} onClick={()=>active?.say('Keep this unfinished comment.',false)}>Simulate interim feedback</button>
    <button style={button} disabled={!active} onClick={()=>active?.onerror?.({error:'not-allowed'})}>Simulate speech denied</button>
    <button style={button} disabled={!active} onClick={()=>active?.onend?.()}>Simulate idle reconnect</button>
   </div>
- </aside>;
+ </details>;
 }

@@ -52,6 +52,7 @@
 .marketing-app.marketing-dark .feedback-compact-state{font-size:var(--mf-body);line-height:1.35;margin:0 0 .2em}
 .marketing-app.marketing-dark .feedback-compact-state>span{font-size:var(--mf-small)}
 .marketing-app.marketing-dark .feedback-compact-hint{font-size:var(--mf-small);line-height:1.4;max-width:32ch;overflow-wrap:anywhere}
+.marketing-app.marketing-dark .feedback-compact-heard{margin:.2em 0 0;font-size:var(--mf-small);line-height:1.35;color:#f3a6c8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .marketing-app.marketing-dark .feedback-compact-actions{grid-column:auto;flex-direction:column;gap:.25em;min-width:0;max-width:10em}
 .marketing-app.marketing-dark .feedback-write-key,.marketing-app.marketing-dark .feedback-save-key{font-size:var(--mf-small);min-height:var(--mf-control);max-width:none;padding:.45em .6em;line-height:1.3;white-space:normal}
 .marketing-app.marketing-dark .feedback-compact-error{font-size:var(--mf-small);min-height:var(--mf-control);padding:.45em .65em;gap:.75em}

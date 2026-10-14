@@ -17,7 +17,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
  const sample=useSample(),account=useQuery(api.accounts.me,{}),queue=useFeedbackQueue(cardId,account?.email??null);
  const key=sample?`sample:${sample.id}:${version.id}`:`feedback:${account?.email??'pending'}:${cardId}:${version.id}`;
  const [draft,setDraft]=useState<FeedbackDraft>(blank),[loadedKey,setLoadedKey]=useState(''),[error,setError]=useState(''),[status,setStatus]=useState(''),[listening,setListening]=useState(false),[recording,setRecording]=useState(false),[audioUrl,setAudioUrl]=useState(''),[flow,setFlow]=useState('Ready'),[captured,setCaptured]=useState(0);
- const [voiceState,setVoiceState]=useState<VoiceState>('off'),[transcribing,setTranscribing]=useState(false);
+ const [voiceState,setVoiceState]=useState<VoiceState>('off'),[transcribing,setTranscribing]=useState(false),[heard,setHeard]=useState('');
  const current=useRef(draft),mic=useRef<MarketingMicrophone|null>(null),speech=useRef<MarketingSpeechSession|null>(null),mounted=useRef(true),audioStart=useRef(0),speechStart=useRef(-1),lastFeedbackFrame=useRef(-1),lastCheckpoint=useRef(0),interim=useRef(new Map<number,string>()),speechUsable=useRef(false),generation=useRef(0),playRequest=useRef(0);
  const handlers=useRef({start:(_time:CommandTime)=>{},stop:(_time:CommandTime)=>{},feedback:(_text:string)=>{}});
  const manualDialog=useRef<HTMLDialogElement|null>(null),manualReturnFocus=useRef<HTMLElement|null>(null),manualTitleId=useId();
@@ -35,7 +35,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
  }
  function markStart(time:CommandTime={videoTime:video.current?.currentTime??0,audioFrame:mic.current?.pcm.frame??0}){
   onBeginSegment?.();
-  const value=current.current,start=Math.max(0,Math.min(version.duration,time.videoTime));
+  const value={...current.current,text:[current.current.text,...interim.current.values()].filter(Boolean).join(' ')},start=Math.max(0,Math.min(version.duration,time.videoTime));
   const next={...blank(),start:(start>=version.duration?0:start).toFixed(3)};
   if(valid(value)){
    const blob=mic.current?pcmBlob(time.audioFrame):value.blob;
@@ -56,7 +56,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
  }
  handlers.current={start:markStart,stop:markStop,feedback:text=>{interim.current.clear();setTranscribing(false);update({text:[current.current.text,text].filter(Boolean).join(' ')});lastFeedbackFrame.current=mic.current?.pcm.frame??-1;}};
  function commandFrame(){const pcm=mic.current?.pcm;if(!pcm)return 0;if(pcm.utteranceStart>=audioStart.current&&pcm.utteranceStart>lastFeedbackFrame.current)return pcm.utteranceStart;if(speechStart.current>=audioStart.current&&speechStart.current>lastFeedbackFrame.current)return speechStart.current;if(lastFeedbackFrame.current>=audioStart.current)return lastFeedbackFrame.current;return audioStart.current;}
- async function enableMic(){if(mic.current||voiceState==='connecting')return;setError('');setVoiceState('connecting');const attempt=++generation.current;try{
+ async function enableMic(){if(mic.current||voiceState==='connecting')return;setError('');setHeard('');setVoiceState('connecting');const attempt=++generation.current;try{
   if(!navigator.mediaDevices?.getUserMedia||!window.AudioContext)throw Error('Recording is unavailable. Use text feedback or Chrome over HTTPS.');
   const capture=await MarketingMicrophone.open(pcm=>{if(mic.current?.pcm!==pcm)return;if(commands.current.phase!=='feedback'){pcm.discardBefore(pcm.frame);return;}const bytes=Math.max(0,pcm.frame-audioStart.current)*2;setCaptured(bytes);if(performance.now()-lastCheckpoint.current>500){lastCheckpoint.current=performance.now();update({blob:pcm.wav(audioStart.current,pcm.frame),audioId:undefined,audioUploadId:undefined,audioUploaded:undefined});}});
   if(!mounted.current||attempt!==generation.current){capture.close();return;}mic.current=capture;capture.onInterrupted(()=>{finishRecording();setVoiceState('error');setError('Microphone recording was interrupted. Captured audio and text are kept. Turn the mic on to retry.');});
@@ -68,8 +68,8 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
    state:state=>{speechUsable.current=state==='listening';setVoiceState(state);if(state==='listening')setStatus('Listening for commands. Say start, then stop, then speak your feedback.');},
    speechStart:()=>{speechStart.current=mic.current?.pcm.frame??-1;},
    speechEnd:()=>{},
-   result:event=>{if(attempt!==generation.current)return;for(let i=event.resultIndex;i<event.results.length;i++){const result=event.results[i],text=result[0].transcript.trim();if(commands.current.phase==='feedback'&&!result.isFinal&&!playbackCommand(text)){interim.current.set(i,text);setTranscribing(true);}if(result.isFinal){interim.current.delete(i);setTranscribing(false);}commands.current.result(i,text,result.isFinal,{videoTime:video.current?.currentTime??0,audioFrame:commands.current.phase==='feedback'?commandFrame():mic.current?.pcm.frame??0});}},
-   boundary:()=>{if(commands.current.phase==='feedback'&&interim.current.size)update({text:[current.current.text,...interim.current.values()].filter(Boolean).join(' ')});interim.current.clear();setTranscribing(false);commands.current.resetResults();},
+   result:event=>{if(attempt!==generation.current)return;for(let i=event.resultIndex;i<event.results.length;i++){const result=event.results[i],text=result[0].transcript.trim();setHeard(text.slice(0,140));if(commands.current.phase==='feedback'&&!result.isFinal&&!playbackCommand(text)){interim.current.set(i,text);setTranscribing(true);}if(result.isFinal||playbackCommand(text)){interim.current.delete(i);setTranscribing(false);}commands.current.result(i,text,result.isFinal,{videoTime:video.current?.currentTime??0,audioFrame:commands.current.phase==='feedback'?commandFrame():mic.current?.pcm.frame??0});}},
+   boundary:complete=>{if(complete&&attempt===generation.current)commands.current.endUtterance();if(commands.current.phase==='feedback'&&interim.current.size)update({text:[current.current.text,...interim.current.values()].filter(Boolean).join(' ')});interim.current.clear();setTranscribing(false);commands.current.resetResults();},
    error:notice=>{finishRecording();setVoiceState('error');setError(notice);},
   });
   speech.current=recognizer;recognizer.start();
@@ -101,7 +101,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
   const hint=voiceState==='connecting'?'Allow microphone access if asked.':voiceState==='reconnecting'?'Keep this tab open while speech reconnects.':voiceState==='error'?'Try the mic again, or open Details for manual feedback.':failed?'Recover your feedback to continue.':guide==='mic'?'Turn on your mic to begin.':guide==='start'?'Say “start” to play.':guide==='stop'?'Say “stop” at the end of the clip.':guide==='speak'?'Say what should change.':guide==='save'?'Say “start” for the next clip, or save.':'Saving your feedback…';
   return <section className="feedback-compact-composer" aria-label="Create feedback">
    <button type="button" className={`feedback-mic-key${listening?' is-on':''}`} data-feedback-next={guideActive&&guide==='mic'||undefined} aria-label={listening?'Turn mic off':'Turn mic on'} aria-pressed={listening} disabled={!loaded||voiceState==='connecting'} onClick={()=>listening?finishRecording():void enableMic()}>{micIcon}<span>{voiceState==='connecting'?'…':listening?'Off':'On'}</span></button>
-   <div className="feedback-compact-copy"><p className="feedback-compact-state" role="status" data-transcribing={transcribing||undefined}>{state}{queuedState&&<span> · {queuedState}</span>}</p><p key={guide} className="feedback-compact-hint" data-feedback-next={guideActive&&['start','stop','speak'].includes(guide)||undefined}>{hint}</p></div>
+   <div className="feedback-compact-copy"><p className="feedback-compact-state" role="status" data-transcribing={transcribing||undefined}>{state}{queuedState&&<span> · {queuedState}</span>}</p><p key={guide} className="feedback-compact-hint" data-feedback-next={guideActive&&['start','stop','speak'].includes(guide)||undefined}>{hint}</p>{heard&&<p className="feedback-compact-heard" aria-label="Last words heard">Heard: “{heard}”</p>}</div>
    {(hasDraft||failed>0)&&<div className="feedback-compact-actions"><button type="button" className="feedback-write-key" data-feedback-next={guideActive&&!!failed||undefined} onClick={openManual}>{failed?'Recover feedback':'Edit draft'}</button>{canSave&&<button type="button" className="feedback-save-key" data-feedback-next={guideActive&&guide==='save'||undefined} onClick={saveFinal}>Save feedback</button>}</div>}
    {error&&<button type="button" className="feedback-compact-error" role="alert" onClick={openManual}><span>{error.split('. ')[0]}</span><span className="feedback-error-details">Details ↗</span></button>}
    <dialog className="feedback-manual-dialog" ref={manualDialog} aria-labelledby={manualTitleId} onClose={()=>{if(manualReturnFocus.current?.isConnected)manualReturnFocus.current.focus();}}><button type="button" className="feedback-manual-close" aria-label="Close feedback form" onClick={()=>manualDialog.current?.close()}>Close <span aria-hidden="true">×</span></button>{manualControls}</dialog>

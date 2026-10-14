@@ -1,6 +1,6 @@
 export type Recognition={continuous:boolean;interimResults:boolean;lang:string;start:()=>void;abort:()=>void;onstart:(()=>void)|null;onresult:((event:any)=>void)|null;onerror:((event:{error:string})=>void)|null;onend:(()=>void)|null;onspeechstart:(()=>void)|null;onspeechend:(()=>void)|null};
 export type VoiceState='off'|'connecting'|'listening'|'reconnecting'|'error';
-type Handlers={state:(state:VoiceState)=>void;error:(message:string)=>void;result:(event:any)=>void;boundary:()=>void;speechStart:()=>void;speechEnd:()=>void};
+type Handlers={state:(state:VoiceState)=>void;error:(message:string)=>void;result:(event:any)=>void;boundary:(complete:boolean)=>void;speechStart:()=>void;speechEnd:()=>void};
 
 /** A connected audio recorder is not proof that the browser's speech service is listening. */
 export class MarketingSpeechSession {
@@ -17,9 +17,9 @@ export class MarketingSpeechSession {
   current.onstart=null;current.onresult=null;current.onerror=null;current.onend=null;current.onspeechstart=null;current.onspeechend=null;
   try{current.abort();}catch{/* Already ended. */}
  }
- private fail(message:string){this.active=false;this.retire();this.handlers.boundary();this.handlers.state('error');this.handlers.error(message);}
- private reconnect(failed=false){
-  this.retire();this.handlers.boundary();
+ private fail(message:string){this.active=false;this.retire();this.handlers.boundary(false);this.handlers.state('error');this.handlers.error(message);}
+ private reconnect(failed=false,complete=false){
+  this.retire();this.handlers.boundary(complete);
   if(failed&&++this.failures>2){this.fail('Speech could not connect to the network. Your feedback is kept. Try the mic again, or use the manual controls.');return;}
   this.handlers.state('reconnecting');this.timer=setTimeout(()=>{if(this.active)this.connect();},failed?300*this.failures:250);
  }
@@ -33,7 +33,7 @@ export class MarketingSpeechSession {
   recognition.onresult=event=>{if(!current())return;this.failures=0;this.handlers.result(event);};
   recognition.onspeechstart=()=>{if(current())this.handlers.speechStart();};
   recognition.onspeechend=()=>{if(current())this.handlers.speechEnd();};
-  recognition.onend=()=>{if(current())this.reconnect();};
+  recognition.onend=()=>{if(current())this.reconnect(false,true);};
   recognition.onerror=event=>{
    if(!current())return;
    if(event.error==='no-speech'){this.reconnect();return;}
