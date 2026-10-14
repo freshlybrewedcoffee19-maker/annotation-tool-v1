@@ -1,9 +1,9 @@
 // Dedicated Video Feedback practice footage. Keep the annotation sample separate.
 export const feedbackSampleMedia = {
- src:'/videos/feedback-juice-ad-v1.mp4',
- name:'Orange juice ad sample',
- size:1374194,
+ src:'/videos/feedback-coffee-cc0-ad-v1.mp4',
+ name:'Coffee ad sample',
+ size:1012162,
  duration:10,
- width:720,
- height:1280,
+ width:1280,
+ height:720,
 } as const;
