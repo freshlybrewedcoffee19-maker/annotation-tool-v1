@@ -5,7 +5,7 @@ import schema from '../convex/schema';
 import {api} from '../convex/_generated/api';
 const modules=import.meta.glob('../convex/**/*.{ts,js}');
 afterEach(()=>{vi.unstubAllGlobals();vi.unstubAllEnvs();});
-test('verification and password reset reject wrong codes and replace the old password',async()=>{
+test('signup starts a session without verification and password reset rejects wrong or reused codes while replacing the old password',async()=>{
  vi.stubEnv('RESEND_API_KEY','test-only-key');
  vi.stubEnv('SITE_URL','https://cheddarvox.com');
  vi.stubEnv('CONVEX_SITE_URL','https://test.convex.site');
@@ -17,11 +17,8 @@ test('verification and password reset reject wrong codes and replace the old pas
  const email='recovery-test@example.com',oldPassword='Old-test-password-42',newPassword='New-test-password-73';
  const signIn=(params:Record<string,string>)=>t.action(api.auth.signIn,{provider:'password',params});
  const code=()=>messages.at(-1)!.text.match(/code is (\d{8})/)![1];
- expect((await signIn({flow:'signUp',email,password:oldPassword})).tokens).toBeNull();
- expect(messages.at(-1)!.subject).toMatch(/Verify/);
- const verificationCode=code();
- await expect(signIn({flow:'email-verification',email,code:'invalid-code'})).rejects.toThrow();
- expect((await signIn({flow:'email-verification',email,code:verificationCode})).tokens).toBeTruthy();
+ expect((await signIn({flow:'signUp',email,password:oldPassword})).tokens).toBeTruthy();
+ expect(messages).toHaveLength(0);
  expect((await signIn({flow:'signIn',email,password:oldPassword})).tokens).toBeTruthy();
  await signIn({flow:'reset',email});
  expect(messages.at(-1)!.subject).toMatch(/Reset/);
