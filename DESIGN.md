@@ -131,4 +131,15 @@ Each project contains one video and its revisions. Keep the video inside a raise
 
 At phone widths, use one full-width project per row, readable 14px stage labels and 18px project titles. Returning users see the upload action and existing projects first; the introductory explanation is reserved for the empty workspace. Keep the keyboard-key shape and black/pink palette. Secondary navigation opens from a 44px Menu control; closing it or navigating restores an uncluttered page.
 
-Within a project, arrange Feedback, Feedback clips and Share with editor horizontally above the player. Place controls below the full-width video and preserve its entire frame with contain sizing. Inputs use 16px text to avoid focus zoom on phones. Use 44px primary touch targets, an explicit Show/Hide controls action, and the version selector for revisions. Playback dimensions stay stable when panels collapse. Allow normal vertical scrolling for project lists and feedback; the single-screen constraint belongs to the homepage.
+Project lists allow normal vertical scrolling. The tool inside a project follows the single-screen layout below.
+
+### Single-screen Video Feedback tool — 14 October 2026
+Keep the working tool within the available screen height, on phones and desktop. The main view has no side panels or page scrolling: a compact project title, the full video, playback, a raised microphone key, and a horizontal strip of saved feedback keys. Preserve the complete video frame with contain sizing for both portrait and landscape footage. Do not scale the whole page or crop footage to fill the space.
+
+The pink microphone key shows a mic icon and **On** to enable it, then **Off** while listening. A short status beside it explains whether the mic is off, listening, marking a clip, recording feedback or saving. The instruction is “Say ‘start’, ‘stop’, then your feedback.” Keep the existing speech-command sequence, original voice recording, editable transcript and recoverable queued saves. The small Write feedback action opens a form only when needed.
+
+Each saved feedback key shows its start/end time, version number, a short text preview and resolved/play state. Swipe or scroll this strip sideways; the surrounding page stays fixed. Selecting a key plays its matching video version from the recorded start to the recorded stop. Read feedback opens the full text, voice recording, corrections and replies for the selected key. A new spoken start clears any previous playback clip boundary.
+
+More opens project options: versions, project stage, export, revision upload, sharing and finalisation. These secondary dialogs can scroll internally on short screens and provide a labelled close button, contained keyboard focus and Escape dismissal. They preserve the same permissions and pending-save guards. Inputs remain 16px to avoid phone focus zoom; primary controls use 44px touch targets.
+
+At short landscape sizes, put the video and playback on the left and the mic and horizontally scrolling feedback strip on the right. The desktop layout keeps the same single-screen hierarchy. Scope all of these changes to Video Feedback; Data Annotation retains its existing layout.
