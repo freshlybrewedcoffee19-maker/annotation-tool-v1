@@ -1,7 +1,7 @@
 import {readFile} from 'node:fs/promises';
 import {verifyDeployment} from './verify-deployment.mjs';
 import {spawnSync} from 'node:child_process';
-const env={...process.env,VITE_CONVEX_URL:'https://precious-fish-294.convex.cloud',VITE_TRIAL_VIDEO_PATH:'/videos/iron-e05a44b0.mp4'};
+const env={...process.env,CONVEX_DEPLOYMENT:'dev:precious-fish-294',VITE_CONVEX_URL:'https://precious-fish-294.convex.cloud',VITE_TRIAL_VIDEO_PATH:'/videos/iron-e05a44b0.mp4'};
 for(const [command,args]of [['npx',['convex','dev','--once']],['npm',['run','build']],['npx',['--yes','wrangler@4.147.0','pages','deploy','dist','--project-name','naive-physics','--branch','main']]]){
  console.log(`\n> ${command} ${args.join(' ')}`);
  const result=spawnSync(command,args,{stdio:'inherit',env,shell:process.platform==='win32'});
