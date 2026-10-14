@@ -137,6 +137,9 @@
 .marketing-app.marketing-dark .feedback-office-expanded{border:0;border-radius:0;padding:0!important;margin:0 0 16px!important}
 .feedback-office-expanded>div{padding:0!important}
 .feedback-office-expanded .marketing-actions{display:grid;grid-template-columns:1fr 1fr;margin:12px 0}
+.feedback-office-expanded .feedback-copy-text{grid-column:1/-1}
+.feedback-text-preview{margin:12px 0}
+.feedback-text-preview textarea{display:block;width:100%;min-height:144px;max-height:240px;resize:vertical;font-size:16px;line-height:1.5;overflow:auto}
 .marketing-app.marketing-dark .feedback-office-expanded button,.marketing-app.marketing-dark .feedback-download-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 12px;font-size:14px;background:#edacd0;color:#24111d;border:1px solid #c687ad;border-bottom:4px solid #8b486c;border-radius:8px;text-decoration:none}
 .feedback-invite-editor{border-top:1px solid #534458;padding-top:16px;margin-top:16px}
 .marketing-app.marketing-dark .feedback-invite-editor h3{margin:0;font-size:18px}

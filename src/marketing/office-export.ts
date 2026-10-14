@@ -22,6 +22,26 @@ function packageFile(parts:Record<string,string>,mime:string){const zipped=zipSy
 function relationships(rows:{id:string;type:string;target:string;external?:boolean}[]){return declaration+`<Relationships xmlns="${relNS}">${rows.map(row=>`<Relationship Id="${row.id}" Type="${officeRel}/${row.type}" Target="${xml(row.target)}"${row.external?' TargetMode="External"':''}/>`).join('')}</Relationships>`;}
 const utc=(time:number)=>new Date(time).toISOString().replace('T',' ').replace('Z',' UTC');
 
+export function textFeedback(data:CardData,scope:string,base:string){
+ const rows=exportRows(data,scope),lines=[`Video feedback: ${data.card.title}`];
+ let previousVersion='';
+ rows.forEach((row,index)=>{
+  const version=data.versions.find(version=>version.id===row.versionId)!;
+  if(previousVersion!==version.id){
+   lines.push('',`Version ${version.number} — ${version.name}`);
+   if(version.deleted)lines.push('Original footage deleted. Saved text and voice feedback are retained.');
+   previousVersion=version.id;
+  }
+  const links=feedbackLinks(data,row,base);
+  lines.push('',`${index+1}. ${timestamp(row.start)} to ${timestamp(row.end)}`,row.text.trim()||(row.audioId?'Voice feedback (no written transcript).':'No written feedback.'),`${row.author} · ${row.reviewed?'Resolved':'Open'}`);
+  if(links.clip)lines.push(`Clip: ${links.clip}`);
+  if(links.audio)lines.push(`Voice: ${links.audio}`);
+  for(const reply of data.replies.filter(reply=>reply.feedbackId===row.id))lines.push(`Reply from ${reply.author}: ${reply.text}`);
+ });
+ lines.push('','Saved feedback only. Clip and voice links require current access and may expire or be revoked.');
+ return lines.join('\n');
+}
+
 export function wordFeedback(data:CardData,scope:string,base:string){
  const rows=exportRows(data,scope),links:{id:string;type:string;target:string;external:boolean}[]=[];
  function paragraph(text:string,style='Normal'){return `<w:p><w:pPr><w:pStyle w:val="${style}"/></w:pPr><w:r><w:t xml:space="preserve">${xml(text).replaceAll('\n','</w:t><w:br/><w:t xml:space="preserve">')}</w:t></w:r></w:p>`;}

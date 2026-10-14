@@ -1,7 +1,7 @@
 import {test,expect} from 'vitest';
 import {unzipSync,strFromU8} from 'fflate';
 import fs from 'node:fs/promises';
-import {wordFeedback,excelFeedback,feedbackLinks,exportRows} from '../src/marketing/office-export';
+import {wordFeedback,excelFeedback,textFeedback,feedbackLinks,exportRows} from '../src/marketing/office-export';
 import type {CardData} from '../src/marketing/types';
 const data:CardData={card:{id:'card-check',title:'Cheddar Vox Product Launch',status:'revised',latestVersionId:'version-2',approvedVersionId:null,finalised:false,cleaning:false},owner:true,versions:[{id:'version-1',number:1,name:'Opening cut.mp4',size:100,duration:60,width:1920,height:1080,uploadedAt:1760000000000,uploader:'Riya',deleted:true},{id:'version-2',number:2,name:'Revised cut.mp4',size:100,duration:60,width:1920,height:1080,uploadedAt:1760000100000,uploader:'Alex',deleted:false}],feedback:[{id:'feedback-1',versionId:'version-1',start:1.125,end:3.875,text:'Start with the logo instead. Keep the original voice recording.',audioId:'audio-1',author:'Riya',createdAt:1760000000000,reviewed:true},{id:'feedback-2',versionId:'version-2',start:10.5,end:14.25,text:'Shorten the opening & keep the “Cheddar Vox” title.\nShow the final frame longer.',audioId:'audio-2',author:'Alex',createdAt:1760000200000,reviewed:false}],replies:[{id:'reply-1',feedbackId:'feedback-2',text:'Updated in the next revision. Please check the ending.',author:'Riya',createdAt:1760000300000}],events:[],access:[],links:[]};
 async function parts(blob:Blob){return Object.fromEntries(Object.entries(unzipSync(new Uint8Array(await blob.arrayBuffer()))).map(([key,value])=>[key,strFromU8(value)]));}
@@ -16,4 +16,34 @@ test('Office exports retain versions, replies, timestamps and access-controlled 
  const publicBase='https://cheddarvox.com/video-feedback/review/'+'a'.repeat(64);expect(feedbackLinks(data,data.feedback[1],publicBase).clip).toContain(publicBase+'?version=version-2');
  expect(()=>exportRows({...data,feedback:[]},'all')).toThrow('No saved feedback');
  await fs.mkdir('outputs/marketing-office-check',{recursive:true});await fs.writeFile('outputs/marketing-office-check/unit-feedback.docx',new Uint8Array(await word.arrayBuffer()));await fs.writeFile('outputs/marketing-office-check/unit-feedback.xlsx',new Uint8Array(await excel.arrayBuffer()));
+});
+
+test('plain-text feedback retains fractional timing, replies and safe links across versions',()=>{
+ const base='https://cheddarvox.com/video-feedback/cards/card-check';
+ const text=textFeedback({...data,feedback:[...data.feedback].reverse()},'all',base);
+ expect(text).toContain('Video feedback: Cheddar Vox Product Launch');
+ expect(text.indexOf('Version 1 — Opening cut.mp4')).toBeLessThan(text.indexOf('Version 2 — Revised cut.mp4'));
+ expect(text).toContain('1. 00:00:01.125 to 00:00:03.875');
+ expect(text).toContain('2. 00:00:10.500 to 00:00:14.250');
+ expect(text).toContain('Riya · Resolved');expect(text).toContain('Alex · Open');
+ expect(text).toContain('Reply from Riya: Updated in the next revision. Please check the ending.');
+ expect(text).toContain('Original footage deleted');
+ expect(text).not.toContain(`Clip: ${base}?version=version-1`);
+ expect(text).toContain(`Voice: ${base}?version=version-1&feedback=feedback-1&play=audio`);
+ expect(text).toContain(`Clip: ${base}?version=version-2&feedback=feedback-2&play=clip`);
+ expect(text).not.toContain('/api/marketing/media');expect(text).not.toContain('marketing/video/');expect(text).not.toContain('audio-1');expect(text).not.toContain('Feedback ID');
+});
+
+test('plain-text feedback scopes and orders selected clips, keeps audio-only fallback and omits invalid links',()=>{
+ const source={...data,feedback:[...data.feedback,{...data.feedback[1],id:'audio-feedback',start:.25,end:.75,text:'  ',audioId:'original-private-audio'}]};
+ const base='https://cheddarvox.com/video-feedback/review/'+'a'.repeat(64);
+ const text=textFeedback(source,'version-2',base);
+ expect(text).not.toContain('Version 1');expect(text).not.toContain(data.feedback[0].text);
+ expect(text).toContain('1. 00:00:00.250 to 00:00:00.750\nVoice feedback (no written transcript).');
+ expect(text).toContain('2. 00:00:10.500 to 00:00:14.250');
+ expect(text).toContain(`Voice: ${base}?version=version-2&feedback=audio-feedback&play=audio`);
+ expect(text).not.toContain('original-private-audio');
+ const sample=textFeedback(source,'version-2','https://cheddarvox.com/video-feedback/sample');
+ expect(sample).toContain('Voice feedback (no written transcript).');expect(sample).not.toContain('Clip:');expect(sample).not.toContain('Voice:');
+ expect(()=>textFeedback({...data,feedback:[]},'all',base)).toThrow('No saved feedback');
 });
