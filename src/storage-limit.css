@@ -1,0 +1,21 @@
+.storage-limit-dialog{position:fixed;inset:0;margin:auto;width:min(520px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;box-sizing:border-box;padding:28px;border:1px solid #c6d5e6;border-radius:20px;background:#fffdf8;color:#182235;box-shadow:0 24px 70px #0006;font:16px/1.5 'Segoe UI',sans-serif;text-align:left}
+.storage-limit-dialog::backdrop{background:#05040bb8}
+.storage-limit-dialog .storage-limit-close,.marketing-app .storage-limit-dialog .storage-limit-close{display:block;margin:-12px -10px 0 auto;width:44px;height:44px;padding:0;background:transparent;border:0;box-shadow:none;color:inherit;font-size:28px;cursor:pointer}
+.storage-limit-dialog .storage-limit-kicker,.marketing-app .storage-limit-dialog .storage-limit-kicker{font-size:12px;font-weight:700;letter-spacing:.12em;color:#405ccc;margin:0 0 8px}
+.storage-limit-dialog h2,.marketing-app .storage-limit-dialog h2{font:700 28px/1.15 'Segoe UI',sans-serif;letter-spacing:-.025em;margin:0 0 20px;color:inherit}
+.storage-limit-dialog p,.marketing-app .storage-limit-dialog p{font-size:16px;line-height:1.5;margin:14px 0;color:inherit}
+.storage-limit-usage{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:14px;padding:18px 0}
+.storage-limit-usage meter{width:100%;height:12px;accent-color:#405ccc}
+.storage-limit-usage small{flex-basis:100%;font-size:13px;color:inherit;opacity:.8}
+.storage-limit-dialog .storage-limit-note,.marketing-app .storage-limit-dialog .storage-limit-note{font-size:14px;opacity:.8}
+.storage-limit-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.storage-limit-dialog .storage-limit-actions a,.storage-limit-dialog .storage-limit-actions button{min-height:44px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;padding:10px 14px;font:600 14px/1.3 'Segoe UI',sans-serif;text-decoration:none;border:1px solid #405ccc;border-radius:9px;background:#405ccc;color:white;cursor:pointer}
+.storage-limit-dialog .storage-limit-actions button{background:transparent;color:inherit;border-color:#bfc8d8}
+.storage-limit-dialog :focus-visible{outline:3px solid #7389ef;outline-offset:3px}
+.marketing-app .storage-limit-dialog{background:#1c1622;border-color:#67516d;color:#f7f4f0}
+.marketing-app .storage-limit-dialog .storage-limit-kicker{color:#f3a6c8}
+.marketing-app .storage-limit-usage meter{accent-color:#f3a6c8}
+.marketing-app .storage-limit-dialog .storage-limit-actions a{background:#edacd0;color:#24111d;border-color:#c687ad;border-bottom:4px solid #8b486c}
+.marketing-app .storage-limit-dialog .storage-limit-actions button{background:transparent;color:#f7f4f0;border-color:#67516d;box-shadow:none}
+.marketing-app .storage-limit-dialog :focus-visible{outline-color:#f3a6c8}
+@media(max-width:600px){.storage-limit-dialog{padding:22px}.storage-limit-dialog h2,.marketing-app .storage-limit-dialog h2{font-size:25px}.storage-limit-actions>*{width:100%}}

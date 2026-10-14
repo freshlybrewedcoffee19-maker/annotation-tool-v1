@@ -1,6 +1,6 @@
 import {internalQuery,internalMutation} from './_generated/server';
 import {v} from 'convex/values';
-import {allowUpload,allowSiteUpload,FREE_PROJECTS} from './freeLimits';
+import {allowUpload,allowSiteUpload,FREE_PROJECTS,UPLOAD_LIFETIME} from './freeLimits';
 import {workspace,ownedEpisode} from './access';
 import {getAuthUserId} from '@convex-dev/auth/server';
 export const owner=internalQuery({args:{workspaceToken:v.string()},returns:v.id('workspaces'),handler:async(ctx,{workspaceToken})=>{
@@ -17,7 +17,7 @@ export const reserve=internalMutation({args:{workspaceToken:v.string(),key:v.str
 }});
 export const pending=internalQuery({args:{workspaceToken:v.string(),uploadId:v.id('r2Uploads')},returns:v.any(),handler:async(ctx,{workspaceToken,uploadId})=>{const space=await workspace(ctx,workspaceToken);const row=await ctx.db.get(uploadId);if(!row||row.workspaceId!==space._id)throw new Error('Upload not found.');return row;}});
 export const finish=internalMutation({args:{workspaceToken:v.string(),uploadId:v.id('r2Uploads'),key:v.string()},returns:v.id('episodes'),handler:async(ctx,{workspaceToken,uploadId,key})=>{
- const space=await workspace(ctx,workspaceToken),row=await ctx.db.get(uploadId);if(!row||row.workspaceId!==space._id)throw new Error('Upload not found.');if(row.episodeId)return row.episodeId;
+ const space=await workspace(ctx,workspaceToken),row=await ctx.db.get(uploadId);if(!row||row.workspaceId!==space._id)throw new Error('Upload not found.');if(row.episodeId)return row.episodeId;if(row.cleanedAt!==undefined||Date.now()-row.createdAt>=UPLOAD_LIFETIME)throw new Error('Upload expired. Choose the file again.');
  const fields=await ctx.db.query('metadataFields').withIndex('by_workspace',q=>q.eq('workspaceId',space._id)).unique();const defaults=await ctx.db.query('metadataDefaults').withIndex('by_workspace',q=>q.eq('workspaceId',space._id)).unique();const labels=await ctx.db.query('labelLists').withIndex('by_workspace',q=>q.eq('workspaceId',space._id)).unique();const inherited=(defaults?.values??[]).filter(r=>r.locked&&fields?.fields.includes(r.field));
  const id=await ctx.db.insert('episodes',{workspaceId:space._id,r2Key:key,...(row.mediaType?{mediaType:row.mediaType}:{}),name:row.name,fileSize:row.size,mimeType:row.mime,duration:row.duration,width:row.width,height:row.height,labels:labels?.labels??[],metadata:inherited.map(({field,value})=>({field,value})),metadataLocks:inherited.map(r=>r.field)});await ctx.db.patch(uploadId,{episodeId:id});if(row.version===2)await ctx.db.insert('v2Videos',{workspaceId:space._id,episodeId:id,sample:false});return id;
 }});

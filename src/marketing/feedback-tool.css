@@ -35,6 +35,8 @@
 .marketing-app.marketing-dark .feedback-mic-key:active{transform:translateY(2px);box-shadow:0 2px 4px #0005}
 .feedback-compact-copy{min-width:0}
 .marketing-app.marketing-dark .feedback-compact-state{margin:0 0 4px;font-size:14px;font-weight:650;line-height:1.4;color:#f7f4f0}
+.marketing-app.marketing-dark .feedback-compact-state[data-transcribing=true]{animation:feedback-transcribing 1.25s ease-in-out infinite}
+@keyframes feedback-transcribing{0%,100%{color:#f3a6c8}50%{color:#fff1f7}}
 .feedback-compact-state>span{font-weight:400;color:#f3a6c8;font-size:12px}
 .marketing-app.marketing-dark .feedback-compact-hint{font-size:13px;line-height:1.4;color:#c6bacb;margin:0;max-width:32ch}
 .feedback-compact-actions{display:flex;flex-direction:column;gap:4px;align-items:stretch}
@@ -166,3 +168,4 @@
  .marketing-app.marketing-dark .feedback-segment-play{padding:6px 10px 0;min-height:46px;gap:3px}
 }
 @media(prefers-reduced-motion:reduce){.marketing-app.marketing-dark [data-feedback-next=true]{animation:none}}
+@media(prefers-reduced-motion:reduce){.marketing-app.marketing-dark .feedback-compact-state[data-transcribing=true]{animation:none;color:#f3a6c8}}

@@ -147,3 +147,11 @@ Guide the next action with one pink highlight at a time: microphone, current spo
 These secondary dialogs can scroll internally on short screens and provide a labelled close button, contained keyboard focus and Escape dismissal. They preserve the same permissions and pending-save guards. Inputs remain 16px to avoid phone focus zoom; primary controls use 44px touch targets.
 
 At short landscape sizes, put the video and playback on the left and the mic and horizontally scrolling feedback strip on the right. The desktop layout keeps the same single-screen hierarchy. Scope all of these changes to Video Feedback; Data Annotation retains its existing layout.
+
+### Desktop, voice reliability and storage — 14 October 2026
+
+At 1000px and above, the homepage uses a connected horizontal problem → spoken solution flow, with larger artwork, readable command keys and 16px action labels. The workspace uses the available desktop width. On tall desktop tool screens, the video sits above one bottom row containing the mic and the horizontally scrolling feedback keys. Keep 16px instructions and controls at least 44px high; never use CSS zoom to fit the interface. The phone flow remains vertical and fits one screen.
+
+Only show Listening after the browser speech service confirms it is ready. Show Connecting, Reconnecting or an actionable failure as appropriate. Preserve audio and text on failure. A next start/play/resume command queues the previous comment and plays the next segment; playback failures must be visible. Transcribing animates only while interim feedback text is arriving, with a static reduced-motion alternative.
+
+Free storage is 1 GB per account, shared across owned annotation files, feedback videos, revisions and voice recordings. Invited editors use the project owner's allowance. Include unfinished-upload reservations in the server check. The storage popup shows usage, required space, the free allowance and the confirmed customer price of USD $0.020 per extra GB per month. For launch, Contact us about storage opens an email draft; automatic charging and paid storage activation are not connected. Never suggest a paid plan is already active or remove saved work to enforce the limit.

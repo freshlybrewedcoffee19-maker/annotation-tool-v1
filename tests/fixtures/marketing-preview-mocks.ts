@@ -23,6 +23,7 @@ export function useQuery(reference:any,args:any){useSyncExternalStore(subscribe,
  case 'accounts:providers':return {googleAvailable:false,passwordRecoveryAvailable:false};
  case 'marketing:board':return card?[{...card,owner:true,updatedAt:Date.now()}]:[];
  case 'marketing:storageUsage':return versions.reduce((total,v)=>total+v.size,0);
+ case 'marketing:storageQuota':{const stored=new URLSearchParams(location.search).has('storageFull')?1e9:versions.filter(v=>!v.deleted).reduce((total,v)=>total+v.size,0);return {stored,reserved:0,storageLimit:1e9,available:Math.max(0,1e9-stored),owner:true};}
  case 'marketing:finalisationPlan':return {keep:versions.at(-1),remove:versions.slice(0,-1).filter(v=>!v.deleted),reclaimed:versions.slice(0,-1).filter(v=>!v.deleted).reduce((n,v)=>n+v.size,0),snapshot:JSON.stringify(versions.map(v=>v.id))};
  case 'marketing:detail':case 'marketing:publicReview':if(!card)throw Error('Upload a video to start.');return {card,owner:getFunctionName(reference)==='marketing:detail',versions,feedback,replies,links,events,access};
  default:throw Error('Unexpected preview query: '+getFunctionName(reference));
@@ -35,6 +36,7 @@ export function useMutation(reference:any){const name=getFunctionName(reference)
  let result:any=null;
  switch(name){
  case 'marketing:mediaTicket':break;
+ case 'marketing:cancelUpload':pending.delete(args.uploadId);break;
  case 'marketing:reopen':card={...card,finalised:false,status:'needs_feedback',approvedVersionId:null};event('Reopened the card for revisions.');break;
  case 'marketingFiles:finalise':if(!args.confirmed)throw Error('Explicit confirmation required.');versions=versions.map((v,i)=>({...v,deleted:i<versions.length-1}));card={...card,finalised:true};event('Finalised the card. Latest video and all feedback retained.');break;
  case 'marketing:reviewFeedback':feedback=feedback.map(f=>f.id===args.feedbackId?{...f,reviewed:args.reviewed}:f);break;

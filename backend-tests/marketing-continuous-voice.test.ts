@@ -40,3 +40,24 @@ test('PCM snapshots keep each comment separate and exclude the next start comman
  expect(new DataView(await second.arrayBuffer()).getUint32(40,true)).toBe(600);
  expect(new DataView(await first.arrayBuffer()).getUint32(40,true)).toBe(1300);
 });
+
+test('common playback commands work and a stop joined to feedback keeps the comment',()=>{
+ const starts:any[]=[],stops:any[]=[],comments:string[]=[];
+ const commands=new FeedbackCommands({start:t=>starts.push(t),stop:t=>stops.push(t),feedback:text=>comments.push(text)});
+ commands.result(0,'Start the video.',true,{videoTime:1,audioFrame:10});
+ commands.result(1,'Stop. Make the logo bigger.',true,{videoTime:3,audioFrame:30});
+ commands.result(2,'Start with the product shot.',true,{videoTime:3,audioFrame:40});
+ commands.result(3,'Resume.',true,{videoTime:3,audioFrame:50});
+ expect(starts.map(time=>time.videoTime)).toEqual([1,3]);expect(stops.map(time=>time.videoTime)).toEqual([3]);
+ expect(comments).toEqual(['Make the logo bigger.','Start with the product shot.']);
+});
+
+test('stop the video and repeated stop are commands, never saved comments',()=>{
+ const comments:string[]=[],stops:any[]=[];
+ const commands=new FeedbackCommands({start:()=>{},stop:t=>stops.push(t),feedback:text=>comments.push(text)});
+ commands.result(0,'Start',true,{videoTime:0,audioFrame:0});
+ commands.result(1,'Stop the video',true,{videoTime:2,audioFrame:20});
+ commands.result(2,'Stop',true,{videoTime:2,audioFrame:30});
+ commands.result(3,'Make the logo bigger',true,{videoTime:2,audioFrame:40});
+ expect(stops).toHaveLength(1);expect(comments).toEqual(['Make the logo bigger']);
+});

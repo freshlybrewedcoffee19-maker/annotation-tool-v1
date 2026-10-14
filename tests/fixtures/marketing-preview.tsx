@@ -7,4 +7,6 @@ import '../../src/flow.css';
 import '../../src/brand.css';
 import '../../src/editor-layout.css';
 import '../../src/workspace-layout.css';
-createRoot(document.getElementById('root')!).render(<React.StrictMode><MarketingApp/></React.StrictMode>);
+import {installVoicePreview,VoicePreviewTray} from './marketing-voice-preview';
+installVoicePreview();
+createRoot(document.getElementById('root')!).render(<React.StrictMode><VoicePreviewTray/><MarketingApp/></React.StrictMode>);

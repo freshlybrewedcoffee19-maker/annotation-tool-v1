@@ -21,6 +21,8 @@ import './marketing.css';
 import './marketing-workspace.css';
 import './marketing-mobile.css';
 import './feedback-tool.css';
+import './marketing-desktop.css';
+import {storageSize,type StorageQuota} from '../storage-quota';
 
 class Boundary extends Component<{children:ReactNode;fallback?:(error:string)=>ReactNode},{error:string}>{state={error:''};static getDerivedStateFromError(error:unknown){return {error:message(error)};}render(){return this.state.error?(this.props.fallback?.(this.state.error)??<section className="marketing-panel"><h1>Review unavailable</h1><p role="alert">{this.state.error}</p><a href="/video-feedback">Back to video feedback</a></section>):this.props.children;}}
 export function MarketingApp(){const {isLoading,isAuthenticated}=useConvexAuth(),{signOut}=useAuthActions(),[url,setUrl]=useState(()=>canonical(location.pathname)+location.search),[menuOpen,setMenuOpen]=useState(false);
@@ -42,10 +44,10 @@ function Explainer(){const [step,setStep]=useState(0),preview=useRef<HTMLVideoEl
 function Sample(){const [store]=useState(createSample);useEffect(()=>()=>{store.audio.forEach(url=>URL.revokeObjectURL(url));},[store]);return <SampleProvider store={store}><p className="marketing-public-notice">Practice sample - Feedback stays in this tab. No sign-in or private data. Refresh to reset.</p><SampleView/></SampleProvider>;}
 function SampleView(){const data=useQuery(api.marketing.detail,{cardId:'sample' as Id<'marketingCards'>}) as CardData;return <CardView data={data} token="sample" publicView={false} sample/>;}
 function Board({open}:{open:(id:string)=>void}){
- const rows=useQuery(api.marketing.board,{}) as {id:string;title:string;status:Status;finalised:boolean;owner:boolean;updatedAt:number}[]|undefined,usage=useQuery(api.marketing.storageUsage,{});
+ const rows=useQuery(api.marketing.board,{}) as {id:string;title:string;status:Status;finalised:boolean;owner:boolean;updatedAt:number}[]|undefined,usage=useQuery(api.marketing.storageQuota,{}) as StorageQuota|undefined;
  return <section className={`marketing-project-workspace ${rows?.length?'has-projects':''}`}>
   <section className="marketing-arrival"><div><p className="marketing-arrival-label">YOUR NEXT CUT STARTS HERE</p><h1>Bring the video.<br/>We’ll keep the moments.</h1><p>Upload your ad, speak your feedback, then share the exact clips.</p><div className="marketing-arrival-steps" aria-label="Workflow"><span>Upload <i>↑</i></span><b aria-hidden="true">→</b><span>Speak <i>◉</i></span><b aria-hidden="true">→</b><span>Share <i>↗</i></span></div></div><div className="marketing-upload-entry"><div className="marketing-entry-symbol" aria-hidden="true">↵</div><MarketingUpload done={open}/><small>MP4 · MOV · WebM</small></div></section>
-  <div className="marketing-board-heading"><div><h2>Your projects</h2><p>Feedback and revisions, together.</p></div><p className="marketing-storage">Video feedback storage: {usage===undefined?'Loading…':sizeLabel(usage)}</p></div>
+  <div className="marketing-board-heading"><div><h2>Your projects</h2><p>Feedback and revisions, together.</p></div><p className="marketing-storage">Account storage: {usage===undefined?'Loading…':`${storageSize(usage.stored)} / 1 GB free`}{!!usage?.reserved&&<small> · {storageSize(usage.reserved)} uploading</small>}</p></div>
   {rows===undefined?<p role="status">Loading your projects…</p>:rows.length?<div className="marketing-project-grid">{rows.map(project=><ProjectTile key={project.id} project={project} open={()=>open(project.id)}/>)}</div>:<p className="marketing-empty-clips">Upload your first video to create a project. Its revisions stay together.</p>}
  </section>;
 }

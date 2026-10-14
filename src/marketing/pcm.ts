@@ -27,16 +27,19 @@ export class MarketingMicrophone {
  readonly pcm:PcmTimeline;
  private source:MediaStreamAudioSourceNode;
  private node:AudioWorkletNode;
+ private closed=false;
  private constructor(private context:AudioContext,private stream:MediaStream,source:MediaStreamAudioSourceNode,node:AudioWorkletNode,onData:(pcm:PcmTimeline)=>void){
   this.pcm=new PcmTimeline(context.sampleRate);this.source=source;this.node=node;
   node.port.onmessage=event=>{this.pcm.append(event.data);onData(this.pcm);};
  }
  static async open(onData:(pcm:PcmTimeline)=>void){
-  const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}});
   const context=new AudioContext();
-  try{await context.resume();await context.audioWorklet.addModule(new URL('./capture-worklet.js',import.meta.url));const source=context.createMediaStreamSource(stream),node=new AudioWorkletNode(context,'marketing-feedback-capture');const capture=new MarketingMicrophone(context,stream,source,node,onData);source.connect(node);node.connect(context.destination);return capture;}
-  catch(error){stream.getTracks().forEach(track=>track.stop());await context.close();throw error;}
+  // Resume synchronously from the mic click, before the permission promise loses user activation.
+  const activated=context.resume();void activated.catch(()=>{});
+  let stream:MediaStream|undefined;
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}});await activated;await context.audioWorklet.addModule(new URL('./capture-worklet.js',import.meta.url));const source=context.createMediaStreamSource(stream),node=new AudioWorkletNode(context,'marketing-feedback-capture');const capture=new MarketingMicrophone(context,stream,source,node,onData);source.connect(node);node.connect(context.destination);return capture;}
+  catch(error){stream?.getTracks().forEach(track=>track.stop());await context.close().catch(()=>{});throw error;}
  }
  onInterrupted(callback:()=>void){this.stream.getAudioTracks().forEach(track=>{track.onended=callback;});}
- close(){this.node.port.onmessage=null;this.source.disconnect();this.node.disconnect();this.stream.getTracks().forEach(track=>track.stop());void this.context.close();}
+ close(){if(this.closed)return;this.closed=true;this.node.port.onmessage=null;this.source.disconnect();this.node.disconnect();this.stream.getTracks().forEach(track=>{track.onended=null;track.stop();});void this.context.close().catch(()=>{});}
 }
