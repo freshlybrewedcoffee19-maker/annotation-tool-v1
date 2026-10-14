@@ -2,12 +2,12 @@ import {useEffect,useRef,useState} from 'react';
 import type {CardData} from './types';
 import {message} from './types';
 export function ExportFeedback({data,selected,recording,pending,base=location.href,expanded=false}:{data:CardData;selected:string|null;recording:boolean;pending:number;base?:string;expanded?:boolean}){
- const [scope,setScope]=useState('selected'),[busy,setBusy]=useState(false),[error,setError]=useState('');
+ const [busy,setBusy]=useState(false),[error,setError]=useState('');
  const [prepared,setPrepared]=useState<{key:string;docx:string;xlsx:string;text:string}|null>(null),[preparationError,setPreparationError]=useState<{key:string;text:string}|null>(null);
  const [showText,setShowText]=useState(false),[copiedKey,setCopiedKey]=useState(''),[copyError,setCopyError]=useState('');
  const textArea=useRef<HTMLTextAreaElement>(null);
- const versionId=scope==='all'?'all':selected??'',count=data.feedback.filter(row=>versionId==='all'||row.versionId===versionId).length;
- const filename=`cheddar-vox-feedback-${scope==='all'?'all-versions':'version-'+(data.versions.find(version=>version.id===selected)?.number??'selected')}`;
+ const versionId=selected??'',count=data.feedback.filter(row=>row.versionId===versionId).length;
+ const filename=`cheddar-vox-feedback-version-${data.versions.find(version=>version.id===selected)?.number??'selected'}`;
  // A value snapshot also notices in-place sample edits without rebuilding files on every render.
  const preparationKey=expanded&&count?JSON.stringify({data,versionId,base}):'';
  const ready=preparationKey&&prepared?.key===preparationKey?prepared:null,prepareError=preparationError?.key===preparationKey?preparationError.text:'';
@@ -29,7 +29,7 @@ export function ExportFeedback({data,selected,recording,pending,base=location.hr
   });
   return()=>{cancelled=true;urls.forEach(url=>URL.revokeObjectURL(url));};
  },[preparationKey]);
- async function download(format:'docx'|'xlsx'){setBusy(true);setError('');try{const exporter=await import('./office-export');const blob=format==='docx'?exporter.wordFeedback(data,versionId,base):exporter.excelFeedback(data,versionId,base),url=URL.createObjectURL(blob),anchor=document.createElement('a');anchor.href=url;anchor.download=`cheddar-vox-feedback-${scope==='all'?'all-versions':'version-'+(data.versions.find(version=>version.id===selected)?.number??'selected')}.${format}`;anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){setError('Export failed. '+message(error)+' Your saved feedback is unchanged.');}finally{setBusy(false);}}
+ async function download(format:'docx'|'xlsx'){setBusy(true);setError('');try{const exporter=await import('./office-export');const blob=format==='docx'?exporter.wordFeedback(data,versionId,base):exporter.excelFeedback(data,versionId,base),url=URL.createObjectURL(blob),anchor=document.createElement('a');anchor.href=url;anchor.download=`${filename}.${format}`;anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){setError('Export failed. '+message(error)+' Your saved feedback is unchanged.');}finally{setBusy(false);}}
  async function copyText(){
   if(!ready)return;
   setShowText(true);setCopyError('');
@@ -38,7 +38,6 @@ export function ExportFeedback({data,selected,recording,pending,base=location.hr
  }
  const copied=!!ready&&copiedKey===ready.key;
  const content=<div>
-  <label>Versions to export<select value={scope} disabled={busy} onChange={event=>setScope(event.target.value)}><option value="selected">Selected version</option><option value="all">All versions</option></select></label>
   <div className="marketing-actions">
    {expanded?ready?<><a className="feedback-download-link" href={ready.xlsx} download={`${filename}.xlsx`}>Download Excel</a><a className="feedback-download-link" href={ready.docx} download={`${filename}.docx`}>Download Word</a></>:<><button disabled>Download Excel</button><button disabled>Download Word</button></>:<><button disabled={busy||!count} onClick={()=>void download('docx')}>Word (.docx)</button><button disabled={busy||!count} onClick={()=>void download('xlsx')}>Excel (.xlsx)</button></>}
    {expanded&&<button className="feedback-copy-text" type="button" disabled={!ready} aria-expanded={showText&&!!ready} onClick={()=>void copyText()}>{copied?'Copied':'Copy text'}</button>}

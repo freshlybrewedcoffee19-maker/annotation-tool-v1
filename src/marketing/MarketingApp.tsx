@@ -119,7 +119,7 @@ function CardView({data,token,publicView,sample=false}:{data:CardData;token:stri
   {sheet&&<FeedbackToolDialog title={sheet==='feedback'?(editFeedback?'Edit feedback':'Your feedback'):'Download feedback'} close={()=>setSheet(null)}>
    {sheet==='feedback'&&detail?<FeedbackItem key={detail.id} feedback={detail} data={data} audio={detail.audioId?asset(detail.audioId):null} publicView={publicView} canEdit={canEdit&&!recording} initialEditing={editFeedback} play={context=>{if(playFeedback(detail,context))setSheet(null);}}/>:<>
     {error&&<p role="alert">{error}</p>}
-    <ExportFeedback expanded data={data} selected={selected} recording={recording} pending={pendingSaves}/>
+    <ExportFeedback expanded data={data} selected={version?.id??null} recording={recording} pending={pendingSaves}/>
     {!publicView&&!sample&&data.owner&&<InviteEditor data={data}/>}
     {sample&&<p className="feedback-invite-note">To invite an editor, <a href={home+'/signin'}>sign in</a> and upload your video.</p>}
     <details className="feedback-project-disclosure"><summary>Project settings</summary>
