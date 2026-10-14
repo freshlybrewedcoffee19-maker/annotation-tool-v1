@@ -1,89 +1,34 @@
-/* Workspace and editor reading scale. Homepage layout lives in keyboard-home.css. */
-
-@media(min-width:1000px){
- .marketing-app.marketing-dark{font-size:16px}
- .marketing-app.marketing-dark .marketing-header,
- .marketing-app.marketing-dark.keyboard-home-app .marketing-header{min-height:80px;height:auto;padding:16px clamp(28px,4vw,72px);gap:28px}
- .marketing-app.marketing-dark.keyboard-home-app .marketing-header{height:88px}
- .marketing-app.marketing-dark .marketing-brand,
- .marketing-app.marketing-dark.keyboard-home-app .marketing-brand{font-size:26px;line-height:1.2}
- .marketing-app.marketing-dark .marketing-brand small,
- .marketing-app.marketing-dark.keyboard-home-app .marketing-brand small{font-size:14px;margin-top:4px}
- .marketing-app.marketing-dark .marketing-header nav{gap:24px;font-size:16px}
- .marketing-app.marketing-dark .marketing-header nav a{min-height:44px;display:inline-flex;align-items:center}
- .marketing-app.marketing-dark.keyboard-home-app .marketing-header nav>a{display:none}
- .marketing-app.marketing-dark .marketing-header nav button{min-height:48px;padding:11px 20px;font-size:16px}
- .marketing-app.marketing-dark:not(.marketing-editor-app):not(.keyboard-home-app) .marketing-main{width:100%;max-width:1600px;padding:28px clamp(28px,4vw,64px) 48px}
-
- /* Workspace projects have the same readable scale as the player. */
- .marketing-app.marketing-dark .marketing-arrival{grid-template-columns:minmax(0,1.15fr) minmax(360px,1fr);gap:64px;padding:40px 0 48px}
- .marketing-app.marketing-dark .marketing-arrival-label{font-size:13px;margin-bottom:20px}
- .marketing-app.marketing-dark .marketing-arrival h1{font-size:clamp(44px,3.5vw,60px);margin-bottom:22px}
- .marketing-app.marketing-dark .marketing-arrival>div>p:not(.marketing-arrival-label){font-size:18px;line-height:1.6;max-width:43ch}
- .marketing-arrival-steps{gap:16px;margin-top:28px}
- .marketing-arrival-steps>span{font-size:16px;min-height:52px;padding:12px 18px}
- .marketing-upload-entry{min-height:270px;padding:36px}
- .marketing-entry-symbol{font-size:64px;margin-bottom:12px}
- .marketing-app.marketing-dark .marketing-upload-entry .marketing-upload button{font-size:18px;min-height:56px;padding:12px 24px}
- .marketing-upload-entry>small{font-size:14px;margin-top:16px}
- .marketing-upload p{font-size:15px}
- .marketing-board-heading{margin-top:40px;gap:28px}
- .marketing-app.marketing-dark .marketing-board-heading h2{font-size:28px}
- .marketing-board-heading p{font-size:16px;line-height:1.5}
- .marketing-project-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:32px;margin-top:28px}
- .marketing-project-tile{max-width:460px}
- .marketing-app.marketing-dark .marketing-project-body h3{font-size:22px}
- .marketing-app.marketing-dark .marketing-project-body p,.marketing-project-body li{font-size:16px}
- .marketing-project-body>small{font-size:14px}
- .marketing-app.marketing-dark .marketing-empty-clips{font-size:16px;padding:28px;max-width:none}
+/* Shared Video Feedback sizing. Components use these values instead of a
+   desktop canvas with a fixed maximum width. Data Annotation is separate. */
+.marketing-app.marketing-dark{
+ --mf-body:clamp(1rem,min(1.2vw,2svh),2rem);
+ --mf-small:max(.875rem,calc(var(--mf-body)*.85));
+ --mf-gap:clamp(.75rem,1.4vw,2rem);
+ --mf-gutter:clamp(1rem,4vw,6rem);
+ --mf-control:max(2.75rem,calc(var(--mf-body)*2.8));
+ font-size:var(--mf-body);
 }
+.marketing-app.marketing-dark:not(:has(.feedback-flow)) .marketing-header,
+.marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen) .marketing-header{
+ height:auto;min-height:0;margin:0;padding:clamp(.5rem,1.3svh,1.5rem) var(--mf-gutter);gap:var(--mf-gap);align-items:center;flex-wrap:nowrap;flex-shrink:0;
+}
+.marketing-app.marketing-dark:not(:has(.feedback-flow)) .marketing-brand,
+.marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen) .marketing-brand{font-size:calc(var(--mf-body)*1.45);line-height:1.2;min-width:0}
+.marketing-app.marketing-dark:not(:has(.feedback-flow)) .marketing-brand small,
+.marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen) .marketing-brand small{font-size:calc(var(--mf-small)*.9);margin-top:.2em}
+.marketing-app.marketing-dark:not(:has(.feedback-flow)) .marketing-header nav{gap:var(--mf-gap);font-size:var(--mf-small)}
+.marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-header nav a{min-height:2.75rem;display:inline-flex;align-items:center;white-space:nowrap}
+.marketing-app.marketing-dark:not(:has(.feedback-flow)) .marketing-header nav button{min-height:var(--mf-control);padding:.6em 1em;font-size:var(--mf-small)}
+.marketing-app.marketing-dark:not(.keyboard-home-app):not(:has(.feedback-tool-screen)) .marketing-main{width:100%;max-width:none;padding:var(--mf-gap) var(--mf-gutter) calc(var(--mf-gap)*2);margin:0;box-sizing:border-box;min-width:0}
+.marketing-app.marketing-dark :is(input,select,textarea){min-width:0;max-width:100%}
+.marketing-app.marketing-dark :is(button,a,input,select,textarea):focus-visible{outline:2px solid #f3a6c8;outline-offset:3px}
 
-@media(min-width:1000px) and (min-height:620px){
- /* A wide control row keeps the film large without adding side panels. */
- .marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen) .marketing-header{min-height:76px;padding:12px clamp(28px,4vw,72px)}
- .marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen) .marketing-brand{font-size:24px}
- .marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen) .marketing-brand small{font-size:13px}
- .marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen) .marketing-main>.marketing-public-notice{padding:7px 28px;font-size:13px}
- .marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen) .marketing-main>.marketing-public-notice p{font-size:13px}
- .feedback-tool-screen{width:min(100%,1600px);grid-template-columns:minmax(320px,.85fr) minmax(0,1.4fr);grid-template-rows:auto minmax(0,1fr) auto auto;gap:12px 32px;padding:12px clamp(28px,3vw,48px) 20px}
- .feedback-tool-heading{grid-column:1/-1;grid-row:1}
- .marketing-app.marketing-dark .feedback-tool-heading h1{font-size:23px;line-height:1.25}
- .feedback-tool-heading>div>span{font-size:14px}
- .feedback-back{width:44px;min-height:48px}
- .feedback-back svg{width:26px;height:26px}
- .marketing-app.marketing-dark .feedback-options-key{font-size:16px;min-height:52px;padding:10px 16px;gap:10px}
- .feedback-options-key svg{width:21px;height:21px}
- .feedback-tool-canvas{grid-column:1/-1;grid-row:2}
- .feedback-tool-screen>.editor-playback{grid-column:1/-1;grid-row:3}
- .marketing-app.marketing-dark .feedback-tool-screen>.editor-playback{gap:12px;min-height:48px}
- .marketing-app.marketing-dark .feedback-tool-screen>.editor-playback button{width:52px;min-width:52px;height:48px;min-height:48px;font-size:16px}
- .marketing-app.marketing-dark .feedback-tool-screen>.editor-playback .playback-toggle{width:56px}
- .feedback-tool-screen>.editor-playback svg{width:22px;height:22px}
- .feedback-tool-screen .playback-time{font-size:15px;padding:0 16px}
- .feedback-compact-composer,.feedback-readonly-note{grid-column:1;grid-row:4;align-self:center}
- .feedback-compact-composer{grid-template-columns:76px minmax(0,1fr);gap:10px 16px}
- .marketing-app.marketing-dark .feedback-mic-key{width:76px;height:80px;min-height:80px;font-size:20px;grid-row:1/3}
- .feedback-mic-key .mic-icon{width:27px;height:27px}
- .marketing-app.marketing-dark .feedback-compact-state{font-size:17px;margin-bottom:6px}
- .feedback-compact-state>span{font-size:14px}
- .marketing-app.marketing-dark .feedback-compact-hint{font-size:16px;line-height:1.4;max-width:32ch}
- .feedback-compact-actions{grid-column:2;flex-direction:row;flex-wrap:wrap;gap:8px}
- .marketing-app.marketing-dark .feedback-save-key{font-size:15px;min-height:44px;padding:9px 14px}
- .marketing-app.marketing-dark .feedback-compact-error{font-size:14px;min-height:44px}
- .feedback-segments{grid-column:2;grid-row:4}
- .feedback-segments>header{min-height:32px;margin-bottom:8px}
- .marketing-app.marketing-dark .feedback-segments h2{font-size:20px}
- .feedback-segments h2 span,.feedback-strip-hint{font-size:14px}
- .feedback-key-strip{gap:12px;padding-bottom:8px}
- .marketing-app.marketing-dark .feedback-segment-key{flex-basis:260px;min-height:114px}
- .marketing-app.marketing-dark .feedback-segment-play{padding:12px 14px 4px;gap:7px;min-height:68px}
- .feedback-segment-time{font-size:15px}
- .feedback-segment-time small,.feedback-segment-state{font-size:12px}
- .feedback-segment-text{font-size:16px}
- .feedback-segment-footer{padding-left:14px}
- .marketing-app.marketing-dark .feedback-segment-edit{font-size:14px;min-width:68px}
- .feedback-segment-edit svg{width:16px;height:16px}
- .feedback-strip-empty{min-height:114px;font-size:16px}
- .feedback-tool-dialog label,.feedback-manual-dialog label,
- .marketing-app.marketing-dark .feedback-tool-dialog p,.marketing-app.marketing-dark .feedback-manual-dialog p{font-size:16px}
+/* Switch navigation when its content needs the room, not only on phones. */
+@media(max-width:960px){
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-header{position:relative;z-index:10}
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-menu-toggle{display:flex;align-items:center;justify-content:center;gap:.6em;min-height:var(--mf-control);padding:.55em .8em;font-size:var(--mf-small);flex-shrink:0}
+ .marketing-app.marketing-dark .marketing-menu-toggle svg{width:1.2em;height:1.2em}
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-header nav{display:none;position:absolute;top:calc(100% - 1px);right:var(--mf-gutter);width:min(22em,calc(100vw - 2*var(--mf-gutter)));max-height:70dvh;overflow:auto;padding:.65em;gap:.3em;align-items:stretch;flex-direction:column;background:#1c1722;border:1px solid #534458;border-radius:12px;box-shadow:0 12px 28px #0008}
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-header nav[data-open=true]{display:flex}
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-header nav a{padding:.55em .75em;min-height:2.75rem;font-size:var(--mf-body);text-decoration:none;white-space:normal;border-radius:6px}
 }

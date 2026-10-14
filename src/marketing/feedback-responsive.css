@@ -1,0 +1,113 @@
+/* Fluid sizing for the Video Feedback player. The shared shell owns its header. */
+.marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen){
+ --ft-gap:clamp(.4rem,1.2svh,calc(var(--mf-gap)*.75));
+ --ft-mic:max(3.75rem,calc(var(--mf-body)*4));
+ height:var(--feedback-available-height,100dvh);
+ min-height:0;
+ overflow:hidden;
+}
+.marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen) .marketing-main{
+ flex:1;min-height:0;min-width:0;width:100%;max-width:none;padding:0;margin:0;overflow:hidden;
+}
+.marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen) .marketing-main>.marketing-public-notice{
+ flex:none;max-width:none;max-height:24svh;overflow:auto;margin:0;border-radius:0;
+ padding:calc(var(--mf-gap)*.35) var(--mf-gutter);gap:calc(var(--mf-gap)*.4) var(--mf-gap);
+ font-size:var(--mf-small);line-height:1.4;
+}
+.marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen) .marketing-main>.marketing-public-notice p{color:inherit;font-size:inherit;line-height:inherit;max-width:none;margin:0;flex:1 1 24ch}
+.marketing-app.marketing-dark.marketing-editor-app:has(.feedback-tool-screen) .marketing-main>.marketing-public-notice button{
+ font-size:var(--mf-small);min-height:var(--mf-control);padding:.45em .8em;white-space:normal;
+}
+
+.marketing-app.marketing-dark .feedback-tool-screen{
+ width:100%;max-width:none;margin:0;min-width:0;min-height:0;
+ grid-template-columns:minmax(0,1fr);
+ grid-template-rows:auto minmax(min(20svh,10rem),1fr) auto auto auto;
+ gap:var(--ft-gap);padding:var(--ft-gap) var(--mf-gutter) max(var(--ft-gap),env(safe-area-inset-bottom));
+ overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;
+ scrollbar-width:thin;scrollbar-color:#88657d #17121c;
+}
+.marketing-app.marketing-dark .feedback-tool-heading{grid-column:1;grid-row:1;gap:calc(var(--mf-gap)*.7)!important;min-height:var(--mf-control);flex-wrap:nowrap}
+.marketing-app.marketing-dark .feedback-tool-heading h1{font-size:calc(var(--mf-body)*1.15);line-height:1.25}
+.marketing-app.marketing-dark .feedback-tool-heading>div>span{font-size:var(--mf-small);line-height:1.35;margin-top:.2em}
+.marketing-app.marketing-dark .feedback-back{width:var(--mf-control);min-height:var(--mf-control)}
+.marketing-app.marketing-dark .feedback-back svg{width:calc(var(--mf-body)*1.45);height:calc(var(--mf-body)*1.45)}
+.marketing-app.marketing-dark .feedback-options-key{font-size:var(--mf-small);min-height:var(--mf-control);max-width:42%;padding:.55em .8em;gap:.5em;white-space:normal}
+.marketing-app.marketing-dark .feedback-options-key svg{width:1.3em;height:1.3em}
+.marketing-app.marketing-dark .feedback-tool-canvas{grid-column:1;grid-row:2;min-height:min(20svh,10rem);border-radius:calc(var(--mf-body)*.65)}
+.marketing-app.marketing-dark .feedback-tool-canvas video{object-fit:contain;max-width:none;max-height:100%;transform:none}
+.marketing-app.marketing-dark .feedback-tool-canvas>p{font-size:var(--mf-body);padding:var(--mf-gap)}
+.marketing-app.marketing-dark .feedback-screen-error{font-size:var(--mf-small);padding:.55em .75em;gap:.6em;inset:auto var(--ft-gap) var(--ft-gap)}
+.marketing-app.marketing-dark .feedback-screen-error button{min-width:var(--mf-control);min-height:var(--mf-control)}
+
+.marketing-app.marketing-dark .feedback-tool-screen>.editor-playback{grid-column:1;grid-row:3;gap:calc(var(--mf-gap)*.4);min-height:var(--mf-control);align-self:center}
+.marketing-app.marketing-dark .feedback-tool-screen>.editor-playback button{width:var(--mf-control);min-width:var(--mf-control);height:var(--mf-control);min-height:var(--mf-control);font-size:var(--mf-small);padding:.45em;border-radius:.5em}
+.marketing-app.marketing-dark .feedback-tool-screen>.editor-playback .playback-toggle{width:var(--mf-control)}
+.marketing-app.marketing-dark .feedback-tool-screen>.editor-playback svg{width:calc(var(--mf-body)*1.3);height:calc(var(--mf-body)*1.3)}
+.marketing-app.marketing-dark .feedback-tool-screen .playback-time{font-size:var(--mf-small);line-height:1.3;padding:0 .65em;flex-basis:auto;max-width:100%;text-align:center}
+
+.marketing-app.marketing-dark .feedback-compact-composer{grid-column:1;grid-row:4;grid-template-columns:var(--ft-mic) minmax(0,1fr) auto;gap:calc(var(--mf-gap)*.6);align-self:center}
+.marketing-app.marketing-dark .feedback-mic-key{grid-row:auto;width:var(--ft-mic);height:var(--ft-mic);min-height:var(--ft-mic);font-size:var(--mf-body);gap:.15em;padding:.3em;border-radius:.7em;border-bottom-width:.3em}
+.marketing-app.marketing-dark .feedback-mic-key .mic-icon{width:calc(var(--mf-body)*1.5);height:calc(var(--mf-body)*1.5)}
+.marketing-app.marketing-dark .feedback-compact-state{font-size:var(--mf-body);line-height:1.35;margin:0 0 .2em}
+.marketing-app.marketing-dark .feedback-compact-state>span{font-size:var(--mf-small)}
+.marketing-app.marketing-dark .feedback-compact-hint{font-size:var(--mf-small);line-height:1.4;max-width:32ch;overflow-wrap:anywhere}
+.marketing-app.marketing-dark .feedback-compact-actions{grid-column:auto;flex-direction:column;gap:.25em;min-width:0;max-width:10em}
+.marketing-app.marketing-dark .feedback-write-key,.marketing-app.marketing-dark .feedback-save-key{font-size:var(--mf-small);min-height:var(--mf-control);max-width:none;padding:.45em .6em;line-height:1.3;white-space:normal}
+.marketing-app.marketing-dark .feedback-compact-error{font-size:var(--mf-small);min-height:var(--mf-control);padding:.45em .65em;gap:.75em}
+.marketing-app.marketing-dark .feedback-readonly-note{grid-column:1;grid-row:4;font-size:var(--mf-body);line-height:1.4;min-height:var(--mf-control);text-align:center}
+
+.marketing-app.marketing-dark .feedback-segments{grid-column:1;grid-row:5;align-self:end;max-width:100%;min-width:0}
+.marketing-app.marketing-dark .feedback-segments>header{gap:var(--mf-gap);min-height:calc(var(--mf-body)*1.8);margin-bottom:calc(var(--ft-gap)*.5);align-items:center;flex-wrap:wrap}
+.marketing-app.marketing-dark .feedback-segments h2{font-size:calc(var(--mf-body)*1.1);line-height:1.35}
+.marketing-app.marketing-dark .feedback-segments h2 span,.marketing-app.marketing-dark .feedback-strip-hint{font-size:var(--mf-small);line-height:1.35}
+.marketing-app.marketing-dark .feedback-read-key{font-size:var(--mf-small);min-height:var(--mf-control);padding:.4em}
+.marketing-app.marketing-dark .feedback-key-strip{gap:calc(var(--mf-gap)*.6);padding:1px 2px calc(var(--ft-gap)*.75);max-width:100%}
+.marketing-app.marketing-dark .feedback-segment-key{flex-basis:clamp(11.5rem,20vw,calc(var(--mf-body)*15));min-height:calc(var(--mf-body)*6.4);border-radius:.65em;border-bottom-width:calc(var(--mf-body)*.28)}
+.marketing-app.marketing-dark .feedback-segment-play{min-height:calc(var(--mf-body)*3.6);gap:.35em;padding:.65em .75em .2em;font-size:var(--mf-body)}
+.marketing-app.marketing-dark .feedback-segment-time{font-size:var(--mf-small);gap:.6em}
+.marketing-app.marketing-dark .feedback-segment-time small,.marketing-app.marketing-dark .feedback-segment-state{font-size:max(.75rem,calc(var(--mf-body)*.75))}
+.marketing-app.marketing-dark .feedback-segment-text{font-size:var(--mf-body);line-height:1.35}
+.marketing-app.marketing-dark .feedback-segment-footer{gap:.4em;padding:0 .2em 0 .75em;font-size:var(--mf-body)}
+.marketing-app.marketing-dark .feedback-segment-edit{font-size:var(--mf-small);min-width:calc(var(--mf-body)*3.6);min-height:var(--mf-control);padding:.45em;gap:.3em}
+.marketing-app.marketing-dark .feedback-segment-edit svg{width:1.1em;height:1.1em}
+.marketing-app.marketing-dark .feedback-strip-empty{font-size:var(--mf-small);min-height:calc(var(--mf-body)*5);padding:var(--mf-gap);line-height:1.45}
+
+/* The lower controls share one row when there is room beside the microphone. */
+@media(min-width:64rem) and (min-height:38rem){
+ .marketing-app.marketing-dark .feedback-tool-screen{grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr);grid-template-rows:auto minmax(min(20svh,10rem),1fr) auto auto;column-gap:calc(var(--mf-gap)*1.5)}
+ .marketing-app.marketing-dark .feedback-tool-heading{grid-column:1/-1;grid-row:1}
+ .marketing-app.marketing-dark .feedback-tool-canvas{grid-column:1/-1;grid-row:2}
+ .marketing-app.marketing-dark .feedback-tool-screen>.editor-playback{grid-column:1/-1;grid-row:3}
+ .marketing-app.marketing-dark .feedback-compact-composer,.marketing-app.marketing-dark .feedback-readonly-note{grid-column:1;grid-row:4}
+ .marketing-app.marketing-dark .feedback-compact-composer{grid-template-columns:var(--ft-mic) minmax(0,1fr)}
+ .marketing-app.marketing-dark .feedback-mic-key{grid-row:1/3}
+ .marketing-app.marketing-dark .feedback-compact-actions{grid-column:2;flex-direction:row;flex-wrap:wrap;max-width:none}
+ .marketing-app.marketing-dark .feedback-segments{grid-column:2;grid-row:4;align-self:center}
+}
+
+@media(max-width:43.75rem){
+ .marketing-app.marketing-dark .feedback-tool-heading h1{font-size:var(--mf-body)}
+ .marketing-app.marketing-dark .feedback-options-key{max-width:40%;padding:.45em .55em}
+ .marketing-app.marketing-dark .feedback-tool-screen .playback-time{flex-basis:100%;padding:0}
+ .marketing-app.marketing-dark .feedback-compact-actions{max-width:6.5em}
+ .marketing-app.marketing-dark .feedback-compact-hint{max-width:24ch}
+ .marketing-app.marketing-dark .feedback-segments>header{gap:.3em .8em}
+ .marketing-app.marketing-dark .feedback-tool-dialog,.marketing-app.marketing-dark .feedback-manual-dialog{padding:var(--mf-gap)}
+}
+
+/* Short landscape screens use adjacent controls without overlapping the clip keys. */
+@media(min-width:40rem) and (max-height:32rem){
+ .marketing-app.marketing-dark .feedback-tool-screen{grid-template-columns:minmax(0,1fr) minmax(16rem,.75fr);grid-template-rows:auto auto minmax(0,1fr) auto;gap:var(--ft-gap) var(--mf-gap)}
+ .marketing-app.marketing-dark .feedback-tool-heading{grid-column:1/-1;grid-row:1}
+ .marketing-app.marketing-dark .feedback-tool-canvas{grid-column:1;grid-row:2/4;min-height:8rem}
+ .marketing-app.marketing-dark .feedback-tool-screen>.editor-playback{grid-column:1;grid-row:4}
+ .marketing-app.marketing-dark .feedback-tool-screen .playback-time{flex-basis:auto}
+ .marketing-app.marketing-dark .feedback-compact-composer,.marketing-app.marketing-dark .feedback-readonly-note{grid-column:2;grid-row:2;align-self:start}
+ .marketing-app.marketing-dark .feedback-compact-composer{grid-template-columns:var(--ft-mic) minmax(0,1fr)}
+ .marketing-app.marketing-dark .feedback-mic-key{grid-row:1/3}
+ .marketing-app.marketing-dark .feedback-compact-actions{grid-column:2;flex-direction:row;flex-wrap:wrap;max-width:none}
+ .marketing-app.marketing-dark .feedback-segments{grid-column:2;grid-row:3/5;align-self:end}
+ .marketing-app.marketing-dark .feedback-segments>header{flex-wrap:nowrap}
+ .marketing-app.marketing-dark .feedback-strip-hint{display:none}
+}

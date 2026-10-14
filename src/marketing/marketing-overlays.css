@@ -1,0 +1,232 @@
+/* Video Feedback overlays share the shell's fluid scale. Annotation dialogs are untouched. */
+.marketing-app.marketing-dark .marketing-main>[inert]{width:100%;min-width:0;display:grid;place-items:center}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog){
+ --mf-overlay-edge:clamp(.75rem,2vw,2rem);
+ --mf-overlay-pad:clamp(1rem,min(2.4vw,4svh),2.75rem);
+ box-sizing:border-box;
+ inline-size:min(calc(100% - 2 * var(--mf-overlay-edge)),36em);
+ width:min(calc(100% - 2 * var(--mf-overlay-edge)),36em);
+ min-inline-size:0;
+ max-inline-size:calc(100% - 2 * var(--mf-overlay-edge));
+ max-block-size:calc(min(100dvh,var(--mf-viewport-height,100dvh)) - 2 * var(--mf-overlay-edge));
+ max-height:calc(min(100dvh,var(--mf-viewport-height,100dvh)) - 2 * var(--mf-overlay-edge));
+ margin:auto;
+ padding:var(--mf-overlay-pad);
+ overflow:auto;
+ overscroll-behavior:contain;
+ scrollbar-gutter:stable;
+ scrollbar-color:#8d6c91 #211b27;
+ scroll-padding-block:var(--mf-overlay-pad);
+ font-family:inherit;
+ font-size:var(--mf-body,1rem);
+ line-height:1.5;
+ text-align:left;
+ overflow-wrap:anywhere;
+}
+.marketing-app.marketing-dark .marketing-auth-dialog{
+ width:min(calc(100% - 2 * var(--mf-overlay-edge)),28em);
+ inline-size:min(calc(100% - 2 * var(--mf-overlay-edge)),28em);
+ padding-block-start:calc(var(--mf-overlay-pad) + var(--mf-control,2.75rem));
+}
+.marketing-app.marketing-dark .storage-limit-dialog{
+ width:min(calc(100% - 2 * var(--mf-overlay-edge)),34em);
+ inline-size:min(calc(100% - 2 * var(--mf-overlay-edge)),34em);
+}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) :is(h1,h2,h3,p,label,li,form,section,article,div){
+ min-inline-size:0;
+ max-inline-size:100%;
+ box-sizing:border-box;
+ overflow-wrap:anywhere;
+}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) h1{
+ font-size:calc(var(--mf-body,1rem) * 1.75);
+ line-height:1.15;
+ margin:0 0 calc(var(--mf-gap,1rem) * .75);
+ text-wrap:balance;
+}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) h2{
+ font-size:calc(var(--mf-body,1rem) * 1.4);
+ line-height:1.25;
+ margin:0 0 calc(var(--mf-gap,1rem) * .75);
+ text-wrap:balance;
+}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) h3{
+ font-size:calc(var(--mf-body,1rem) * 1.15);
+ line-height:1.3;
+ margin:calc(var(--mf-gap,1rem) * 1.25) 0 calc(var(--mf-gap,1rem) * .5);
+}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) :is(p,label,li){
+ font-size:var(--mf-body,1rem);
+ line-height:1.5;
+}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) p{
+ margin:calc(var(--mf-gap,1rem) * .6) 0 var(--mf-gap,1rem);
+}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) :is(small,.marketing-muted,.marketing-unavailable,.marketing-history span,.marketing-access span){
+ font-size:var(--mf-small,.85rem);
+ line-height:1.5;
+}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) label{
+ display:grid;
+ gap:calc(var(--mf-gap,1rem) * .4);
+ margin:var(--mf-gap,1rem) 0;
+}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) form{
+ display:grid;
+ gap:var(--mf-gap,1rem);
+ margin:var(--mf-gap,1rem) 0;
+}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) form>label{margin:0}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) :is(input:not([type=checkbox]):not([type=radio]),select,textarea){
+ box-sizing:border-box;
+ width:100%;
+ min-width:0;
+ max-width:100%;
+ min-height:var(--mf-control,2.75rem);
+ padding:.65em .8em;
+ font-size:max(1rem,var(--mf-body,1rem));
+ line-height:1.4;
+}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) textarea{
+ min-height:min(7em,26dvh);
+ max-height:min(18em,48dvh);
+ resize:vertical;
+ overflow:auto;
+}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) :is(button,summary,.feedback-download-link,.feedback-email-invitation){
+ box-sizing:border-box;
+ min-height:var(--mf-control,2.75rem);
+ min-width:var(--mf-control,2.75rem);
+ max-width:100%;
+ padding:.65em .9em;
+ font-size:var(--mf-body,1rem);
+ line-height:1.35;
+ white-space:normal;
+ overflow-wrap:anywhere;
+}
+.marketing-app.marketing-dark :is(.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) :is(.marketing-actions,.storage-limit-actions){
+ display:flex;
+ flex-wrap:wrap;
+ gap:calc(var(--mf-gap,1rem) * .65);
+ align-items:stretch;
+ margin-block:var(--mf-gap,1rem);
+}
+.marketing-app.marketing-dark :is(.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) :is(.marketing-actions,.storage-limit-actions)>:is(button,a){
+ flex:1 1 11em;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ min-height:var(--mf-control,2.75rem);
+ font-size:var(--mf-body,1rem);
+ line-height:1.35;
+ padding:.65em .9em;
+ white-space:normal;
+ overflow-wrap:anywhere;
+ text-align:center;
+}
+.marketing-app.marketing-dark :is(.feedback-tool-dialog,.feedback-manual-dialog) :is(.feedback-copy-text,.feedback-text-preview){flex-basis:100%}
+.marketing-app.marketing-dark .feedback-tool-dialog>header{
+ gap:var(--mf-gap,1rem);
+ align-items:flex-start;
+ margin:0 0 var(--mf-gap,1rem);
+ padding:0 0 calc(var(--mf-gap,1rem) * .75);
+}
+.marketing-app.marketing-dark .feedback-tool-dialog>header h2{flex:1;margin:0;align-self:center}
+.marketing-app.marketing-dark .feedback-tool-dialog>header button{flex:0 0 auto;max-width:45%}
+.marketing-app.marketing-dark .feedback-manual-dialog .feedback-manual-close{margin:0 0 var(--mf-gap,1rem) auto}
+.marketing-app.marketing-dark .feedback-manual-dialog .trial-top-labels{
+ max-height:none;
+ padding:0;
+ margin:0;
+ overflow:visible;
+}
+.marketing-app.marketing-dark .feedback-manual-dialog .trial-top-labels h2{font-size:calc(var(--mf-body,1rem) * 1.4)}
+.marketing-app.marketing-dark :is(.feedback-tool-dialog,.feedback-manual-dialog) :is(.feedback-edit-times,.marketing-times){
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(min(100%,10em),1fr));
+ gap:var(--mf-gap,1rem);
+}
+.marketing-app.marketing-dark :is(.feedback-tool-dialog,.feedback-manual-dialog) audio{width:100%;height:var(--mf-control,2.75rem)}
+.marketing-app.marketing-dark .feedback-tool-dialog .marketing-feedback-item>header{flex-wrap:wrap;gap:calc(var(--mf-gap,1rem) * .5)}
+.marketing-app.marketing-dark .feedback-tool-dialog .marketing-feedback-item>header>span{font-size:var(--mf-small,.85rem);white-space:normal}
+.marketing-app.marketing-dark .feedback-tool-dialog .marketing-replies{padding-inline-start:var(--mf-gap,1rem)}
+.marketing-app.marketing-dark .feedback-tool-dialog .marketing-replies li{padding-block:calc(var(--mf-gap,1rem) * .6)}
+.marketing-app.marketing-dark .feedback-tool-dialog .marketing-office-export{max-width:none}
+.marketing-app.marketing-dark .feedback-tool-dialog .feedback-text-preview textarea{min-height:min(11em,35dvh);max-height:min(20em,48dvh)}
+.marketing-app.marketing-dark .feedback-tool-dialog :is(.feedback-invite-editor,.feedback-project-disclosure){
+ margin-top:var(--mf-gap,1rem);
+ padding-top:var(--mf-gap,1rem);
+}
+.marketing-app.marketing-dark .feedback-tool-dialog .feedback-invite-editor h3{font-size:calc(var(--mf-body,1rem) * 1.15);margin-top:0}
+.marketing-app.marketing-dark .feedback-tool-dialog .feedback-invite-editor form{gap:var(--mf-gap,1rem)}
+.marketing-app.marketing-dark .feedback-tool-dialog .feedback-invite-editor form button{justify-self:stretch}
+.marketing-app.marketing-dark .feedback-tool-dialog .feedback-project-disclosure>summary{padding:.55em 0;font-size:var(--mf-body,1rem)}
+.marketing-app.marketing-dark .feedback-tool-dialog .feedback-project-disclosure .marketing-panel{padding:var(--mf-gap,1rem) 0}
+.marketing-app.marketing-dark .feedback-tool-dialog .marketing-deletion-plan{padding:var(--mf-gap,1rem)}
+.marketing-app.marketing-dark .feedback-tool-dialog .marketing-confirm{
+ min-height:var(--mf-control,2.75rem);
+ padding-block:.4em;
+}
+.marketing-app.marketing-dark .feedback-tool-dialog .marketing-confirm input{
+ width:1.25em;
+ height:1.25em;
+ min-height:1.25em;
+ flex:none;
+ font-size:var(--mf-body,1rem);
+ margin-top:.15em;
+}
+.marketing-app.marketing-dark .feedback-tool-dialog :is(.marketing-share-link,.marketing-access li){
+ display:flex;
+ align-items:center;
+ flex-wrap:wrap;
+ gap:calc(var(--mf-gap,1rem) * .65);
+ padding-block:var(--mf-gap,1rem);
+}
+.marketing-app.marketing-dark .feedback-tool-dialog :is(.marketing-share-link,.marketing-access li)>label{flex:1 0 100%}
+.marketing-app.marketing-dark .feedback-tool-dialog .marketing-share-link button{margin:0}
+.marketing-app.marketing-dark .feedback-tool-dialog .marketing-share-link a{display:inline-flex;align-items:center;min-height:var(--mf-control,2.75rem);padding:.4em}
+.marketing-app.marketing-dark .marketing-auth-dialog :is(.setup-page,.auth-content){min-height:0;max-width:none;width:100%;margin:0;padding:0}
+.marketing-app.marketing-dark .marketing-auth-dialog .auth-content{font-size:var(--mf-body,1rem)}
+.marketing-app.marketing-dark .marketing-auth-dialog .marketing-modal-close{
+ width:var(--mf-control,2.75rem);
+ height:var(--mf-control,2.75rem);
+ min-width:var(--mf-control,2.75rem);
+ min-height:var(--mf-control,2.75rem);
+ inset-inline-end:var(--mf-overlay-pad);
+ inset-block-start:calc(var(--mf-overlay-pad) * .65);
+ padding:0;
+ font-size:calc(var(--mf-body,1rem) * 1.5);
+}
+.marketing-app.marketing-dark .marketing-auth-dialog .auth-methods{gap:var(--mf-gap,1rem);margin:var(--mf-gap,1rem) 0}
+.marketing-app.marketing-dark .marketing-auth-dialog .auth-methods .sprint-button{min-height:var(--mf-control,2.75rem)}
+.marketing-app.marketing-dark .marketing-auth-dialog :is(.auth-or,.auth-legal,.auth-progress,.auth-phone){font-size:var(--mf-small,.85rem)}
+.marketing-app.marketing-dark .marketing-auth-dialog .auth-progress{flex-wrap:wrap;gap:calc(var(--mf-gap,1rem) * .5);margin:var(--mf-gap,1rem) 0}
+.marketing-app.marketing-dark .marketing-auth-dialog .auth-progress>span{gap:.4em}
+.marketing-app.marketing-dark .marketing-auth-dialog .auth-progress>span>span{width:1.9em;height:.25em}
+.marketing-app.marketing-dark .marketing-auth-dialog .auth-switch{flex-wrap:wrap;gap:calc(var(--mf-gap,1rem) * .65);margin-top:var(--mf-gap,1rem)}
+.marketing-app.marketing-dark .marketing-auth-dialog .auth-switch button{flex:1 1 auto}
+.marketing-app.marketing-dark .marketing-auth-dialog .text-button{min-height:var(--mf-control,2.75rem);padding:.5em}
+.marketing-app.marketing-dark .marketing-auth-dialog .auth-content form>.sprint-button{margin:0;min-height:var(--mf-control,2.75rem)}
+.marketing-app.marketing-dark .marketing-auth-dialog .auth-legal a{display:inline-flex;align-items:center;min-height:2.75rem;padding:.25em}
+.marketing-app.marketing-dark .storage-limit-dialog .storage-limit-close{
+ width:var(--mf-control,2.75rem);
+ height:var(--mf-control,2.75rem);
+ min-height:var(--mf-control,2.75rem);
+ margin:0 0 calc(var(--mf-gap,1rem) * .5) auto;
+ padding:0;
+ font-size:calc(var(--mf-body,1rem) * 1.5);
+}
+.marketing-app.marketing-dark .storage-limit-dialog :is(.storage-limit-note,.storage-limit-kicker,.storage-request-details p,.storage-limit-usage,.storage-limit-usage small){
+ font-size:var(--mf-small,.85rem);
+ line-height:1.5;
+}
+.marketing-app.marketing-dark .storage-limit-dialog .storage-limit-usage{gap:calc(var(--mf-gap,1rem) * .6);padding-block:var(--mf-gap,1rem)}
+.marketing-app.marketing-dark .storage-limit-dialog .storage-limit-usage meter{height:.75em}
+.marketing-app.marketing-dark .storage-limit-dialog .storage-request-details{padding-top:var(--mf-gap,1rem);margin-top:var(--mf-gap,1rem)}
+.marketing-app.marketing-dark :is(.marketing-auth-dialog,.feedback-tool-dialog,.feedback-manual-dialog,.storage-limit-dialog) [role=alert]{
+ margin-block:var(--mf-gap,1rem);
+ padding:.75em;
+ font-size:var(--mf-body,1rem);
+ white-space:pre-wrap;
+ overflow-wrap:anywhere;
+}

@@ -7,11 +7,41 @@ let revision=0;
 const listeners=new Set<()=>void>(),pending=new Map<string,any>();
 let card:any=null,versions:any[]=[],feedback:any[]=[],replies:any[]=[],links:any[]=[],events:any[]=[],access:any[]=[];
 let storageRequest:any=null,storageRequestFailures=0;
+const previewParams=new URLSearchParams(location.search);
+const stressPreview=previewParams.get('example')==='1'&&previewParams.get('stress')==='1';
+const stressTitles=[
+ 'Preview project — Autumn launch campaign, regional adaptations and the complete final creative review for every placement',
+ 'Preview project — Product introduction',
+ 'Preview project — Customer story, vertical cut',
+ 'Preview project — Approved launch announcement',
+ 'Preview project — Retargeting edits for the new collection',
+ 'Preview project — Social teaser',
+ 'Preview project — A very long deliverable filename with multiple revisions and detailed notes from the creative team',
+ 'Preview project — Final presentation',
+];
+const stressComments=[
+ 'Shorten the opening and bring the product into frame before the headline appears.',
+ 'Keep the voiceover, but reduce the music here so every word remains easy to hear.',
+ 'Please replace this shot with the revised product footage from the latest brief.',
+ 'This transition works. Keep the timing when preparing the next version.',
+ 'Move the offer higher so the caption area stays clear on a narrow phone screen.',
+ 'The logo disappears too quickly. Give the final frame a little more time.',
+ 'Use a closer crop for the square placement, with the full product still visible.',
+ 'Please check the subtitle spelling and the contrast against this bright background.',
+ 'The new pacing is approved; retain this sequence for the final export.',
+ 'Match the closing colour to the opening shot and keep the final call to action visible.',
+];
 // Optional example is display data in this tab, not an account or database seed.
 if(new URLSearchParams(location.search).has('example')){
  const id='example-version';card={id:'preview-video',title:'Example video',status:'changes_requested',latestVersionId:id,approvedVersionId:null,finalised:false,cleaning:false};
  versions=[{id,number:1,name:'sample.mp4',size:1128375,duration:5.05,width:960,height:540,uploadedAt:Date.now(),uploader:'Preview',deleted:false}];
  feedback=[{id:'example-feedback',versionId:id,start:1,end:3,text:'Shorten the opening.',audioId:null,author:'Preview',createdAt:Date.now(),reviewed:false}];
+ if(stressPreview){
+  const createdAt=Date.now();
+  versions=Array.from({length:3},(_,index)=>({...versions[0],id:index?`${id}-${index+1}`:id,number:index+1,name:`preview-autumn-launch-campaign-regional-adaptations-version-${index+1}.mp4`,uploadedAt:createdAt-(2-index)*86400000}));
+  card={...card,title:stressTitles[0],latestVersionId:versions[2].id};
+  feedback=stressComments.map((text,index)=>({id:index?`example-feedback-${index+1}`:'example-feedback',versionId:versions[index%3].id,start:Math.round((.2+index*.3)*100)/100,end:Math.round((1.5+index*.3)*100)/100,text,audioId:null,author:index%2?'Preview editor':'Preview owner',createdAt:createdAt-index*60000,reviewed:index%3===0}));
+ }
 }
 const subscribe=(listener:()=>void)=>{listeners.add(listener);return()=>{listeners.delete(listener);};};
 const snapshot=()=>revision;
@@ -23,11 +53,11 @@ export function useQuery(reference:any,args:any){useSyncExternalStore(subscribe,
  case 'accounts:me':if(!accountReady){setTimeout(()=>{accountReady=true;update();},150);return undefined;}return {name:'Preview',email:'preview@example.com'};
  case 'storageRequests:status':return storageRequest;
  case 'accounts:providers':return {googleAvailable:false,passwordRecoveryAvailable:false};
- case 'marketing:board':return card?[{...card,owner:true,updatedAt:Date.now()}]:[];
+ case 'marketing:board':return card?(stressPreview?stressTitles.map((title,index)=>({...card,id:index?`preview-video-${index+1}`:card.id,title,status:['needs_feedback','changes_requested','revised','approved'][index%4],finalised:index===3,owner:true,updatedAt:Date.now()-index*3600000})):[{...card,owner:true,updatedAt:Date.now()}]):[];
  case 'marketing:storageUsage':return versions.reduce((total,v)=>total+v.size,0);
  case 'marketing:storageQuota':{const stored=new URLSearchParams(location.search).has('storageFull')?1e9:versions.filter(v=>!v.deleted).reduce((total,v)=>total+v.size,0);return {stored,reserved:0,storageLimit:1e9,available:Math.max(0,1e9-stored),owner:true};}
  case 'marketing:finalisationPlan':return {keep:versions.at(-1),remove:versions.slice(0,-1).filter(v=>!v.deleted),reclaimed:versions.slice(0,-1).filter(v=>!v.deleted).reduce((n,v)=>n+v.size,0),snapshot:JSON.stringify(versions.map(v=>v.id))};
- case 'marketing:detail':case 'marketing:publicReview':if(!card)throw Error('Upload a video to start.');return {card,owner:getFunctionName(reference)==='marketing:detail',versions,feedback,replies,links,events,access};
+ case 'marketing:detail':case 'marketing:publicReview':if(!card)throw Error('Upload a video to start.');{const index=stressPreview&&args?.cardId?.match(/^preview-video-(\d+)$/)?Number(args.cardId.match(/^preview-video-(\d+)$/)[1])-1:0;const shownCard=stressPreview&&stressTitles[index]?{...card,id:args?.cardId??card.id,title:stressTitles[index]}:card;return {card:shownCard,owner:getFunctionName(reference)==='marketing:detail',versions,feedback,replies,links,events,access};}
  default:throw Error('Unexpected preview query: '+getFunctionName(reference));
 }}
 const heldSaves:(()=>void)[]=[];(window as any).__releaseMarketingSaves=()=>{for(const release of heldSaves.splice(0))release();};
