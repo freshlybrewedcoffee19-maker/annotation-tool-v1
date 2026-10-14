@@ -71,6 +71,33 @@ test('an initial interim start plays immediately and its final result does not r
  expect(starts).toHaveLength(1);
 });
 
+test('stop pauses at the first partial recognition and the final result never moves playback again',()=>{
+ const stops:CommandTime[]=[],comments:string[]=[];
+ const commands=new FeedbackCommands({start:()=>{},stop:time=>stops.push(time),feedback:text=>comments.push(text)});
+ commands.result(0,'Start',true,{videoTime:0,audioFrame:0});
+ commands.result(1,'Stop',false,{videoTime:3,audioFrame:30});
+ expect(stops).toEqual([{videoTime:3,audioFrame:30}]);
+ expect(commands.phase).toBe('feedback');
+ commands.result(1,'Stop the video',false,{videoTime:3.2,audioFrame:32});
+ commands.result(1,'Stop. Make the logo bigger.',true,{videoTime:3.5,audioFrame:35});
+ commands.result(1,'Stop. Make the logo bigger.',true,{videoTime:4,audioFrame:40});
+ expect(stops).toEqual([{videoTime:3,audioFrame:30}]);
+ expect(comments).toEqual(['Make the logo bigger.']);
+});
+
+test('pause followed by feedback in the first partial result pauses immediately and saves only final words',()=>{
+ const stops:CommandTime[]=[],comments:string[]=[];
+ const commands=new FeedbackCommands({start:()=>{},stop:time=>stops.push(time),feedback:text=>comments.push(text)});
+ commands.result(0,'Start',true,{videoTime:0,audioFrame:0});
+ commands.result(1,'Pause. Make the',false,{videoTime:2,audioFrame:20});
+ expect(stops).toEqual([{videoTime:2,audioFrame:20}]);
+ expect(comments).toEqual([]);
+ commands.result(1,'Pause. Make the ending brighter.',true,{videoTime:2.4,audioFrame:24});
+ commands.result(2,'Stop using the blue background.',true,{videoTime:2,audioFrame:30});
+ expect(stops).toHaveLength(1);
+ expect(comments).toEqual(['Make the ending brighter.','Stop using the blue background.']);
+});
+
 test('a speech boundary settles a standalone command once and preserves final joined feedback',()=>{
  const starts:CommandTime[]=[],stops:CommandTime[]=[],comments:string[]=[];
  const commands=new FeedbackCommands({start:time=>starts.push(time),stop:time=>stops.push(time),feedback:text=>comments.push(text)});

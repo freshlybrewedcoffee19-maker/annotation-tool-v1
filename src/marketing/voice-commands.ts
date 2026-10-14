@@ -46,9 +46,11 @@ export class FeedbackCommands {
   const joinedStop=!standalone&&this.phase==='marking'?stoppedFeedback(phrase):null;
   const word=standalone??(joinedStop?'stop':null);
   if(word){const previous=this.candidates.get(index);this.candidates.set(index,{word,time:previous?.word===word?previous.time:{...time},standalone:!!standalone});}else this.candidates.delete(index);
-  // The first start can play immediately. During feedback, wait so "start with the logo" stays a comment.
+  // Pause on the first stop result, before playback can run ahead of its captured time.
+  // During feedback, still wait so "start with the logo" stays a comment.
   if(!final){
-   if(this.phase==='ready'&&standalone==='start'){this.candidates.delete(index);this.acted.set(index,'start');this.act('start',time);}
+   const immediate=this.phase==='ready'&&standalone==='start'?'start':this.phase==='marking'&&word==='stop'?'stop':null;
+   if(immediate){const captured=this.candidates.get(index)?.time??time;this.candidates.delete(index);this.acted.set(index,immediate);this.act(immediate,captured);}
    return;
   }
   this.seen.add(index);

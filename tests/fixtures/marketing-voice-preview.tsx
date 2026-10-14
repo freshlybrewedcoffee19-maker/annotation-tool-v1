@@ -53,6 +53,7 @@ export function VoicePreviewTray(){
    <button style={button} disabled={!active} onClick={()=>active?.onspeechend?.()}>Finish spoken phrase</button>
    <button style={button} disabled={!active} onClick={()=>active?.say('Start with the logo instead.')}>Simulate feedback starting with Start</button>
    <button style={button} disabled={!active} onClick={()=>active?.say('Stop')}>Simulate Stop</button>
+   <button style={button} disabled={!active} onClick={()=>active?.say('Stop',false)}>Simulate interim Stop</button>
    <button style={button} disabled={!active} onClick={()=>{const current=active;current?.say('Make the ending brighter.',false);setTimeout(()=>{if(active===current)current?.say('Make the ending brighter.');},450);}}>Simulate feedback</button>
    <button style={button} disabled={!active} onClick={()=>active?.say('Keep this unfinished comment.',false)}>Simulate interim feedback</button>
    <button style={button} disabled={!active} onClick={()=>active?.onerror?.({error:'not-allowed'})}>Simulate speech denied</button>
