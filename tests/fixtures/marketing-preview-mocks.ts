@@ -6,6 +6,7 @@ let accountReady=!new URLSearchParams(location.search).has('delayAccount');
 let revision=0;
 const listeners=new Set<()=>void>(),pending=new Map<string,any>();
 let card:any=null,versions:any[]=[],feedback:any[]=[],replies:any[]=[],links:any[]=[],events:any[]=[],access:any[]=[];
+let storageRequest:any=null,storageRequestFailures=0;
 // Optional example is display data in this tab, not an account or database seed.
 if(new URLSearchParams(location.search).has('example')){
  const id='example-version';card={id:'preview-video',title:'Example video',status:'changes_requested',latestVersionId:id,approvedVersionId:null,finalised:false,cleaning:false};
@@ -19,7 +20,8 @@ function event(text:string){events.unshift({id:crypto.randomUUID(),text,author:'
 export function useConvexAuth(){useSyncExternalStore(subscribe,snapshot);return {isLoading:false,isAuthenticated:authenticated};}
 export function useAuthActions(){return {signOut:async()=>{authenticated=false;update();},signIn:async()=>{authenticated=true;update();return {signingIn:true};}};}
 export function useQuery(reference:any,args:any){useSyncExternalStore(subscribe,snapshot);if(args==='skip')return undefined;switch(getFunctionName(reference)){
- case 'accounts:me':if(!accountReady){setTimeout(()=>{accountReady=true;update();},150);return undefined;}return {name:'Preview',email:''};
+ case 'accounts:me':if(!accountReady){setTimeout(()=>{accountReady=true;update();},150);return undefined;}return {name:'Preview',email:'preview@example.com'};
+ case 'storageRequests:status':return storageRequest;
  case 'accounts:providers':return {googleAvailable:false,passwordRecoveryAvailable:false};
  case 'marketing:board':return card?[{...card,owner:true,updatedAt:Date.now()}]:[];
  case 'marketing:storageUsage':return versions.reduce((total,v)=>total+v.size,0);
@@ -35,6 +37,7 @@ export function useMutation(reference:any){const name=getFunctionName(reference)
  const fail='preview-fail-'+name;if(sessionStorage.getItem(fail)){sessionStorage.removeItem(fail);throw Error('Preview: temporary failure; retry with your draft retained.');}
  let result:any=null;
  switch(name){
+ case 'storageRequests:request':{if(!authenticated)throw Error('Sign in to request extra storage.');if(storageRequest&&(storageRequest.status!=='failed'||storageRequest.retryAt>Date.now())){result=storageRequest;break;}storageRequest={requestId:'preview-storage-request',status:'queued',createdAt:Date.now(),sentAt:null,retryAt:null};result=storageRequest;setTimeout(()=>{const failed=new URLSearchParams(location.search).has('requestFails')&&storageRequestFailures++===0;storageRequest={...storageRequest,status:failed?'failed':'sent',sentAt:failed?null:Date.now(),retryAt:failed?Date.now()+6000:null};update();},1000);break;}
  case 'marketing:mediaTicket':break;
  case 'marketing:cancelUpload':pending.delete(args.uploadId);break;
  case 'marketing:reopen':card={...card,finalised:false,status:'needs_feedback',approvedVersionId:null};event('Reopened the card for revisions.');break;

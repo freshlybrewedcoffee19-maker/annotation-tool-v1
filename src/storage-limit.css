@@ -18,4 +18,13 @@
 .marketing-app .storage-limit-dialog .storage-limit-actions a{background:#edacd0;color:#24111d;border-color:#c687ad;border-bottom:4px solid #8b486c}
 .marketing-app .storage-limit-dialog .storage-limit-actions button{background:transparent;color:#f7f4f0;border-color:#67516d;box-shadow:none}
 .marketing-app .storage-limit-dialog :focus-visible{outline-color:#f3a6c8}
+.storage-limit-dialog .storage-limit-actions .storage-request-send{background:#405ccc;color:white;border-color:#405ccc}
+.marketing-app .storage-limit-dialog .storage-limit-actions .storage-request-send{background:#edacd0;color:#24111d;border-color:#c687ad;border-bottom:4px solid #8b486c}
+.storage-limit-dialog .storage-request-send:disabled{cursor:default;opacity:.65}
+.storage-limit-dialog .storage-request-details{border-top:1px solid #bfc8d8;padding-top:8px;margin-top:20px;overflow-wrap:anywhere}
+.marketing-app .storage-limit-dialog .storage-request-details{border-color:#67516d}
+.storage-limit-dialog .storage-request-details p,.marketing-app .storage-limit-dialog .storage-request-details p{font-size:14px}
+.storage-limit-dialog .storage-request-status{font-weight:600}
+.storage-limit-dialog .storage-request-error{color:#b51c38}
+.marketing-app .storage-limit-dialog .storage-request-error{color:#ffb4c4}
 @media(max-width:600px){.storage-limit-dialog{padding:22px}.storage-limit-dialog h2,.marketing-app .storage-limit-dialog h2{font-size:25px}.storage-limit-actions>*{width:100%}}

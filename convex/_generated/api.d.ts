@@ -34,6 +34,8 @@ import type * as r2Client from "../r2Client.js";
 import type * as r2Diagnostics from "../r2Diagnostics.js";
 import type * as r2Records from "../r2Records.js";
 import type * as securityEmail from "../securityEmail.js";
+import type * as storageRequestEmail from "../storageRequestEmail.js";
+import type * as storageRequests from "../storageRequests.js";
 import type * as services from "../services.js";
 import type * as sessions from "../sessions.js";
 import type * as tracks from "../tracks.js";
@@ -81,6 +83,8 @@ declare const fullApi: ApiFromModules<{
   r2Diagnostics: typeof r2Diagnostics;
   r2Records: typeof r2Records;
   securityEmail: typeof securityEmail;
+  storageRequestEmail: typeof storageRequestEmail;
+  storageRequests: typeof storageRequests;
   services: typeof services;
   sessions: typeof sessions;
   tracks: typeof tracks;
