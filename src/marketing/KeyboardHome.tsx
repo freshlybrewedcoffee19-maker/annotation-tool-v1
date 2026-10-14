@@ -2,7 +2,7 @@ import {home} from './routes';
 import './keyboard-home.css';
 export function KeyboardHome({upload}:{upload:()=>void}){
  return <section className="feedback-flow feedback-flow-visual" aria-labelledby="feedback-flow-title">
-  <h1 id="feedback-flow-title"><span className="flow-ad-label">Video ad feedback.</span>Still writing<br/>timestamps?</h1>
+  <h1 id="feedback-flow-title"><span className="flow-ad-label">Video feedback.</span>Still writing<br/>timestamps?</h1>
   <div className="flow-link" aria-hidden="true">↓</div>
   <div className="flow-world"><img src="/images/video-feedback-key-world.webp" alt="A miniature reviewer and editor connected by film inside an Enter key."/></div>
   <div className="flow-solution"><h2>Say it instead.</h2></div>
