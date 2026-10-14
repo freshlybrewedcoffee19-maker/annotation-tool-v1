@@ -76,3 +76,59 @@ Do retain written tool names, explicit pending states, precise source-proportion
 
 ## Services sample
 Keep the original dataset section: copy and pilot link on the left, compact portrait 400:540 video with timed annotation overlay and segmented playhead on the right. Phones stack copy over footage. Blue/white overlays and an orange playhead follow the brand palette. Preserve verified pilot copy and statistics.
+
+## Cheddar Vox — Video Feedback: approved direction, 14 October 2026
+
+### Scope and status
+This section records the approved marketing design direction, not a claim that these screens have been implemented or tested. Refer to this experience as **Video Feedback** and the existing product as **Data Annotation**. Video Feedback has a separate homepage, navigation and workspace while reusing underlying annotation capabilities. All existing Data Annotation design rules, routes, behaviour and saved data remain unchanged.
+
+This approval replaces the proposed cream-and-olive marketing direction. Existing Cheddar Vox wordmark and dog mascot remain recognisable; marketing gains its own dark visual language. Its logo always returns to the Video Feedback homepage. Sign-in, sign-out, sample, upload, card, review, recovery and back navigation must stay within marketing. Never route marketing visitors into Data Annotation implicitly.
+
+### Visual point of view
+Black and charcoal tactile keyboard keys reveal miniature worlds inside them. Use sculpted edges, worn matte textures, believable depth and selective interior lighting, inspired by the supplied cutaway-key reference. The reference forest establishes depth, texture and lighting; actual miniature scenes must communicate video feedback rather than introduce unrelated forest or gaming imagery.
+
+Use pink and fuchsia as selective action, active-state and lighting accents, with warm-white readable text. Suggested implementation tokens (validate contrast in the rendered interface): background #0B0B0F, surface #18181E, raised key #25252D, main text #F7F4F0, secondary text #B9B5C2, pink #F3A6C8, fuchsia #D83C91. Use dark text on bright pink action surfaces. Do not use pink as the only indicator of status. Keep atmospheric scene lighting separate from functional text and control surfaces.
+
+Important actions use raised keyboard-key controls with a subtle press response. Use plain readable feedback lists and restrained working surfaces; do not turn every element into a sculpted box. Homepage imagery can be immersive, but the working player remains calm and usable. Never introduce page-wide scaling or unexpected layout changes between screens.
+
+### Message and homepage composition
+Primary benefit: users do not have to write timestamps manually.
+
+Headline: “Give video feedback. Skip writing timestamps.”
+Supporting copy: “Say ‘start,’ ‘stop,’ then your feedback. Cheddar Vox records the timestamps and saves your comment with the exact clip—so your editor can jump straight to what needs changing.”
+
+Compose the homepage as a connected explanatory flow with miniature key scenes and drawn arrows:
+“Something needs changing?” → “Don’t write down the timestamp.” → Start / Stop / Say the change → “Your editor gets the exact clip.”
+
+Integrate Try a sample into the demonstration and Upload your video into the end of the flow. Own-video entry invokes marketing sign-in if needed. Use an Enter key opening like a doorway as the transition into the tool, with a short or static reduced-motion alternative. No mandatory decorative delay.
+
+A short explainer demonstrates real automatic timestamp marking, spoken feedback with editable text, and an editor reviewing the exact segment. Keep feedback history for year-end reporting as a supporting benefit, without invented performance claims.
+
+### Loading and motion
+During genuine loading on a slow connection, letter keys pop into place in shuffled order to form feel-good words such as CREATE, NICE and READY. The assembled word must be readable. Keep movement gentle; avoid rapid flashing and excessive continuous activity. Loading state must reflect actual readiness, never fake percentage progress. Do not show this treatment on every ordinary transition or delay a ready page to finish it. Provide a static loading label for reduced motion and accessible status text. Load the lightweight fallback before heavy artwork so it can appear on a slow connection.
+
+### Screen sequence
+1. Arrival and upload: welcoming keyboard composition, a prominent Upload video key, and access to existing cards for returning users.
+2. Feedback: video and microphone are the main elements. Key-shaped Start, Stop and Save feedback actions supplement voice commands. Clearly show current instructions, listening, recording, transcription, saving and errors. Keep the entire source video visible with stable proportions and responsive controls.
+3. Review: a Review clips key opens short marked segments with feedback text, original audio, version identity and context playback. Keep the same layout scale and visual identity.
+4. Share and export: Share review, Prepare email, Word and Excel actions. Prepare email creates an editable ready-to-share draft; do not send automatically. File exports and links respect card permissions and revocation.
+
+The existing marketing board and card/revision structure remain part of this journey. Integrate the design into those screens; do not replace the board or discard approved access, versioning and finalisation behaviour.
+
+### Sign-in popup
+Use a compact dark modal within the marketing experience, with Continue with Google and Continue with email. Email entry advances one question per horizontal slide. Back preserves answers; returning users receive the shorter login flow. Closing the popup preserves the underlying marketing location. Use focus containment, keyboard dismissal and return focus to the opening control. Preserve existing authentication security and provider behaviour. On small screens keep all fields and errors reachable without clipping.
+
+### Interaction and accessibility
+Key-shaped controls work by click/tap and keyboard focus. Show shortcut legends only when those shortcuts are actually implemented. Decorative letter keys must not look like unavailable controls. Keep visible focus, readable contrast, sufficient touch areas and text labels for icons. Reduced motion removes scene travel, key popping and sliding while preserving meaning and navigation.
+
+The transcription indicator appears only while feedback speech is being processed, not whenever the mic is on. Standalone start during feedback must preserve/queue the previous comment and resume playback for the next marked segment without waiting for network saving. The visual redesign must not regress this flow.
+
+### Implementation and review boundaries
+Scope marketing tokens and styles to its own application shell, not global Data Annotation selectors. Reuse existing capabilities through explicit marketing configuration. Preview desktop and mobile, landscape and portrait footage, slow loading, sign-in steps, card entry, feedback, review and exports. Confirm stable video proportions, consistent control sizes and marketing-only navigation. Generate final scene assets against this direction and inspect them at actual display size. Do not publish the redesign without owner approval of the working preview.
+
+### Project workspace on phones — 14 October 2026
+Each project contains one video and its revisions. Keep the video inside a raised keyboard key, with its title, latest version and four stages attached below. Highlight the current stage with both text and a filled marker. Stages are Give feedback, Share with editor, Revised and Approved.
+
+At phone widths, use one full-width project per row, readable 14px stage labels and 18px project titles. Returning users see the upload action and existing projects first; the introductory explanation is reserved for the empty workspace. Keep the keyboard-key shape and black/pink palette. Secondary navigation opens from a 44px Menu control; closing it or navigating restores an uncluttered page.
+
+Within a project, arrange Feedback, Feedback clips and Share with editor horizontally above the player. Place controls below the full-width video and preserve its entire frame with contain sizing. Inputs use 16px text to avoid focus zoom on phones. Use 44px primary touch targets, an explicit Show/Hide controls action, and the version selector for revisions. Playback dimensions stay stable when panels collapse. Allow normal vertical scrolling for project lists and feedback; the single-screen constraint belongs to the homepage.

@@ -1,0 +1,108 @@
+/* Phone adaptation for Video Feedback; the annotation workspace is separate. */
+.marketing-app .marketing-menu-toggle{display:none}
+.marketing-project-workspace{min-width:0}
+.marketing-board-heading h2{margin-bottom:6px}
+.marketing-board-heading p{margin:0}
+.marketing-storage{text-align:right}
+
+@media(max-width:700px){
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-header{position:relative;min-height:72px;flex-wrap:nowrap;padding:10px max(16px,env(safe-area-inset-right)) 10px max(16px,env(safe-area-inset-left));gap:12px;z-index:10}
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-brand{font-size:20px;line-height:1.25;min-width:0}
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-brand small{margin-top:3px;font-size:12px}
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-menu-toggle{display:flex;align-items:center;justify-content:center;gap:10px;flex-shrink:0;min-height:44px;padding:8px 12px;font-size:14px}
+ .marketing-menu-toggle svg{width:18px;height:18px}
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-header nav{display:none;position:absolute;top:calc(100% - 2px);right:16px;width:min(250px,calc(100vw - 32px));padding:10px;gap:6px;align-items:stretch;flex-direction:column;background:#1c1722;border:1px solid #534458;border-radius:12px;box-shadow:0 12px 28px #0008}
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-header nav[data-open=true]{display:flex}
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-header nav a{padding:10px 12px;min-height:44px;font-size:15px;text-decoration:none;border-radius:6px}
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-header nav button{font-size:15px;min-height:44px}
+ .marketing-app.marketing-dark:not(.keyboard-home-app) .marketing-main{padding:0 max(16px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+ .marketing-app.marketing-dark .marketing-arrival{grid-template-columns:minmax(0,1fr);gap:18px;padding:22px 0}
+ .marketing-app.marketing-dark .marketing-arrival .marketing-arrival-label{display:none}
+ .marketing-app.marketing-dark .marketing-arrival h1{font-size:clamp(24px,6.7vw,32px);line-height:1.12;letter-spacing:-.025em;margin:0 0 10px}
+ .marketing-app.marketing-dark .marketing-arrival>div>p:not(.marketing-arrival-label){font-size:14px;line-height:1.5;margin:0;max-width:40ch}
+ .marketing-arrival-steps{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);gap:6px;margin-top:16px}
+ .marketing-arrival-steps>span{justify-content:space-between;min-width:0;padding:8px 10px;gap:5px;font-size:12px}
+ .marketing-upload-entry{display:grid;grid-template-columns:42px minmax(0,1fr);column-gap:14px;row-gap:6px;padding:14px 16px;border-radius:12px}
+ .marketing-project-workspace.has-projects .marketing-arrival>div:first-child{display:none}
+ .marketing-project-workspace.has-projects .marketing-arrival{padding:18px 0;gap:0}
+ .marketing-entry-symbol{grid-column:1;grid-row:1/3;font-size:44px;justify-self:center}
+ .marketing-app.marketing-dark .marketing-upload-entry .marketing-upload{grid-column:2;padding:0;min-width:0;width:100%}
+ .marketing-upload-entry .marketing-upload button{width:100%;min-height:48px;font-size:16px}
+ .marketing-upload-entry>small{grid-column:2;text-align:center;font-size:12px}
+ .marketing-upload-entry .marketing-upload p{font-size:14px;overflow-wrap:anywhere;text-align:left}
+ .marketing-board-heading{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;margin-top:22px}
+ .marketing-app.marketing-dark .marketing-board-heading h2{font-size:22px;line-height:1.3;margin:0 0 4px}
+ .marketing-board-heading p{font-size:13px;line-height:1.5}
+ .marketing-board-heading .marketing-storage{text-align:left;flex-basis:100%;font-size:12px}
+ .marketing-project-grid{grid-template-columns:minmax(0,1fr);gap:26px;margin:16px 0 12px}
+ .marketing-project-tile{max-width:none}
+ .marketing-app.marketing-dark .marketing-project-key{padding:10px 10px 15px;border-bottom-width:8px;border-radius:18px}
+ .marketing-project-preview{aspect-ratio:16/9;border-radius:9px}
+ .marketing-project-body{margin:-4px 7px 0;padding:19px 16px 16px}
+ .marketing-app.marketing-dark .marketing-project-body h3{font-size:18px;line-height:1.35}
+ .marketing-app.marketing-dark .marketing-project-body p{font-size:13px;margin-bottom:12px}
+ .marketing-project-body ol{margin-bottom:12px}
+ .marketing-project-body li{font-size:14px;line-height:1.4;padding:9px 0;gap:10px}
+ .marketing-project-body>small{font-size:12px}
+ .marketing-project-body li[aria-current=step]{background:#302034;margin:0 -8px;padding:9px 8px;border-radius:6px}
+ .marketing-app.marketing-dark .marketing-empty-clips{padding:20px 16px;font-size:15px;line-height:1.6;margin-top:18px}
+
+ /* Full-width playback, then feedback. No miniature desktop side rail. */
+ .marketing-app.marketing-dark.marketing-editor-app .marketing-main{padding:0 0 max(20px,env(safe-area-inset-bottom))}
+ .marketing-app.marketing-dark .marketing-card-detail{--canvas-height:clamp(210px,36svh,340px)}
+ .marketing-app.marketing-dark .marketing-card-detail>header{padding:14px 16px;flex-wrap:wrap;gap:10px}
+ .marketing-app.marketing-dark .marketing-card-detail>header h1{font-size:18px;width:100%}
+ .marketing-app.marketing-dark .marketing-card-detail>header .exports{margin:0;gap:10px;justify-content:space-between}
+ .marketing-app.marketing-dark .marketing-card-detail .step-navigation{display:none}
+ .marketing-app.marketing-dark .marketing-card-detail .workspace-notices{padding:4px 16px;font-size:13px}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-status-controls{padding:10px 16px}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-status-controls label{display:flex;align-items:center;flex-wrap:nowrap;width:100%;gap:12px;margin:0}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-status-controls select{flex:1;width:0;min-height:44px}
+ .marketing-app.marketing-dark .marketing-card-detail .media-navigation{padding:10px 16px;flex-wrap:nowrap;gap:10px}
+ .marketing-app.marketing-dark .marketing-card-detail .media-navigation>button{display:none}
+ .marketing-app.marketing-dark .marketing-card-detail .media-navigation label{flex:1;min-width:0}
+ .marketing-app.marketing-dark .marketing-card-detail .media-navigation select{min-height:44px;max-width:none}
+ .marketing-app.marketing-dark .marketing-card-detail input:not([type=checkbox]):not([type=range]),
+ .marketing-app.marketing-dark .marketing-card-detail select,
+ .marketing-app.marketing-dark .marketing-card-detail textarea{font-size:16px;line-height:1.5}
+ .marketing-app.marketing-dark .marketing-card-detail button{min-height:44px!important;font-size:14px}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace,
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace.tool-panel-collapsed{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(64px,auto) auto auto auto auto;min-width:0;background:#18151d;border-color:#39323f}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace>.workspace-tool-rail{grid-column:1;grid-row:1;display:flex;flex-direction:row;padding:8px;gap:6px;border:0;border-bottom:1px solid #39323f}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace>.workspace-tool-rail button{flex:1;min-width:0;width:auto;min-height:56px!important;padding:6px 4px;font-size:12px;line-height:1.3;border-radius:6px}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace>.trial-top-guide{grid-column:1;grid-row:2;padding:12px 16px}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace>.trial-top-guide h2{max-width:calc(100% - 156px);font-size:15px;line-height:1.4}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace:not(.selected-actions)>.trial-top-guide h2{max-width:100%}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace .compact-voice>button:first-child{grid-column:1;grid-row:2;width:146px;min-height:44px!important;height:auto;margin-right:12px;justify-self:end;align-self:center;font-size:14px;padding:10px}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace>.editor-stage{grid-column:1;grid-row:3;padding:10px 12px 12px}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace>.editor-timeline{grid-column:1;grid-row:4;padding:12px;min-width:0}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace>.editor-toolrail,
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace>.editor-inspector,
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace .compact-voice>.trial-top-labels{grid-column:1;grid-row:5;max-height:none;overflow:visible;padding:16px;border:0;border-top:1px solid #39323f}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace .trial-top-labels p,
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace .trial-top-labels label{font-size:14px;line-height:1.55}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace .workspace-panel-toggle{position:static;grid-column:1;grid-row:6;justify-self:stretch;width:auto;min-width:44px;min-height:44px!important;height:auto;margin:8px 16px 16px;padding:8px 12px;border-radius:6px;font-size:16px}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace .workspace-panel-toggle::before{content:'Hide controls';font-size:14px;margin-right:12px}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace.tool-panel-collapsed .workspace-panel-toggle::before{content:'Show controls'}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace .editor-playback{gap:8px;margin:12px 0 0}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace .editor-playback button{min-width:44px;padding:8px}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace .playback-time{flex-basis:100%;text-align:center;font-size:13px;margin-top:3px}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-annotation-workspace .track-lane button{min-height:28px!important;font-size:12px}
+ .marketing-app.marketing-dark .marketing-card-detail .marketing-saved-feedback{padding:22px 16px;margin-top:0}
+ .marketing-review-heading{flex-wrap:wrap;gap:12px;margin-bottom:16px}
+ .marketing-review-heading .marketing-arrival-label{display:none}
+ .marketing-app.marketing-dark .marketing-review-heading h2{font-size:21px;margin:0}
+ .marketing-app.marketing-dark .marketing-clip-meta{font-size:12px}
+ .marketing-app.marketing-dark .marketing-clip-stamp{font-size:14px}
+ .marketing-app.marketing-dark .marketing-clip-card .marketing-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .marketing-app.marketing-dark .marketing-clip-card .marketing-actions button{width:100%;justify-content:center;font-size:13px;gap:8px;padding:10px 6px}
+ .marketing-app.marketing-dark .marketing-card-detail>.marketing-disclosure{margin:12px 16px}
+ .marketing-app.marketing-dark .marketing-finalise{margin:24px 16px 0;padding-top:18px}
+ .marketing-app.marketing-dark .marketing-auth-dialog input{font-size:16px}
+ .marketing-app.marketing-dark .marketing-modal-close{width:44px;height:44px;min-width:44px;min-height:44px}
+}
+
+@media(hover:none){
+ .marketing-app.marketing-dark .marketing-project-key:hover{transform:none}
+ .marketing-app.marketing-dark .marketing-project-key:active{transform:translateY(2px)}
+}
