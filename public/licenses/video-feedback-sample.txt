@@ -1,0 +1,22 @@
+VIDEO FEEDBACK SAMPLE FOOTAGE
+
+Asset: /videos/feedback-perfume-ad-v1.mp4
+Use: A practice video for timestamped feedback, not a brand endorsement.
+
+Original title: Elegant Perfume Bottle in Minimalist Lighting
+Creator: abdo alshreef
+Source: https://www.pexels.com/video/elegant-perfume-bottle-in-minimalist-lighting-37528254/
+Original download: https://videos.pexels.com/video-files/37528254/15900821_1080_1920_60fps.mp4
+License: Pexels License
+License URL: https://www.pexels.com/license/
+Source and license checked: 14 October 2026
+
+Pexels permits free use and modification, including use on websites and apps.
+Its restrictions still apply, including no implied endorsement and no resale or
+redistribution as a competing stock library. This is not a public-domain or CC0
+claim. Product names and marks remain with their respective owners.
+
+Adaptation by Cheddar Vox: a 10-second cut from 00:01 to 00:11; resized from
+1080x1920 to 720x1280; converted to H.264 MP4, 30 fps, with fast-start metadata.
+The source has no audio track; no music or voiceover has been added.
+The original Data Annotation sample is a separate, unchanged asset.

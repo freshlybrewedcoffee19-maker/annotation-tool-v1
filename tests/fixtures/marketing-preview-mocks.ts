@@ -1,6 +1,7 @@
 // Browser memory only. No client, credentials, users or backend network calls.
 import {useCallback,useSyncExternalStore} from 'react';
 import {getFunctionName} from 'convex/server';
+import {feedbackSampleMedia} from '../../src/marketing/sample-media';
 let authenticated=!new URLSearchParams(location.search).has('signedout');
 let accountReady=!new URLSearchParams(location.search).has('delayAccount');
 let revision=0;
@@ -34,7 +35,7 @@ const stressComments=[
 // Optional example is display data in this tab, not an account or database seed.
 if(new URLSearchParams(location.search).has('example')){
  const id='example-version';card={id:'preview-video',title:'Example video',status:'changes_requested',latestVersionId:id,approvedVersionId:null,finalised:false,cleaning:false};
- versions=[{id,number:1,name:'sample.mp4',size:1128375,duration:5.05,width:960,height:540,uploadedAt:Date.now(),uploader:'Preview',deleted:false}];
+ versions=[{id,number:1,name:feedbackSampleMedia.name,size:feedbackSampleMedia.size,duration:feedbackSampleMedia.duration,width:feedbackSampleMedia.width,height:feedbackSampleMedia.height,uploadedAt:Date.now(),uploader:'Preview',deleted:false}];
  feedback=[{id:'example-feedback',versionId:id,start:1,end:3,text:'Shorten the opening.',audioId:null,author:'Preview',createdAt:Date.now(),reviewed:false}];
  if(stressPreview){
   const createdAt=Date.now();

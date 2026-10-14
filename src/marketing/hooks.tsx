@@ -2,11 +2,12 @@ import {createContext,useContext,useCallback,useSyncExternalStore,type ReactNode
 import {useQuery as query,useMutation as mutation,useAction as action} from 'convex/react';
 import {getFunctionName} from 'convex/server';
 import type {CardData} from './types';
+import {feedbackSampleMedia} from './sample-media';
 
 // A sample provider is fixed for its mounted lifetime. Its hooks never contact Convex.
 class SampleStore {
  id=crypto.randomUUID();revision=0;listeners=new Set<()=>void>();audio=new Map<string,string>();uploads=new Map<string,any>();
- data:CardData={card:{id:'sample',title:'Try video feedback',status:'needs_feedback',latestVersionId:'sample-version',approvedVersionId:null,finalised:false,cleaning:false},owner:true,versions:[{id:'sample-version',number:1,name:'Sample video',size:0,duration:5.05,width:960,height:540,uploadedAt:Date.now(),uploader:'You (sample)',deleted:false}],feedback:[],replies:[],events:[],access:[],links:[]};
+ data:CardData={card:{id:'sample',title:'Try video feedback',status:'needs_feedback',latestVersionId:'sample-version',approvedVersionId:null,finalised:false,cleaning:false},owner:true,versions:[{id:'sample-version',number:1,name:feedbackSampleMedia.name,size:feedbackSampleMedia.size,duration:feedbackSampleMedia.duration,width:feedbackSampleMedia.width,height:feedbackSampleMedia.height,uploadedAt:Date.now(),uploader:'You (sample)',deleted:false}],feedback:[],replies:[],events:[],access:[],links:[]};
  subscribe=(fn:()=>void)=>{this.listeners.add(fn);return()=>{this.listeners.delete(fn);};};snapshot=()=>this.revision;
  update(){this.revision++;this.listeners.forEach(fn=>fn());}
  async call(name:string,args:any){switch(name){
