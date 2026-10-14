@@ -67,11 +67,13 @@ export const completeCleanup=internalMutation({args:cardArgs,returns:v.null(),ha
 export const reopen=mutation({args:cardArgs,returns:v.null(),handler:async(ctx,{cardId})=>{const {card,userId}=await cardAccess(ctx,cardId,true);if(card.cleaning)throw new Error('Finish cleanup before reopening.');await ctx.db.patch(cardId,{finalised:false,status:'needs_feedback',approvedVersionId:undefined,updatedAt:Date.now()});await event(ctx,cardId,userId,'Reopened the card for revisions.');return null;}});
 export const storageUsage=query({args:{},returns:v.number(),handler:async ctx=>{const userId=await signedUser(ctx),rows=await ctx.db.query('marketingUploads').withIndex('by_owner',q=>q.eq('ownerId',userId)).take(2001);if(rows.length>2000)throw new Error('Storage review needed.');let size=0;for(const row of rows){if(row.resultVersionId){if(!(await ctx.db.get(row.resultVersionId))?.deletedAt)size+=row.size;}else if(row.completed||row.createdAt>Date.now()-86400000)size+=row.size;}return size;}});
 
-// Tokens identify invitations; verified identity still controls acceptance.
+// Secret links plus the signed-in invited email authorise token acceptance.
+// The legacy card-address route above still requires a verified email.
 export const acceptTokenInvite=mutation({args:{token:v.string()},returns:v.id('marketingCards'),handler:async(ctx,{token})=>{
- const userId=await signedUser(ctx),user=await ctx.db.get(userId),grant=await ctx.db.query('marketingAccess').withIndex('by_token',q=>q.eq('token',token)).unique();
- if(!user?.email||!user.emailVerificationTime)throw new Error('Verify the invited email address first.');
- if(!grant||!['invited','editor'].includes(grant.status)||(grant.expiresAt&&grant.expiresAt<Date.now())||grant.email!==user.email.toLowerCase()||(grant.userId&&grant.userId!==userId))throw new Error('This invitation is unavailable for your verified email. Ask the owner for a new invitation.');
+ const userId=await signedUser(ctx);
+ if(!/^[a-f0-9]{64}$/.test(token))throw new Error('This invitation is unavailable. Ask the owner for a new invitation.');
+ const user=await ctx.db.get(userId),grant=await ctx.db.query('marketingAccess').withIndex('by_token',q=>q.eq('token',token)).unique();
+ if(!user?.email||!grant||!['invited','editor'].includes(grant.status)||!grant.expiresAt||grant.expiresAt<=Date.now()||grant.email!==user.email.toLowerCase()||(grant.userId&&grant.userId!==userId))throw new Error('This invitation is unavailable for your signed-in email. Ask the owner for a new invitation.');
  if(grant.status==='editor'&&grant.userId===userId)return grant.cardId;
  if(!await ctx.db.get(grant.cardId))throw new Error('Video feedback is unavailable.');
  const existing=await ctx.db.query('marketingAccess').withIndex('by_card_user',q=>q.eq('cardId',grant.cardId).eq('userId',userId)).unique();

@@ -15,7 +15,8 @@
 .feedback-back{display:flex;align-items:center;justify-content:center;width:36px;min-height:44px;flex:none}
 .feedback-back svg{width:22px;height:22px}
 .marketing-app.marketing-dark .feedback-options-key{display:flex;align-items:center;gap:8px;font-size:13px;padding:8px 12px;min-height:44px;flex:none}
-.feedback-options-key svg{width:20px;height:20px;fill:currentColor}
+.feedback-options-key svg{width:18px;height:18px;fill:none;flex:none}
+.feedback-options-key span{line-height:1.2;text-align:left}
 .feedback-tool-canvas{display:flex;align-items:center;justify-content:center;position:relative;min-width:0;min-height:0;height:100%;background:#100d15;border-radius:12px;overflow:hidden}
 .feedback-tool-canvas video{display:block;position:absolute;inset:0;width:100%!important;height:100%!important;max-width:none;max-height:100%;min-height:0;object-fit:contain;aspect-ratio:auto!important;border-radius:0;transform:none;background:#100d15}
 .feedback-tool-canvas>p{padding:16px;color:#c6bacb;font-size:14px;text-align:center}
@@ -50,7 +51,7 @@
 .marketing-app.marketing-dark .feedback-read-key{font-size:12px;min-height:36px;padding:6px;background:transparent;color:#f3a6c8;border:0;box-shadow:none;text-decoration:underline;text-underline-offset:4px}
 .feedback-key-strip{display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#88657d #17121c;padding:1px 2px 9px;min-width:0;max-width:100%;align-items:stretch}
 .marketing-app.marketing-dark .feedback-segment-key{flex:0 0 190px;min-width:0;min-height:82px;display:flex;flex-direction:column;align-items:stretch;gap:5px;padding:9px 12px;text-align:left;scroll-snap-align:start;border:1px solid #67516d;border-bottom:5px solid #171019;border-radius:10px;background:linear-gradient(145deg,#39313f,#241b2c);box-shadow:0 3px 5px #0004;color:#f7f4f0}
-.marketing-app.marketing-dark .feedback-segment-key[aria-pressed=true]{background:#493049;border-color:#d595bc;border-bottom-color:#6f3a59}
+.marketing-app.marketing-dark .feedback-segment-key[data-selected=true]{background:#493049;border-color:#d595bc;border-bottom-color:#6f3a59}
 .feedback-segment-time{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;font-variant-numeric:tabular-nums;color:#f3a6c8}
 .feedback-segment-time small{font-size:10px;color:#c6bacb}
 .feedback-segment-text{font-size:13px;line-height:1.35;font-weight:500;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
@@ -123,3 +124,42 @@
  .feedback-strip-empty{min-height:68px}
 }
 @media(prefers-reduced-motion:reduce){.feedback-key-strip{scroll-behavior:auto;scroll-snap-type:none}.marketing-app.marketing-dark .feedback-mic-key:active{transform:none}}
+
+/* A clip key plays above; its separate Edit control changes the saved record. */
+.marketing-app.marketing-dark .feedback-segment-key{padding:0;gap:0;overflow:hidden;min-height:102px}
+.marketing-app.marketing-dark .feedback-segment-play{display:flex;flex-direction:column;gap:6px;align-items:stretch;width:100%;padding:10px 11px 4px;min-height:58px;min-width:0;text-align:left;color:#f7f4f0;background:transparent;border:0;border-radius:6px;box-shadow:none}
+.feedback-segment-footer{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 3px 0 11px}
+.marketing-app.marketing-dark .feedback-segment-edit{display:flex;align-items:center;justify-content:center;gap:4px;min-width:58px;min-height:44px;padding:7px;font-size:12px;background:transparent;border:0;box-shadow:none;color:#f3a6c8}
+.feedback-segment-edit svg{width:14px;height:14px;flex:none}
+.feedback-strip-hint{font-size:11px;color:#c6bacb}
+.feedback-edit-times{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.feedback-edit-form textarea{resize:vertical;min-height:100px}
+.marketing-app.marketing-dark .feedback-office-expanded{border:0;border-radius:0;padding:0!important;margin:0 0 16px!important}
+.feedback-office-expanded>div{padding:0!important}
+.feedback-office-expanded .marketing-actions{display:grid;grid-template-columns:1fr 1fr;margin:12px 0}
+.marketing-app.marketing-dark .feedback-office-expanded button,.marketing-app.marketing-dark .feedback-download-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 12px;font-size:14px;background:#edacd0;color:#24111d;border:1px solid #c687ad;border-bottom:4px solid #8b486c;border-radius:8px;text-decoration:none}
+.feedback-invite-editor{border-top:1px solid #534458;padding-top:16px;margin-top:16px}
+.marketing-app.marketing-dark .feedback-invite-editor h3{margin:0;font-size:18px}
+.feedback-invite-editor form{display:grid;gap:10px}
+.feedback-invite-editor form button{justify-self:start}
+.feedback-invitation-ready{margin-top:12px}
+.feedback-email-invitation{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border:1px solid #c687ad;border-bottom:4px solid #8b486c;border-radius:8px;background:#edacd0;color:#24111d!important;font-size:14px;text-decoration:none}
+.marketing-app.marketing-dark [data-feedback-next=true]{outline:2px solid #f3a6c8;outline-offset:-2px;animation:feedback-next-pulse 1.5s ease-in-out 3}
+.marketing-app.marketing-dark p[data-feedback-next=true]{outline:0;color:#f3a6c8;animation:feedback-text-pulse 1.5s ease-in-out 3}
+@keyframes feedback-next-pulse{0%,100%{outline-color:#f3a6c8}50%{outline-color:#765268}}
+@keyframes feedback-text-pulse{0%,100%{color:#f3a6c8}50%{color:#fff1f7}}
+@media(max-width:700px){
+ .feedback-tool-heading{gap:7px!important}
+ .feedback-back{width:26px}
+ .marketing-app.marketing-dark .feedback-options-key{gap:5px;font-size:11px;padding:7px;min-height:44px}
+ .feedback-options-key svg{width:16px;height:16px}
+ .marketing-app.marketing-dark .feedback-segment-key{min-height:98px}
+ .marketing-app.marketing-dark .feedback-segment-play{padding:8px 10px 2px;min-height:54px}
+}
+@media(max-height:500px) and (min-width:600px){
+ .feedback-segments>header{min-height:24px;margin-bottom:2px}
+ .feedback-strip-hint{font-size:10px}
+ .marketing-app.marketing-dark .feedback-segment-key{min-height:90px}
+ .marketing-app.marketing-dark .feedback-segment-play{padding:6px 10px 0;min-height:46px;gap:3px}
+}
+@media(prefers-reduced-motion:reduce){.marketing-app.marketing-dark [data-feedback-next=true]{animation:none}}

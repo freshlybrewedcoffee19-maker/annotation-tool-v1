@@ -10,7 +10,17 @@ class SampleStore {
  subscribe=(fn:()=>void)=>{this.listeners.add(fn);return()=>{this.listeners.delete(fn);};};snapshot=()=>this.revision;
  update(){this.revision++;this.listeners.forEach(fn=>fn());}
  async call(name:string,args:any){switch(name){
- case 'marketing:saveFeedback':{const old=this.data.feedback.find(f=>f.id===args.feedbackId||f.clientKey===args.clientKey);if(old){if(args.feedbackId)old.text=args.text;return old.id;}const id=crypto.randomUUID();this.data.feedback.push({id,versionId:args.versionId,start:args.start,end:args.end,text:args.text,audioId:args.audioId??null,author:'You (sample)',canEdit:true,createdAt:Date.now(),reviewed:false,clientKey:args.clientKey});return id;}
+ case 'marketing:saveFeedback':{
+  const version=this.data.versions.find(row=>row.id===args.versionId);
+  if(!version||(version.deleted&&!args.feedbackId))throw Error('This video version is unavailable.');
+  if(!Number.isFinite(args.start)||!Number.isFinite(args.end)||args.start<0||args.end<=args.start||args.end>version.duration+.05)throw Error('Mark a valid start and stop within this version.');
+  const old=args.feedbackId?this.data.feedback.find(row=>row.id===args.feedbackId):this.data.feedback.find(row=>row.clientKey===args.clientKey);
+  if(args.feedbackId&&!old)throw Error('Feedback not found.');
+  if(old&&old.versionId!==version.id)throw Error('Feedback belongs to a different version.');
+  if(old&&version.deleted&&(args.start!==old.start||args.end!==old.end))throw Error('Deleted footage timing cannot be changed.');
+  if(old){if(args.feedbackId)Object.assign(old,{text:args.text,start:args.start,end:args.end});return old.id;}
+  const id=crypto.randomUUID();this.data.feedback.push({id,versionId:args.versionId,start:args.start,end:args.end,text:args.text,audioId:args.audioId??null,author:'You (sample)',canEdit:true,createdAt:Date.now(),reviewed:false,clientKey:args.clientKey});return id;
+ }
  case 'marketing:reviewFeedback':{const row=this.data.feedback.find(f=>f.id===args.feedbackId);if(row)row.reviewed=args.reviewed;return null;}
  case 'marketing:reply':this.data.replies.push({id:crypto.randomUUID(),feedbackId:args.feedbackId,text:args.text,author:'You (sample)',createdAt:Date.now()});return null;
  case 'marketingFiles:begin':{const id=crypto.randomUUID();this.uploads.set(id,args);return {uploadId:id,url:'sample-upload:'+id};}

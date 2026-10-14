@@ -39,7 +39,17 @@ export function useMutation(reference:any){const name=getFunctionName(reference)
  case 'marketingFiles:finalise':if(!args.confirmed)throw Error('Explicit confirmation required.');versions=versions.map((v,i)=>({...v,deleted:i<versions.length-1}));card={...card,finalised:true};event('Finalised the card. Latest video and all feedback retained.');break;
  case 'marketing:reviewFeedback':feedback=feedback.map(f=>f.id===args.feedbackId?{...f,reviewed:args.reviewed}:f);break;
  case 'marketing:status':card={...card,status:args.status,approvedVersionId:args.status==='approved'?card.latestVersionId:null};event(args.status==='approved'?'Marked this video done.':'Continued feedback.');break;
- case 'marketing:saveFeedback':if(!args.feedbackId&&feedback.some(row=>row.clientKey===args.clientKey)){result=feedback.find(row=>row.clientKey===args.clientKey).id;break;}if(args.feedbackId){feedback=feedback.map(f=>f.id===args.feedbackId?{...f,text:args.text}:f);break;}result=crypto.randomUUID();feedback=[...feedback,{id:result,versionId:args.versionId,start:args.start,end:args.end,text:args.text,audioId:args.audioId??null,clientKey:args.clientKey,author:'Preview',createdAt:Date.now(),reviewed:false}];card={...card,status:'changes_requested',approvedVersionId:null};event('Added feedback.');break;
+ case 'marketing:saveFeedback':{
+  const version=versions.find(row=>row.id===args.versionId);
+  if(!version||(version.deleted&&!args.feedbackId))throw Error('This video version is unavailable.');
+  if(!Number.isFinite(args.start)||!Number.isFinite(args.end)||args.start<0||args.end<=args.start||args.end>version.duration+.05)throw Error('Mark a valid start and stop within this version.');
+  const old=args.feedbackId?feedback.find(row=>row.id===args.feedbackId):feedback.find(row=>row.clientKey===args.clientKey);
+  if(args.feedbackId&&!old)throw Error('Feedback not found.');
+  if(old&&old.versionId!==version.id)throw Error('Feedback belongs to a different version.');
+  if(old&&version.deleted&&(args.start!==old.start||args.end!==old.end))throw Error('Deleted footage timing cannot be changed.');
+  if(old){if(args.feedbackId)feedback=feedback.map(row=>row.id===old.id?{...row,text:args.text,start:args.start,end:args.end}:row);result=old.id;break;}
+  result=crypto.randomUUID();feedback=[...feedback,{id:result,versionId:args.versionId,start:args.start,end:args.end,text:args.text,audioId:args.audioId??null,clientKey:args.clientKey,author:'Preview',createdAt:Date.now(),reviewed:false}];card={...card,status:'changes_requested',approvedVersionId:null};event('Added feedback.');break;
+ }
  case 'marketing:reply':replies=[...replies,{id:crypto.randomUUID(),feedbackId:args.feedbackId,text:args.text,author:'Preview',createdAt:Date.now()}];break;
  case 'marketing:invite':access=[...access.filter(grant=>grant.email!==args.email),{id:crypto.randomUUID(),email:args.email,token:args.token,status:'invited'}];event('Created an editor invitation.');break;
  case 'marketing:decideAccess':access=access.map(grant=>grant.id===args.accessId?{...grant,status:args.decision}:grant);break;

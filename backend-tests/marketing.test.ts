@@ -21,7 +21,7 @@ test('approval keeps versions and feedback; reopening and revisions return to re
 test('token invitations reject wrong identity, expiry and removal; editors author their own feedback only',async()=>{
  const f=await fixture(),token='d'.repeat(64);
  await f.owner.mutation(api.marketing.invite,{cardId:f.cardId,email:'editor@test.invalid',token});
- await expect(f.stranger.mutation(api.marketing.acceptTokenInvite,{token})).rejects.toThrow('Verify');
+ await expect(f.stranger.mutation(api.marketing.acceptTokenInvite,{token})).rejects.toThrow('unavailable');
  await f.t.run(ctx=>ctx.db.patch(f.users.stranger,{emailVerificationTime:1}));
  await expect(f.stranger.mutation(api.marketing.acceptTokenInvite,{token})).rejects.toThrow('unavailable');
  expect(await f.editor.mutation(api.marketing.acceptTokenInvite,{token})).toBe(f.cardId);
