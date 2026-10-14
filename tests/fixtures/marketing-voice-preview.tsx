@@ -56,6 +56,8 @@ export function VoicePreviewTray(){
    <button style={button} disabled={!active} onClick={()=>{const current=active;current?.say('Make the ending brighter.',false);setTimeout(()=>{if(active===current)current?.say('Make the ending brighter.');},450);}}>Simulate feedback</button>
    <button style={button} disabled={!active} onClick={()=>active?.say('Keep this unfinished comment.',false)}>Simulate interim feedback</button>
    <button style={button} disabled={!active} onClick={()=>active?.onerror?.({error:'not-allowed'})}>Simulate speech denied</button>
+   <button style={button} disabled={!active} onClick={()=>active?.onerror?.({error:'aborted'})}>Simulate speech interrupted</button>
+   <button style={button} disabled={!active} onClick={()=>{Object.defineProperty(document,'visibilityState',{configurable:true,value:'hidden'});document.dispatchEvent(new Event('visibilitychange'));Object.defineProperty(document,'visibilityState',{configurable:true,value:'visible'});}}>Simulate leaving this tab</button>
    <button style={button} disabled={!active} onClick={()=>active?.onend?.()}>Simulate idle reconnect</button>
   </div>
  </details>;

@@ -1,5 +1,12 @@
 export type Recognition={continuous:boolean;interimResults:boolean;lang:string;start:()=>void;abort:()=>void;onstart:(()=>void)|null;onresult:((event:any)=>void)|null;onerror:((event:{error:string})=>void)|null;onend:(()=>void)|null;onspeechstart:(()=>void)|null;onspeechend:(()=>void)|null};
 export type VoiceState='off'|'connecting'|'listening'|'reconnecting'|'error';
+
+/** Release this workflow's microphone when its tab is no longer visible. */
+export function watchVoiceVisibility(onHidden:()=>void,target:EventTarget&{readonly visibilityState:DocumentVisibilityState}=document){
+ const changed=()=>{if(target.visibilityState==='hidden')onHidden();};
+ target.addEventListener('visibilitychange',changed);
+ return ()=>target.removeEventListener('visibilitychange',changed);
+}
 type Handlers={state:(state:VoiceState)=>void;error:(message:string)=>void;result:(event:any)=>void;boundary:(complete:boolean)=>void;speechStart:()=>void;speechEnd:()=>void};
 
 /** A connected audio recorder is not proof that the browser's speech service is listening. */
@@ -37,7 +44,8 @@ export class MarketingSpeechSession {
   recognition.onerror=event=>{
    if(!current())return;
    if(event.error==='no-speech'){this.reconnect();return;}
-   if(event.error==='network'||event.error==='aborted'){this.reconnect(true);return;}
+   if(event.error==='network'){this.reconnect(true);return;}
+   if(event.error==='aborted'){this.fail('Voice listening was interrupted. Turn the mic on again when you are ready. Your feedback is kept.');return;}
    const message=event.error==='not-allowed'||event.error==='service-not-allowed'
     ?'Speech permission was denied. Allow microphone and speech access in your browser, then turn the mic on again. Your feedback is kept.'
     :event.error==='audio-capture'

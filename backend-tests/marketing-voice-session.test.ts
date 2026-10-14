@@ -1,5 +1,5 @@
 import {afterEach,expect,test,vi} from 'vitest';
-import {MarketingSpeechSession,type Recognition} from '../src/marketing/voice-session';
+import {MarketingSpeechSession,watchVoiceVisibility,type Recognition} from '../src/marketing/voice-session';
 import {FeedbackCommands,playMarkedVideo} from '../src/marketing/voice-commands';
 
 class Speech implements Recognition {
@@ -56,6 +56,24 @@ test('network failures have bounded retries and a stalled connection is reported
  for(let index=0;index<3;index++){instances[index].onerror?.({error:'network'});instances[index].onend?.();vi.advanceTimersByTime(2000);}
  expect(instances).toHaveLength(3);expect(states.at(-1)).toBe('error');expect(errors[0]).toMatch(/connect|network/i);
  const stalled=setup();vi.advanceTimersByTime(10000);expect(stalled.states.at(-1)).toBe('error');expect(stalled.errors[0]).toMatch(/connect/i);
+});
+
+test('a browser cancellation stops listening without reclaiming the microphone',()=>{
+ vi.useFakeTimers();const {instances,states,errors,boundaries}=setup();instances[0].onstart?.();
+ const lateEnd=instances[0].onend;
+ instances[0].onerror?.({error:'aborted'});lateEnd?.();vi.advanceTimersByTime(60000);
+ expect(instances).toHaveLength(1);expect(states.at(-1)).toBe('error');
+ expect(errors).toEqual(['Voice listening was interrupted. Turn the mic on again when you are ready. Your feedback is kept.']);
+ expect(boundaries).toHaveBeenCalledExactlyOnceWith(false);
+});
+
+test('voice visibility watcher stops only for a hidden document and removes its listener on cleanup',()=>{
+ const target=Object.assign(new EventTarget(),{visibilityState:'visible' as DocumentVisibilityState}),hidden=vi.fn();
+ const cleanup=watchVoiceVisibility(hidden,target);
+ target.dispatchEvent(new Event('visibilitychange'));expect(hidden).not.toHaveBeenCalled();
+ target.visibilityState='hidden';target.dispatchEvent(new Event('visibilitychange'));expect(hidden).toHaveBeenCalledOnce();
+ target.visibilityState='visible';target.dispatchEvent(new Event('visibilitychange'));expect(hidden).toHaveBeenCalledOnce();
+ cleanup();target.visibilityState='hidden';target.dispatchEvent(new Event('visibilitychange'));expect(hidden).toHaveBeenCalledOnce();
 });
 
 test('starting a clip resumes playback and returns a useful error if the browser blocks it',async()=>{
