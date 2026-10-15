@@ -1,0 +1,15 @@
+.headphone-reminder{
+ --headphone-ink:#182235;--headphone-surface:#fffdf8;--headphone-border:#c6d5e6;--headphone-accent:#ffb82e;--headphone-focus:#3159eb;--headphone-icon:#dbeafe;
+ position:fixed;inset:0;margin:auto;box-sizing:border-box;width:min(28rem,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:contain;padding:clamp(24px,4vw,36px);border:1px solid var(--headphone-border);border-radius:20px;background:var(--headphone-surface);color:var(--headphone-ink);box-shadow:0 24px 70px #0005;text-align:left;font:16px/1.5 'Segoe UI',Arial,sans-serif;
+}
+.headphone-reminder::backdrop{background:#080910b8}
+.headphone-reminder .headphone-reminder-icon{display:grid;place-items:center;width:56px;height:56px;margin:0 0 20px;border-radius:16px;background:var(--headphone-icon);color:var(--headphone-ink)}
+.headphone-reminder .headphone-reminder-icon svg{display:block;width:32px;height:32px}
+.headphone-reminder h2,.marketing-app.marketing-dark .headphone-reminder h2{margin:0 0 12px;color:var(--headphone-ink);font:700 clamp(26px,4vw,30px)/1.15 'Segoe UI',Arial,sans-serif;letter-spacing:-.025em}
+.headphone-reminder p,.marketing-app.marketing-dark .headphone-reminder p{margin:0 0 28px;color:var(--headphone-ink);font:400 16px/1.55 'Segoe UI',Arial,sans-serif}
+.headphone-reminder .headphone-reminder-continue,.marketing-app.marketing-dark .headphone-reminder .headphone-reminder-continue{display:block;width:100%;min-height:48px;margin:0;padding:12px 20px;border:1px solid transparent;border-radius:12px;background:var(--headphone-accent);color:#182235;font:600 16px/1.25 'Segoe UI',Arial,sans-serif;cursor:pointer;box-shadow:none}
+.headphone-reminder .headphone-reminder-continue:hover{filter:brightness(.96)}
+.headphone-reminder .headphone-reminder-continue:focus-visible{outline:3px solid var(--headphone-focus);outline-offset:4px}
+.headphone-reminder--marketing{--headphone-ink:#f7f4f0;--headphone-surface:#1c1722;--headphone-border:#67516b;--headphone-accent:#edacd0;--headphone-focus:#f3a6c8;--headphone-icon:#332335;color-scheme:dark;border-bottom:7px solid #070509}
+.headphone-reminder--marketing .headphone-reminder-icon{color:#f3a6c8}
+.marketing-app.marketing-dark .headphone-reminder--marketing .headphone-reminder-continue{color:#24111d;border-color:#c687ad;border-bottom:4px solid #945071;box-shadow:0 3px 0 #050406}
