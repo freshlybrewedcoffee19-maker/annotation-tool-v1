@@ -24,7 +24,9 @@ Keep Segoe UI with a sans-serif fallback. Give the current question or footage d
 
 ## Opening page
 
-The current landing page uses the headline Your voice. Your annotations. and an animated illustration showing a person switching from mouse clicks to voice annotation. Primary choices are Try a sample video and Use my own video. The older footage-card fan no longer describes the current landing page.
+The main homepage (updated 15 October 2026) keeps the headline Your voice. Your annotations. and the choices Try a sample video and Use my own video. Its logo is the text-only Cheddar Vox wordmark with a blue underline. The supplied Launch Video.mp4 replaces the older animated illustration: preserve its complete 9:16 frame, H.264/AAC audio and 34-second duration. It starts muted, with native playback, sound and fullscreen controls; reduced-motion preference starts it paused. Use its extracted first-frame poster while loading.
+
+The homepage fills the available viewport with a natural-height header, flexible main area and compact footer. Wide windows put the headline/actions beside the portrait video; portrait windows stack headline, video and actions. Video height takes the remaining space rather than imposing a fixed media height. Keep both main buttons, contact email, LinkedIn, dataset services and legal/version links visible on normal phone, tablet and desktop sizes. Never crop the video, scale the page or disable browser zoom. Exceptionally short windows may scroll to keep controls reachable. These rules are scoped to .home-page; annotation workspaces and Video Feedback retain their existing behavior and styles.
 
 ## Account entry
 
