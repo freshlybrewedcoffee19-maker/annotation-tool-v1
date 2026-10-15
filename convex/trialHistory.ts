@@ -3,6 +3,7 @@ import {v} from 'convex/values';
 import type {Id} from './_generated/dataModel';
 import {ownedEpisode,workspace} from './access';
 import {canonical} from './trialHistoryHelpers';
+import {segmentAccountFields} from './workspaceGroups';
 
 const item=v.union(v.null(),v.object({id:v.id('trialEditHistory'),description:v.string()}));
 export const status=query({args:{workspaceToken:v.string(),episodeId:v.id('episodes')},returns:v.object({undo:item,redo:item}),handler:async(ctx,args)=>{
@@ -23,12 +24,12 @@ export const apply=mutation({args:{workspaceToken:v.string(),episodeId:v.id('epi
   const original=JSON.parse(entry.before)??JSON.parse(entry.after);
   const current=await ctx.db.get(original._id as Id<'segments'>);
   const visible=current&&!current.historyHidden?current:null;
-  // Ignore the internal visibility marker when comparing annotation content.
-  const clean=(doc:any)=>{if(!doc)return null;const {historyHidden,...rest}=doc;return rest;};
+  // Internal grouping may be backfilled after the history snapshot was saved.
+  const clean=(doc:any)=>{if(!doc)return null;const {historyHidden,accountType,workspaceId,...rest}=doc;return rest;};
   if(canonical(clean(visible))!==canonical(clean(expected)))throw Error('This segment changed elsewhere. Nothing was overwritten.');
   if(!current||current.episodeId!==args.episodeId)throw Error('This segment is no longer available.');
   if(!target)await ctx.db.patch(current._id,{historyHidden:true});
-  else {const {_id,_creationTime,historyHidden,...fields}=target;await ctx.db.replace(current._id,{...fields,historyHidden:false});}
+  else {const {_id,_creationTime,historyHidden,accountType,workspaceId,...fields}=target;const grouping=await segmentAccountFields(ctx,await ctx.db.get(current.episodeId));await ctx.db.replace(current._id,{...fields,...grouping,historyHidden:false});}
  }else{
   const row=await ctx.db.query('objectBoxes').withIndex('by_episode',q=>q.eq('episodeId',args.episodeId)).unique();
   const visibility=await ctx.db.query('objectVisibility').withIndex('by_episode',q=>q.eq('episodeId',args.episodeId)).unique();

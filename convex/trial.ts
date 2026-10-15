@@ -10,7 +10,7 @@ export const start=mutation({args:{workspaceToken:v.string()},returns:v.id('epis
  if(existing){if(existing.kind!=='trial')throw new Error('Create a separate trial workspace.');const episode=await ctx.db.query('episodes').withIndex('by_workspace',q=>q.eq('workspaceId',existing._id)).first();if(episode)return episode._id;}
  const dataset=await ctx.db.query('trialDatasets').withIndex('by_key',q=>q.eq('key','active')).unique();if(!dataset)throw new Error('Trial clip is not available yet.');
  const file=await ctx.db.system.get(dataset.storageId);if(!file)throw new Error('Trial clip is not available yet.');
- const workspaceId=existing?existing._id:await ctx.db.insert('workspaces',{token:workspaceToken,kind:'trial'});
+ const workspaceId=existing?existing._id:await ctx.db.insert('workspaces',{token:workspaceToken,kind:'trial',accountType:'anonymous'});
  await ctx.db.insert('labelLists',{workspaceId,key:'shared',labels:dataset.labels});
  await ctx.db.insert('metadataFields',{workspaceId,key:'shared',fields:dataset.metadata.map(row=>row.field)});
  const id=await ctx.db.insert('episodes',{workspaceId,name:dataset.name,storageId:dataset.storageId,duration:dataset.duration,width:dataset.width,height:dataset.height,frameRate:dataset.frameRate,fileSize:file.size,mimeType:file.contentType??'video/mp4',metadata:dataset.metadata});return id;

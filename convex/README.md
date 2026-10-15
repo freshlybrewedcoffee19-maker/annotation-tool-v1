@@ -1,5 +1,18 @@
 # Welcome to your Convex functions directory!
 
+## Finding account-linked and anonymous annotations
+
+In the Convex dashboard for `precious-fish-294`, open **Data → workspaces** or **Data → segments** and filter `accountType`:
+
+- `registered`: the workspace is linked to an account that currently exists.
+- `anonymous`: the workspace has no account ID. This does not prove whether a person or a test created its annotations.
+- `test`: the workspace was explicitly identified in a test-account audit.
+- `unknown`: the workspace or its linked account record is missing; preserve these records for further review.
+
+These fields describe workspace ownership, not the identity of the person who created a particular annotation. Segments also carry `workspaceId` for direct matching. Existing labels, timestamps, reviews, exports and permissions are unchanged. New saves are grouped automatically, and linking an anonymous workspace to an account refreshes its segment groups in background batches.
+
+The 16 October 2026 maintenance removes only the 80 explicitly audited test segments after a private backup and ownership/sharing checks. It preserves all other annotations and all video, project and account records. The temporary deletion function is removed after verification; no public cleanup endpoint is retained.
+
 Write your Convex functions here.
 See https://docs.convex.dev/functions for more.
 
