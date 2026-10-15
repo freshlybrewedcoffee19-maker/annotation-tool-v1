@@ -40,15 +40,17 @@
 .home-page .home-action-secondary {background: #dbeafe; border: 1px solid #2563eb; color: #172033;}
 .home-page .home-action-secondary:hover {background: #2563eb; color: white;}
 .home-page .home-actions .error {flex-basis: 100%; margin: 0; font-size: .875rem;}
-.home-page .home-footer {display: grid; gap: 0; margin: 0; padding: .25rem 0 0; border-top: 1px solid #b7caf0; background: #dbeafe; color: #000; font-size: .75rem; line-height: 1.25;}
-.home-page .home-footer nav {display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0 1rem;}
-.home-page .home-footer a, .home-page .home-datasets button {display: inline-flex; align-items: center; justify-content: center; min-height: 44px; color: #ffb82e; text-underline-offset: .2em;}
-.home-page .home-contact a {gap: .5rem; font-size: .875rem; font-weight: 600; text-decoration: none;}
-.home-page .home-contact svg {width: 18px; height: 18px; flex-shrink: 0;}
+.home-page .home-footer {display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: clamp(.5rem, 2vw, 2rem); margin: 0; padding: .5rem clamp(.5rem, 1.5vw, 1.25rem); border-top: 1px solid #b7caf0; background: #dbeafe; color: #000; font-size: .875rem; line-height: 1.25;}
+.home-page .home-footer-links {display: flex; flex-direction: column; align-items: flex-start; justify-self: center; min-width: 0;}
+.home-page .home-footer a {display: inline-flex; align-items: center; min-height: 44px; max-width: 100%; color: #000; text-underline-offset: .2em;}
+.home-page .home-contact-link {gap: .5rem; font-weight: 600; text-decoration: none;}
+.home-page .home-contact-link span {min-width: 0; overflow-wrap: anywhere;}
+.home-page .home-contact-link svg {width: 18px; height: 18px; flex-shrink: 0;}
 .home-page .home-email {display: block; font-size: .75rem; font-weight: 400; margin-top: .15rem; color: inherit;}
-.home-page .home-datasets {display: flex; align-items: center; justify-content: center; flex-wrap: wrap; column-gap: .3rem; margin: 0; line-height: 1.25; font-size: inherit; color: inherit;}
-.home-page .home-datasets button {padding: 0; border: 0; border-radius: 0; background: none; font: inherit; text-decoration: underline;}
-.home-page .home-legal {column-gap: .875rem;}
+.home-page .home-datasets {display: flex; flex-direction: column; align-items: center; justify-content: center; align-self: stretch; min-width: 0; gap: .75rem; padding-inline-start: clamp(.5rem, 2vw, 2rem); border-inline-start: 1px solid #b7caf0; text-align: center; color: #000;}
+.home-page .home-datasets p {margin: 0; color: #000; font-size: 1rem; line-height: 1.4; text-wrap: balance;}
+.home-page .home-datasets button {min-height: 44px; max-width: 100%; padding: .625rem 1rem; border: 1px solid #f59e0b; border-radius: .75rem; background: #ffb82e; color: #000; font-size: 1rem; font-weight: 600; line-height: 1.25; text-decoration: none;}
+.home-page .home-datasets button:hover {background: #f59e0b; color: #000;}
 .home-page a:focus-visible, .home-page button:focus-visible, .home-page video:focus-visible {outline: 3px solid #2563eb; outline-offset: 3px;}
 @media (min-width: 760px) and (min-aspect-ratio: 1/1) {
  .landing.home-page {padding-block: clamp(.75rem, 2.2dvh, 2rem); --home-gap: clamp(1rem, 2.5vmin, 2.5rem);}
@@ -59,18 +61,12 @@
  .home-page .home-action {flex: 0 1 auto; min-height: 48px; padding: 1rem 1.4rem;}
  .home-page .home-launch-media {padding-inline: 3%;}
  .home-page .home-launch-video {background: transparent;}
- .home-page .home-footer {grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 1rem; font-size: clamp(.75rem, .85vw, .95rem);}
- .home-page .home-footer nav {justify-content: flex-start;}
- .home-page .home-legal {justify-content: flex-end;}
- .home-page .home-datasets {flex-direction: column; gap: 0; text-align: center;}
- .home-page .home-datasets button {min-height: 32px;}
- .home-page .home-legal {gap: 0 1rem;}
+ .home-page .home-footer {font-size: 1rem;}
 }
 @media (min-width: 760px) and (max-height: 500px) {
  .landing.home-page {--home-gap: .5rem; padding-block: .5rem;}
- .home-page .home-footer {font-size: .75rem; gap: .5rem;}
- .home-page .home-contact a {font-size: .75rem; gap: .25rem;}
- .home-page .home-footer nav {gap: 0 .75rem;}
+ .home-page .home-footer {grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); font-size: .875rem;}
+ .home-page .home-footer-links {display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1rem;}
  .home-page .home-action {padding: .6rem .85rem; font-size: .875rem;}
 }
 /* Keep enlarged text and unusually short browser windows reachable. */

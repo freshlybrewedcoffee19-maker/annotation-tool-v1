@@ -40,21 +40,22 @@ export function Landing({own,trial,busy,error,services}:{services:()=>void;own:(
    </div>
   </section>
   <footer className="home-footer">
-   <nav className="home-contact" aria-label="Contact">
-    <a href="mailto:riya.shah@cheddarvox.com" title="riya.shah@cheddarvox.com">
+   <nav className="home-footer-links" aria-label="Contact and legal links">
+    <a className="home-contact-link" href="mailto:riya.shah@cheddarvox.com" title="riya.shah@cheddarvox.com">
      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" strokeWidth="1.7"/><path d="m4 6 8 6 8-6" fill="none" stroke="currentColor" strokeWidth="1.7"/></svg>
-     <span>Contact us<small className="home-email">riya.shah@cheddarvox.com</small></span>
+     <span>Contact us<small className="home-email">riya.shah@<wbr/>cheddarvox.com</small></span>
     </a>
-    <a href="https://www.linkedin.com/company/cheddarvox/" target="_blank" rel="noopener noreferrer">
+    <a className="home-contact-link" href="https://www.linkedin.com/company/cheddarvox/" target="_blank" rel="noopener noreferrer">
      <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="3" fill="currentColor"/><path d="M5 9h3v10H5zm1.5-4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M10 9h3v1.4c.7-1.1 1.6-1.7 3-1.7 2.5 0 3.5 1.6 3.5 4.4V19h-3v-5.2c0-1.4-.3-2.3-1.6-2.3-1.4 0-1.9 1-1.9 2.4V19h-3z" fill="white"/></svg>
      <span>LinkedIn</span>
     </a>
-   </nav>
-   <p className="home-datasets"><span>Need a labelled dataset instead?</span> <button onClick={services}>Dataset services</button></p>
-   <nav className="home-legal" aria-label="Footer">
     <a href="/privacy/">Privacy policy</a>
     <a href="/terms/">Terms of use</a>
    </nav>
+   <div className="home-datasets">
+    <p>Need a labelled dataset instead?</p>
+    <button type="button" onClick={services}>Dataset services</button>
+   </div>
   </footer>
  </main>;
 }
