@@ -52,7 +52,6 @@ export function Landing({own,trial,busy,error,services}:{services:()=>void;own:(
    </nav>
    <p className="home-datasets"><span>Need a labelled dataset instead?</span> <button onClick={services}>Dataset services</button></p>
    <nav className="home-legal" aria-label="Footer">
-    <a className="home-version" href="/v2"><span>Version 2</span><span className="home-version-dot" aria-hidden="true"> · </span><span>In development</span></a>
     <a href="/privacy/">Privacy policy</a>
     <a href="/terms/">Terms of use</a>
    </nav>

@@ -49,7 +49,6 @@
 .home-page .home-datasets {display: flex; align-items: center; justify-content: center; flex-wrap: wrap; column-gap: .3rem; margin: 0; line-height: 1.25; font-size: inherit;}
 .home-page .home-datasets button {padding: 0; border: 0; border-radius: 0; background: none; font: inherit; text-decoration: underline;}
 .home-page .home-legal {column-gap: .875rem;}
-.home-page .home-version {white-space: pre;}
 .home-page a:focus-visible, .home-page button:focus-visible, .home-page video:focus-visible {outline: 3px solid #2563eb; outline-offset: 3px;}
 @media (min-width: 760px) and (min-aspect-ratio: 1/1) {
  .landing.home-page {padding-block: clamp(.75rem, 2.2dvh, 2rem); --home-gap: clamp(1rem, 2.5vmin, 2.5rem);}
@@ -73,10 +72,6 @@
  .home-page .home-contact a {font-size: .75rem; gap: .25rem;}
  .home-page .home-footer nav {gap: 0 .75rem;}
  .home-page .home-action {padding: .6rem .85rem; font-size: .875rem;}
-}
-@media (max-width: 359px) {
- .home-page .home-version {flex-direction: column;}
- .home-page .home-version-dot {display: none;}
 }
 /* Keep enlarged text and unusually short browser windows reachable. */
 @media (max-height: 340px) {
