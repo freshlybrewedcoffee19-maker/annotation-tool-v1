@@ -48,6 +48,7 @@ import type * as usage from "../usage.js";
 import type * as v2 from "../v2.js";
 import type * as v2Values from "../v2Values.js";
 import type * as visibility from "../visibility.js";
+import type * as workspaceGroups from "../workspaceGroups.js";
 import type * as workspaces from "../workspaces.js";
 
 import type {
@@ -97,6 +98,7 @@ declare const fullApi: ApiFromModules<{
   v2: typeof v2;
   v2Values: typeof v2Values;
   visibility: typeof visibility;
+  workspaceGroups: typeof workspaceGroups;
   workspaces: typeof workspaces;
 }>;
 
