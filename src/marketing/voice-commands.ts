@@ -7,6 +7,19 @@ export function playbackCommand(text:string){
  return null;
 }
 const stoppedFeedback=(phrase:string)=>/^(?:stop|pause)(?: (?:the )?(?:video|playback))?\b[.!?,;:\s]+(.+)$/i.exec(phrase);
+/** Call from the mic tap, while mobile browsers still allow media activation. */
+export function prepareVoicePlayback(video:Pick<HTMLVideoElement,'playsInline'|'paused'|'currentTime'|'play'|'pause'>){
+ video.playsInline=true;
+ if(!video.paused)return;
+ const position=video.currentTime;
+ try{
+  const playing=video.play();
+  video.pause();
+  video.currentTime=position;
+  // Pausing this preparation can reject play with AbortError; the next command retries normally.
+  void playing?.catch(()=>{});
+ }catch{/* The video may not be loaded yet; actual playback reports a useful error. */}
+}
 export async function playMarkedVideo(video:Pick<HTMLVideoElement,'currentTime'|'play'>,start:number){
  video.currentTime=start;
  try{await video.play();}catch(error){

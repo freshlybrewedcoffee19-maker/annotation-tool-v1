@@ -58,6 +58,118 @@ test('network failures have bounded retries and a stalled connection is reported
  const stalled=setup();vi.advanceTimersByTime(10000);expect(stalled.states.at(-1)).toBe('error');expect(stalled.errors[0]).toMatch(/connect/i);
 });
 
+test('quiet listening stays connected without a result timeout',()=>{
+ vi.useFakeTimers();const {session,instances,states,errors}=setup();instances[0].onstart?.();
+ vi.advanceTimersByTime(120000);
+ expect(instances).toHaveLength(1);expect(states.at(-1)).toBe('listening');expect(errors).toEqual([]);
+ session.stop();
+});
+
+test('captured voice without results restarts at most twice before reporting the stalled speech service',()=>{
+ vi.useFakeTimers();const {session,instances,states,errors,boundaries}=setup();
+ for(let index=0;index<3;index++){
+  instances[index].onstart?.();session.noteAudioActivity();
+  for(let second=0;second<8;second++){vi.advanceTimersByTime(1000);session.noteAudioActivity();}
+  if(index<2){expect(states.at(-1)).toBe('reconnecting');vi.advanceTimersByTime(250);}
+ }
+ expect(instances).toHaveLength(3);expect(states.at(-1)).toBe('error');expect(errors).toHaveLength(1);
+ expect(errors[0]).toMatch(/heard audio.*no words/i);expect(errors[0]).toMatch(/Safari.*iPhone.*Chrome.*Android/);
+ expect(boundaries.mock.calls.every(([complete])=>complete===false)).toBe(true);
+ vi.advanceTimersByTime(120000);expect(instances).toHaveLength(3);
+});
+
+test('speech-start detection also watches for results and a result cancels the watchdog',()=>{
+ vi.useFakeTimers();const {session,instances,states,results}=setup();instances[0].onstart?.();
+ instances[0].onspeechstart?.();vi.advanceTimersByTime(8000);expect(states.at(-1)).toBe('reconnecting');
+ vi.advanceTimersByTime(250);instances[1].onstart?.();instances[1].onspeechstart?.();
+ vi.advanceTimersByTime(7000);instances[1].onresult?.({resultIndex:0,results:[]});
+ vi.advanceTimersByTime(120000);expect(instances).toHaveLength(2);expect(results).toHaveBeenCalledOnce();
+ expect(states.at(-1)).toBe('listening');session.stop();
+});
+
+test('retired speech callbacks and capture activity after stop cannot start another watchdog',()=>{
+ vi.useFakeTimers();const {session,instances,states,results}=setup();instances[0].onstart?.();
+ const staleSpeech=instances[0].onspeechstart,staleResult=instances[0].onresult;
+ session.noteAudioActivity();vi.advanceTimersByTime(8000);vi.advanceTimersByTime(250);instances[1].onstart?.();
+ staleSpeech?.();staleResult?.({});vi.advanceTimersByTime(120000);
+ expect(instances).toHaveLength(2);expect(results).not.toHaveBeenCalled();expect(states.at(-1)).toBe('listening');
+ session.noteAudioActivity();session.stop();session.noteAudioActivity();instances[1].onspeechstart?.();
+ vi.advanceTimersByTime(120000);expect(instances).toHaveLength(2);expect(states.at(-1)).toBe('off');
+});
+
+test('continuous recognition defaults on and can be disabled for each mobile session',()=>{
+ vi.useFakeTimers();const desktop=setup();expect(desktop.instances[0].continuous).toBe(true);desktop.session.stop();
+ const instances:Speech[]=[],session=new MarketingSpeechSession(()=>{const value=new Speech();instances.push(value);return value;},{state:()=>{},error:()=>{},result:()=>{},boundary:()=>{},speechStart:()=>{},speechEnd:()=>{}},{continuous:false});
+ session.start();expect(instances[0].continuous).toBe(false);instances[0].onstart?.();instances[0].onend?.();
+ vi.advanceTimersByTime(250);expect(instances[1].continuous).toBe(false);session.stop();
+});
+
+test('playback refresh is debounced, does not restart a stopped session, and clears pending activity timers',()=>{
+ vi.useFakeTimers();const {session,instances,boundaries}=setup();instances[0].onstart?.();session.noteAudioActivity();
+ session.refreshAfterPlayback();vi.advanceTimersByTime(200);session.refreshAfterPlayback();
+ vi.advanceTimersByTime(299);expect(instances).toHaveLength(1);
+ vi.advanceTimersByTime(1);expect(instances).toHaveLength(2);expect(instances[0].abort).toHaveBeenCalledOnce();
+ expect(boundaries).toHaveBeenCalledExactlyOnceWith(false);instances[1].onstart?.();
+ vi.advanceTimersByTime(10000);expect(instances).toHaveLength(2);
+ session.refreshAfterPlayback();session.stop();session.refreshAfterPlayback();vi.advanceTimersByTime(10000);
+ expect(instances).toHaveLength(2);
+});
+
+test('playback refresh waits for a connected recognizer and cannot finish a partial feedback command',()=>{
+ vi.useFakeTimers();const start=vi.fn(),commands=new FeedbackCommands({start,stop:()=>{},feedback:()=>{}}),instances:Speech[]=[];
+ commands.phase='feedback';
+ const session=new MarketingSpeechSession(()=>{const value=new Speech();instances.push(value);return value;},{state:()=>{},error:()=>{},speechStart:()=>{},speechEnd:()=>{},boundary:complete=>{if(complete)commands.endUtterance();commands.resetResults();},result:()=>commands.result(0,'Start',false,{videoTime:3,audioFrame:80})});
+ session.start();session.refreshAfterPlayback();vi.advanceTimersByTime(300);expect(instances).toHaveLength(1);
+ instances[0].onstart?.();instances[0].onresult?.({});session.refreshAfterPlayback();
+ vi.advanceTimersByTime(300);expect(instances).toHaveLength(2);expect(start).not.toHaveBeenCalled();expect(commands.phase).toBe('feedback');session.stop();
+});
+
+test('fresh partial speech after stop cancels the playback restart and preserves the joined feedback',()=>{
+ vi.useFakeTimers();const instances:Speech[]=[],feedback=vi.fn();
+ const commands=new FeedbackCommands({start:()=>{},stop:()=>session.refreshAfterPlayback(),feedback});commands.phase='marking';
+ const session=new MarketingSpeechSession(()=>{const value=new Speech();instances.push(value);return value;},{state:()=>{},error:()=>{},speechStart:()=>{},speechEnd:()=>{},boundary:complete=>{if(complete)commands.endUtterance();commands.resetResults();},result:event=>commands.result(0,event.text,event.final,{videoTime:2,audioFrame:20})});
+ session.start();instances[0].onstart?.();instances[0].onresult?.({text:'Stop',final:false});
+ vi.advanceTimersByTime(200);instances[0].onresult?.({text:'Stop, make the logo',final:false});
+ vi.advanceTimersByTime(600);expect(instances).toHaveLength(1);expect(feedback).not.toHaveBeenCalled();
+ instances[0].onresult?.({text:'Stop, make the logo bigger.',final:true});
+ expect(feedback).toHaveBeenCalledExactlyOnceWith('make the logo bigger.');session.stop();
+});
+
+test('new speech after a playback change defers recovery until the result watchdog expires',()=>{
+ vi.useFakeTimers();const {session,instances,states}=setup();instances[0].onstart?.();session.refreshAfterPlayback();
+ vi.advanceTimersByTime(200);instances[0].onspeechstart?.();
+ vi.advanceTimersByTime(300);expect(instances).toHaveLength(1);expect(states.at(-1)).toBe('listening');
+ vi.advanceTimersByTime(7700);expect(states.at(-1)).toBe('reconnecting');
+ vi.advanceTimersByTime(250);expect(instances).toHaveLength(2);session.stop();
+});
+
+test('an active interim stop keeps a slow joined feedback utterance alive past the playback delay',()=>{
+ vi.useFakeTimers();const instances:Speech[]=[],feedback=vi.fn();
+ const commands=new FeedbackCommands({start:()=>{},stop:()=>session.refreshAfterPlayback(),feedback});commands.phase='marking';
+ const session=new MarketingSpeechSession(()=>{const value=new Speech();instances.push(value);return value;},{state:()=>{},error:()=>{},speechStart:()=>{},speechEnd:()=>{},boundary:complete=>{if(complete)commands.endUtterance();commands.resetResults();},result:event=>commands.result(0,event.results[0][0].transcript,event.results[0].isFinal,{videoTime:2,audioFrame:20})});
+ session.start();instances[0].onstart?.();
+ instances[0].onresult?.({resultIndex:0,results:[{isFinal:false,0:{transcript:'Stop'}}]});
+ vi.advanceTimersByTime(1500);expect(instances).toHaveLength(1);expect(instances[0].abort).not.toHaveBeenCalled();
+ instances[0].onresult?.({resultIndex:0,results:[{isFinal:true,0:{transcript:'Stop, make the logo bigger.'}}]});
+ expect(feedback).toHaveBeenCalledExactlyOnceWith('make the logo bigger.');
+ vi.advanceTimersByTime(10000);expect(instances).toHaveLength(1);session.stop();
+});
+
+test('an interim transcript with no further progress recovers even after native speech has ended',()=>{
+ vi.useFakeTimers();const {session,instances,states,boundaries}=setup();instances[0].onstart?.();
+ instances[0].onresult?.({resultIndex:0,results:[{isFinal:false,0:{transcript:'Make the'}}]});
+ instances[0].onspeechend?.();session.refreshAfterPlayback();
+ vi.advanceTimersByTime(7999);expect(instances).toHaveLength(1);expect(states.at(-1)).toBe('listening');
+ vi.advanceTimersByTime(1);expect(states.at(-1)).toBe('reconnecting');expect(boundaries).toHaveBeenCalledExactlyOnceWith(false);
+ vi.advanceTimersByTime(250);expect(instances).toHaveLength(2);session.stop();
+});
+
+test('native speech in progress prevents playback refresh before its first partial result',()=>{
+ vi.useFakeTimers();const {session,instances,states}=setup();instances[0].onstart?.();instances[0].onspeechstart?.();
+ session.refreshAfterPlayback();vi.advanceTimersByTime(300);expect(instances).toHaveLength(1);
+ vi.advanceTimersByTime(7700);expect(states.at(-1)).toBe('reconnecting');session.stop();
+});
+
 test('a browser cancellation stops listening without reclaiming the microphone',()=>{
  vi.useFakeTimers();const {instances,states,errors,boundaries}=setup();instances[0].onstart?.();
  const lateEnd=instances[0].onend;

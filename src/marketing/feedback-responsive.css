@@ -22,7 +22,8 @@
 .marketing-app.marketing-dark .feedback-tool-screen{
  width:100%;max-width:none;margin:0;min-width:0;min-height:0;
  grid-template-columns:minmax(0,1fr);
- grid-template-rows:auto minmax(min(20svh,10rem),1fr) auto auto auto;
+ /* Wrapped controls reserve their content height instead of painting over adjacent rows. */
+ grid-template-rows:max-content minmax(min(20svh,10rem),1fr) max-content max-content max-content;
  gap:var(--ft-gap);padding:var(--ft-gap) var(--mf-gutter) max(var(--ft-gap),env(safe-area-inset-bottom));
  overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;
  scrollbar-width:thin;scrollbar-color:#88657d #17121c;
@@ -52,6 +53,7 @@
 .marketing-app.marketing-dark .feedback-compact-state{font-size:var(--mf-body);line-height:1.35;margin:0 0 .2em}
 .marketing-app.marketing-dark .feedback-compact-state>span{font-size:var(--mf-small)}
 .marketing-app.marketing-dark .feedback-compact-hint{font-size:var(--mf-small);line-height:1.4;max-width:32ch;overflow-wrap:anywhere}
+.marketing-app.marketing-dark .feedback-compact-audio-notice{margin:.2em 0 0;font-size:var(--mf-small);line-height:1.35;color:#c6bacb;overflow-wrap:anywhere}
 .marketing-app.marketing-dark .feedback-compact-heard{margin:.2em 0 0;font-size:var(--mf-small);line-height:1.35;color:#f3a6c8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .marketing-app.marketing-dark .feedback-compact-actions{grid-column:auto;flex-direction:column;gap:.25em;min-width:0;max-width:10em}
 .marketing-app.marketing-dark .feedback-write-key,.marketing-app.marketing-dark .feedback-save-key{font-size:var(--mf-small);min-height:var(--mf-control);max-width:none;padding:.45em .6em;line-height:1.3;white-space:normal}

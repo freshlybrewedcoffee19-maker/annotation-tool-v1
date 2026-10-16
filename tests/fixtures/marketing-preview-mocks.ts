@@ -62,6 +62,7 @@ export function useQuery(reference:any,args:any){useSyncExternalStore(subscribe,
  default:throw Error('Unexpected preview query: '+getFunctionName(reference));
 }}
 const heldSaves:(()=>void)[]=[];(window as any).__releaseMarketingSaves=()=>{for(const release of heldSaves.splice(0))release();};
+const heldMedia:(()=>void)[]=[];(window as any).__releaseMarketingMedia=()=>{for(const release of heldMedia.splice(0))release();};
 export function useMutation(reference:any){const name=getFunctionName(reference);return useCallback(async(args:any)=>{
  if(name==='marketing:saveFeedback'&&sessionStorage.getItem('preview-hold-saves'))await new Promise<void>(resolve=>heldSaves.push(resolve));
  if(name==='marketing:saveFeedback'&&args.text===sessionStorage.getItem('preview-fail-save-text')){sessionStorage.removeItem('preview-fail-save-text');throw Error('Preview: save failed; original audio and transcript retained.');}
@@ -69,7 +70,7 @@ export function useMutation(reference:any){const name=getFunctionName(reference)
  let result:any=null;
  switch(name){
  case 'storageRequests:request':{if(!authenticated)throw Error('Sign in to request extra storage.');if(storageRequest&&(storageRequest.status!=='failed'||storageRequest.retryAt>Date.now())){result=storageRequest;break;}storageRequest={requestId:'preview-storage-request',status:'queued',createdAt:Date.now(),sentAt:null,retryAt:null};result=storageRequest;setTimeout(()=>{const failed=new URLSearchParams(location.search).has('requestFails')&&storageRequestFailures++===0;storageRequest={...storageRequest,status:failed?'failed':'sent',sentAt:failed?null:Date.now(),retryAt:failed?Date.now()+6000:null};update();},1000);break;}
- case 'marketing:mediaTicket':break;
+ case 'marketing:mediaTicket':if(previewParams.has('delayMedia'))await new Promise<void>(resolve=>heldMedia.push(resolve));break;
  case 'marketing:cancelUpload':pending.delete(args.uploadId);break;
  case 'marketing:reopen':card={...card,finalised:false,status:'needs_feedback',approvedVersionId:null};event('Reopened the card for revisions.');break;
  case 'marketingFiles:finalise':if(!args.confirmed)throw Error('Explicit confirmation required.');versions=versions.map((v,i)=>({...v,deleted:i<versions.length-1}));card={...card,finalised:true};event('Finalised the card. Latest video and all feedback retained.');break;
