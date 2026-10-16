@@ -63,7 +63,11 @@ export function useQuery(reference:any,args:any){useSyncExternalStore(subscribe,
 }}
 const heldSaves:(()=>void)[]=[];(window as any).__releaseMarketingSaves=()=>{for(const release of heldSaves.splice(0))release();};
 const heldMedia:(()=>void)[]=[];(window as any).__releaseMarketingMedia=()=>{for(const release of heldMedia.splice(0))release();};
+const heldCompletions:(()=>void)[]=[];(window as any).__releaseMarketingCompletions=()=>{for(const release of heldCompletions.splice(0))release();};
+const calls:string[]=[];(window as any).__marketingCalls=calls;
 export function useMutation(reference:any){const name=getFunctionName(reference);return useCallback(async(args:any)=>{
+ calls.push(name);
+ if(name==='marketingFiles:complete'&&sessionStorage.getItem('preview-hold-completion'))await new Promise<void>(resolve=>heldCompletions.push(resolve));
  if(name==='marketing:saveFeedback'&&sessionStorage.getItem('preview-hold-saves'))await new Promise<void>(resolve=>heldSaves.push(resolve));
  if(name==='marketing:saveFeedback'&&args.text===sessionStorage.getItem('preview-fail-save-text')){sessionStorage.removeItem('preview-fail-save-text');throw Error('Preview: save failed; original audio and transcript retained.');}
  const fail='preview-fail-'+name;if(sessionStorage.getItem(fail)){sessionStorage.removeItem(fail);throw Error('Preview: temporary failure; retry with your draft retained.');}

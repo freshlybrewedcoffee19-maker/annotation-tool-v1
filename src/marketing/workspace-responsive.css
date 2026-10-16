@@ -14,6 +14,12 @@
 .marketing-app.marketing-dark .marketing-project-workspace .marketing-upload-entry .marketing-upload{min-width:0;max-width:100%;text-align:center}
 .marketing-app.marketing-dark .marketing-project-workspace .marketing-upload-entry .marketing-upload>button{min-height:var(--mf-control);font-size:var(--mf-body);padding:.7em 1.3em;max-width:100%;overflow-wrap:anywhere}
 .marketing-app.marketing-dark .marketing-project-workspace .marketing-upload-entry .marketing-upload>p{font-size:var(--mf-small);line-height:1.5;margin:.7em 0 0;overflow-wrap:anywhere}
+.marketing-app.marketing-dark .marketing-upload-progress{display:grid;gap:.4em;width:100%;min-width:0;margin-top:.65em;color:#c6bacb;font-size:var(--mf-small);font-variant-numeric:tabular-nums}
+.marketing-app.marketing-dark .marketing-upload>p[role=status]{color:#c6bacb}
+.marketing-app.marketing-dark .marketing-upload-progress progress{width:100%;height:.6em;accent-color:#edacd0;border:0;border-radius:1em;overflow:hidden;background:#332739}
+.marketing-app.marketing-dark .marketing-upload-progress progress::-webkit-progress-bar{background:#332739}
+.marketing-app.marketing-dark .marketing-upload-progress progress::-webkit-progress-value{background:#edacd0;border-radius:1em}
+.marketing-app.marketing-dark .marketing-upload-progress progress::-moz-progress-bar{background:#edacd0;border-radius:1em}
 .marketing-app.marketing-dark .marketing-project-workspace .marketing-upload-entry>small{font-size:var(--mf-small);line-height:1.4;margin-top:var(--mf-gap)}
 
 .marketing-app.marketing-dark .marketing-project-workspace .marketing-board-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--mf-gap);flex-wrap:wrap;margin-top:calc(var(--mf-gap)*1.6)}

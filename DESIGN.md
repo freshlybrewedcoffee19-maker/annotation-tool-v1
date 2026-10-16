@@ -175,3 +175,11 @@ On Android phones, iPhone and iPad, use the browser speech service without openi
 Start speech and prepare the current video directly from the mic tap, before waiting for permissions or downloads. Only show Listening after the speech service confirms startup. On Apple devices, reconnect after a completed utterance and recover after playback changes without cutting off active speech. Bind playback recovery when the video is available, including private projects whose video arrives after their access ticket. Closing Edit draft must restore automatic saving, including text-only phone sessions. Stopping or leaving the page releases speech, recording and recovery timers.
 
 Regression checks use isolated browser data, simulated speech with iPhone/Android profiles, and desktop fake audio capture. They cover start/stop, joined stop-and-feedback, consecutive automatic saves, editing a draft, delayed private playback and readable phone controls. These checks do not substitute for a physical-phone microphone test in Safari and Chrome.
+
+### Video Feedback upload progress and recovery — 16 October 2026
+
+Send the original video directly to private storage without compression or transcoding. Store one local recovery copy while checking the video and authorising the upload; subsequent checkpoints update only its small status record. Use the upload URL returned by the initial reservation, requesting a replacement only for an actual retry. Recover older unfinished uploads as well as new ones.
+
+Show real transferred bytes and a percentage during upload, then “Saving this version…” while the backend validates and saves it. A connection that makes no progress for 60 seconds stops with a visible retry message; a continuously progressing slow upload is allowed to continue. If only final saving fails, retry without sending the video again, including after reopening the upload form.
+
+Validate uploaded size/type and conditionally copy to the protected final storage key before confirming success. Schedule temporary-file deletion in the background with bounded retries, retaining expiry cleanup and storage accounting. Do not change the data-annotation uploader or phone speech behaviour. Verify new uploads, revisions, slow-connection progress and failed-save recovery using isolated local records, without creating production test uploads.
