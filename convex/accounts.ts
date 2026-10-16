@@ -4,6 +4,16 @@ import {getAuthUserId} from '@convex-dev/auth/server';
 import {internal} from './_generated/api';
 import {workspaceAccountType} from './workspaceGroups';
 const googleAvailable=()=>!!(process.env.AUTH_GOOGLE_ID&&process.env.AUTH_GOOGLE_SECRET);
+// Attribution only: this never claims a trial workspace or grants account access.
+export const linkTrial=mutation({args:{workspaceToken:v.string()},returns:v.boolean(),handler:async(ctx,{workspaceToken})=>{
+ const userId=await getAuthUserId(ctx);if(!userId||!await ctx.db.get(userId))throw Error('Sign in to connect trial activity.');
+ if(!/^[a-f0-9]{64}$/.test(workspaceToken))throw Error('Invalid trial workspace.');
+ const space=await ctx.db.query('workspaces').withIndex('by_token',q=>q.eq('token',workspaceToken)).unique();
+ if(!space||space.kind!=='trial'||space.userId)return false;
+ const existing=await ctx.db.query('trialAccountLinks').withIndex('by_workspace',q=>q.eq('workspaceId',space._id)).unique();
+ if(existing)return existing.userId===userId;
+ await ctx.db.insert('trialAccountLinks',{workspaceId:space._id,userId,linkedAt:Date.now(),source:'same_browser'});return true;
+}});
 export const providers=query({args:{},returns:v.object({googleAvailable:v.boolean(),passwordRecoveryAvailable:v.boolean()}),handler:async()=>({googleAvailable:googleAvailable(),passwordRecoveryAvailable:!!process.env.RESEND_API_KEY})});
 export const me=query({args:{},returns:v.union(v.null(),v.object({name:v.string(),email:v.string(),phone:v.optional(v.string()),guidePreference:v.optional(v.union(v.literal('on'),v.literal('off'))),googleAvailable:v.boolean()})),handler:async ctx=>{const id=await getAuthUserId(ctx);if(!id)return null;const user=await ctx.db.get(id);return user?{name:user.name??'',email:user.email??'',phone:user.phone,guidePreference:user.guidePreference,googleAvailable:googleAvailable()}:null;}});
 export const workspace=query({args:{},returns:v.union(v.null(),v.string()),handler:async ctx=>{const id=await getAuthUserId(ctx);if(!id)return null;return (await ctx.db.query('workspaces').withIndex('by_user',q=>q.eq('userId',id)).first())?.token??null;}});
