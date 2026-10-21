@@ -22,7 +22,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
  const [voiceState,setVoiceState]=useState<VoiceState>('off'),[transcribing,setTranscribing]=useState(false),[heard,setHeard]=useState(''),[audioNotice,setAudioNotice]=useState('');
  const voiceMode=phoneVoiceMode(),playbackCleanup=useRef<(()=>void)|null>(null);
  const [autoSavedKey,setAutoSavedKey]=useState(''),awaitingNext=useRef(false),savedAudioEnd=useRef(0);
- const autoSaveHandler=useRef(()=>{}),autosave=useRef(new FeedbackAutosave(()=>autoSaveHandler.current()));
+ const autoSaveHandler=useRef(()=>{}),autosave=useRef(new FeedbackAutosave(()=>autoSaveHandler.current())),pendingNote=useRef(false);
  const current=useRef(draft),mic=useRef<MarketingMicrophone|null>(null),speech=useRef<MarketingSpeechSession|null>(null),mounted=useRef(true),audioStart=useRef(0),speechStart=useRef(-1),lastFeedbackFrame=useRef(-1),lastCheckpoint=useRef(0),interim=useRef(new Map<number,string>()),speechUsable=useRef(false),generation=useRef(0),playRequest=useRef(0);
  const handlers=useRef({start:(_time:CommandTime)=>{},stop:(_time:CommandTime)=>{},feedback:(_text:string)=>{}});
  const manualDialog=useRef<HTMLDialogElement|null>(null),manualReturnFocus=useRef<HTMLElement|null>(null),manualTitleId=useId();
@@ -32,7 +32,18 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
  function update(value:Partial<FeedbackDraft>){replace({...current.current,...value});}
  function pcmBlob(end=mic.current?.pcm.frame){const capture=mic.current;if(!capture||end===undefined)return current.current.blob;return end>audioStart.current?capture.pcm.wav(audioStart.current,end):undefined;}
  function closeMic(){autosave.current.cancel();generation.current++;playbackCleanup.current?.();playbackCleanup.current=null;const recognizer=speech.current;speech.current=null;recognizer?.stop();mic.current?.close();mic.current=null;speechUsable.current=false;setVoiceState('off');setTranscribing(false);setListening(false);setRecording(false);onRecording(false);}
- function finishRecording(){if(mic.current&&commands.current.phase==='feedback'&&!awaitingNext.current)update({blob:pcmBlob(),audioId:undefined,audioUploadId:undefined,audioUploaded:undefined});if(interim.current.size)update({text:[current.current.text,...interim.current.values()].filter(Boolean).join(' ')});interim.current.clear();closeMic();setFlow('Editing feedback');setStatus(voiceMode.textOnly?'Feedback ready. Check the text, then save.':'Recording ready. Correct the transcript, replay the audio, then save.');}
+ function finishRecording(){
+  if(!mic.current&&!speech.current&&!pendingNote.current)return;
+  if(mic.current&&commands.current.phase==='feedback'&&!awaitingNext.current)update({blob:pcmBlob(),audioId:undefined,audioUploadId:undefined,audioUploaded:undefined});
+  if(interim.current.size)update({text:[current.current.text,...interim.current.values()].filter(Boolean).join(' '),interrupted:true});
+  interim.current.clear();
+  const value=current.current,completed=pendingNote.current&&!value.interrupted&&!awaitingNext.current&&commands.current.phase==='feedback'&&!manualDialog.current?.open&&valid(value)&&!!value.text.trim();
+  // Hand off the immutable note before stopping speech cancels its save timer.
+  if(completed)queueSettledFeedback();
+  else if(!awaitingNext.current)void queue.draft(key,value).catch(()=>{if(mounted.current)setError('Could not store browser recovery. Keep this tab open until feedback saves.');});
+  pendingNote.current=false;closeMic();
+  if(!completed){setFlow(value.interrupted?'Interrupted draft':'Editing feedback');setStatus(value.interrupted?'Listening stopped mid-note. Your interrupted draft is kept. Check the text, then save.':'Your draft is kept. Check the text, then save.');}
+ }
  function valid(value:FeedbackDraft){return value.start!==''&&value.end!==''&&Number.isFinite(Number(value.start))&&Number.isFinite(Number(value.end))&&Number(value.start)>=0&&Number(value.end)>Number(value.start)&&Number(value.end)<=version.duration+.05;}
  function enqueue(value:FeedbackDraft,next:FeedbackDraft){
   const job:FeedbackJob={...value,versionId:version.id,versionNumber:version.number,videoDuration:version.duration,state:'queued'};
@@ -44,16 +55,20 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
   if(mic.current){const pcm=mic.current.pcm;audioStart.current=Math.max(savedAudioEnd.current,pcm.utteranceStart,pcm.frame-pcm.sampleRate*2);}
   if(mic.current||speech.current){setRecording(true);onRecording(true);setFlow('Recording feedback');}
  }
+ function queueSettledFeedback(){
+  const value=current.current;
+  // Keep this clip's bounds so a later spoken comment still has a destination.
+  enqueue({...value,interrupted:undefined,blob:pcmBlob(),audioId:undefined,audioUploadId:undefined,audioUploaded:undefined},{...blank(),start:value.start,end:value.end});
+  pendingNote.current=false;awaitingNext.current=true;setAutoSavedKey(value.clientKey);setRecording(false);onRecording(false);setTranscribing(false);setCaptured(0);setFlow('Ready');setError('');
+  mic.current?.pcm.discardBefore(mic.current.pcm.frame);audioStart.current=mic.current?.pcm.frame??0;savedAudioEnd.current=audioStart.current;speechStart.current=-1;lastFeedbackFrame.current=-1;
+ }
  autoSaveHandler.current=()=>{
   const value=current.current;
-  if(!mounted.current||(!mic.current&&!speech.current)||commands.current.phase!=='feedback'||awaitingNext.current||interim.current.size||manualDialog.current?.open||!valid(value)||!value.text.trim())return;
-  // Keep this clip's bounds so a later spoken comment still has a destination.
-  enqueue({...value,blob:pcmBlob(),audioId:undefined,audioUploadId:undefined,audioUploaded:undefined},{...blank(),start:value.start,end:value.end});
-  awaitingNext.current=true;setAutoSavedKey(value.clientKey);setRecording(false);onRecording(false);setTranscribing(false);setCaptured(0);setFlow('Ready');setError('');
-  mic.current?.pcm.discardBefore(mic.current.pcm.frame);audioStart.current=mic.current?.pcm.frame??0;savedAudioEnd.current=audioStart.current;speechStart.current=-1;lastFeedbackFrame.current=-1;
+  if(!mounted.current||(!mic.current&&!speech.current)||(speech.current&&!speechUsable.current)||commands.current.phase!=='feedback'||awaitingNext.current||interim.current.size||manualDialog.current?.open||!valid(value)||!value.text.trim())return;
+  queueSettledFeedback();
  };
  function markStart(time:CommandTime={videoTime:video.current?.currentTime??0,audioFrame:mic.current?.pcm.frame??0}){
-  autosave.current.cancel();const wasWaiting=awaitingNext.current;awaitingNext.current=false;setAutoSavedKey('');
+  autosave.current.cancel();pendingNote.current=false;const wasWaiting=awaitingNext.current;awaitingNext.current=false;setAutoSavedKey('');
   onBeginSegment?.();
   const value={...current.current,text:[current.current.text,...interim.current.values()].filter(Boolean).join(' ')},start=Math.max(0,Math.min(version.duration,time.videoTime));
   const next={...blank(),start:(start>=version.duration?0:start).toFixed(3)};
@@ -75,7 +90,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
   commands.current.phase='feedback';audioStart.current=mic.current?.pcm.frame??0;speechStart.current=-1;lastFeedbackFrame.current=-1;setCaptured(0);setError('');
   if(mic.current||speech.current){setRecording(true);onRecording(true);setFlow('Recording feedback');}else setFlow('Editing feedback');
  }
- handlers.current={start:markStart,stop:markStop,feedback:text=>{continueFeedback();interim.current.clear();setTranscribing(false);update({text:[current.current.text,text].filter(Boolean).join(' ')});lastFeedbackFrame.current=mic.current?.pcm.frame??-1;autosave.current.finalized();}};
+ handlers.current={start:markStart,stop:markStop,feedback:text=>{continueFeedback();pendingNote.current=true;interim.current.clear();setTranscribing(false);update({text:[current.current.text,text].filter(Boolean).join(' '),interrupted:undefined});lastFeedbackFrame.current=mic.current?.pcm.frame??-1;autosave.current.finalized();}};
  function commandFrame(){const pcm=mic.current?.pcm;if(!pcm)return 0;if(pcm.utteranceStart>=audioStart.current&&pcm.utteranceStart>lastFeedbackFrame.current)return pcm.utteranceStart;if(speechStart.current>=audioStart.current&&speechStart.current>lastFeedbackFrame.current)return speechStart.current;if(lastFeedbackFrame.current>=audioStart.current)return lastFeedbackFrame.current;return audioStart.current;}
  async function enableMic(){
   if(mic.current||speech.current||voiceState==='connecting')return;
@@ -88,12 +103,20 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
   const Speech=(window as SpeechWindow).SpeechRecognition??(window as SpeechWindow).webkitSpeechRecognition;
   if(!Speech){setVoiceState('error');setError('Voice recognition is unavailable in this browser. Use Safari on iPhone with Siri or Dictation enabled, or Chrome on Android. You can still type feedback in Details.');return;}
   const recognizer=new MarketingSpeechSession(()=>new Speech(),{
-   state:state=>{if(attempt!==generation.current)return;speechUsable.current=state==='listening';setVoiceState(state);if(state==='listening'){setListening(true);setStatus('Listening for commands. Say start, then stop, then speak your feedback.');if(commands.current.phase==='feedback'&&!awaitingNext.current){setRecording(true);onRecording(true);setFlow('Listening for feedback');}}},
+   state:state=>{if(attempt!==generation.current)return;speechUsable.current=state==='listening';setVoiceState(state);if(state==='listening'){setListening(true);setStatus('Listening for commands. Say start, then stop, then speak your feedback.');if(commands.current.phase==='feedback'&&!awaitingNext.current){setRecording(true);onRecording(true);setFlow('Listening for feedback');if(pendingNote.current)autosave.current.finalized();}}},
    speechStart:()=>{autosave.current.activity();continueFeedback();speechStart.current=mic.current?.pcm.frame??-1;},
-   speechEnd:()=>{},
-   result:event=>{if(attempt!==generation.current)return;for(let i=event.resultIndex;i<event.results.length;i++){const result=event.results[i],text=result[0].transcript.trim();setHeard(text.slice(0,140));if(!result.isFinal)autosave.current.activity();if(commands.current.phase==='feedback'&&!result.isFinal&&!playbackCommand(text)){continueFeedback();interim.current.set(i,text);setTranscribing(true);}if(result.isFinal||playbackCommand(text)){interim.current.delete(i);setTranscribing(false);}commands.current.result(i,text,result.isFinal,{videoTime:video.current?.currentTime??0,audioFrame:commands.current.phase==='feedback'?commandFrame():mic.current?.pcm.frame??0});}},
-   boundary:complete=>{if(attempt!==generation.current)return;const unfinished=interim.current.size>0;if(!complete||unfinished)autosave.current.cancel();if(complete)commands.current.endUtterance();if(commands.current.phase==='feedback'&&unfinished)update({text:[current.current.text,...interim.current.values()].filter(Boolean).join(' ')});interim.current.clear();setTranscribing(false);commands.current.resetResults();if(!unfinished&&commands.current.phase==='feedback'&&current.current.text.trim())autosave.current.finalized();},
-   error:notice=>{if(attempt!==generation.current)return;if(mic.current){speech.current=null;setTranscribing(false);speechUsable.current=false;}else finishRecording();setVoiceState('error');setError(notice);},
+   speechEnd:()=>{if(pendingNote.current&&speechUsable.current&&!interim.current.size)autosave.current.finalized();},
+   result:event=>{if(attempt!==generation.current)return;for(let i=event.resultIndex;i<event.results.length;i++){const result=event.results[i],text=result[0].transcript.trim();setHeard(text.slice(0,140));if(!result.isFinal)autosave.current.activity();if(commands.current.phase==='feedback'&&!result.isFinal&&!playbackCommand(text)){continueFeedback();pendingNote.current=true;interim.current.set(i,text);setTranscribing(true);}if(result.isFinal||playbackCommand(text)){interim.current.delete(i);setTranscribing(false);}commands.current.result(i,text,result.isFinal,{videoTime:video.current?.currentTime??0,audioFrame:commands.current.phase==='feedback'?commandFrame():mic.current?.pcm.frame??0});}},
+   boundary:complete=>{
+    if(attempt!==generation.current)return;
+    autosave.current.cancel();speechUsable.current=false;
+    if(complete)commands.current.endUtterance();
+    if(commands.current.phase==='feedback'&&interim.current.size){pendingNote.current=true;update({text:[current.current.text,...interim.current.values()].filter(Boolean).join(' '),interrupted:true});}
+    // Keep pending/interrupted state across even an empty second boundary.
+    // The next confirmed listening state re-arms settling, without new speech.
+    interim.current.clear();setTranscribing(false);commands.current.resetResults();
+   },
+   error:notice=>{if(attempt!==generation.current)return;finishRecording();setVoiceState('error');setError(notice);},
   },{continuous:!voiceMode.apple});
   speech.current=recognizer;
   // Private playback can appear after this component mounts; bind when the user enables speech.
@@ -114,7 +137,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
     if(performance.now()-lastCheckpoint.current>500){lastCheckpoint.current=performance.now();update({blob:pcmBlob(),audioId:undefined,audioUploadId:undefined,audioUploaded:undefined});}
    });
    if(!mounted.current||attempt!==generation.current){capture.close();return;}
-   if(document.visibilityState==='hidden'){capture.close();closeMic();return;}
+   if(document.visibilityState==='hidden'){capture.close();finishRecording();return;}
    mic.current=capture;audioStart.current=capture.pcm.frame;savedAudioEnd.current=capture.pcm.frame;
    capture.onInterrupted(()=>{
     if(mic.current!==capture)return;
@@ -131,8 +154,8 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
    setAudioNotice('Audio recording is unavailable. Your spoken feedback will still save as text.');
   }
  }
- function saveFinal(){let value={...current.current};if(!valid(value)){setError('Mark a valid start and stop within this video.');return;}if(recording)value={...value,blob:pcmBlob(),audioId:undefined,audioUploadId:undefined,audioUploaded:undefined};if(interim.current.size)value.text=[value.text,...interim.current.values()].filter(Boolean).join(' ');interim.current.clear();if(!value.text.trim()&&!value.blob){setError('Speak or type feedback before saving.');return;}closeMic();enqueue(value,blank());commands.current.phase='ready';setFlow('Ready');setError('');}
- useEffect(()=>{mounted.current=true;if(!sample&&!account)return;let active=true;void queue.readBarrier().then(()=>sample?undefined:readDraft<FeedbackDraft>(key)).then(value=>{if(!active)return;if(value){replace(value);commands.current.phase=value.end!==''?'feedback':value.start!==''?'marking':'ready';setFlow('Editing feedback');setStatus('Recovered your unsaved feedback.');}setLoadedKey(key);}).catch(()=>{if(active){setLoadedKey(key);setError('Local recovery is unavailable. Keep this tab open until feedback saves.');}});return()=>{active=false;mounted.current=false;if(mic.current&&commands.current.phase==='feedback'&&!awaitingNext.current){const value={...current.current,blob:pcmBlob()};current.current=value;void queue.draft(key,value).catch(()=>{});}closeMic();};},[key,!!account]);
+ function saveFinal(){let value={...current.current,interrupted:undefined};if(!valid(value)){setError('Mark a valid start and stop within this video.');return;}if(recording)value={...value,blob:pcmBlob(),audioId:undefined,audioUploadId:undefined,audioUploaded:undefined};if(interim.current.size)value.text=[value.text,...interim.current.values()].filter(Boolean).join(' ');interim.current.clear();if(!value.text.trim()&&!value.blob){setError('Speak or type feedback before saving.');return;}pendingNote.current=false;closeMic();enqueue(value,blank());commands.current.phase='ready';setFlow('Ready');setError('');}
+ useEffect(()=>{mounted.current=true;if(!sample&&!account)return;let active=true;void queue.readBarrier().then(()=>sample?undefined:readDraft<FeedbackDraft>(key)).then(value=>{if(!active)return;if(value){replace(value);commands.current.phase=value.end!==''?'feedback':value.start!==''?'marking':'ready';setFlow(value.interrupted?'Interrupted draft':'Editing feedback');setStatus(value.interrupted?'Recovered your interrupted draft. Check the text, then save.':'Recovered your unsaved feedback.');}setLoadedKey(key);}).catch(()=>{if(active){setLoadedKey(key);setError('Local recovery is unavailable. Keep this tab open until feedback saves.');}});return()=>{active=false;mounted.current=false;finishRecording();};},[key,!!account]);
  useEffect(()=>{if(loaded)void queue.draft(key,draft).catch(()=>setError('Could not store browser recovery. Keep this tab open until feedback saves.'));},[draft,loaded,key,queue]);
  useEffect(()=>{onPending?.(pending.length);},[pending.length,onPending]);
  useEffect(()=>watchVoiceVisibility(()=>{if(!mic.current&&!speech.current)return;finishRecording();video.current?.pause();setStatus('Mic off while this tab is in the background. Your feedback is kept.');}),[key]);
