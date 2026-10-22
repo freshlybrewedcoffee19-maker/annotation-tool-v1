@@ -56,7 +56,7 @@ function events(state:any,name:string){return state.tracked.filter((event:any)=>
 test('voice feedback autosaves once and natural speech restart does not count another recording attempt',async()=>{
  const page=await setup();
  await words(page,'Make the logo bigger.',true);
- await page.clock.runFor(1500);
+ await page.clock.runFor(6000);
  await savedFeedback(page,'Make the logo bigger.');
  await action(page,'end');await page.clock.runFor(250);await action(page,'connect');await page.clock.runFor(10);
  const state=await snapshot(page);
@@ -70,9 +70,9 @@ test('voice feedback autosaves once and natural speech restart does not count an
 
 test.each(['reject','throw','pending'])('tracking %s never delays the real feedback autosave or the completed-note mic-stop save',async sink=>{
  const page=await setup(sink);
- await words(page,'Shorten the opening.',true);await page.clock.runFor(1510);
+ await words(page,'Shorten the opening.',true);await page.clock.runFor(6010);
  await savedFeedback(page,'Shorten the opening.');
- // A second complete note is stopped before its 1.5-second autosave deadline (P1).
+ // A second complete note is stopped before Android's six-second autosave deadline (P1).
  await words(page,'start',true,3,5);await words(page,'stop',true,4,7);await words(page,'Keep this frame.',true,5);
  await page.getByRole('button',{name:'Turn mic off',exact:true}).click();
  await browserExpect.poll(async()=>(await snapshot(page)).feedback.length).toBe(2);
@@ -86,7 +86,7 @@ test.each(['reject','throw','pending'])('tracking %s never delays the real feedb
 });
 
 test('editing already-saved feedback keeps one saved row and does not count a new save',async()=>{
- const page=await setup();await words(page,'Original feedback.',true);await page.clock.runFor(1510);
+ const page=await setup();await words(page,'Original feedback.',true);await page.clock.runFor(6010);
  const before=await savedFeedback(page,'Original feedback.');
  await page.getByRole('button',{name:'Edit saved feedback',exact:true}).click();
  await browserExpect.poll(async()=>(await snapshot(page)).feedback[0].text).toBe('Edited saved feedback');

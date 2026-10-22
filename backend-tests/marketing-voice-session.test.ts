@@ -7,7 +7,7 @@ class Speech implements Recognition {
  onstart:Recognition['onstart']=null;onresult:Recognition['onresult']=null;onerror:Recognition['onerror']=null;onend:Recognition['onend']=null;onspeechstart:Recognition['onspeechstart']=null;onspeechend:Recognition['onspeechend']=null;
  start=vi.fn();abort=vi.fn();
 }
-function setup(){const instances:Speech[]=[],states:string[]=[],errors:string[]=[],results=vi.fn(),boundaries=vi.fn();const session=new MarketingSpeechSession(()=>{const instance=new Speech();instances.push(instance);return instance;},{state:value=>states.push(value),error:value=>errors.push(value),result:results,boundary:boundaries,speechStart:()=>{},speechEnd:()=>{}});session.start();return {session,instances,states,errors,results,boundaries};}
+function setup(options:{pauseTolerant?:boolean}={}){const instances:Speech[]=[],states:string[]=[],errors:string[]=[],results=vi.fn(),boundaries=vi.fn();const session=new MarketingSpeechSession(()=>{const instance=new Speech();instances.push(instance);return instance;},{state:value=>states.push(value),error:value=>errors.push(value),result:results,boundary:boundaries,speechStart:()=>{},speechEnd:()=>{}},options);session.start();return {session,instances,states,errors,results,boundaries};}
 afterEach(()=>vi.useRealTimers());
 
 test('a natural session end resumes from an unfinished exact start before resetting results',()=>{
@@ -192,4 +192,64 @@ test('starting a clip resumes playback and returns a useful error if the browser
  const player={currentTime:4,play:vi.fn(async()=>{})};await playMarkedVideo(player,1.5);expect(player.currentTime).toBe(1.5);expect(player.play).toHaveBeenCalledOnce();
  player.play.mockRejectedValueOnce(new DOMException('Blocked','NotAllowedError'));
  await expect(playMarkedVideo(player,2)).rejects.toThrow(/Play button/);
+});
+
+test('Android slow speech gets thirty seconds for words instead of an eight-second forced restart',()=>{
+ vi.useFakeTimers();const {session,instances,states}=setup({pauseTolerant:true});instances[0].onstart?.();instances[0].onspeechstart?.();
+ vi.advanceTimersByTime(29999);expect(instances).toHaveLength(1);expect(instances[0].abort).not.toHaveBeenCalled();expect(states.at(-1)).toBe('listening');
+ vi.advanceTimersByTime(1);expect(states.at(-1)).toBe('reconnecting');vi.advanceTimersByTime(250);expect(instances).toHaveLength(2);session.stop();
+});
+
+test.each([false,true])('Android thinking pauses cancel the speech watchdog even with unfinished filler (interim=%s)',hasInterim=>{
+ vi.useFakeTimers();const {session,instances,states}=setup({pauseTolerant:true});instances[0].onstart?.();instances[0].onspeechstart?.();
+ if(hasInterim)instances[0].onresult?.({resultIndex:0,results:[{isFinal:false,0:{transcript:'umm'}}]});
+ vi.advanceTimersByTime(1000);instances[0].onspeechend?.();vi.advanceTimersByTime(60000);
+ expect(instances).toHaveLength(1);expect(instances[0].abort).not.toHaveBeenCalled();expect(states.at(-1)).toBe('listening');
+ instances[0].onspeechstart?.();vi.advanceTimersByTime(20000);
+ instances[0].onresult?.({resultIndex:0,results:[{isFinal:true,0:{transcript:'Make the logo bigger.'}}]});
+ vi.advanceTimersByTime(60000);expect(instances).toHaveLength(1);session.stop();
+});
+
+test.each(['end','no-speech'])('Android rapid empty %s cycles back off, then stop with the draft-preservation notice',reason=>{
+ vi.useFakeTimers();const {session,instances,states,errors,boundaries}=setup({pauseTolerant:true});
+ for(const [index,delay] of [250,1000,2000].entries()){
+  const current=instances[index];current.onstart?.();vi.advanceTimersByTime(100);
+  const staleEnd=current.onend;
+  if(reason==='end')current.onend?.();else current.onerror?.({error:'no-speech'});
+  staleEnd?.();expect(boundaries).toHaveBeenCalledTimes(index+1);
+  vi.advanceTimersByTime(delay-1);expect(instances).toHaveLength(index+1);
+  vi.advanceTimersByTime(1);expect(instances).toHaveLength(index+2);
+ }
+ instances[3].onstart?.();vi.advanceTimersByTime(100);instances[3].onend?.();
+ expect(states.at(-1)).toBe('error');expect(errors).toHaveLength(1);expect(errors[0]).toMatch(/keeps stopping.*feedback is kept.*mic.*retry/i);
+ vi.advanceTimersByTime(120000);expect(instances).toHaveLength(4);session.stop();
+});
+
+test('Android connected and empty callbacks do not reset rapid-loop protection, but words do',()=>{
+ vi.useFakeTimers();const {session,instances}=setup({pauseTolerant:true});
+ instances[0].onstart?.();instances[0].onend?.();vi.advanceTimersByTime(250);
+ instances[1].onstart?.();instances[1].onresult?.({resultIndex:0,results:[]});instances[1].onend?.();
+ vi.advanceTimersByTime(999);expect(instances).toHaveLength(2);vi.advanceTimersByTime(1);expect(instances).toHaveLength(3);
+ instances[2].onstart?.();instances[2].onresult?.({resultIndex:0,results:[{isFinal:true,0:{transcript:'Make the logo bigger.'}}]});instances[2].onend?.();
+ vi.advanceTimersByTime(250);expect(instances).toHaveLength(4);
+ instances[3].onstart?.();instances[3].onend?.();vi.advanceTimersByTime(250);expect(instances).toHaveLength(5);session.stop();
+});
+
+test('Android normal-length empty sessions reset rapid-loop protection and keep hands-free listening',()=>{
+ vi.useFakeTimers();const {session,instances,errors}=setup({pauseTolerant:true});
+ instances[0].onstart?.();instances[0].onend?.();vi.advanceTimersByTime(250);
+ instances[1].onstart?.();instances[1].onend?.();vi.advanceTimersByTime(1000);
+ for(let index=2;index<7;index++){
+  instances[index].onstart?.();vi.advanceTimersByTime(2000);instances[index].onend?.();vi.advanceTimersByTime(250);expect(instances).toHaveLength(index+2);
+ }
+ instances[7].onstart?.();instances[7].onend?.();vi.advanceTimersByTime(250);expect(instances).toHaveLength(9);expect(errors).toEqual([]);session.stop();
+});
+
+test('Android explicit stop cancels backed-off retries and ignores every retired callback',()=>{
+ vi.useFakeTimers();const {session,instances,states,results}=setup({pauseTolerant:true});
+ instances[0].onstart?.();instances[0].onend?.();vi.advanceTimersByTime(250);
+ const stale=instances[1],onstart=stale.onstart,onend=stale.onend,onresult=stale.onresult,onerror=stale.onerror,onspeechstart=stale.onspeechstart;
+ stale.onstart?.();stale.onerror?.({error:'no-speech'});session.stop();
+ onstart?.();onend?.();onerror?.({error:'no-speech'});onspeechstart?.();onresult?.({resultIndex:0,results:[{isFinal:true,0:{transcript:'start'}}]});
+ vi.advanceTimersByTime(120000);expect(instances).toHaveLength(2);expect(states.at(-1)).toBe('off');expect(results).not.toHaveBeenCalled();
 });

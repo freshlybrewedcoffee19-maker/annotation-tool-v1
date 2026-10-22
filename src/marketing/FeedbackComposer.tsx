@@ -8,7 +8,7 @@ import {MarketingSpeechSession,watchVoiceVisibility,type Recognition,type VoiceS
 import {MarketingMicrophone} from './pcm';
 import {useFeedbackQueue} from './use-feedback-queue';
 import type {FeedbackJob} from './feedback-queue';
-import {FeedbackAutosave} from './feedback-autosave';
+import {FeedbackAutosave,androidFeedbackPause,hasFeedbackWords} from './feedback-autosave';
 import {phoneVoiceMode} from './voice-platform';
 import {trackProductEvent} from '../product-tracking';
 
@@ -22,6 +22,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
  const [draft,setDraft]=useState<FeedbackDraft>(blank),[loadedKey,setLoadedKey]=useState(''),[error,setError]=useState(''),[status,setStatus]=useState(''),[listening,setListening]=useState(false),[recording,setRecording]=useState(false),[audioUrl,setAudioUrl]=useState(''),[flow,setFlow]=useState('Ready'),[captured,setCaptured]=useState(0);
  const [voiceState,setVoiceState]=useState<VoiceState>('off'),[transcribing,setTranscribing]=useState(false),[heard,setHeard]=useState(''),[audioNotice,setAudioNotice]=useState('');
  const voiceMode=phoneVoiceMode(),playbackCleanup=useRef<(()=>void)|null>(null);
+ const pauseTolerant=voiceMode.textOnly&&!voiceMode.apple;
  const [autoSavedKey,setAutoSavedKey]=useState(''),awaitingNext=useRef(false),savedAudioEnd=useRef(0);
  const autoSaveHandler=useRef(()=>{}),autosave=useRef(new FeedbackAutosave(()=>autoSaveHandler.current())),pendingNote=useRef(false);
  const current=useRef(draft),mic=useRef<MarketingMicrophone|null>(null),speech=useRef<MarketingSpeechSession|null>(null),mounted=useRef(true),audioStart=useRef(0),speechStart=useRef(-1),lastFeedbackFrame=useRef(-1),lastCheckpoint=useRef(0),interim=useRef(new Map<number,string>()),speechUsable=useRef(false),generation=useRef(0),playRequest=useRef(0);
@@ -31,6 +32,8 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
  const loaded=loadedKey===key,pending=queue.jobs.filter(job=>job.state!=='saved');
  function replace(next:FeedbackDraft){current.current=next;if(mounted.current)setDraft(next);}
  function update(value:Partial<FeedbackDraft>){replace({...current.current,...value});}
+ function meaningfulFeedback(value:FeedbackDraft){return pauseTolerant?hasFeedbackWords(value.text):!!value.text.trim();}
+ function settleFeedback(resuming=false){const delay=pauseTolerant?androidFeedbackPause(current.current.text):undefined;if(pauseTolerant&&resuming)autosave.current.resume(delay);else autosave.current.finalized(delay);}
  function pcmBlob(end=mic.current?.pcm.frame){const capture=mic.current;if(!capture||end===undefined)return current.current.blob;return end>audioStart.current?capture.pcm.wav(audioStart.current,end):undefined;}
  function closeMic(){autosave.current.cancel();generation.current++;playbackCleanup.current?.();playbackCleanup.current=null;const recognizer=speech.current;speech.current=null;recognizer?.stop();mic.current?.close();mic.current=null;speechUsable.current=false;setVoiceState('off');setTranscribing(false);setListening(false);setRecording(false);onRecording(false);}
  function finishRecording(){
@@ -38,7 +41,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
   if(mic.current&&commands.current.phase==='feedback'&&!awaitingNext.current)update({blob:pcmBlob(),audioId:undefined,audioUploadId:undefined,audioUploaded:undefined});
   if(interim.current.size)update({text:[current.current.text,...interim.current.values()].filter(Boolean).join(' '),interrupted:true});
   interim.current.clear();
-  const value=current.current,completed=pendingNote.current&&!value.interrupted&&!awaitingNext.current&&commands.current.phase==='feedback'&&!manualDialog.current?.open&&valid(value)&&!!value.text.trim();
+  const value=current.current,completed=pendingNote.current&&!value.interrupted&&!awaitingNext.current&&commands.current.phase==='feedback'&&!manualDialog.current?.open&&valid(value)&&meaningfulFeedback(value);
   // Hand off the immutable note before stopping speech cancels its save timer.
   if(completed)queueSettledFeedback();
   else if(!awaitingNext.current)void queue.draft(key,value).catch(()=>{if(mounted.current)setError('Could not store browser recovery. Keep this tab open until feedback saves.');});
@@ -65,7 +68,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
  }
  autoSaveHandler.current=()=>{
   const value=current.current;
-  if(!mounted.current||(!mic.current&&!speech.current)||(speech.current&&!speechUsable.current)||commands.current.phase!=='feedback'||awaitingNext.current||interim.current.size||manualDialog.current?.open||!valid(value)||!value.text.trim())return;
+  if(!mounted.current||(!mic.current&&!speech.current)||(speech.current&&!speechUsable.current)||commands.current.phase!=='feedback'||awaitingNext.current||interim.current.size||manualDialog.current?.open||!valid(value)||!meaningfulFeedback(value))return;
   queueSettledFeedback();
  };
  function markStart(time:CommandTime={videoTime:video.current?.currentTime??0,audioFrame:mic.current?.pcm.frame??0}){
@@ -75,7 +78,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
   const next={...blank(),start:(start>=version.duration?0:start).toFixed(3)};
   if(valid(value)&&!wasWaiting){
    const blob=mic.current?pcmBlob(time.audioFrame):value.blob;
-   const hasComment=!!value.text.trim()||(!speechUsable.current&&!!blob&&(mic.current?mic.current.pcm.hasVoice(audioStart.current,time.audioFrame):blob.size>44));
+   const hasComment=meaningfulFeedback(value)||(!speechUsable.current&&!!blob&&(mic.current?mic.current.pcm.hasVoice(audioStart.current,time.audioFrame):blob.size>44));
    if(hasComment)enqueue({...value,blob,audioId:mic.current?undefined:value.audioId,audioUploadId:mic.current?undefined:value.audioUploadId,audioUploaded:mic.current?undefined:value.audioUploaded},next);else replace(next);
   }else{next.text=value.end===''?value.text:'';replace(next);}
   interim.current.clear();commands.current.phase='marking';setTranscribing(false);setRecording(false);onRecording(false);setCaptured(0);setFlow('Marking');setError('');
@@ -91,7 +94,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
   commands.current.phase='feedback';audioStart.current=mic.current?.pcm.frame??0;speechStart.current=-1;lastFeedbackFrame.current=-1;setCaptured(0);setError('');
   if(mic.current||speech.current){setRecording(true);onRecording(true);setFlow('Recording feedback');}else setFlow('Editing feedback');
  }
- handlers.current={start:markStart,stop:markStop,feedback:text=>{continueFeedback();pendingNote.current=true;interim.current.clear();setTranscribing(false);update({text:[current.current.text,text].filter(Boolean).join(' '),interrupted:undefined});lastFeedbackFrame.current=mic.current?.pcm.frame??-1;autosave.current.finalized();}};
+ handlers.current={start:markStart,stop:markStop,feedback:text=>{continueFeedback();pendingNote.current=true;interim.current.clear();setTranscribing(false);update({text:[current.current.text,text].filter(Boolean).join(' '),interrupted:undefined});lastFeedbackFrame.current=mic.current?.pcm.frame??-1;settleFeedback();}};
  function commandFrame(){const pcm=mic.current?.pcm;if(!pcm)return 0;if(pcm.utteranceStart>=audioStart.current&&pcm.utteranceStart>lastFeedbackFrame.current)return pcm.utteranceStart;if(speechStart.current>=audioStart.current&&speechStart.current>lastFeedbackFrame.current)return speechStart.current;if(lastFeedbackFrame.current>=audioStart.current)return lastFeedbackFrame.current;return audioStart.current;}
  async function enableMic(){
   if(mic.current||speech.current||voiceState==='connecting')return;
@@ -105,13 +108,13 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
   const Speech=(window as SpeechWindow).SpeechRecognition??(window as SpeechWindow).webkitSpeechRecognition;
   if(!Speech){setVoiceState('error');setError('Voice recognition is unavailable in this browser. Use Safari on iPhone with Siri or Dictation enabled, or Chrome on Android. You can still type feedback in Details.');return;}
   const recognizer=new MarketingSpeechSession(()=>new Speech(),{
-   state:state=>{if(attempt!==generation.current)return;speechUsable.current=state==='listening';setVoiceState(state);if(state==='listening'){setListening(true);setStatus('Listening for commands. Say start, then stop, then speak your feedback.');if(commands.current.phase==='feedback'&&!awaitingNext.current){setRecording(true);onRecording(true);setFlow('Listening for feedback');if(pendingNote.current)autosave.current.finalized();}}},
+   state:state=>{if(attempt!==generation.current)return;speechUsable.current=state==='listening';setVoiceState(state);if(state==='listening'){setListening(true);setStatus('Listening for commands. Say start, then stop, then speak your feedback.');if(commands.current.phase==='feedback'&&!awaitingNext.current){setRecording(true);onRecording(true);setFlow('Listening for feedback');if(pendingNote.current)settleFeedback(true);}}},
    speechStart:()=>{autosave.current.activity();continueFeedback();speechStart.current=mic.current?.pcm.frame??-1;},
-   speechEnd:()=>{if(pendingNote.current&&speechUsable.current&&!interim.current.size)autosave.current.finalized();},
+   speechEnd:()=>{if(pendingNote.current&&speechUsable.current&&!interim.current.size)settleFeedback();},
    result:event=>{if(attempt!==generation.current)return;for(let i=event.resultIndex;i<event.results.length;i++){const result=event.results[i],text=result[0].transcript.trim();setHeard(text.slice(0,140));if(!result.isFinal)autosave.current.activity();if(commands.current.phase==='feedback'&&!result.isFinal&&!playbackCommand(text)){continueFeedback();pendingNote.current=true;interim.current.set(i,text);setTranscribing(true);}if(result.isFinal||playbackCommand(text)){interim.current.delete(i);setTranscribing(false);}commands.current.result(i,text,result.isFinal,{videoTime:video.current?.currentTime??0,audioFrame:commands.current.phase==='feedback'?commandFrame():mic.current?.pcm.frame??0});}},
    boundary:complete=>{
     if(attempt!==generation.current)return;
-    autosave.current.cancel();speechUsable.current=false;
+    if(pauseTolerant)autosave.current.pause();else autosave.current.cancel();speechUsable.current=false;
     if(complete)commands.current.endUtterance();
     if(commands.current.phase==='feedback'&&interim.current.size){pendingNote.current=true;update({text:[current.current.text,...interim.current.values()].filter(Boolean).join(' '),interrupted:true});}
     // Keep pending/interrupted state across even an empty second boundary.
@@ -119,7 +122,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
     interim.current.clear();setTranscribing(false);commands.current.resetResults();
    },
    error:notice=>{if(attempt!==generation.current)return;finishRecording();setVoiceState('error');setError(notice);},
-  },{continuous:!voiceMode.apple});
+  },{continuous:!voiceMode.apple,pauseTolerant});
   speech.current=recognizer;
   // Private playback can appear after this component mounts; bind when the user enables speech.
   playbackCleanup.current?.();playbackCleanup.current=null;
@@ -188,7 +191,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
    <div className="feedback-compact-copy"><p className="feedback-compact-state" role="status" data-transcribing={transcribing||undefined}>{state}{queuedState&&<span> · {queuedState}</span>}</p><p key={guide} className="feedback-compact-hint" data-feedback-next={guideActive&&['start','stop','speak'].includes(guide)||undefined}>{hint}</p>{audioNotice&&<p className="feedback-compact-audio-notice">{audioNotice}</p>}{heard&&<p className="feedback-compact-heard" aria-label="Last words heard">Heard: “{heard}”</p>}</div>
    {(hasDraft||failed>0)&&<div className="feedback-compact-actions"><button type="button" className="feedback-write-key" data-feedback-next={guideActive&&!!failed||undefined} onClick={openManual}>{failed?'Recover feedback':'Edit draft'}</button>{canSave&&!recording&&<button type="button" className="feedback-save-key" data-feedback-next={guideActive&&guide==='save'||undefined} onClick={saveFinal}>Save feedback</button>}</div>}
    {error&&<button type="button" className="feedback-compact-error" role="alert" onClick={openManual}><span>{error.split('. ')[0]}</span><span className="feedback-error-details">Details ↗</span></button>}
-   <dialog className="feedback-manual-dialog" ref={manualDialog} aria-labelledby={manualTitleId} onClose={()=>{if((mic.current||speech.current)&&valid(current.current)&&current.current.text.trim()&&!interim.current.size)autosave.current.finalized();if(manualReturnFocus.current?.isConnected)manualReturnFocus.current.focus();}}><button type="button" className="feedback-manual-close" aria-label="Close feedback form" onClick={()=>manualDialog.current?.close()}>Close <span aria-hidden="true">×</span></button>{manualControls}</dialog>
+   <dialog className="feedback-manual-dialog" ref={manualDialog} aria-labelledby={manualTitleId} onClose={()=>{if((mic.current||speech.current)&&valid(current.current)&&current.current.text.trim()&&!interim.current.size)settleFeedback();if(manualReturnFocus.current?.isConnected)manualReturnFocus.current.focus();}}><button type="button" className="feedback-manual-close" aria-label="Close feedback form" onClick={()=>manualDialog.current?.close()}>Close <span aria-hidden="true">×</span></button>{manualControls}</dialog>
   </section>;
  }
  return <section className="voice-labels compact-voice marketing-feedback-controls" aria-label="Create feedback"><button className="marketing-mic" aria-pressed={listening} disabled={!loaded||voiceState==='connecting'} onClick={()=>listening?finishRecording():void enableMic()}>{micIcon}{voiceState==='connecting'?'Connecting…':recording?'Finish recording':listening?'Turn mic off':'Turn mic on'}</button>{manualControls}</section>;

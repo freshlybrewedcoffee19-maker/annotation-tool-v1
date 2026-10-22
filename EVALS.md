@@ -68,6 +68,8 @@ For this deterministic input set, every required case must pass. A note queued t
 
 The report distinguishes engine outputs from actual saving: engine cases do not prove database persistence. Existing browser save tests use controlled speech/media and isolated save boundaries or the real in-memory sample store. Separate `marketing` and `workspace-groups` tests call the actual backend save functions against an isolated in-memory database, checking duplicate protection, video references, access and annotation ownership. They do not write to the live database. Android/iPhone user-agent strings in Chrome exercise the application branch; they do not run the Safari recognition service.
 
+Android pause regressions added 23 October 2026: multi-sentence feedback with three-second thinking gaps, an eight-second gap after “uhm”, filler-only drafts, continuing after recognition restarts, and bounded retries for rapid empty recognition sessions. Android video feedback now waits six quiet seconds (twelve after a trailing thinking sound); saying “start” queues a meaningful note immediately. These are initial comfort settings to verify with people, not a guarantee for pauses of any length. Desktop, iPhone and data-annotation timing are unchanged. A real phone must still confirm whether native beeps or browser-driven microphone interruptions remain.
+
 ### Physical-phone protocol — still required
 
 Use actual Android Chrome and iPhone Safari, record browser/OS versions and headset type, and keep only one tool tab's microphone enabled. Run both workflows with the same short, non-sensitive test clip. Test untimed image labels separately.

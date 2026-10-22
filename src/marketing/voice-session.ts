@@ -9,6 +9,10 @@ export function watchVoiceVisibility(onHidden:()=>void,target:EventTarget&{reado
 }
 type Handlers={state:(state:VoiceState)=>void;error:(message:string)=>void;result:(event:any)=>void;boundary:(complete:boolean)=>void;speechStart:()=>void;speechEnd:()=>void};
 const browserGuidance='Use Safari on iPhone or Chrome on Android, or use the manual controls.';
+// Android may report speech before slow words arrive. A thinking pause cancels this guard.
+const androidProgressWait=30000;
+// Only sub-two-second empty sessions indicate a rapid restart loop, not ordinary silence.
+const androidHealthySession=2000,androidEmptyRetryDelays=[250,1000,2000];
 
 /** A connected audio recorder is not proof that the browser's speech service is listening. */
 export class MarketingSpeechSession {
@@ -22,8 +26,11 @@ export class MarketingSpeechSession {
  private hasInterim=false;
  private failures=0;
  private stalledFailures=0;
- constructor(private create:()=>Recognition,private handlers:Handlers,private options:{continuous?:boolean}={}){}
- start(){if(this.active)return;this.active=true;this.failures=0;this.stalledFailures=0;this.handlers.state('connecting');this.connect();}
+ private emptyFailures=0;
+ private startedAt:number|null=null;
+ private sessionProgress=false;
+ constructor(private create:()=>Recognition,private handlers:Handlers,private options:{continuous?:boolean;pauseTolerant?:boolean}={}){}
+ start(){if(this.active)return;this.active=true;this.failures=0;this.stalledFailures=0;this.emptyFailures=0;this.handlers.state('connecting');this.connect();}
  stop(){this.active=false;this.retire();this.handlers.state('off');}
  /** Call only for captured voice, never for silent audio frames or an open microphone alone. */
  noteAudioActivity(){
@@ -34,7 +41,7 @@ export class MarketingSpeechSession {
    if(!this.active||this.recognizer!==recognition)return;
    if(++this.stalledFailures>2){this.fail(`The microphone heard audio, but the speech service returned no words. Your feedback is kept. Turn the mic on to retry. ${browserGuidance}`);return;}
    this.reconnect();
-  },8000);
+  },this.options.pauseTolerant?androidProgressWait:8000);
  }
  /** Some mobile speech services need a fresh session after video playback changes. */
  refreshAfterPlayback(){
@@ -59,6 +66,18 @@ export class MarketingSpeechSession {
   try{current.abort();}catch{/* Already ended. */}
  }
  private fail(message:string){this.active=false;this.retire();this.handlers.boundary(false);this.handlers.state('error');this.handlers.error(message);}
+ private resumeAfterEnd(complete=false){
+  let delay=250;
+  if(this.options.pauseTolerant){
+   if(this.sessionProgress||this.startedAt!==null&&Date.now()-this.startedAt>=androidHealthySession)this.emptyFailures=0;
+   else{
+    const retryDelay=androidEmptyRetryDelays[this.emptyFailures++];
+    if(retryDelay===undefined){this.fail('The phone\'s speech service keeps stopping. Your feedback is kept. Turn the mic on to retry.');return;}
+    delay=retryDelay;
+   }
+  }
+  this.reconnect(false,complete,delay);
+ }
  private reconnect(failed=false,complete=false,delay=250){
   this.retire();this.handlers.boundary(complete);
   if(failed&&++this.failures>2){this.fail('Speech could not connect to the network. Your feedback is kept. Try the mic again, or use the manual controls.');return;}
@@ -70,22 +89,25 @@ export class MarketingSpeechSession {
   if(!this.active)return;
   let recognition:Recognition;
   try{recognition=this.create();}catch{this.fail(`Speech recognition is unavailable in this browser. ${browserGuidance}`);return;}
-  this.recognizer=recognition;recognition.continuous=this.options.continuous??true;recognition.interimResults=true;recognition.lang='en-US';
+  this.recognizer=recognition;this.startedAt=null;this.sessionProgress=false;recognition.continuous=this.options.continuous??true;recognition.interimResults=true;recognition.lang='en-US';
   const current=()=>this.active&&this.recognizer===recognition;
-  recognition.onstart=()=>{if(!current())return;clearTimeout(this.timer);this.timer=undefined;this.listening=true;this.handlers.state('listening');};
+  recognition.onstart=()=>{if(!current())return;clearTimeout(this.timer);this.timer=undefined;this.startedAt=Date.now();this.listening=true;this.handlers.state('listening');};
   recognition.onresult=event=>{
    if(!current())return;
-   this.clearProgress();this.clearPlaybackRefresh();this.failures=0;this.stalledFailures=0;
+   this.clearProgress();this.clearPlaybackRefresh();
+   const progressed=Array.from(event.results??[]).some((result:any)=>typeof result[0]?.transcript==='string'&&result[0].transcript.trim());
+   if(progressed){this.sessionProgress=true;this.emptyFailures=0;}
+   if(!this.options.pauseTolerant||progressed){this.failures=0;this.stalledFailures=0;}
    this.hasInterim=Array.from(event.results??[]).some((result:any)=>!result.isFinal);
-   if(this.hasInterim)this.noteAudioActivity();else this.speechActive=false;
+   if(this.hasInterim){if(!this.options.pauseTolerant||this.speechActive)this.noteAudioActivity();}else this.speechActive=false;
    this.handlers.result(event);
   };
   recognition.onspeechstart=()=>{if(current()){this.speechActive=true;this.clearPlaybackRefresh();this.noteAudioActivity();this.handlers.speechStart();}};
-  recognition.onspeechend=()=>{if(current()){this.speechActive=false;this.handlers.speechEnd();}};
-  recognition.onend=()=>{if(current())this.reconnect(false,true);};
+  recognition.onspeechend=()=>{if(current()){this.speechActive=false;if(this.options.pauseTolerant)this.clearProgress();this.handlers.speechEnd();}};
+  recognition.onend=()=>{if(current())this.resumeAfterEnd(true);};
   recognition.onerror=event=>{
    if(!current())return;
-   if(event.error==='no-speech'){this.reconnect();return;}
+   if(event.error==='no-speech'){this.resumeAfterEnd();return;}
    if(event.error==='network'){this.reconnect(true);return;}
    if(event.error==='aborted'){this.fail('Voice listening was interrupted. Turn the mic on again when you are ready. Your feedback is kept.');return;}
    const message=event.error==='not-allowed'||event.error==='service-not-allowed'

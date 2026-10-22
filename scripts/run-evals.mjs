@@ -40,7 +40,7 @@ mkdirSync(output,{recursive:true});
 const git=spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'});
 const status=spawnSync('git',['status','--porcelain','--untracked-files=no'],{cwd:root,encoding:'utf8'});
 const fingerprints={};
-for(const file of ['evals/voice-cases.json','src/marketing/voice-commands.ts','src/marketing/FeedbackComposer.tsx','src/marketing/feedback-queue.ts','src/marketing/pcm.ts','src/voice-segments.ts','convex/marketing.ts','convex/annotations.ts','scripts/evaluate-product-events.mjs','scripts/run-evals.mjs',...suites.map(([name])=>`backend-tests/${name}.test.ts`)]){
+for(const file of ['evals/voice-cases.json','src/marketing/voice-commands.ts','src/marketing/voice-session.ts','src/marketing/feedback-autosave.ts','src/marketing/FeedbackComposer.tsx','src/marketing/feedback-queue.ts','src/marketing/pcm.ts','src/voice-segments.ts','convex/marketing.ts','convex/annotations.ts','scripts/evaluate-product-events.mjs','scripts/run-evals.mjs',...suites.map(([name])=>`backend-tests/${name}.test.ts`)]){
  fingerprints[file]=createHash('sha256').update(readFileSync(join(root,file))).digest('hex');
 }
 const report={

@@ -69,7 +69,7 @@ test.each(['stop','hide','error'])('P1: %s keeps unfinished speech as an interru
 });
 test.each([false,true])('P2: natural restart settles partial feedback without more speech (iPhone=%s)',async apple=>{
  const page=await setup(apple);await words(page,'Move the title up',false);await action(page,'end');
- await page.clock.runFor(250);await action(page,'connect');await page.clock.runFor(1499);
+ await page.clock.runFor(250);await action(page,'connect');await page.clock.runFor(apple?1499:5999);
  expect((await snapshot(page)).jobs).toHaveLength(0);
  await page.clock.runFor(1);expect((await snapshot(page)).jobs).toHaveLength(1);
  await action(page,'stop');await onlySaved(page,'Move the title up');
@@ -78,7 +78,7 @@ test('P2: fresh speech cancels the restarted settle timer and speech end re-arms
  const page=await setup();await words(page,'Change this title',false);await action(page,'error','network');
  await page.clock.runFor(300);await action(page,'connect');await page.clock.runFor(1000);
  await action(page,'speechStart');await page.clock.runFor(1000);expect((await snapshot(page)).jobs).toHaveLength(0);
- await action(page,'speechEnd');await page.clock.runFor(1499);expect((await snapshot(page)).jobs).toHaveLength(0);
+ await action(page,'speechEnd');await page.clock.runFor(5999);expect((await snapshot(page)).jobs).toHaveLength(0);
  await page.clock.runFor(1);expect((await snapshot(page)).jobs).toHaveLength(1);await onlySaved(page,'Change this title');
 });
 test('P2: pending feedback cannot save while reconnecting or after a fatal retry failure',async()=>{
@@ -91,12 +91,12 @@ test('P2: pending feedback cannot save while reconnecting or after a fatal retry
 test('P2: new final speech joins the recovered text and saves only one complete note',async()=>{
  const page=await setup();await words(page,'Make the title',false);await action(page,'end');
  await page.clock.runFor(250);await action(page,'connect');await page.clock.runFor(1000);
- await words(page,'bigger and blue.',true,0);await page.clock.runFor(1499);expect((await snapshot(page)).jobs).toHaveLength(0);
+ await words(page,'bigger and blue.',true,0);await page.clock.runFor(5999);expect((await snapshot(page)).jobs).toHaveLength(0);
  await page.clock.runFor(1);await onlySaved(page,'Make the title bigger and blue.');
  await action(page,'stop');await action(page,'unmount');expect((await snapshot(page)).jobs).toHaveLength(1);
 });
 test('P1/P2 guard: stopping after an ordinary automatic save never saves it twice',async()=>{
- const page=await setup();await words(page,'Keep this frame.',true);await page.clock.runFor(1500);
+ const page=await setup();await words(page,'Keep this frame.',true);await page.clock.runFor(6000);
  await onlySaved(page,'Keep this frame.');await action(page,'stop');await action(page,'hide');await action(page,'unmount');
  expect((await snapshot(page)).jobs).toHaveLength(1);
 });
@@ -120,4 +120,68 @@ test('P1 guard: explicit manual saving still queues one note and closes the mic'
  await page.getByLabel('Feedback transcript',{exact:true}).fill('Make the title');
  await page.getByRole('button',{name:'Save feedback',exact:true}).click();
  await action(page,'stop');expect((await snapshot(page)).jobs).toHaveLength(1);
+});
+
+test('Android thinking: a slow sentence, a filler and a continuation stay one note',async()=>{
+ const page=await setup();await words(page,'Make the title',true);
+ await action(page,'speechEnd');await page.clock.runFor(3000);
+ expect((await snapshot(page)).jobs).toHaveLength(0);
+ await action(page,'speechStart');await words(page,'uhm...',true,3);await action(page,'speechEnd');
+ await page.clock.runFor(8000);expect((await snapshot(page)).jobs).toHaveLength(0);
+ await action(page,'speechStart');await words(page,'bigger and blue.',true,4);await action(page,'speechEnd');
+ await page.clock.runFor(5999);expect((await snapshot(page)).jobs).toHaveLength(0);
+ await page.clock.runFor(1);await onlySaved(page,'Make the title uhm... bigger and blue.');
+ expect((await snapshot(page)).recognizers).toBe(1);
+});
+
+test('Android thinking: filler sounds alone never create an empty-meaning feedback card',async()=>{
+ const page=await setup();await words(page,'Uhm, aah, hmmm.',true);
+ await action(page,'speechEnd');await page.clock.runFor(20000);
+ expect((await snapshot(page)).jobs).toHaveLength(0);
+ await action(page,'stop');expect((await snapshot(page)).jobs).toHaveLength(0);
+ expect(await draft(page)).toMatchObject({text:'Uhm, aah, hmmm.'});
+});
+
+test('Android thinking: saying start saves the completed note immediately and opens the next clip',async()=>{
+ const page=await setup();await words(page,'Use a larger logo.',true);
+ await page.clock.runFor(3000);expect((await snapshot(page)).jobs).toHaveLength(0);
+ await words(page,'start',true,3,5);await onlySaved(page,'Use a larger logo.');
+ await words(page,'stop',true,4,7);await words(page,'Keep this shot.',true,5);
+ await action(page,'stop');await browserExpect.poll(async()=>(await snapshot(page)).saved.length).toBe(2);
+ expect((await snapshot(page)).saved[1]).toMatchObject({start:'5.000',end:'7.000',text:'Keep this shot.'});
+});
+
+test('Android thinking: a browser restart during a pause preserves the note and gives time to continue',async()=>{
+ const page=await setup();await words(page,'Move the title',true);await page.clock.runFor(2500);
+ expect((await snapshot(page)).jobs).toHaveLength(0);
+ await action(page,'end');await page.clock.runFor(250);await action(page,'connect');await page.clock.runFor(3000);
+ expect((await snapshot(page)).jobs).toHaveLength(0);
+ await words(page,'to the left.',true,0);await page.clock.runFor(6000);
+ await onlySaved(page,'Move the title to the left.');
+});
+
+test('Android thinking: unfinished thinking sounds do not trigger a forced microphone restart',async()=>{
+ const page=await setup();await action(page,'speechStart');await words(page,'hmmm',false);
+ await action(page,'speechEnd');await page.clock.runFor(20000);
+ expect((await snapshot(page)).recognizers).toBe(1);expect((await snapshot(page)).jobs).toHaveLength(0);
+ await words(page,'Make this shot brighter.',true);await page.clock.runFor(6000);
+ await onlySaved(page,'Make this shot brighter.');
+});
+
+test('Android settling: repeated browser restarts cannot postpone a completed note forever',async()=>{
+ const page=await setup();await words(page,'Keep the logo visible.',true);
+ for(let i=0;i<2;i++){await page.clock.runFor(2500);await action(page,'end');await page.clock.runFor(250);await action(page,'connect');}
+ await page.clock.runFor(499);expect((await snapshot(page)).jobs).toHaveLength(0);
+ await page.clock.runFor(1);expect((await snapshot(page)).jobs).toHaveLength(1);await onlySaved(page,'Keep the logo visible.');
+ await action(page,'end');await page.clock.runFor(250);await action(page,'connect');await page.clock.runFor(6000);
+ expect((await snapshot(page)).jobs).toHaveLength(1);
+});
+
+test('Android settling: closing the draft form keeps the longer thinking allowance',async()=>{
+ const page=await setup();await words(page,'Use a brighter title.',true);
+ await page.getByRole('button',{name:'Edit draft',exact:true}).click();
+ await page.getByRole('button',{name:'Close feedback form',exact:true}).click();
+ await page.clock.runFor(3000);expect((await snapshot(page)).jobs).toHaveLength(0);
+ await words(page,'And make it bigger.',true,3);await page.clock.runFor(6000);
+ await onlySaved(page,'Use a brighter title. And make it bigger.');
 });
