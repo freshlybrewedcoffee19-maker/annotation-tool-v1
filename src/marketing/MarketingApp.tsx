@@ -1,4 +1,6 @@
 import {MarketingSignIn} from './MarketingSignIn';
+import {trackProductEvent} from '../product-tracking';
+import {createClipPlayTracker} from '../product-clip-tracking';
 import {useHeadphoneReminder} from '../HeadphoneReminder';
 import './marketing-dark.css';
 import {KeyboardHome} from './KeyboardHome';
@@ -78,13 +80,21 @@ function CardView({data,token,publicView,sample=false}:{data:CardData;token:stri
  const [openedFeedback,setOpenedFeedback]=useState<string|null>(initialFeedback?.id??null),[sheet,setSheet]=useState<'project'|'feedback'|null>(initialFeedback?'feedback':null);
  const [voiceGuide,setVoiceGuide]=useState<FeedbackGuide>('mic'),[editFeedback,setEditFeedback]=useState(false);
  const rangeEnd=useRef<number|null>(null),pendingSeek=useRef<number|null>(null),lastLatest=useRef(card.latestVersionId);
+ const clipPlay=useRef(createClipPlayTracker(trackProductEvent)),clipRequest=useRef<number|undefined>(undefined);
  const version=data.versions.find(row=>row.id===selected)??data.versions.at(-1),changeStatus=useMutation(api.marketing.status),reopen=useMutation(api.marketing.reopen),[busy,setBusy]=useState(false);
  const sampleStore=useSample(),done=card.status==='approved'||card.finalised,locked=card.finalised||card.cleaning,canEdit=!publicView&&!locked;
  const detail=data.feedback.find(row=>row.id===openedFeedback)??data.feedback.at(-1);
+ useEffect(()=>{
+  const player=video.current;if(!player||!version)return;
+  const playing=()=>clipPlay.current.playing(version.id,player.currentTime);
+  player.addEventListener('playing',playing);
+  return()=>player.removeEventListener('playing',playing);
+ },[version?.id,token]);
+ useEffect(()=>()=>clipPlay.current.cancel(),[]);
  const nextStep=voiceGuide!=='mic'?voiceGuide:!data.feedback.length?'mic':openedFeedback?'export':'clip';
  const previousCount=useRef(data.feedback.length),feedbackStrip=useRef<HTMLDivElement>(null);
  useEffect(()=>{if(data.feedback.length>previousCount.current){setOpenedFeedback(null);const strip=feedbackStrip.current;strip?.scrollTo({left:strip.scrollWidth,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}previousCount.current=data.feedback.length;},[data.feedback.length]);
- useEffect(()=>{if(lastLatest.current===card.latestVersionId)return;lastLatest.current=card.latestVersionId;setSelected(card.latestVersionId);setOpenedFeedback(null);rangeEnd.current=null;pendingSeek.current=null;},[card.latestVersionId]);
+ useEffect(()=>{if(lastLatest.current===card.latestVersionId)return;lastLatest.current=card.latestVersionId;clipPlay.current.cancel();setSelected(card.latestVersionId);setOpenedFeedback(null);rangeEnd.current=null;pendingSeek.current=null;},[card.latestVersionId]);
  useEffect(()=>{
   const app=screen.current?.closest<HTMLElement>('.marketing-app');if(!app)return;
   const fit=()=>{const top=app.getBoundingClientRect().top+window.scrollY;app.style.setProperty('--feedback-available-height',`${Math.max(180,(window.visualViewport?.height??innerHeight)-top)}px`);};
@@ -99,11 +109,13 @@ function CardView({data,token,publicView,sample=false}:{data:CardData;token:stri
   if(data.versions.find(row=>row.id===feedback.versionId)?.deleted){setError('Original footage is unavailable. Its text and voice recording are kept.');setSheet('feedback');return false;}
   setError('');video.current?.pause();setSelected(feedback.versionId);rangeEnd.current=context?null:feedback.end;
   const target=Math.max(0,feedback.start-(context?3:0));
-  if(version?.id===feedback.versionId&&video.current){video.current.currentTime=target;void video.current.play().catch((e:unknown)=>setError(message(e)));}
+  clipRequest.current=clipPlay.current.arm({versionId:feedback.versionId,start:target,end:context?(data.versions.find(row=>row.id===feedback.versionId)?.duration??feedback.end):feedback.end,event:{workflow:'marketing',name:'clip_play',...(sampleStore?{sample:true}:{cardId:card.id,versionId:feedback.versionId,feedbackId:feedback.id,...(publicView?{reviewToken:token}:{})})}});
+  const request=clipRequest.current;
+  if(version?.id===feedback.versionId&&video.current){video.current.currentTime=target;void video.current.play().catch((e:unknown)=>{clipPlay.current.cancel(request);setError(message(e));});}
   else pendingSeek.current=target;
   return true;
  }
- function selectVersion(id:string){if(!allowLeave())return;video.current?.pause();window.dispatchEvent(new Event('marketing-stop-recording'));rangeEnd.current=null;pendingSeek.current=null;setOpenedFeedback(null);setSelected(id);}
+ function selectVersion(id:string){if(!allowLeave())return;clipPlay.current.cancel();video.current?.pause();window.dispatchEvent(new Event('marketing-stop-recording'));rangeEnd.current=null;pendingSeek.current=null;setOpenedFeedback(null);setSelected(id);}
  return <article className="feedback-tool-screen" ref={screen}>
   <header className="feedback-tool-heading">
    {!publicView&&<a className="feedback-back" href={home+'/workspace'} aria-label="Back to projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h12"/></svg></a>}
@@ -111,11 +123,11 @@ function CardView({data,token,publicView,sample=false}:{data:CardData;token:stri
    <button className="feedback-options-key" aria-label="Download feedback" data-feedback-next={!sheet&&nextStep==='export'||undefined} disabled={recording} onClick={()=>setSheet('project')}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg><span>Download<br/>feedback</span></button>
   </header>
   <section className="feedback-tool-canvas" aria-label="Video player">
-   {version?.deleted?<p>This earlier video was deleted. Its feedback and recordings are kept.</p>:version&&token?<AnnotationVideo key={version.id} source={asset(version.id)} localTrial={false} nativeControls={false} video={video} dimensions={version} onReady={()=>{if(video.current){video.current.playsInline=true;if(pendingSeek.current!==null){video.current.currentTime=pendingSeek.current;pendingSeek.current=null;void video.current.play().catch((e:unknown)=>setError(message(e)));}}}} onTime={()=>{const player=video.current;if(player&&rangeEnd.current!==null&&player.currentTime>=rangeEnd.current){player.pause();player.currentTime=rangeEnd.current;rangeEnd.current=null;}}} onError={setError}/>:<p role="status">Preparing private playback…</p>}
+   {version?.deleted?<p>This earlier video was deleted. Its feedback and recordings are kept.</p>:version&&token?<AnnotationVideo key={version.id} source={asset(version.id)} localTrial={false} nativeControls={false} video={video} dimensions={version} onReady={()=>{if(video.current){video.current.playsInline=true;if(pendingSeek.current!==null){video.current.currentTime=pendingSeek.current;pendingSeek.current=null;const request=clipRequest.current;void video.current.play().catch((e:unknown)=>{clipPlay.current.cancel(request);setError(message(e));});}}}} onTime={()=>{const player=video.current;if(player&&rangeEnd.current!==null&&player.currentTime>=rangeEnd.current){player.pause();player.currentTime=rangeEnd.current;rangeEnd.current=null;}}} onError={setError}/>:<p role="status">Preparing private playback…</p>}
    {error&&<div className="feedback-screen-error" role="alert"><span>{error}</span><button aria-label="Dismiss video message" onClick={()=>setError('')}>×</button></div>}
   </section>
   {version&&!version.deleted&&token?<EditorPlayback key={`playback-${version.id}`} video={video}/>:<div/>}
-  {version&&!version.deleted&&canEdit?<FeedbackComposer compact key={`composer-${version.id}`} cardId={card.id} version={version} video={video} onRecording={setRecording} onPending={setPendingSaves} onGuideChange={setVoiceGuide} guideActive={!sheet&&nextStep!=='clip'&&nextStep!=='export'} onBeginSegment={()=>{rangeEnd.current=null;setOpenedFeedback(null);}}/>:<p className="feedback-readonly-note">{publicView?'Choose a feedback key to watch its clip.':card.finalised?'Finalised. Your feedback is saved below.':'Choose a feedback key to watch its clip.'}</p>}
+  {version&&!version.deleted&&canEdit?<FeedbackComposer compact key={`composer-${version.id}`} cardId={card.id} version={version} video={video} onRecording={setRecording} onPending={setPendingSaves} onGuideChange={setVoiceGuide} guideActive={!sheet&&nextStep!=='clip'&&nextStep!=='export'} onBeginSegment={()=>{clipPlay.current.cancel();rangeEnd.current=null;setOpenedFeedback(null);}}/>:<p className="feedback-readonly-note">{publicView?'Choose a feedback key to watch its clip.':card.finalised?'Finalised. Your feedback is saved below.':'Choose a feedback key to watch its clip.'}</p>}
   <section className="feedback-segments" aria-label="Saved feedback clips">
    <header><h2>Feedback <span>{data.feedback.length}</span></h2>{data.feedback.length>0&&<span className="feedback-strip-hint">Tap a clip to preview</span>}</header>
    <div className="feedback-key-strip" ref={feedbackStrip} tabIndex={0} aria-label="Scroll saved feedback clips">

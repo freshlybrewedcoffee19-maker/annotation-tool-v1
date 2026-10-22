@@ -7,6 +7,7 @@ import type {Id} from '../convex/_generated/dataModel';
 import {createVoiceSegments,type VoiceState,type VoiceSegment} from './voice-segments';
 import {normalizeSpeech} from './voice-segments';
 import type {Activity} from './ActivityNavigation';
+import {trackProductEvent,productSaveEventId} from './product-tracking';
 type SpeechResult={isFinal:boolean;0:{transcript:string}};
 type SpeechEvent={resultIndex:number;results:ArrayLike<SpeechResult>};
 type Recognition={continuous:boolean;interimResults:boolean;lang:string;start:()=>void;stop:()=>void;abort:()=>void;onstart:(()=>void)|null;onend:(()=>void)|null;onerror:((event:{error:string})=>void)|null;onresult:((event:SpeechEvent)=>void)|null};
@@ -31,7 +32,7 @@ export function VoiceLabels({episodeId,labels,video,active=true,navigate,reviewM
   window.addEventListener('cv-voice-status-request',report);return ()=>window.removeEventListener('cv-voice-status-request',report);
  },[episodeId,listening,state,pending,failed.length]);
  const persist=useRef<(segment:VoiceSegment)=>void>(()=>{});
- persist.current=segment=>{setPending(n=>n+1);void save({workspaceToken,episodeId,...segment,source:"voice"}).catch(()=>{setFailed(rows=>[...rows,segment]);setMessage('A voice segment could not save. Retry saving below.');}).finally(()=>setPending(n=>n-1));};
+ persist.current=segment=>{setPending(n=>n+1);void save({workspaceToken,episodeId,...segment,source:"voice"}).then(segmentId=>{trackProductEvent({workflow:'annotation',name:'save_succeeded',eventId:productSaveEventId('annotation',segmentId),workspaceToken,episodeId,segmentId});}).catch(()=>{setFailed(rows=>[...rows,segment]);setMessage('A voice segment could not save. Retry saving below.');}).finally(()=>setPending(n=>n-1));};
  const engine=useRef<ReturnType<typeof createVoiceSegments>|null>(null);
  if(!engine.current)engine.current=createVoiceSegments(segment=>persist.current(segment),setState,command=>{
   const player=video.current;if(!player)return;
@@ -51,6 +52,7 @@ export function VoiceLabels({episodeId,labels,video,active=true,navigate,reviewM
  function toggle(){
   if(wanted.current){wanted.current=false;recognition.current?.stop();setListening(false);setMessage('Mic off. Your marked times are kept.');return;}
   if(!Speech)return;
+  trackProductEvent({workflow:'annotation',name:'recording_attempt',workspaceToken,episodeId});
   const r=new Speech();recognition.current=r;r.continuous=true;r.interimResults=true;r.lang='en-US';wanted.current=true;setMessage('Allow microphone access when Chrome asks.');
   const visibilityResults=new Set<number>();
   r.onstart=()=>{visibilityResults.clear();engine.current?.beginSession();setListening(true);setMessage(modeRef.current==='labels'?'Listening. Say start, then stop, then a label.':'Listening for object visibility commands.');};

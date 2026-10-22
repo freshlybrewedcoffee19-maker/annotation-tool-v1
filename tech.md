@@ -265,3 +265,27 @@ Deployment sources: [scripts/deploy.mjs](scripts/deploy.mjs), [scripts/verify-de
 - Treat retry save keys, storage reservations, invitation checks and finalization checks as correctness requirements. Removing them can cause duplicates, unauthorized changes or data loss.
 - Keep private audits, account exports, `.env` files and recovery links out of the public repository. Repository visibility does not make private R2 objects or Convex account records public.
 - Recheck code when updating this document. Do not turn sample sessions, test fixtures or workspace counts into verified customer-usage claims.
+
+## 12. Product usage tracking
+
+The separate `productEvents` table records activity from the point this feature is deployed. It does not reconstruct historical activity or change saved annotations, feedback, speech handling, sign-in, media storage or hosting.
+
+| `name` | When it is sent | What the count means |
+|---|---|---|
+| `recording_attempt` | A user deliberately turns on the microphone in video annotation, image annotation or video feedback | Mic-on attempts, including attempts that later fail. Automatic recognition restarts do not count again. One attempt may produce several notes; this is not a count of individual note attempts. |
+| `save_succeeded` | An existing save operation confirms a video segment, image label or feedback record | Each persisted record is measured once. Edits do not count. A retry or duplicate image label can return an already-existing record; its first confirmation after rollout can count once, so this is not a record-creation count. |
+| `clip_play` | A selected video-feedback clip emits the browser's `playing` event for the expected video and time range | Playback starts, not clicks, full-video views or proof someone watched the entire clip. Buffering resumes do not count again. Annotation seek controls are not counted as editor clip plays. |
+
+In Convex, open **Data → productEvents** and filter `traffic = live`. Separate `workflow = annotation` from `workflow = marketing`, and group `sample = true` separately from uploaded user media. `actorRole = editor` identifies a signed-in editor with current access; `public_reviewer` means someone using a valid review link, whose identity need not be known. Owner plays are marked `owner` and can be excluded from editor-engagement reports.
+
+`createdAt` is the server's event-receipt time, in milliseconds since the Unix epoch. Convert it to the reporting timezone before grouping by date. `actorId` identifies a signed-in account when available; otherwise `visitorId` identifies a browser, not a verified person. `sessionId` identifies the browser-tab session. Reinstalled browsers, cleared storage, different devices and restricted storage can produce additional visitor IDs. Do not add account counts and visitor counts without reconciling overlapping IDs.
+
+Localhost traffic is `local`; automated-browser tests, test builds, explicit example/preview URLs and known test workspaces/accounts are marked `test`. These labels are not a guarantee that every manually conducted test has been identified. Normal public sample use remains `live` with `sample = true`. Annotation source is read from its saved record (`voice`, `manual` or `unknown`). Marketing phone feedback can be text-only after voice capture, so absence of an audio attachment is `unknown`, not proof of typing; in-memory marketing sample source is also `unknown`.
+
+The table stores event names, times, anonymous browser/session IDs, account and record references, and classification fields. It does not store transcript text, audio, names, email addresses, IP addresses, full URLs, workspace access keys or review-link tokens. Existing access keys are sent only to check access and are excluded from stored event rows. No user-facing analytics read endpoint is added.
+
+Tracking is best effort and runs after the user action without waiting for a tracking response. Requests are bounded in memory, duplicate save events are rejected on the server, and tracking errors are swallowed. Network loss, navigation, backend rejection or the per-session rate limit can drop events. Use saved records as the source of truth for persisted work; this table is an activity signal, not a complete audit or a basis for a failed-save percentage. Dividing saves by mic-on attempts would be misleading because one microphone session can save multiple notes.
+
+The isolated tests intercept browser/backend traffic and create no live users or records. They cover tracking failures and hung requests while voice saves continue, recognition restarts, interrupted-note saving, image labels, record permissions, duplicate suppression and playback observation. Browser speech and media are controlled in these tests; they do not replace a physical-phone microphone check.
+
+Implementation: `src/product-tracking.ts`, `src/product-clip-tracking.ts`, `convex/productEvents.ts` and `convex/productEventSchema.ts`. Tracking requires deploying both the new backend function/table and the frontend hooks through the existing release process. An older or unavailable tracking backend must not prevent voice, saves or playback from working.

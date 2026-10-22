@@ -10,6 +10,7 @@ import {useFeedbackQueue} from './use-feedback-queue';
 import type {FeedbackJob} from './feedback-queue';
 import {FeedbackAutosave} from './feedback-autosave';
 import {phoneVoiceMode} from './voice-platform';
+import {trackProductEvent} from '../product-tracking';
 
 type SpeechWindow=Window&{SpeechRecognition?:new()=>Recognition;webkitSpeechRecognition?:new()=>Recognition};
 const blank=():FeedbackDraft=>({start:'',end:'',text:'',clientKey:crypto.randomUUID()});
@@ -95,6 +96,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
  async function enableMic(){
   if(mic.current||speech.current||voiceState==='connecting')return;
   if(!video.current){setError('The video is still loading. Wait for it to appear, then turn on the mic.');return;}
+  trackProductEvent({workflow:'marketing',name:'recording_attempt',...(sample?{sample:true}:{cardId,versionId:version.id})});
   setError('');setHeard('');setAudioNotice(voiceMode.textOnly?'Spoken feedback saves as text.':'');setVoiceState('connecting');
   const attempt=++generation.current;
   if(video.current)prepareVoicePlayback(video.current);

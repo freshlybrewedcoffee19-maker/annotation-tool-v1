@@ -5,6 +5,7 @@ import {readDraft,writeDrafts} from './drafts';
 import {FeedbackQueue,type FeedbackJob} from './feedback-queue';
 import {uploadFile} from './uploadFile';
 import {uploadFeedbackWithRecovery} from './upload-recovery';
+import {trackProductEvent,productSaveEventId} from '../product-tracking';
 
 const stores=new Map<string,FeedbackQueue>();
 export function useFeedbackQueue(cardId:string,account:string|null){
@@ -23,7 +24,10 @@ export function useFeedbackQueue(cardId:string,account:string|null){
    return (await complete({uploadId:job.audioUploadId})).audioId;
    },id=>cancel({uploadId:id}),async id=>(await complete({uploadId:id})).audioId);
   },
-  save:job=>save({cardId,versionId:job.versionId,start:Number(job.start),end:Number(job.end),text:job.text,audioId:job.audioId,clientKey:job.clientKey})
+  save:job=>save({cardId,versionId:job.versionId,start:Number(job.start),end:Number(job.end),text:job.text,audioId:job.audioId,clientKey:job.clientKey}).then((feedbackId:string)=>{
+   trackProductEvent({workflow:'marketing',name:'save_succeeded',eventId:productSaveEventId('marketing',feedbackId,!!sample),...(sample?{sample:true}:{cardId,versionId:job.versionId,feedbackId})});
+   return feedbackId;
+  })
  });},[queue,account,sample,cardId,begin,resume,complete,cancel,save]);
  return queue;
 }
