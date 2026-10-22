@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "status": "not_run",
+  "participantCode": null,
+  "workflow": null,
+  "mediaType": null,
+  "sampleOrOwnMedia": null,
+  "date": null,
+  "device": { "model": null, "osVersion": null, "browserVersion": null, "headset": null },
+  "consentForLocalRecording": null,
+  "taskOrder": null,
+  "task": { "intendedNotes": null, "assistanceCount": null },
+  "usualMethod": { "tool": null, "completed": null, "seconds": null, "usableNotes": null },
+  "cheddarVox": {
+    "completed": null,
+    "seconds": null,
+    "micOnToFirstUsableSaveSeconds": null,
+    "usableNotes": null,
+    "manualSaveClicks": null,
+    "timestampsWritten": null,
+    "corrections": null,
+    "lostCompletedNotes": null,
+    "duplicateSaves": null,
+    "unwantedCommands": null,
+    "unwantedBackgroundText": null
+  },
+  "phoneTrials": [],
+  "editorHandoff": { "status": "not_run", "correctClips": null, "attemptedClips": null, "secondsPerClip": [], "clarificationRequests": null },
+  "nextEligibleJob": { "status": "not_run", "date": null, "occurred": null, "toolActuallyUsed": null, "reason": null },
+  "observationsWithoutPersonalData": [],
+  "note": "Copy to .np-tools-private before filling. Unknown is null, not zero. No names, email addresses, customer media or raw recordings in this file. Use EVALS.md for the protocol."
+}

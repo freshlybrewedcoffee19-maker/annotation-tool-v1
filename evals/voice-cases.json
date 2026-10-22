@@ -1,0 +1,235 @@
+{
+  "version": 1,
+  "purpose": "Check the promised behavior after a browser has supplied a transcript. These are product-specific golden examples, not a GrowthX benchmark or a test of speech recognition accuracy.",
+  "provenance": [
+    "Cheddar Vox product promise: say start, stop, then the note; preserve the marked video interval.",
+    "Previously reported failures: delayed stop, duplicate results, command words entering feedback, and recognition restarting mid-note.",
+    "Current supported engines: src/marketing/voice-commands.ts and src/voice-segments.ts. Existing browser lifecycle/save tests cover persistence separately."
+  ],
+  "criteria": {
+    "timestamps": "Exact equality with the video time supplied at the first recognized command; this is not acoustic latency measurement.",
+    "duplicates": "One command or emitted annotation for repeated interim/final callbacks with the same result index in one recognition session.",
+    "text": "Exact expected finalized text, including supported punctuation cleanup for annotation labels; no text from unfinished interim notes.",
+    "boundaries": "A fresh recognition session may reuse result indexes without losing the current marked interval or interpreting interrupted partial feedback as a new command.",
+    "passing": "Every expected callback, timestamp, final state, and intermediate checkpoint must match; missing, extra, or reordered events fail."
+  },
+  "limitations": [
+    "Inputs are supplied transcripts, not recordings from people or a real phone microphone.",
+    "No claim about accents, background speakers, headphones, network speech service quality, or physical playback latency.",
+    "Marketing feedback callbacks are draft text, not proof of a database save. Annotation callbacks are completed segments, not proof of a database save.",
+    "No live requests, user records, production events, or real audio are created by this evaluation."
+  ],
+  "cases": [
+    {
+      "id": "M01", "workflow": "marketing", "name": "First partial start and stop use captured times, even when final results arrive later",
+      "steps": [
+        {"kind":"result","index":0,"text":"Start","final":false,"time":1.25,"audioFrame":125,"checkpoint":{"starts":[1.25],"stops":[],"feedback":[],"phase":"marking"}},
+        {"kind":"result","index":0,"text":"Start.","final":true,"time":1.8,"audioFrame":180},
+        {"kind":"result","index":1,"text":"Stop","final":false,"time":3.75,"audioFrame":375,"checkpoint":{"starts":[1.25],"stops":[3.75],"feedback":[],"phase":"feedback"}},
+        {"kind":"result","index":1,"text":"Stop.","final":true,"time":4.1,"audioFrame":410},
+        {"kind":"result","index":2,"text":"Make the logo bigger.","final":true,"time":3.75,"audioFrame":450}
+      ],
+      "expected":{"starts":[1.25],"stops":[3.75],"startFrames":[125],"stopFrames":[375],"feedback":["Make the logo bigger."],"phase":"feedback"}
+    },
+    {
+      "id":"M02","workflow":"marketing","name":"Duplicate final results do not repeat commands or note text",
+      "steps":[
+        {"kind":"result","index":0,"text":"start","final":true,"time":0},
+        {"kind":"result","index":0,"text":"start","final":true,"time":1},
+        {"kind":"result","index":1,"text":"stop","final":true,"time":2},
+        {"kind":"result","index":1,"text":"stop","final":true,"time":3},
+        {"kind":"result","index":2,"text":"Shorten this shot.","final":true,"time":2},
+        {"kind":"result","index":2,"text":"Shorten this shot.","final":true,"time":2}
+      ],
+      "expected":{"starts":[0],"stops":[2],"feedback":["Shorten this shot."],"phase":"feedback"}
+    },
+    {
+      "id":"M03","workflow":"marketing","name":"Stop joined to feedback pauses immediately and keeps only completed feedback",
+      "steps":[
+        {"kind":"result","index":0,"text":"Start the video.","final":true,"time":0.5},
+        {"kind":"result","index":1,"text":"Pause. Make the","final":false,"time":4,"checkpoint":{"starts":[0.5],"stops":[4],"feedback":[],"phase":"feedback"}},
+        {"kind":"result","index":1,"text":"Pause. Make the ending brighter.","final":true,"time":4.4}
+      ],
+      "expected":{"starts":[0.5],"stops":[4],"feedback":["Make the ending brighter."],"phase":"feedback"}
+    },
+    {
+      "id":"M04","workflow":"marketing","name":"Start and stop inside feedback sentences stay feedback",
+      "steps":[
+        {"kind":"result","index":0,"text":"start","final":true,"time":1},
+        {"kind":"result","index":1,"text":"stop","final":true,"time":5},
+        {"kind":"result","index":2,"text":"Start","final":false,"time":5,"checkpoint":{"starts":[1],"stops":[5],"feedback":[],"phase":"feedback"}},
+        {"kind":"result","index":2,"text":"Start with the product shot.","final":true,"time":5},
+        {"kind":"result","index":3,"text":"Stop using the blue background.","final":true,"time":5},
+        {"kind":"result","index":4,"text":"The pause before the offer feels long.","final":true,"time":5}
+      ],
+      "expected":{"starts":[1],"stops":[5],"feedback":["Start with the product shot.","Stop using the blue background.","The pause before the offer feels long."],"phase":"feedback"}
+    },
+    {
+      "id":"M05","workflow":"marketing","name":"Successive notes use separate marked intervals without swallowing the next start",
+      "steps":[
+        {"kind":"result","index":0,"text":"play","final":true,"time":0},
+        {"kind":"result","index":1,"text":"pause","final":true,"time":2},
+        {"kind":"result","index":2,"text":"Shorten the opening.","final":true,"time":2},
+        {"kind":"result","index":3,"text":"Resume the video.","final":true,"time":2},
+        {"kind":"result","index":4,"text":"Stop. Hold the price longer.","final":true,"time":6}
+      ],
+      "expected":{"starts":[0,2],"stops":[2,6],"feedback":["Shorten the opening.","Hold the price longer."],"phase":"feedback"}
+    },
+    {
+      "id":"M06","workflow":"marketing","name":"Recognition restarts between commands and feedback without losing the note phase",
+      "steps":[
+        {"kind":"result","index":0,"text":"start","final":true,"time":2},
+        {"kind":"restart"},
+        {"kind":"result","index":0,"text":"stop","final":true,"time":7},
+        {"kind":"result","index":1,"text":"Make the","final":false,"time":7},
+        {"kind":"restart","checkpoint":{"starts":[2],"stops":[7],"feedback":[],"phase":"feedback"}},
+        {"kind":"result","index":0,"text":"Make the product name larger.","final":true,"time":7}
+      ],
+      "expected":{"starts":[2],"stops":[7],"feedback":["Make the product name larger."],"phase":"feedback"}
+    },
+    {
+      "id":"M07","workflow":"marketing","name":"An interrupted partial start in feedback does not become a playback command",
+      "steps":[
+        {"kind":"result","index":0,"text":"start","final":true,"time":1},
+        {"kind":"result","index":1,"text":"stop","final":true,"time":3},
+        {"kind":"result","index":2,"text":"Start","final":false,"time":3},
+        {"kind":"restart"},
+        {"kind":"result","index":0,"text":"Start with a close-up.","final":true,"time":3}
+      ],
+      "expected":{"starts":[1],"stops":[3],"feedback":["Start with a close-up."],"phase":"feedback"}
+    },
+    {
+      "id":"M08","workflow":"marketing","name":"A completed speech boundary executes a pending exact resume only once",
+      "steps":[
+        {"kind":"result","index":0,"text":"start","final":true,"time":0},
+        {"kind":"result","index":1,"text":"stop","final":true,"time":2},
+        {"kind":"result","index":2,"text":"Less text here.","final":true,"time":2},
+        {"kind":"result","index":3,"text":"Resume","final":false,"time":2,"checkpoint":{"starts":[0],"stops":[2],"feedback":["Less text here."],"phase":"feedback"}},
+        {"kind":"boundary"},
+        {"kind":"boundary"},
+        {"kind":"result","index":3,"text":"Resume.","final":true,"time":2.7}
+      ],
+      "expected":{"starts":[0,2],"stops":[2],"feedback":["Less text here."],"phase":"marking"}
+    },
+    {
+      "id":"M09","workflow":"marketing","name":"Repeated command words and extra stop commands never become note text",
+      "steps":[
+        {"kind":"result","index":0,"text":"  START   START! ","final":true,"time":0},
+        {"kind":"result","index":1,"text":"stop. Stop.","final":true,"time":3},
+        {"kind":"result","index":2,"text":"Stop the video.","final":true,"time":3},
+        {"kind":"result","index":3,"text":"Use the second take.","final":true,"time":3}
+      ],
+      "expected":{"starts":[0],"stops":[3],"feedback":["Use the second take."],"phase":"feedback"}
+    },
+    {
+      "id":"M10","workflow":"marketing","name":"Speech before marking and unfinished feedback create no completed note text",
+      "steps":[
+        {"kind":"result","index":0,"text":"The opening looks good.","final":true,"time":0},
+        {"kind":"result","index":1,"text":"start","final":true,"time":1},
+        {"kind":"result","index":2,"text":"stop","final":true,"time":4},
+        {"kind":"result","index":3,"text":"Make the caption","final":false,"time":4},
+        {"kind":"restart"}
+      ],
+      "expected":{"starts":[1],"stops":[4],"feedback":[],"phase":"feedback"}
+    },
+    {
+      "id":"A01","workflow":"annotation","name":"A new spoken label keeps the first marked times and emits once",
+      "steps":[
+        {"kind":"result","index":0,"text":"start","final":false,"time":2.25},
+        {"kind":"result","index":0,"text":"start","final":true,"time":2.8},
+        {"kind":"result","index":1,"text":"stop","final":false,"time":5.75},
+        {"kind":"result","index":1,"text":"stop","final":true,"time":6.2},
+        {"kind":"result","index":2,"text":"Folding","final":false,"time":6.2,"checkpoint":{"segments":[],"playback":["play","pause"],"waiting":"label","start":2.25,"end":5.75,"error":null}},
+        {"kind":"result","index":2,"text":"Folding shirt.","final":true,"time":6.2},
+        {"kind":"result","index":2,"text":"Folding shirt.","final":true,"time":7}
+      ],
+      "expected":{"segments":[{"label":"Folding shirt","start_sec":2.25,"end_sec":5.75}],"playback":["play","pause"],"waiting":"start","start":null,"end":null,"error":null}
+    },
+    {
+      "id":"A02","workflow":"annotation","name":"A label containing stop remains a label, including its partial results",
+      "steps":[
+        {"kind":"result","index":0,"text":"start","final":true,"time":0},
+        {"kind":"result","index":1,"text":"stop","final":true,"time":2},
+        {"kind":"result","index":2,"text":"Stop sign","final":false,"time":2},
+        {"kind":"result","index":2,"text":"Stop sign visible.","final":true,"time":2}
+      ],
+      "expected":{"segments":[{"label":"Stop sign visible","start_sec":0,"end_sec":2}],"playback":["play","pause"],"waiting":"start","start":null,"end":null,"error":null}
+    },
+    {
+      "id":"A03","workflow":"annotation","name":"A longer new label is not reduced to an existing label substring","labels":["walking"],
+      "steps":[
+        {"kind":"result","index":0,"text":"start","final":true,"time":1},
+        {"kind":"result","index":1,"text":"stop","final":true,"time":3},
+        {"kind":"result","index":2,"text":"walking quickly","final":true,"time":3}
+      ],
+      "expected":{"segments":[{"label":"walking quickly","start_sec":1,"end_sec":3}],"playback":["play","pause"],"waiting":"start","start":null,"end":null,"error":null}
+    },
+    {
+      "id":"A04","workflow":"annotation","name":"An existing label keeps its canonical name despite transcript casing","labels":["Pour Water"],
+      "steps":[
+        {"kind":"result","index":0,"text":"START!","final":true,"time":1},
+        {"kind":"result","index":1,"text":"STOP.","final":true,"time":4},
+        {"kind":"result","index":2,"text":"pour water.","final":true,"time":4}
+      ],
+      "expected":{"segments":[{"label":"Pour Water","start_sec":1,"end_sec":4}],"playback":["play","pause"],"waiting":"start","start":null,"end":null,"error":null}
+    },
+    {
+      "id":"A05","workflow":"annotation","name":"Recognition restarts retain the marked interval while result indexes reset",
+      "steps":[
+        {"kind":"result","index":0,"text":"start","final":true,"time":1.1},
+        {"kind":"restart"},
+        {"kind":"result","index":0,"text":"stop","final":true,"time":4.4},
+        {"kind":"restart","checkpoint":{"segments":[],"playback":["play","pause"],"waiting":"label","start":1.1,"end":4.4,"error":null}},
+        {"kind":"result","index":0,"text":"Picking up cup","final":true,"time":4.4}
+      ],
+      "expected":{"segments":[{"label":"Picking up cup","start_sec":1.1,"end_sec":4.4}],"playback":["play","pause"],"waiting":"start","start":null,"end":null,"error":null}
+    },
+    {
+      "id":"A06","workflow":"annotation","name":"Two successive annotations emit separate labels and time intervals",
+      "steps":[
+        {"kind":"result","index":0,"text":"start","final":true,"time":0},
+        {"kind":"result","index":1,"text":"stop","final":true,"time":2},
+        {"kind":"result","index":2,"text":"Opening door","final":true,"time":2},
+        {"kind":"result","index":3,"text":"start","final":true,"time":3},
+        {"kind":"result","index":4,"text":"stop","final":true,"time":5},
+        {"kind":"result","index":5,"text":"Closing door","final":true,"time":5}
+      ],
+      "expected":{"segments":[{"label":"Opening door","start_sec":0,"end_sec":2},{"label":"Closing door","start_sec":3,"end_sec":5}],"playback":["play","pause","play","pause"],"waiting":"start","start":null,"end":null,"error":null}
+    },
+    {
+      "id":"A07","workflow":"annotation","name":"Zero-length intervals are rejected and a later valid stop recovers",
+      "steps":[
+        {"kind":"result","index":0,"text":"start","final":true,"time":2},
+        {"kind":"result","index":1,"text":"stop","final":true,"time":2,"checkpoint":{"segments":[],"playback":["play","pause"],"waiting":"stop","start":2,"end":null,"error":"End must be after start. Move the video forward, then say stop again."}},
+        {"kind":"result","index":2,"text":"stop","final":true,"time":3},
+        {"kind":"result","index":3,"text":"Reaching","final":true,"time":3}
+      ],
+      "expected":{"segments":[{"label":"Reaching","start_sec":2,"end_sec":3}],"playback":["play","pause","pause"],"waiting":"start","start":null,"end":null,"error":null}
+    },
+    {
+      "id":"A08","workflow":"annotation","name":"Negative video times cannot start an interval",
+      "steps":[{"kind":"result","index":0,"text":"start","final":true,"time":-1}],
+      "expected":{"segments":[],"playback":[],"waiting":"start","start":null,"end":null,"error":null}
+    },
+    {
+      "id":"A09","workflow":"annotation","name":"An unfinished label never emits a completed segment",
+      "steps":[
+        {"kind":"result","index":0,"text":"start","final":true,"time":1},
+        {"kind":"result","index":1,"text":"stop","final":true,"time":3},
+        {"kind":"result","index":2,"text":"Lifting the","final":false,"time":3},
+        {"kind":"restart"}
+      ],
+      "expected":{"segments":[],"playback":["play","pause"],"waiting":"label","start":1,"end":3,"error":null}
+    },
+    {
+      "id":"A10","workflow":"annotation","name":"A label without a completed start-stop interval cannot emit a segment",
+      "steps":[
+        {"kind":"result","index":0,"text":"Walking","final":true,"time":0},
+        {"kind":"result","index":1,"text":"stop","final":true,"time":0},
+        {"kind":"result","index":2,"text":"start","final":true,"time":1},
+        {"kind":"result","index":3,"text":"Walking","final":true,"time":2}
+      ],
+      "expected":{"segments":[],"playback":["play"],"waiting":"stop","start":1,"end":null,"error":null}
+    }
+  ]
+}
