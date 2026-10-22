@@ -25,6 +25,8 @@ import type * as marketingSchema from "../marketingSchema.js";
 import type * as masks from "../masks.js";
 import type * as media from "../media.js";
 import type * as metadata from "../metadata.js";
+import type * as productEventSchema from "../productEventSchema.js";
+import type * as productEvents from "../productEvents.js";
 import type * as projectAccess from "../projectAccess.js";
 import type * as projectSetup from "../projectSetup.js";
 import type * as projects from "../projects.js";
@@ -75,6 +77,8 @@ declare const fullApi: ApiFromModules<{
   masks: typeof masks;
   media: typeof media;
   metadata: typeof metadata;
+  productEventSchema: typeof productEventSchema;
+  productEvents: typeof productEvents;
   projectAccess: typeof projectAccess;
   projectSetup: typeof projectSetup;
   projects: typeof projects;
