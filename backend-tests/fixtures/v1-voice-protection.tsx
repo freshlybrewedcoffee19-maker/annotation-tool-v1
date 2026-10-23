@@ -43,8 +43,8 @@ const video={current:player as unknown as HTMLVideoElement};
 function Fixture(){
  const segments=useFixtureQuery(api.annotations.segments,{workspaceToken:config.workspaceToken,episodeId:config.episodeId})??[];
  return <>
-  <VoiceLabels episodeId={config.episodeId} labels={[]} video={video} compact/>
-  <TrialPlayer video={video} frameRate={30} episodeId={config.episodeId} active/>
+  <VoiceLabels episodeId={config.episodeId} labels={[]} video={video} compact videoOnly/>
+  <TrialPlayer video={video} frameRate={30} episodeId={config.episodeId} active videoOnly/>
   <ReviewDeck episode={{name:'Voice trial.mp4',url:null}} segments={segments} edit={()=>{}}/>
   <ExportReview episode={{name:'Voice trial.mp4',duration:30,frameRate:30}} segments={segments} next={()=>{}}/>
   <output aria-label="Saved segment count">{segments.length}</output>

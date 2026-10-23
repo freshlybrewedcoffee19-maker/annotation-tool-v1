@@ -142,3 +142,95 @@ test('image wrapper retains its image and outline controls without adding video-
  await browserExpect(page.getByRole('button',{name:'Object boxes',exact:true})).toBeAttached();
  expect((await snapshot(page)).hasPlayer).toBe(false);
 });
+
+test('voice-only signed workspace preserves playback and exposes only annotation, review and export',async()=>{
+ const page=await setup('voice-signed');
+ const rail=page.getByRole('navigation',{name:'Annotation tools',exact:true});
+ expect(await rail.getByRole('button').allTextContents()).toEqual(['Annotation','Review','Export']);
+ await browserExpect(rail.getByRole('button',{name:'Annotation',exact:true})).toHaveAttribute('aria-pressed','true');
+ await browserExpect(page.getByTestId('annotation-tools')).toBeVisible();
+ await page.getByRole('button',{name:'Play video',exact:true}).click();expect((await snapshot(page)).paused).toBe(false);
+ await page.getByRole('button',{name:'Pause video',exact:true}).click();expect((await snapshot(page)).paused).toBe(true);
+ await page.getByRole('button',{name:'Jump forward 5 seconds',exact:true}).click();expect((await snapshot(page)).position).toBe(5);
+ await page.getByRole('button',{name:'Next estimated frame',exact:true}).click();expect((await snapshot(page)).position).toBeCloseTo(5.04);
+ await page.getByRole('button',{name:'Previous estimated frame',exact:true}).click();expect((await snapshot(page)).position).toBeCloseTo(5);
+ await page.getByRole('slider',{name:'Seek video'}).fill('18.5');expect((await snapshot(page)).position).toBe(18.5);
+ await page.getByRole('button',{name:'Jump forward 10 seconds',exact:true}).click();expect((await snapshot(page)).position).toBe(20);
+ await page.getByRole('button',{name:'Jump back 10 seconds',exact:true}).click();expect((await snapshot(page)).position).toBe(10);
+ expect(await snapshot(page)).toMatchObject({hasPlayer:true,calls:[],queryNames:[]});
+ await browserExpect(page.locator('[aria-label="Object box drawing area"],[aria-label="Object drawing tools"],.frame-masks,.assisted-tracking,.action-objects,.spatial-review,.movement-draft,.relationships-panel')).toHaveCount(0);
+});
+
+test('voice-only signed controls and navigation retain the microphone child and unfinished note',async()=>{
+ const page=await setup('voice-signed');
+ await page.getByRole('button',{name:'Probe microphone off',exact:true}).click();
+ await page.getByLabel('Unfinished note').fill('Keep this interrupted thought');
+ const microphone=await page.getByTestId('microphone-probe').elementHandle();
+ await page.getByRole('button',{name:'Collapse tool controls',exact:true}).click();
+ await browserExpect(page.getByRole('button',{name:'Expand tool controls',exact:true})).toHaveAttribute('aria-expanded','false');
+ const rail=page.getByRole('navigation',{name:'Annotation tools',exact:true});
+ await rail.getByRole('button',{name:'Review',exact:true}).click();
+ await browserExpect(page.getByRole('button',{name:'Collapse tool controls',exact:true})).toHaveAttribute('aria-expanded','true');
+ await browserExpect(rail.getByRole('button',{name:'Review',exact:true})).toHaveAttribute('aria-pressed','true');
+ await rail.getByRole('button',{name:'Export',exact:true}).click();
+ await browserExpect(rail.getByRole('button',{name:'Export',exact:true})).toHaveAttribute('aria-pressed','true');
+ await rail.getByRole('button',{name:'Annotation',exact:true}).click();
+ await browserExpect(page.getByLabel('Unfinished note')).toHaveValue('Keep this interrupted thought');
+ await browserExpect(page.getByRole('button',{name:'Probe microphone on',exact:true})).toBeVisible();
+ expect(await microphone!.evaluate(node=>node===document.querySelector('[data-testid="microphone-probe"]'))).toBe(true);
+ expect(await snapshot(page)).toMatchObject({microphoneMounts:1,microphoneUnmounts:0,calls:[],queryNames:[]});
+});
+
+test.each(['voice-signed','voice-trial'])('%s saved annotation timeline preserves clip selection and excludes discarded notes',async(mode)=>{
+ const page=await setup(mode);
+ await page.getByRole('button',{name:'Play video',exact:true}).click();
+ await page.getByRole('region',{name:'Saved annotation timeline'}).getByRole('button',{name:'Turn left',exact:true}).click();
+ await browserExpect(page.getByLabel('Selected note')).toHaveText('saved-note');
+ expect(await snapshot(page)).toMatchObject({position:4,paused:true,calls:[]});
+ await browserExpect(page.getByRole('button',{name:'Discarded note',exact:true})).toHaveCount(0);
+ expect((await snapshot(page)).queryNames).toEqual(mode==='voice-trial'?['trialHistory:status']:[]);
+});
+
+test('voice-only trial keeps playback, frame controls, undo/redo and microphone state without drawing queries',async()=>{
+ const page=await setup('voice-trial');
+ await page.getByRole('button',{name:'Play video',exact:true}).click();expect((await snapshot(page)).paused).toBe(false);
+ await page.getByRole('button',{name:'Pause video',exact:true}).click();expect((await snapshot(page)).paused).toBe(true);
+ await page.getByRole('slider',{name:'Seek video'}).fill('4');expect((await snapshot(page)).position).toBe(4);
+ await page.getByRole('button',{name:'Next frame',exact:true}).click();expect((await snapshot(page)).position).toBeCloseTo(4.04);
+ await page.keyboard.press('ArrowRight');expect((await snapshot(page)).position).toBeCloseTo(4.08);
+ await page.getByRole('button',{name:'Previous frame',exact:true}).click();expect((await snapshot(page)).position).toBeCloseTo(4.04);
+ await page.getByRole('textbox',{name:'Exact time (MM:SS:FF)'}).fill('00:05:10');
+ await page.getByRole('button',{name:'Go',exact:true}).click();expect((await snapshot(page)).position).toBeCloseTo(5.4);
+ await page.getByRole('button',{name:'Undo',exact:true}).click();
+ await page.getByRole('button',{name:'Redo',exact:true}).click();
+ expect((await snapshot(page)).calls).toEqual([
+  {name:'trialHistory:apply',args:{workspaceToken:'isolated-player-workspace',episodeId:'isolated-player-episode',entryId:'previous-edit',direction:'undo'}},
+  {name:'trialHistory:apply',args:{workspaceToken:'isolated-player-workspace',episodeId:'isolated-player-episode',entryId:'next-edit',direction:'redo'}},
+ ]);
+ await page.getByRole('button',{name:'Probe microphone off',exact:true}).click();
+ await page.getByLabel('Unfinished note').fill('Keep this trial note');
+ const microphone=await page.getByTestId('microphone-probe').elementHandle();
+ await page.keyboard.press('Control+z');expect((await snapshot(page)).calls).toHaveLength(2);
+ // Native input undo may change text; restore the draft before checking panel state.
+ await page.getByLabel('Unfinished note').fill('Keep this trial note');
+ await page.getByRole('button',{name:'Collapse Saved annotations panel',exact:true}).click();
+ await browserExpect(page.getByRole('button',{name:'Expand Saved annotations panel',exact:true})).toHaveAttribute('aria-expanded','false');
+ await page.getByRole('button',{name:'Expand Saved annotations panel',exact:true}).click();
+ await browserExpect(page.getByTestId('saved-annotations')).toHaveText('Turn left: 4–7 seconds');
+ await browserExpect(page.getByLabel('Unfinished note')).toHaveValue('Keep this trial note');
+ await browserExpect(page.getByRole('button',{name:'Probe microphone on',exact:true})).toBeVisible();
+ expect(await microphone!.evaluate(node=>node===document.querySelector('[data-testid="microphone-probe"]'))).toBe(true);
+ expect(await snapshot(page)).toMatchObject({microphoneMounts:1,microphoneUnmounts:0,queryNames:['trialHistory:status']});
+ await browserExpect(page.locator('[aria-label="Object box drawing area"],[aria-label="Object drawing tools"],.frame-masks,.assisted-tracking,.action-objects,.spatial-review,.movement-draft,.relationships-panel')).toHaveCount(0);
+});
+
+test('voice-only trial cannot undo or redo retained drawing records through buttons or shortcuts',async()=>{
+ const page=await setup('voice-trial-outlines');
+ await browserExpect(page.getByRole('button',{name:'Undo',exact:true})).toBeDisabled();
+ await browserExpect(page.getByRole('button',{name:'Redo',exact:true})).toBeDisabled();
+ await page.keyboard.press('Control+z');
+ await page.keyboard.press('Control+y');
+ await page.keyboard.press('Meta+z');
+ await page.keyboard.press('Meta+Shift+z');
+ expect(await snapshot(page)).toMatchObject({calls:[],queryNames:['trialHistory:status']});
+});

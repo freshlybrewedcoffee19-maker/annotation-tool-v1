@@ -1,5 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import './landing.css';
+import {RetiredToolsNotice} from './RetiredToolsNotice';
 
 function LaunchVideo() {
  const video = useRef<HTMLVideoElement>(null);
@@ -56,6 +57,7 @@ export function Landing({own,trial,busy,error,services}:{services:()=>void;own:(
     <p>Need a labelled dataset instead?</p>
     <button type="button" onClick={services}>Dataset services</button>
    </div>
+   <RetiredToolsNotice/>
   </footer>
  </main>;
 }

@@ -6,9 +6,14 @@ import {useWorkspace} from './workspace';
 import {adjacentFrame,frameTimecode,parseFrameTimecode} from './player-time';
 
 export type DraftHistory={active:boolean;canUndo:boolean;canRedo:boolean;undo:()=>void;redo:()=>void};
-export function TrialPlayer({video,frameRate,episodeId,active,draft,locked=false,onBusyChange}:{video:RefObject<HTMLVideoElement|null>;frameRate?:number|null;episodeId:Id<'episodes'>;active:boolean;draft?:DraftHistory;locked?:boolean;onBusyChange?:(busy:boolean)=>void}){
+export function TrialPlayer({video,frameRate,episodeId,active,draft,locked=false,onBusyChange,videoOnly=false}:{video:RefObject<HTMLVideoElement|null>;frameRate?:number|null;episodeId:Id<'episodes'>;active:boolean;draft?:DraftHistory;locked?:boolean;onBusyChange?:(busy:boolean)=>void;videoOnly?:boolean}){
  const {workspaceToken}=useWorkspace();
- const history=useQuery(api.trialHistory.status,{workspaceToken,episodeId}),apply=useMutation(api.trialHistory.apply);
+ const savedHistory=useQuery(api.trialHistory.status,{workspaceToken,episodeId}),apply=useMutation(api.trialHistory.apply);
+ // The existing status API exposes a description, not an edit kind. Only allow
+ // the four descriptions produced by video segment saves; never skip a drawing
+ // entry or rewrite history to reach an older video edit.
+ const videoEdit=(item:NonNullable<typeof savedHistory>['undo'])=>item&&['Add voice tag','Add segment','Edit segment','Delete segment'].includes(item.description)?item:null;
+ const history=videoOnly&&savedHistory?{undo:videoEdit(savedHistory.undo),redo:videoEdit(savedHistory.redo)}:savedHistory;
  const [position,setPosition]=useState(0),[duration,setDuration]=useState(0),[paused,setPaused]=useState(true),[typed,setTyped]=useState(''),[error,setError]=useState(''),[pending,setPending]=useState(false);
  const fps=frameRate&&Number.isInteger(frameRate)&&frameRate>0?frameRate:null;
  useEffect(()=>{const player=video.current;if(!player)return;const update=()=>{setPosition(player.currentTime);setDuration(Number.isFinite(player.duration)?player.duration:0);setPaused(player.paused);};const events=['timeupdate','loadedmetadata','durationchange','play','pause','seeked'];events.forEach(e=>player.addEventListener(e,update));update();return()=>events.forEach(e=>player.removeEventListener(e,update));},[video]);

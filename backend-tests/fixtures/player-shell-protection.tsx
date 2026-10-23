@@ -4,19 +4,23 @@ import {useCallback,useEffect,useRef,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {getFunctionName} from 'convex/server';
 import {ObjectBoxes} from '../../src/ObjectBoxes';
+import {VoiceVideoWorkspace} from '../../src/VoiceVideoWorkspace';
 import {TrialTracks} from '../../src/TrialTracks';
 import type {Activity} from '../../src/ActivityNavigation';
 
 const empty:unknown[]=[];
-const history={undo:{id:'previous-edit',description:'saved annotation'},redo:{id:'next-edit',description:'saved annotation'}};
+const history={undo:{id:'previous-edit',description:'Add voice tag'},redo:{id:'next-edit',description:'Add voice tag'}};
+const drawingHistory={undo:{id:'previous-outline',description:'Edit outlines'},redo:{id:'next-outline',description:'Edit outlines'}};
 const calls:{name:string;args:unknown}[]=[];
+const queryNames=new Set<string>();
 const mutations=new Map<string,(args:unknown)=>Promise<unknown>>();
 let microphoneMounts=0,microphoneUnmounts=0;
 let element:HTMLVideoElement|null=null,position=0,paused=true;
 export const useTestWorkspace=()=>({workspaceToken:'isolated-player-workspace',kind:'trial'});
 export function useTestQuery(reference:any){
  const name=getFunctionName(reference);
- if(name==='trialHistory:status')return history;
+ queryNames.add(name);
+ if(name==='trialHistory:status')return location.hash==='#voice-trial-outlines'?drawingHistory:history;
  if(['boxes:list','boxes:objects','visibility:list','masks:list','tracks:list'].includes(name))return empty;
  throw Error('Unexpected editor query: '+name);
 }
@@ -48,6 +52,13 @@ function Fixture(){
  const attachVideo=useCallback((node:HTMLVideoElement|null)=>{video.current=node;if(node)prepareVideo(node);},[]);
  const [activity,setActivity]=useState<Activity>('actions'),[time,setTime]=useState(0),[selection,setSelection]=useState('');
  const imageMode=location.hash==='#image',trialMode=location.hash==='#trial';
+ if(location.hash==='#voice-signed'||location.hash.startsWith('#voice-trial'))return <VoiceVideoWorkspace
+  episodeId={'isolated-player-episode' as any} video={video} active frameRate={25}
+  trialMode={location.hash.startsWith('#voice-trial')} activity={activity} chooseActivity={setActivity}
+  sidebar={<MicrophoneProbe/>} guide={<p>Voice annotation guide</p>} tools={<p data-testid="annotation-tools">Manual annotation options</p>}
+  savedAnnotations={<p data-testid="saved-annotations">Turn left: 4–7 seconds</p>}
+  timeline={<><TrialTracks duration={20} segments={segments} time={time} select={segment=>{setSelection(segment._id);video.current?.pause();if(video.current)video.current.currentTime=segment.start_sec;}}/><output aria-label="Selected note">{selection}</output></>}
+ ><video aria-label="Annotation video" ref={attachVideo} onTimeUpdate={()=>setTime(video.current?.currentTime??0)} style={{width:640,height:360}}/></VoiceVideoWorkspace>;
  return <ObjectBoxes episodeId={'isolated-player-episode' as any} video={video} image={imageMode?image:undefined} active frameRate={25} trialMode={trialMode} activity={activity} chooseActivity={setActivity}
   sidebar={<MicrophoneProbe/>} guide={<p>Voice annotation guide</p>} tools={<p data-testid="annotation-tools">Manual annotation options</p>}
   relationships={<p data-testid="relationships">Existing action and object links</p>}
@@ -57,4 +68,4 @@ function Fixture(){
  </ObjectBoxes>;
 }
 createRoot(document.getElementById('root')!).render(<Fixture/>);
-(window as any).playerProtection={snapshot:()=>({position,paused,calls:[...calls],microphoneMounts,microphoneUnmounts,hasPlayer:!!element})};
+(window as any).playerProtection={snapshot:()=>({position,paused,calls:[...calls],queryNames:[...queryNames].sort(),microphoneMounts,microphoneUnmounts,hasPlayer:!!element})};

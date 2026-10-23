@@ -2,7 +2,7 @@ import {TrialPlayer,type DraftHistory} from './TrialPlayer';
 import type {Id} from '../convex/_generated/dataModel';
 import {useEffect,useState,type RefObject} from 'react';
 
-export function EditorPlayback(props:{video:RefObject<HTMLVideoElement|null>;frameRate?:number|null;trialMode?:boolean;episodeId?:Id<'episodes'>;active?:boolean;draft?:DraftHistory;locked?:boolean;onBusyChange?:(busy:boolean)=>void}){return props.trialMode&&props.episodeId?<TrialPlayer {...props} episodeId={props.episodeId} active={props.active??true}/>:<LegacyPlayback video={props.video} frameRate={props.frameRate}/>;}
+export function EditorPlayback(props:{video:RefObject<HTMLVideoElement|null>;frameRate?:number|null;trialMode?:boolean;episodeId?:Id<'episodes'>;active?:boolean;draft?:DraftHistory;locked?:boolean;onBusyChange?:(busy:boolean)=>void;videoOnly?:boolean}){return props.trialMode&&props.episodeId?<TrialPlayer {...props} episodeId={props.episodeId} active={props.active??true}/>:<LegacyPlayback video={props.video} frameRate={props.frameRate}/>;}
 function LegacyPlayback({video,frameRate}:{video:RefObject<HTMLVideoElement|null>;frameRate?:number|null}){
  const [position,setPosition]=useState(0),[duration,setDuration]=useState(0),[paused,setPaused]=useState(true);
  useEffect(()=>{

@@ -20,11 +20,12 @@ type Props={
  guide?:ReactNode;
  savedAnnotations?:ReactNode;
  onKeyDown?:KeyboardEventHandler<HTMLDivElement>;
+ toolItems?:Activity[];
 };
 
 // Shared player layout. Drawing state and tool-specific saves stay in ObjectBoxes;
 // voice, timeline and media children keep their existing owners and callbacks.
-export function VideoAnnotationWorkspace({activity='actions',chooseActivity,trialMode=false,mediaType='video',host,children,overlay,playback,stageTools,toolrail,sidebar,tools,timeline,guide,savedAnnotations,onKeyDown}:Props){
+export function VideoAnnotationWorkspace({activity='actions',chooseActivity,trialMode=false,mediaType='video',host,children,overlay,playback,stageTools,toolrail,sidebar,tools,timeline,guide,savedAnnotations,onKeyDown,toolItems}:Props){
  const [savedCollapsed,setSavedCollapsed]=useState(false);
  const [toolPanelCollapsed,setToolPanelCollapsed]=useState(false);
  const image=mediaType==='image';
@@ -37,6 +38,7 @@ export function VideoAnnotationWorkspace({activity='actions',chooseActivity,tria
   help={activity==='actions'?guide:undefined}
   trial={trialMode}
   mediaType={mediaType}
+  toolItems={toolItems}
   className={`${image?'image-workspace':''} ${trialMode?'trial-rearranged selected-'+activity:''} ${savedCollapsed?'saved-collapsed':''}`}
   onKeyDown={onKeyDown}
  >

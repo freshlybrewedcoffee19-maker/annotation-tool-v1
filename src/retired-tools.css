@@ -1,0 +1,4 @@
+.retired-tools-notice{font-size:.875rem;line-height:1.5;overflow-wrap:anywhere;color:inherit}
+.home-page .home-footer>.retired-tools-notice{grid-column:1/-1;margin:0;text-align:center}
+.home-page .home-footer .retired-tools-notice a{display:inline;min-height:0}
+.retired-tools-page{max-width:48rem;margin:8vh auto;padding:clamp(1rem,4vw,3rem)}
