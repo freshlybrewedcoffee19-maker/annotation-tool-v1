@@ -374,3 +374,8 @@
 .trial-workspace .trial-rearranged .box-video video{position:absolute!important;left:50%!important;top:50%!important;width:100cqh!important;height:100cqw!important;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;aspect-ratio:auto!important;object-fit:contain!important;transform:translate(-50%,-50%) rotate(90deg)!important}
 .trial-workspace .trial-sample-filename input{font:inherit;color:inherit;background:transparent;border:1px solid transparent;border-radius:3px;padding:3px 4px;min-height:0;max-width:100%;outline-offset:1px}.trial-workspace .trial-sample-filename input:hover{border-color:#d5dae2}.trial-workspace .trial-sample-filename input:focus{background:#fff;border-color:#2563eb;outline:1px solid #2563eb}
 
+/* Saved clips remain editable below the timeline, including in the sample. */
+.trial-workspace.dashboard-editing .trial-rearranged .trial-saved-column{display:block!important;grid-column:1/-1;grid-row:4;height:auto;max-height:280px;min-width:0;border-left:0;border-top:1px solid #d5dae2}
+.trial-workspace .trial-rearranged .trial-saved-column ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:8px}
+.trial-workspace .trial-rearranged .trial-saved-column li button.saved-segment-edit{width:auto;min-height:44px!important;display:inline-flex;justify-content:center;padding:8px 12px;margin-bottom:8px;font-size:14px;color:#2563eb;border:1px solid #b9c9e4;background:#fff}
+
