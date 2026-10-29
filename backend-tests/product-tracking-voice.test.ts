@@ -6,6 +6,8 @@ import {fileURLToPath} from 'node:url';
 
 // Real Chrome and real marketing persistence through SampleProvider; controlled speech/playback.
 // All requests are intercepted. No dev server, microphone, account or live data is used.
+// Chrome setup can exceed Vitest's five-second default on a busy local machine.
+const browserTestTimeout=20000;
 let browser:Browser,bundle:string,context:BrowserContext|undefined;
 let pageErrors:string[]=[];
 const fixture=fileURLToPath(new URL('./fixtures/product-tracking-voice.tsx',import.meta.url));
@@ -66,7 +68,7 @@ test('voice feedback autosaves once and natural speech restart does not count an
  expect(events(state,'recording_attempt')[0]).toMatchObject({workflow:'marketing',sample:true});
  expect(events(state,'save_succeeded')[0]).toMatchObject({workflow:'marketing',sample:true});
  expect(state.tracked).toHaveLength(2);
-});
+},browserTestTimeout);
 
 test.each(['reject','throw','pending'])('tracking %s never delays the real feedback autosave or the completed-note mic-stop save',async sink=>{
  const page=await setup(sink);
@@ -83,7 +85,7 @@ test.each(['reject','throw','pending'])('tracking %s never delays the real feedb
  expect(events(state,'recording_attempt')).toHaveLength(1);
  expect(events(state,'save_succeeded')).toHaveLength(2);
  expect(state.speechEvents.at(-1)).toBe('abort');
-});
+},browserTestTimeout);
 
 test('editing already-saved feedback keeps one saved row and does not count a new save',async()=>{
  const page=await setup();await words(page,'Original feedback.',true);await page.clock.runFor(6010);
@@ -93,21 +95,22 @@ test('editing already-saved feedback keeps one saved row and does not count a ne
  await page.clock.runFor(10);const state=await snapshot(page);
  expect(state.feedback).toHaveLength(1);expect(state.feedback[0].id).toBe(before.feedback[0].id);
  expect(events(state,'save_succeeded')).toHaveLength(1);
-});
+},browserTestTimeout);
 
 test.each(['reject','throw','pending'])('annotation voice still saves exact label and marked times when tracking %s',async sink=>{
  const page=await setup(sink,'annotation');await words(page,'Turn left.',true);await page.clock.runFor(10);
  await browserExpect.poll(async()=>(await snapshot(page)).annotations.length).toBe(1);
  const state=await snapshot(page);
  expect(state.annotations[0]).toMatchObject({label:'Turn left',start_sec:1,end_sec:3,source:'voice',workspaceToken:'isolated-workspace',episodeId:'isolated-episode'});
- await browserExpect(page.getByRole('status')).toHaveCount(0);
+ await browserExpect(page.getByRole('status').filter({hasText:/Saving/})).toHaveCount(0);
+ await browserExpect(page.getByRole('status',{name:'Voice confirmation'})).toHaveText('Saved: Turn left');
  await action(page,'end');await action(page,'connect');await page.clock.runFor(1);
  const restarted=await snapshot(page);
  expect(events(restarted,'recording_attempt')).toHaveLength(1);
  expect(events(state,'recording_attempt')).toHaveLength(1);
  expect(events(state,'save_succeeded')).toHaveLength(1);
  expect(events(state,'save_succeeded')[0]).toMatchObject({workflow:'annotation'});
-});
+},browserTestTimeout);
 
 test('image voice saves its label when tracking fails and a speech restart counts no extra mic attempt',async()=>{
  const page=await setup('reject','image');
@@ -123,4 +126,4 @@ test('image voice saves its label when tracking fails and a speech restart count
  expect(events(state,'recording_attempt')).toHaveLength(1);
  expect(events(state,'save_succeeded')).toHaveLength(1);
  expect(events(state,'save_succeeded')[0]).toMatchObject({workflow:'annotation',episodeId:'isolated-image',imageLabelId:state.imageLabels[0].id});
-});
+},browserTestTimeout);

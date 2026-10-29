@@ -16,6 +16,8 @@ if(asOf&&!eventsPath){console.error('--as-of requires --events.');process.exit(2
 if(eventsPath){try{JSON.parse(readFileSync(eventsPath,'utf8'));}catch{console.error('The events input must be a readable JSON export.');process.exit(2);}}
 
 const suites=[
+ ['voice-interface-feedback','Mic confirmation, keyboard fallback and unmatched speech'],
+ ['voice-interface-main-shortcuts','Annotation page shortcut and edit-form isolation'],
  ['voice-evals','Fixed transcript and timestamp examples'],
  ['marketing-voice-session','Listening and recognition restart rules'],
  ['marketing-voice-lifecycle','Completed notes and interrupted drafts'],

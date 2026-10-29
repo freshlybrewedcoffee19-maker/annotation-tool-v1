@@ -1,5 +1,6 @@
 import {TrialAccountLink} from './TrialAccountLink';
 import {SegmentEditor} from './SegmentEditor';
+import {annotationShortcutBlocked} from './voice-feedback-ui';
 import {RetiredToolsNotice,RetiredToolsPage} from './RetiredToolsNotice';
 import {videoActivity} from './annotation-interface';
 import {useHeadphoneReminder} from './HeadphoneReminder';
@@ -45,6 +46,7 @@ import {TrialActionGuide} from './TrialActionGuide';
 import {GuidedTasks} from './GuidedTasks';
 import {type Activity} from './ActivityNavigation';
 import './guided-workspace.css';
+import './voice-feedback-ui.css';
 const client=new ConvexReactClient(import.meta.env.VITE_CONVEX_URL);
 configureProductTracking(payload=>client.mutation(makeFunctionReference<'mutation'>('productEvents:record'),payload));
 function App(){
@@ -108,11 +110,10 @@ function App(){
  const [editNotice,setEditNotice]=useState('');
  useEffect(()=>{
   function keys(event:KeyboardEvent){
-   if(segmentEdit||currentStep!=="annotate"||!ep||event.repeat||event.ctrlKey||event.metaKey||event.altKey)return;
+   if(segmentEdit||currentStep!=="annotate"||!ep||annotationShortcutBlocked(event))return;
    const target=event.target;
    if(target instanceof HTMLElement&&target.closest('input,textarea,select,button,a,[contenteditable="true"]'))return;
    const player=video.current;if(!player)return;
-   if(event.code==='Space'){event.preventDefault();if(player.paused)void player.play().catch(()=>setError('The video could not play.'));else player.pause();}
    if(event.key==='['){event.preventDefault();setStart(player.currentTime.toFixed(3));}
    if(event.key===']'){event.preventDefault();setEnd(player.currentTime.toFixed(3));}
   }

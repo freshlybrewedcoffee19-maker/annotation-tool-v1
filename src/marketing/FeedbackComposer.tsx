@@ -11,6 +11,7 @@ import type {FeedbackJob} from './feedback-queue';
 import {FeedbackAutosave,androidFeedbackPause,hasFeedbackWords} from './feedback-autosave';
 import {phoneVoiceMode} from './voice-platform';
 import {trackProductEvent} from '../product-tracking';
+import {useVoiceConfirmation} from '../voice-feedback-ui';
 
 type SpeechWindow=Window&{SpeechRecognition?:new()=>Recognition;webkitSpeechRecognition?:new()=>Recognition};
 const blank=():FeedbackDraft=>({start:'',end:'',text:'',clientKey:crypto.randomUUID()});
@@ -19,6 +20,17 @@ export type FeedbackGuide='mic'|'start'|'stop'|'speak'|'save'|'saving';
 export function FeedbackComposer({cardId,version,video,onRecording,onPending,onBeginSegment,onGuideChange,guideActive=true,children,compact=false}:{cardId:string;version:Version;video:RefObject<HTMLVideoElement|null>;onRecording:(active:boolean)=>void;onPending?:(count:number)=>void;onBeginSegment?:()=>void;onGuideChange?:(guide:FeedbackGuide)=>void;guideActive?:boolean;children?:ReactNode;compact?:boolean}){
  const sample=useSample(),account=useQuery(api.accounts.me,{}),queue=useFeedbackQueue(cardId,account?.email??null);
  const key=sample?`sample:${sample.id}:${version.id}`:`feedback:${account?.email??'pending'}:${cardId}:${version.id}`;
+ const {confirm:showConfirmation,confirmation}=useVoiceConfirmation();
+ const confirmedSaves=useRef({queue,keys:new Set(queue.jobs.filter(job=>job.state==='saved').map(job=>job.clientKey))});
+ // Observe completed queue jobs only; never alter enqueue, retry or save timing.
+ useEffect(()=>{
+  if(confirmedSaves.current.queue!==queue)confirmedSaves.current={queue,keys:new Set(queue.jobs.filter(job=>job.state==='saved').map(job=>job.clientKey))};
+  for(const job of queue.jobs){
+   if(job.state!=='saved'||confirmedSaves.current.keys.has(job.clientKey))continue;
+   confirmedSaves.current.keys.add(job.clientKey);
+   if(job.versionId===version.id)showConfirmation(`Saved: ${job.text.length>120?job.text.slice(0,117)+'…':job.text}`);
+  }
+ },[queue,queue.revision,version.id,showConfirmation]);
  const [draft,setDraft]=useState<FeedbackDraft>(blank),[loadedKey,setLoadedKey]=useState(''),[error,setError]=useState(''),[status,setStatus]=useState(''),[listening,setListening]=useState(false),[recording,setRecording]=useState(false),[audioUrl,setAudioUrl]=useState(''),[flow,setFlow]=useState('Ready'),[captured,setCaptured]=useState(0);
  const [voiceState,setVoiceState]=useState<VoiceState>('off'),[transcribing,setTranscribing]=useState(false),[heard,setHeard]=useState(''),[audioNotice,setAudioNotice]=useState('');
  const voiceMode=phoneVoiceMode(),playbackCleanup=useRef<(()=>void)|null>(null);
@@ -94,7 +106,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
   commands.current.phase='feedback';audioStart.current=mic.current?.pcm.frame??0;speechStart.current=-1;lastFeedbackFrame.current=-1;setCaptured(0);setError('');
   if(mic.current||speech.current){setRecording(true);onRecording(true);setFlow('Recording feedback');}else setFlow('Editing feedback');
  }
- handlers.current={start:markStart,stop:markStop,feedback:text=>{continueFeedback();pendingNote.current=true;interim.current.clear();setTranscribing(false);update({text:[current.current.text,text].filter(Boolean).join(' '),interrupted:undefined});lastFeedbackFrame.current=mic.current?.pcm.frame??-1;settleFeedback();}};
+ handlers.current={start:time=>{showConfirmation('Heard: start');markStart(time);},stop:time=>{showConfirmation('Heard: stop');markStop(time);},feedback:text=>{continueFeedback();pendingNote.current=true;interim.current.clear();setTranscribing(false);update({text:[current.current.text,text].filter(Boolean).join(' '),interrupted:undefined});lastFeedbackFrame.current=mic.current?.pcm.frame??-1;settleFeedback();}};
  function commandFrame(){const pcm=mic.current?.pcm;if(!pcm)return 0;if(pcm.utteranceStart>=audioStart.current&&pcm.utteranceStart>lastFeedbackFrame.current)return pcm.utteranceStart;if(speechStart.current>=audioStart.current&&speechStart.current>lastFeedbackFrame.current)return speechStart.current;if(lastFeedbackFrame.current>=audioStart.current)return lastFeedbackFrame.current;return audioStart.current;}
  async function enableMic(){
   if(mic.current||speech.current||voiceState==='connecting')return;
@@ -171,7 +183,7 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
  const guide:FeedbackGuide=failed?'saving':voiceState==='error'||voiceState==='off'&&!canSave?'mic':autoSavedKey?'start':draft.start!==''&&draft.end===''?'stop':recording&&!draft.text.trim()?'speak':canSave?'save':recording||valid(draft)&&!hasContent?'speak':voiceState==='listening'?'start':pending.length?'saving':'mic';
  useEffect(()=>{if(compact)onGuideChange?.(guide);},[compact,guide,onGuideChange]);
  function openManual(){autosave.current.cancel();manualReturnFocus.current=document.activeElement instanceof HTMLElement?document.activeElement:null;manualDialog.current?.showModal();}
- const micIcon=<svg className="mic-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="8" y="2" width="8" height="13" rx="4"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg>;
+ const micIcon=<svg className="mic-icon" data-listening={voiceState==='listening'||undefined} aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="8" y="2" width="8" height="13" rx="4"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg>;
  const manualControls=<div className="trial-top-labels"><h2 id={manualTitleId}>Your feedback</h2><p role="status" className="marketing-voice-state">{flow}{voiceState==='listening'?' - Commands remain active':''}</p><p>{voiceMode.textOnly?'Your spoken feedback is saved as text on this phone.':'Audio is captured while recording feedback.'} Your browser asks for microphone permission and uses its speech service to transcribe. You can also type feedback here.</p><p>{recording?'Spoken feedback saves automatically after a pause. Say \u2018start\u2019 for the next clip.':'Say start to play and mark the beginning. Say stop to pause and mark the end.'}</p>
    <label>Feedback<textarea aria-label="Feedback transcript" rows={3} maxLength={10000} value={draft.text} onChange={event=>{autosave.current.cancel();awaitingNext.current=false;setAutoSavedKey('');update({text:event.target.value});}} placeholder="What should change?"/></label>
    <div className="marketing-actions"><button disabled={!loaded} onClick={()=>markStart()}>Mark start</button><button disabled={!loaded||recording||draft.start===''} onClick={()=>markStop()}>Mark stop</button></div>
@@ -192,8 +204,9 @@ export function FeedbackComposer({cardId,version,video,onRecording,onPending,onB
    {(hasDraft||failed>0)&&<div className="feedback-compact-actions"><button type="button" className="feedback-write-key" data-feedback-next={guideActive&&!!failed||undefined} onClick={openManual}>{failed?'Recover feedback':'Edit draft'}</button>{canSave&&!recording&&<button type="button" className="feedback-save-key" data-feedback-next={guideActive&&guide==='save'||undefined} onClick={saveFinal}>Save feedback</button>}</div>}
    {error&&<button type="button" className="feedback-compact-error" role="alert" onClick={openManual}><span>{error.split('. ')[0]}</span><span className="feedback-error-details">Details ↗</span></button>}
    <dialog className="feedback-manual-dialog" ref={manualDialog} aria-labelledby={manualTitleId} onClose={()=>{if((mic.current||speech.current)&&valid(current.current)&&current.current.text.trim()&&!interim.current.size)settleFeedback();if(manualReturnFocus.current?.isConnected)manualReturnFocus.current.focus();}}><button type="button" className="feedback-manual-close" aria-label="Close feedback form" onClick={()=>manualDialog.current?.close()}>Close <span aria-hidden="true">×</span></button>{manualControls}</dialog>
+   {confirmation}
   </section>;
  }
- return <section className="voice-labels compact-voice marketing-feedback-controls" aria-label="Create feedback"><button className="marketing-mic" aria-pressed={listening} disabled={!loaded||voiceState==='connecting'} onClick={()=>listening?finishRecording():void enableMic()}>{micIcon}{voiceState==='connecting'?'Connecting…':recording?'Finish recording':listening?'Turn mic off':'Turn mic on'}</button>{manualControls}</section>;
+ return <section className="voice-labels compact-voice marketing-feedback-controls" aria-label="Create feedback"><button className="marketing-mic" aria-pressed={listening} disabled={!loaded||voiceState==='connecting'} onClick={()=>listening?finishRecording():void enableMic()}>{micIcon}{voiceState==='connecting'?'Connecting…':recording?'Finish recording':listening?'Turn mic off':'Turn mic on'}</button>{manualControls}{confirmation}</section>;
 }
 function QueuedFeedback({job,retry}:{job:FeedbackJob;retry:(text:string)=>void}){const [text,setText]=useState(job.text),[url,setUrl]=useState('');useEffect(()=>{if(!job.blob){setUrl('');return;}const value=URL.createObjectURL(job.blob);setUrl(value);return()=>URL.revokeObjectURL(value);},[job.blob]);return <article className="marketing-queued-feedback" aria-label="Queued feedback"><strong>Version {job.versionNumber} · {job.start}–{job.end} sec</strong><p role="status">{job.state==='saved'?'Saved':job.state==='failed'?'Save failed - your feedback is kept':job.state==='saving'?'Saving feedback…':'Feedback queued'}</p>{job.state==='failed'?<><p role="alert">{job.error}</p>{url&&<audio aria-label="Queued voice recording" controls src={url}/>}<label>Queued feedback transcript<textarea aria-label="Queued feedback transcript" value={text} onChange={event=>setText(event.target.value)}/></label><button onClick={()=>retry(text)}>Retry saving feedback</button></>:<p>{job.text}</p>}</article>;}

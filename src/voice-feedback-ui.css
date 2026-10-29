@@ -1,0 +1,15 @@
+.mic-icon[data-listening="true"]{animation:voice-listening-pulse 1.3s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+@keyframes voice-listening-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.12);opacity:.8}}
+.voice-confirmation{position:fixed;z-index:1200;inset:auto 16px max(20px,env(safe-area-inset-bottom));width:fit-content;max-width:min(36rem,calc(100vw - 32px));box-sizing:border-box;margin-inline:auto;padding:10px 16px;border:1px solid #DBEAFE;border-radius:8px;background:#172033;color:#FFFDF8;font:600 15px/1.4 'Segoe UI',sans-serif;overflow-wrap:anywhere;box-shadow:0 4px 14px #17203333;pointer-events:none}
+.annotation-voice-assistance{display:block;min-width:0;margin:0;padding:10px 16px;background:#f8f9fb;color:#172033;border-top:1px solid #d5dae2}
+.annotation-voice-assistance p{margin:0;font:13px/1.6 'Segoe UI',sans-serif}
+.annotation-voice-assistance kbd{font:600 12px/1.4 'Segoe UI',sans-serif;padding:2px 5px;background:#fff;border:1px solid #8798b0;border-radius:4px;white-space:nowrap}
+.annotation-voice-assistance .voice-speech-help{margin:0 0 8px;color:#7b341e;font-weight:600}
+.voice-shortcut-labels{display:flex;flex-wrap:wrap;gap:6px 14px;list-style:none;padding:0;margin:8px 0 0;font:13px/1.6 'Segoe UI',sans-serif}
+.voice-shortcut-labels li{max-width:100%;overflow-wrap:anywhere}
+/* Keep the help in the existing mic header, above the video on every screen. */
+.trial-workspace.dashboard-editing .trial-rearranged:has(.annotation-voice-assistance),.signed-workspace.workflow-workspace .workspace-frame:has(.annotation-voice-assistance){grid-template-rows:auto auto auto}
+.trial-workspace .trial-rearranged:has(.annotation-voice-assistance)>.trial-top-guide,.workspace-frame:has(.annotation-voice-assistance)>.trial-top-guide{align-self:start;min-height:56px;box-sizing:border-box}
+.trial-workspace .trial-rearranged:has(.annotation-voice-assistance) .compact-voice>button:first-child,.signed-workspace.workflow-workspace .workspace-frame:has(.annotation-voice-assistance) .compact-voice>button:first-child{align-self:start;margin-top:10px}
+.trial-workspace .trial-rearranged .annotation-voice-assistance,.workspace-frame .compact-voice>.annotation-voice-assistance{grid-column:1/-1;grid-row:1;margin:56px 0 0;align-self:end;z-index:1}
+@media(prefers-reduced-motion:reduce){.mic-icon[data-listening="true"]{animation:none;opacity:1}}
