@@ -9,6 +9,7 @@ const main=fileURLToPath(new URL('../src/main.tsx',import.meta.url));
 const sourceDirectory=fileURLToPath(new URL('../src/',import.meta.url));
 const workspaceToken='d'.repeat(64);
 const notice="Used the old drawing tools? Email us and we'll export your work.";
+const feedbackNotice='Video feedback is paused. Email riya.shah@cheddarvox.com for your saved feedback.';
 const draftStorage={
  [`cv-v2-draft-${workspaceToken}-old-episode`]:JSON.stringify({shape:{key:'unfinished-polygon',kind:'polygon',points:[.1,.2,.4,.5]},revision:7}),
  [`cv-v2-queue-${workspaceToken}-old-episode`]:JSON.stringify([{operation:'pending-save',shape:{key:'unsaved-box',kind:'box'},revision:1,error:'Offline'}]),
@@ -61,6 +62,54 @@ test.each(['/v2','/v2/','/v2/workspace'])('old route %s shows the email recovery
  expect(await page.evaluate(()=>(window as any).workspaceProviderMounts??0)).toBe(0);
  expect(calls).toEqual([]);
  expect(await page.evaluate(keys=>Object.fromEntries(keys.map(key=>[key,localStorage.getItem(key)])),Object.keys(draftStorage))).toEqual(draftStorage);
+});
+
+test.each([
+ '/video-feedback','/video-feedback/','/video-feedback/sample','/video-feedback/sample/?example=1',
+ '/video-feedback/workspace','/video-feedback/board','/video-feedback/cards/saved-card',
+ '/video-feedback/review/saved-token','/video-feedback/invite/editor-token','/video-feedback/signin',
+ '/marketing','/marketing/sample','/marketing/card/saved-card',
+])('paused feedback route %s shows only the recovery line without mounting account or workspace effects',async path=>{
+ const page=await open(path);
+ await browserExpect(page.locator('#root')).toHaveText(feedbackNotice,{timeout:2000});
+ await browserExpect(page.getByRole('link')).toHaveCount(1);
+ await browserExpect(page.getByRole('link',{name:'riya.shah@cheddarvox.com',exact:true})).toHaveAttribute('href','mailto:riya.shah@cheddarvox.com');
+ await browserExpect(page.getByRole('navigation')).toHaveCount(0);
+ await browserExpect(page.getByRole('button')).toHaveCount(0);
+ expect(await page.evaluate(()=>(window as any).authProviderMounts??0)).toBe(0);
+ expect(await page.evaluate(()=>(window as any).workspaceProviderMounts??0)).toBe(0);
+ expect(calls).toEqual([]);
+ expect(await page.evaluate(keys=>Object.fromEntries(keys.map(key=>[key,localStorage.getItem(key)])),Object.keys(draftStorage))).toEqual(draftStorage);
+});
+
+test('visiting the paused page preserves existing feedback text and audio drafts in the same browser',async()=>{
+ const page=await open('/video-feedback');
+ const savedDraft={start:'1',end:'3',text:'Keep this original feedback',clientKey:'retained-draft',interrupted:true};
+ await page.evaluate(async draft=>{
+  await new Promise<void>((resolve,reject)=>{
+   const request=indexedDB.open('cheddar-marketing-drafts',1);
+   request.onupgradeneeded=()=>request.result.createObjectStore('drafts');
+   request.onerror=()=>reject(request.error);
+   request.onsuccess=()=>{
+    const db=request.result,tx=db.transaction('drafts','readwrite');
+    tx.objectStore('drafts').put({...draft,blob:new Blob(['retained audio'],{type:'audio/webm'})},'feedback-original');
+    tx.oncomplete=()=>{db.close();resolve();};tx.onerror=()=>{db.close();reject(tx.error);};
+   };
+  });
+ },savedDraft);
+ await page.reload();
+ await browserExpect(page.locator('#root')).toHaveText(feedbackNotice);
+ const recovered=await page.evaluate(()=>new Promise<{draft:unknown;audio:string}>((resolve,reject)=>{
+  const request=indexedDB.open('cheddar-marketing-drafts',1);
+  request.onerror=()=>reject(request.error);
+  request.onsuccess=()=>{
+   const db=request.result,read=db.transaction('drafts').objectStore('drafts').get('feedback-original');
+   read.onerror=()=>{db.close();reject(read.error);};
+   read.onsuccess=async()=>{db.close();const {blob,...draft}=read.result;resolve({draft,audio:await blob.text()});};
+  };
+ }));
+ expect(recovered).toEqual({draft:savedDraft,audio:'retained audio'});
+ expect(calls).toEqual([]);
 });
 
 test.each(['masks','detection'])('a saved %s activity opens video annotation and preserves all retired browser drafts',async activity=>{
